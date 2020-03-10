@@ -1,0 +1,11 @@
+﻿@model LoggedOutViewModel
+
+<div class="logged-out-page">
+    <h1>Du är utloggad</h1>
+    <a href="@Model.PostLogoutRedirectUri" class="btn btn-primary PostLogoutRedirectUri">Tillbaka till applikationen</a>
+
+</div>
+
+@section scripts {
+    <script src="~/js/signout-redirect.js"></script>
+}

@@ -1,0 +1,19 @@
+@import '../../../../assets/stylesheets/variables';
+
+.ex-alert {
+	font-size: 0.9rem;
+	color: rgba(white, 0.7);
+	padding: $ex-spacing;
+	
+	&.warning {
+		background: $ex-warning;
+	}
+
+	&.danger {
+		background: $ex-danger;
+	}
+
+	&.info {
+		background: $ex-info;
+	}
+}

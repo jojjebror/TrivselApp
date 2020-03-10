@@ -1,0 +1,13 @@
+﻿@model LogoutViewModel
+
+<div class="logout-page">
+    <h1>Vill du logga ut?</h1>
+    <form asp-action="Logout">
+        <input type="hidden" name="logoutId" value="@Model.LogoutId" />
+        <fieldset>
+            <div class="form-group">
+                <button class="btn btn-primary">Ja, logga ut mig</button>
+            </div>
+        </fieldset>
+    </form>
+</div>

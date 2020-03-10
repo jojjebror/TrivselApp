@@ -1,0 +1,84 @@
+@import '../../../assets/stylesheets/variables';
+
+.ex-login {
+    height: 100%;
+
+    .ex-login-bg {
+        background: url(../../../assets/images/login-bg.jpg);
+        background-size: cover;
+        background-position: center;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        
+        &:after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 0;
+            width: 0;
+            border-top: 100vh solid transparent;
+            border-right: 100vw solid white;
+            box-shadow: 10px 10px 10px rgba(black, 0.9) inset;
+        }
+    }
+
+
+	.ex-login-wrapper {
+		width: 100%;
+		height: 100%;
+		display: flex;
+
+		.ex-login-card {
+			width: 250px;
+			max-width: 90%;
+			margin: auto;
+	
+			button {
+				display: block;
+				width: 100%;
+				text-align: left;
+				height: 42px;
+				padding: 1px;
+				margin-bottom: 10px;
+	
+				&:last-child {
+					margin-bottom: 0;
+				}
+				
+				img {
+					height: 20px;
+					padding: 10px;
+					background: white;
+					border-radius: 1px;
+					margin-right: 15px;
+				}
+	
+				&.local {
+					background: $ex-primary;
+					color: white;
+				}
+	
+				&.google {
+					background: #4285F4;
+					color: white;
+	
+					img {
+						padding-left: 11px;
+					}
+				}
+			}
+		}
+
+	}
+
+    
+
+    .ex-login-logo {
+        position: absolute;
+        bottom: 30px;
+        right: 30px;
+        width: 200px;
+    }
+}

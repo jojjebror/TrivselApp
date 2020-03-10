@@ -1,0 +1,13 @@
+.ex-dashboard {
+	padding: 50px;
+	display: flex;
+	flex-direction: column;
+
+	.info {
+		text-align: center;
+
+		a {
+			margin-top: 40px;
+		}
+	}
+}

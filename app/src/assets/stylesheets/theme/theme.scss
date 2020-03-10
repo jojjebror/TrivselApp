@@ -1,0 +1,91 @@
+// Material design theme
+@import '~@angular/material/theming';
+
+// Include the base styles for Angular Material core. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue.
+$primary: mat-palette((
+    50: $ex-primary,
+    100: $ex-primary,
+    200: $ex-primary,
+    300: $ex-primary,
+    400: $ex-primary,
+    500: $ex-primary,
+    600: $ex-primary,
+    700: $ex-primary,
+    800: $ex-primary,
+    900: $ex-primary,
+    A100: $ex-primary,
+    A200: $ex-primary,
+    A400: $ex-primary,
+    A700: $ex-primary,
+    contrast: (
+        50: $ex-primary-text,
+        100: $ex-primary-text,
+        200: $ex-primary-text,
+        300: $ex-primary-text,
+        400: $ex-primary-text,
+        500: $ex-primary-text,
+        600: $ex-primary-text,
+        700: $ex-primary-text,
+        800: $ex-primary-text,
+        900: $ex-primary-text,
+        A100: $ex-primary-text,
+        A200: $ex-primary-text,
+        A400: $ex-primary-text,
+        A700: $ex-primary-text,
+    )
+));
+$accent: mat-palette((
+    50: $ex-secondary,
+    100: $ex-secondary,
+    200: $ex-secondary,
+    300: $ex-secondary,
+    400: $ex-secondary,
+    500: $ex-secondary,
+    600: $ex-secondary,
+    700: $ex-secondary,
+    800: $ex-secondary,
+    900: $ex-secondary,
+    A100: $ex-secondary,
+    A200: $ex-secondary,
+    A400: $ex-secondary,
+    A700: $ex-secondary,
+    contrast: (
+        50: $ex-secondary-text,
+        100: $ex-secondary-text,
+        200: $ex-secondary-text,
+        300: $ex-secondary-text,
+        400: $ex-secondary-text,
+        500: $ex-secondary-text,
+        600: $ex-secondary-text,
+        700: $ex-secondary-text,
+        800: $ex-secondary-text,
+        900: $ex-secondary-text,
+        A100: $ex-secondary-text,
+        A200: $ex-secondary-text,
+        A400: $ex-secondary-text,
+        A700: $ex-secondary-text,
+    )
+));
+
+// The warn palette is optional (defaults to red).
+$warn:    mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$theme: mat-light-theme($primary, $accent, $warn);
+
+$ex-theme-typography: mat-typography-config(
+    $font-family: $ex-font-family
+);
+
+@include angular-material-typography($ex-theme-typography);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($theme);

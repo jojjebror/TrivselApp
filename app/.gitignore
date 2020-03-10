@@ -1,0 +1,10 @@
+node_modules
+dist
+build
+.vscode
+.DS_Store
+**/*.log
+.force
+e2e/*.js
+e2e/*.js.map
+package-lock.json

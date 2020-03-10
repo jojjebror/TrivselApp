@@ -1,0 +1,11 @@
+<mat-sidenav-container fullscreen>
+    <mat-sidenav [opened]="isMenuVisible$ | async" mode="side">
+        <ex-menu [user]="user$ | async" (logout)="logout()"></ex-menu>
+    </mat-sidenav>
+    <div class="ex-container">
+        <ex-navbar (menuToggle)="toggleMenu()"></ex-navbar>
+        <div class="ex-content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</mat-sidenav-container>

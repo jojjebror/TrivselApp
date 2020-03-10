@@ -1,0 +1,17 @@
+<div class="ex-menu">
+	<div class="user">
+		<mat-icon>account_circle</mat-icon>
+		<div class="user-information">
+			<div class="username">{{ user?.name }}</div>
+			<div class="actions">
+				<a href (click)="$event.preventDefault(); logout.emit();" class="logout">Logga ut</a>
+			</div>
+		</div>
+	</div>
+	<mat-nav-list class="menu">
+		<a mat-list-item *ngFor="let item of menuItems" [routerLink]="item.route" routerLinkActive="active">
+			<mat-icon mat-list-icon>{{ item.icon }}</mat-icon>
+			{{ item.title }}
+		</a>
+	</mat-nav-list>
+</div>

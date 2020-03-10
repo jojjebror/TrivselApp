@@ -1,0 +1,12 @@
+<div class="ex-example">
+	<div class="list">
+		<mat-card>
+			<ex-example-list [examples]="examples$ | async"></ex-example-list>
+		</mat-card>
+	</div>
+	<div class="form">
+		<mat-card>
+			<ex-example-form (create)="createExample($event)"></ex-example-form>
+		</mat-card>
+	</div>
+</div>

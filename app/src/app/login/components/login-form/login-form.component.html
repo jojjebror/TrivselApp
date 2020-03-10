@@ -1,0 +1,14 @@
+<form class="text-center" (submit)="submit()">
+	<mat-form-field>
+		<input matInput placeholder="Användarnamn" name="username" [(ngModel)]="loginRequest.username">
+	</mat-form-field>
+	<mat-form-field>
+		<input matInput placeholder="Lösenord" type="password" name="password" [(ngModel)]="loginRequest.password">
+	</mat-form-field>
+	<div *ngIf="error" class="ex-mb">
+		<ex-alert type="danger">
+			{{ error }}
+		</ex-alert>
+	</div>
+	<button mat-button color="primary" type="submit">Logga in</button>
+</form>

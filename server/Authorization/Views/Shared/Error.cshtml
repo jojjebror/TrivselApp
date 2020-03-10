@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Hosting
+@model ErrorViewModel
+@inject IHostingEnvironment host
+@{
+    var error = Model?.Error?.Error;
+    var errorDescription = host.IsDevelopment() ? Model?.Error?.ErrorDescription : null;
+    var request_id = Model?.Error?.RequestId;
+}
+<div class="error-page">
+    <div class="alert alert-danger">
+        Ett fel uppstod
+
+        @if (error != null)
+        {
+            <strong>
+                <em>
+                    : @error
+                </em>
+            </strong>
+
+            if (errorDescription != null)
+            {
+                <div>@errorDescription</div>
+            }
+        }
+    </div>
+    @if (request_id != null)
+    {
+        <div class="request-id">Request Id: @request_id</div>
+    }
+</div>

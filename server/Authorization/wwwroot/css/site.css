@@ -1,0 +1,108 @@
+﻿/* 
+$rn-primary: #233D4D; 
+$rn-accent: #FE7F2D; 
+    #F8F8F8
+*/
+
+@font-face {
+    font-family: Lato;
+    src: url(/fonts/Lato-Regular.ttf);
+}
+
+body {
+    background: #fff;
+    margin: 0;
+}
+
+body, input, button, h1, h2, h3, h4 {
+    font-family: Lato;
+}
+
+.header {
+    background: url(/login-bg.jpg);
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    height: 170px;
+}
+
+.btn {
+    height: 40px;
+    line-height: 40px;
+    background: transparent;
+    color: #233D4D;
+    padding: 0 25px;
+    border: 0;
+}
+
+.btn.btn-primary {
+    background-color: #CA005D !important;
+    color: white;
+}
+
+input {
+    background: #F8F8F8 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    height: 45px !important;
+}
+
+.alert {
+    padding: 15px;
+    border-radius: 3px;
+    border: 0;
+}
+
+.alert.alert-danger {
+    background: #E41830;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+
+/**
+    Pages
+*/
+
+.login-page .form {
+    padding: 25px;
+}
+
+.login-page .form .buttons {
+    margin-top: 25px;
+}
+
+.login-page .form .buttons .btn-primary {
+    float: right;
+    margin-left: 5px;
+}
+
+.logout-page {
+    text-align: center;
+}
+
+.logout-page form {
+    margin-top: 20px;
+}
+
+.logged-out-page {
+    text-align: center;
+}
+
+.logged-out-page a {
+    margin-top: 20px;
+}
+
+.welcome-page {
+    text-align: center;
+}
+
+.welcome-page a {
+    margin-top: 20px;
+}
+
+.error-page {
+    text-align: center;
+}
+
+
+
