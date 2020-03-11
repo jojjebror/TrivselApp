@@ -247,7 +247,6 @@
     <Compile Include="Database\DatabaseContextFactory.cs" />
     <Compile Include="Database\Entities\BaseEntity.cs" />
     <Compile Include="Database\Entities\Drink.cs" />
-    <Compile Include="Database\Entities\Event.cs" />
     <Compile Include="Database\Entities\Example.cs" />
     <Compile Include="Database\Entities\User.cs" />
     <Compile Include="Database\Migrations\201802051252482_Init.cs" />
@@ -263,18 +262,12 @@
     <Compile Include="Models\BaseDto.cs" />
     <Compile Include="Models\DrinkDto.cs" />
     <Compile Include="Models\ErrorDto.cs" />
-    <Compile Include="Models\EventForCreateDto.cs" />
-    <Compile Include="Models\EventForDetailedDto.cs" />
-    <Compile Include="Models\EventForListDto.cs" />
     <Compile Include="Models\ExampleDto.cs" />
     <Compile Include="Models\UserDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\EventService.cs" />
+    <Compile Include="Services\DrinkService.cs" />
     <Compile Include="Services\ExampleService.cs" />
     <Compile Include="Services\UserService.cs" />
-    <Compile Include="Translators\EventForCreateTranslator.cs" />
-    <Compile Include="Translators\EventForDetailedTranslator.cs" />
-    <Compile Include="Translators\EventForListTranslator.cs" />
     <Compile Include="Translators\ExampleTranslator.cs" />
     <Compile Include="Translators\UserTranslator.cs" />
   </ItemGroup>

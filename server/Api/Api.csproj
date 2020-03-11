@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\DrinkController.cs" />
     <Compile Remove="Middleware\ErrorHandlingMiddleware.cs" />
     <Compile Remove="Models\SuccessResponse.cs" />
   </ItemGroup>
