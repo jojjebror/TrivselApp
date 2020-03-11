@@ -16,8 +16,8 @@ namespace Logic.Services
     public class UserService
     {
 
-        private AuthenticatedUser _authenticatedUser;
-        private DatabaseContext _context;
+        private readonly AuthenticatedUser _authenticatedUser;
+        private readonly DatabaseContext _context;
 
         private readonly PasswordHasher _passwordHasher = new PasswordHasher();
 

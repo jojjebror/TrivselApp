@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logic.Database.Entities
+namespace Logic.Models
 {
-    public class Drink : BaseEntity
+   public class DrinkForListDto : BaseDto
     {
         public string ProductNameBold { get; set; }
-        public string ProductId { get; set; }
         public string Category { get; set; }
         public double AlcoholPercentage { get; set; }
         public double Volume { get; set; }

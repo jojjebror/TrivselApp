@@ -13,7 +13,7 @@ namespace Logic.Services
 {
     public class EventService
     {
-        private DatabaseContext _context;
+        private readonly DatabaseContext _context;
 
         public EventService(DatabaseContext context)
         {
