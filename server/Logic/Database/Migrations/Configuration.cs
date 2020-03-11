@@ -4,6 +4,7 @@ namespace Logic.Database.Migrations
     using Logic.Models;
     using Logic.Services;
     using Microsoft.AspNet.Identity;
+    using System;
     using System.Data.Entity.Migrations;
     using System.Threading.Tasks;
 
@@ -28,7 +29,36 @@ namespace Logic.Database.Migrations
                 Password = _passwordHasher.HashPassword("test")
             };
 
+            var testEvent1 = new Event()
+            {
+                Id = 1,
+                Title = "AW-fredag",
+                Description = "Nu ska vi ha kul",
+                Image = "test",
+                Location = "Art bar",
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now,
+                CreateDate = DateTime.Now,
+                CreatorId = 1
+            };
+
+            var testEvent2 = new Event()
+            {
+                Id = 2,
+                Title = "AW-torsdag",
+                Description = "Nu ska vi ha jättekul",
+                Image = "test",
+                Location = "Lion Bar",
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now,
+                CreateDate = DateTime.Now,
+                CreatorId = 1
+            };
+
+
             context.Users.AddOrUpdate(testUser);
+            context.Events.AddOrUpdate(testEvent1);
+            context.Events.AddOrUpdate(testEvent2);
 
             context.SaveChanges();
         }
