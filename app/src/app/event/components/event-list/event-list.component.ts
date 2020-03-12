@@ -8,13 +8,10 @@ import { Event } from '../../../shared/models';
   changeDetection: ChangeDetectionStrategy.OnPush
   //styleUrls: ['./event-list.component.scss']
 })
-export class EventListComponent implements OnInit {
+export class EventListComponent {
 
   @Input() evs: Event[];
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
 }

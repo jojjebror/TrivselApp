@@ -3,6 +3,8 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 
+import { Event } from '../../shared/models';
+
 @Injectable()
 export class EventResource extends ApiResource {
 

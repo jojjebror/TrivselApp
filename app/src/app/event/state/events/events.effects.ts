@@ -21,7 +21,7 @@ export class EventsEffects {
   @Effect()
   create$: Observable<Action> = this.actions$.pipe(
     ofType(eventsActions.ActionTypes.Create),
-    map((action: eventsActions.Create) => action.event),
+    map((action: eventsActions.Create) => action.ev),
     switchMap(ev => this.eventResource.create(ev).pipe(map(createdEvent => new eventsActions.CreateSuccess(createdEvent))))
   );
 }

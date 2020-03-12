@@ -16,7 +16,7 @@ export function reducer(state: EventsState = initialState, action: eventsActions
       };
 
     case eventsActions.ActionTypes.LoadSuccess:
-      return adapter.addAll(action.events, {
+      return adapter.addAll(action.evs, {
         ...state,
         loading: false
       });
@@ -28,7 +28,7 @@ export function reducer(state: EventsState = initialState, action: eventsActions
       };
 
     case eventsActions.ActionTypes.CreateSuccess:
-      return adapter.addOne(action.event, state);
+      return adapter.addOne(action.ev, state);
 
     default:
       return state;

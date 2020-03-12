@@ -6,16 +6,16 @@ import { SharedModule } from '../shared';
 
 import { LoginRoutingModule } from './event-routing.module';
 
-//import { reducers, effects } from './state';
+import { reducers, effects } from './state';
 import { views } from './views';
 import { components } from './components';
 
 @NgModule({
-  imports: [SharedModule, LoginRoutingModule],
+  imports: [SharedModule, LoginRoutingModule, StoreModule.forFeature('event', reducers), EffectsModule.forFeature(effects)],
   exports: [],
   declarations: [...views, ...components],
   providers: []
 })
 export class EventModule {}
 
-//, StoreModule.forFeature('event', reducers), EffectsModule.forFeature(effects)
+ 
