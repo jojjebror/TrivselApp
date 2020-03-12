@@ -14,7 +14,7 @@ import { Drink } from 'src/app/shared/models';
 })
 export class DrinkComponent implements OnInit {
 
-  dr$: Observable<Drink[]>;
+  drs$: Observable<Drink[]>;
 
   constructor(private store$: Store<AppState>) { }
 
@@ -28,7 +28,7 @@ export class DrinkComponent implements OnInit {
 
   private initializeEvents(): void {
     this.store$.dispatch(new fromDrinks.Load());
-    this.dr$ = this.store$.select(fromDrinks.selectDrinks);
+    this.drs$ = this.store$.select(fromDrinks.selectDrinks);
   }
 
 }

@@ -1,0 +1,9 @@
+.ex-drink {
+    padding: 15px;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-template-areas: 'list form';
+    grid-gap: 15px;
+
+    .list { grid-area: 'list'; }
+}
