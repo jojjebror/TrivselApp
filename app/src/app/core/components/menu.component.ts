@@ -3,28 +3,32 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { User } from '../../shared/models';
 
 @Component({
-	selector: 'ex-menu',
-	templateUrl: './menu.component.html',
-	styleUrls: ['./menu.component.scss']
+  selector: 'ex-menu',
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent {
+  @Input() user: User;
 
-	@Input() user: User;
+  @Output() logout = new EventEmitter<any>();
 
-	@Output() logout = new EventEmitter<any>();
+  menuItems = [
+    {
+      title: 'Välkommen',
+      icon: 'dashboard',
+      route: ['/start']
+    },
+    {
+      title: 'Exempel',
+      icon: 'grade',
+      route: ['/exempel']
+    },
+    {
+      title: 'Evenemang',
+      icon: 'grade',
+      route: ['/event']
+    }
+  ];
 
-	menuItems = [
-		{
-			title: 'Välkommen',
-			icon: 'dashboard',
-			route: ['/start']
-		},
-		{
-			title: 'Exempel',
-			icon: 'grade',
-			route: ['/exempel']
-		}
-	];
-
-	constructor() { }
+  constructor() {}
 }

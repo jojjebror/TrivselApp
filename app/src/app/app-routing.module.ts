@@ -33,6 +33,10 @@ export const routes: Routes =
 					loadChildren: './example/example.module#ExampleModule'
 				},
 				{
+					path: 'event',
+					loadChildren: './event/event.module#EventModule'
+				},
+				{
 					path: '',
 					redirectTo: 'start',
 					pathMatch: 'full'
