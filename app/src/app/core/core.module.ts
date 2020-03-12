@@ -14,33 +14,35 @@ import { resources } from './resources';
 import { guards } from './guards';
 import { reducers, effects } from './state';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDropdownModule } from 'ngx-bootstrap';
+
 /**
  * Contains all core functionality of the application.
  * Imported by the root module.
  */
 @NgModule({
-	imports: [
-		HttpClientModule,
-		RouterModule,
-		SharedModule,
-		StoreModule.forRoot(reducers),
-		EffectsModule.forRoot(effects)
-	],
-	exports: [],
-	declarations: [
-		...views,
-		...components
-	],
-	providers: [
-		...services,
-		...resources,
-		...guards,
-		initializer,
-		{
-			provide: HTTP_INTERCEPTORS,
-			useClass: AuthenticationInterceptor,
-			multi: true
-		}
-	],
+  imports: [
+    HttpClientModule,
+    RouterModule,
+    SharedModule,
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot(effects),
+    BrowserAnimationsModule,
+    BsDropdownModule.forRoot()
+  ],
+  exports: [],
+  declarations: [...views, ...components],
+  providers: [
+    ...services,
+    ...resources,
+    ...guards,
+    initializer,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthenticationInterceptor,
+      multi: true
+    }
+  ]
 })
-export class CoreModule { }
+export class CoreModule {}

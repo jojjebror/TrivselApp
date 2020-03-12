@@ -1,6 +1,6 @@
 @import '../../../assets/stylesheets/variables';
 
-.ex-menu {
+/* .ex-menu {
 	background: $ex-menu-background;
 	width: $ex-menu-width;
 	height: 100%;
@@ -53,4 +53,48 @@
 			}
 		}
 	}
+} */
+
+	.user {
+		padding: 30px 10px;
+		display: flex;
+
+		mat-icon {
+			font-size: 50px;
+			width: 60px;
+			height: 60px;
+			line-height: 60px;
+			text-align: center;
+			color: $ex-primary;
+		}
+
+		.user-information {
+			flex: 1;
+			padding: 10px;
+
+			.username {
+				font-size: 1.2rem;
+				font-weight: bold;
+			}
+
+			.actions {
+				a {
+					font-size: 0.8rem;
+				}
+			}
+		}
+	}
+
+.bg-nav {
+	background-color: rgb(62, 62, 100);
+}
+
+.dropdown {
+	cursor: pointer;
+}
+
+.logo {
+	width: 150px;
+	margin: 5px;
+	margin-right: 40px;
 }
