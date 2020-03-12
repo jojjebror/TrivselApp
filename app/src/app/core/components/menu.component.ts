@@ -27,6 +27,11 @@ export class MenuComponent {
       title: 'Evenemang',
       icon: 'grade',
       route: ['/event']
+    },
+    {
+      title: 'Drycker',
+      icon: 'grade',
+      route: ['/drink']
     }
   ];
 

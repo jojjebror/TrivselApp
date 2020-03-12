@@ -5,6 +5,8 @@ import { SessionState } from './session';
 // Module state
 import { ExampleState } from '../../example/state';
 import { EventState } from '../../event/state';
+import { DrinkState } from '../../drink/state';
+
 
 /**
  * Main interface class for the application state. Contains the core state
@@ -19,4 +21,6 @@ export interface AppState {
 	example?: ExampleState;
 
 	event?: EventState;
+	
+	drink?: DrinkState;
 }

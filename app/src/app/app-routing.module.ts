@@ -37,6 +37,10 @@ export const routes: Routes =
 					loadChildren: './event/event.module#EventModule'
 				},
 				{
+					path: 'drink',
+					loadChildren: './drink/drink.module#DrinkModule'
+				},
+				{
 					path: '',
 					redirectTo: 'start',
 					pathMatch: 'full'

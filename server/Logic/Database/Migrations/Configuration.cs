@@ -54,11 +54,25 @@ namespace Logic.Database.Migrations
                 CreateDate = DateTime.Now,
                 CreatorId = 1
             };
+            var testDrink = new Drink()
+            {
+                Id = 3,
+                ProductNameBold = "Carlsberg Hof",
+                Category = "Öl",
+                AlcoholPercentage = 4.2,
+                Volume = 50,
+                Price = 16,
+                Taste = "Standard ljus öl, rätt svag",
+                Usage = "Gott till grillat",
+                BeverageDescriptionShort = "Klen smak",
+            };
 
 
             context.Users.AddOrUpdate(testUser);
             context.Events.AddOrUpdate(testEvent1);
             context.Events.AddOrUpdate(testEvent2);
+            context.Drinks.AddOrUpdate(testDrink);
+
 
             context.SaveChanges();
         }
