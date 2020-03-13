@@ -17,7 +17,7 @@ import { SharedMaterialModule } from './shared-material.module';
 		CommonModule,
 		FormsModule,
 		ReactiveFormsModule,
-		SharedMaterialModule
+		SharedMaterialModule,
 	],
 	exports: [
 		CommonModule,
