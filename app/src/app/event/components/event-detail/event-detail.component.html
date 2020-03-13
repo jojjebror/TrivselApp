@@ -1,3 +1,55 @@
-<p>
-  event-detail works!
-</p>
+<div class="container mt-4 border border-light p-5">
+<!--   <button class="btn btn-primary" [routerLink]="['/events/edit', event.id]">
+    Redigera evenemang
+  </button> -->
+  <div class="row">
+    <h1 class="mb-4">Title</h1>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+
+        <div class="card-body">
+          <div>
+            <strong>Plats:</strong>
+<!--             <p>{{ event.location }}</p>
+ -->          </div>
+          <div>
+            <strong>Tid:</strong>
+<!--             <p>
+              {{ event.startDate | date: "HH:mm" }} -
+              {{ event.endDate | date: "HH:mm" }}
+            </p> -->
+          </div>
+          <div>
+            <strong>Datum:</strong>
+<!--             <p>
+              {{ event.startDate | date: "dd/M" }} -
+              {{ event.endDate | date: "dd/M/yyyy" }}
+            </p> -->
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="btn-group d-flex">
+            <button class="btn btn-success w-100">Delta</button>
+            <button class="btn btn-danger w-100">Avböj</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="tab-panel">
+         <!-- <tabset class="member-tabset">
+          <tab heading="Om evenemang">
+            <h4 style="font-weight: bold;">Beskrivning</h4>
+            <p>{{ event.description }}</p>
+          </tab>
+          <tab heading="Deltagare">
+            <h4 style="font-weight: bold;">Deltagare</h4>
+            <p>Jerker</p>
+          </tab>
+        </tabset> -->
+      </div>
+    </div>
+  </div>
+</div>
