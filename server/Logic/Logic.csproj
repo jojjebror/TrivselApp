@@ -263,6 +263,10 @@
     <Compile Include="Database\Migrations\202003111420106_drinks.Designer.cs">
       <DependentUpon>202003111420106_drinks.cs</DependentUpon>
     </Compile>
+    <Compile Include="Database\Migrations\202003131326225_addDrink.cs" />
+    <Compile Include="Database\Migrations\202003131326225_addDrink.Designer.cs">
+      <DependentUpon>202003131326225_addDrink.cs</DependentUpon>
+    </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Init.cs" />
     <Compile Include="Models\BaseDto.cs" />
@@ -304,6 +308,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\Migrations\202003111420106_drinks.resx">
       <DependentUpon>202003111420106_drinks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202003131326225_addDrink.resx">
+      <DependentUpon>202003131326225_addDrink.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

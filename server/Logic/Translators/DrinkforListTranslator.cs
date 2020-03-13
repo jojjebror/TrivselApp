@@ -17,6 +17,7 @@ namespace Logic.Translators
 
             return new DrinkForListDto
             {
+                Id = dr.Id,
                 ProductNameBold = dr.ProductNameBold,
                 Category = dr.Category,
                 Volume = dr.Volume,

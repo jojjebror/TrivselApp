@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Api.Models;
 using Logic.Services;
 using Microsoft.AspNetCore.Mvc;
+using Logic.Models;
 
 namespace Api.Controllers
 {
@@ -30,6 +31,13 @@ namespace Api.Controllers
         public async Task<IActionResult> GetDrink(int id)
         {
             var result = await _drinkService.GetDrink(id);
+            return new OkObjectResult(ApiResponse.Create(result));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody]DrinkForListDto drink)
+        {
+            var result = await _drinkService.Create(drink);
             return new OkObjectResult(ApiResponse.Create(result));
         }
     }
