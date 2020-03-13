@@ -7,7 +7,7 @@
 </mat-list> -->
 
 <div class="container justify-content-center">
-  <h3 style="text-align: center; margin-top: 100px;">
+  <h3>
     Kommande evenemang
   </h3>
   <div>
@@ -28,23 +28,20 @@
       />
       <i class="material-icons">search</i>
     </div> -->
+
   </div>
   <ul *ngIf="evs">
-    <li *ngFor="let ev of evs" [routerLink]="['/events/', ev.id]">
-      <a class="title" [routerLink]="['/events/', ev.id]">
-        {{ ev.title }}</a
-      >
+    <li *ngFor="let ev of evs" [routerLink]="['/event/', ev.id]">
+      <a class="title" [routerLink]="['/event/', ev.id]"> {{ ev.title }}</a>
 
       <p class="date">
         <i class="material-icons iconMargin">&#xe916;</i>
-        {{ ev.startDate | date: "d MMM, y" }}
+        {{ ev.startDate | date: 'd MMM, y' }}
       </p>
 
-      <p class="location">
-        <i class="material-icons iconMargin">&#xe55f;</i> {{ ev.location }}
-      </p>
+      <p class="location"><i class="material-icons iconMargin">&#xe55f;</i> {{ ev.location }}</p>
 
-      <a [routerLink]="['/events/', ev.id]" class="btnReadMore">Läs mer</a>
+      <a [routerLink]="['/event/', ev.id]" class="btnReadMore">Läs mer</a>
     </li>
   </ul>
 </div>
