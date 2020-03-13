@@ -28,6 +28,7 @@ import { BsDropdownModule } from 'ngx-bootstrap';
     SharedModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot(effects),
+
     BrowserAnimationsModule,
     BsDropdownModule.forRoot()
   ],
