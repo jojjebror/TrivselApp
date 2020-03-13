@@ -56,7 +56,7 @@ namespace Logic.Database.Migrations
             };
             var testDrink = new Drink()
             {
-                Id = 3,
+                Id = 1,
                 ProductNameBold = "Carlsberg Hof",
                 Category = "Öl",
                 AlcoholPercentage = 4.2,

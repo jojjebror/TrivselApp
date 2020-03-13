@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
-    public class DrinkController
+    [Route("[controller]")]
+    public class DrinkController : Controller
     {
 
         private readonly DrinkService _drinkService;
