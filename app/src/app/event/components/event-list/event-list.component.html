@@ -30,9 +30,9 @@
     </div> -->
 
   </div>
-  <ul *ngIf="evs">
-    <li *ngFor="let ev of evs" [routerLink]="['/event/', ev.id]">
-      <a class="title" [routerLink]="['/event/', ev.id]"> {{ ev.title }}</a>
+  <ul *ngIf="evs$">
+    <li *ngFor="let ev of evs$ | async" [routerLink]="['/event', ev.id]">
+      <a class="title" [routerLink]="['/event', ev.id]"> {{ ev.title }}</a>
 
       <p class="date">
         <i class="material-icons iconMargin">&#xe916;</i>
@@ -41,7 +41,7 @@
 
       <p class="location"><i class="material-icons iconMargin">&#xe55f;</i> {{ ev.location }}</p>
 
-      <a [routerLink]="['/event/', ev.id]" class="btnReadMore">Läs mer</a>
+      <a [routerLink]="['/event', ev.id]" class="btnReadMore">Läs mer</a>
     </li>
   </ul>
 </div>

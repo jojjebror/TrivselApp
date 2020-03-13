@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { EventComponent } from './views';
 import { EventDetailComponent } from './components/event-detail/event-detail.component';
+import { EventListComponent } from './components/event-list/event-list.component';
 
 export const routes: Routes = [
   {
@@ -10,7 +11,11 @@ export const routes: Routes = [
     component: EventComponent,
     children: [
       {
-        path: '1',
+        path: '',
+        component: EventListComponent
+      },
+      {
+        path: ':id',
         component: EventDetailComponent
       }
     ]

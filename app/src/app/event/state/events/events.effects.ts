@@ -18,6 +18,12 @@ export class EventsEffects {
     switchMap(() => this.eventResource.loadEvents().pipe(map(evs => new eventsActions.LoadSuccess(evs))))
   );
 
+  /* @Effect()
+  loadEv$: Observable<Action> = this.actions$.pipe(
+    ofType(eventsActions.ActionTypes.Load),
+    switchMap(() => this.eventResource.loadEvent(id).pipe(map(ev => new eventsActions.LoadSuccess(ev))))
+  ); */
+
   @Effect()
   create$: Observable<Action> = this.actions$.pipe(
     ofType(eventsActions.ActionTypes.Create),
