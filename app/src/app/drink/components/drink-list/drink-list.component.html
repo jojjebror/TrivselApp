@@ -1,12 +1,13 @@
-<mat-list>
-  <mat-list-item *ngFor="let dr of drs">
-    {{ dr.productNameBold }}
-    {{ dr.category }}
-    {{dr.alcoholPercentage}}
-    {{dr.taste}}
-    {{dr.usage}}
-    {{dr.volume}}
-    {{ dr.price }}
-    {{ dr.beverageDescriptionShort }}
-  </mat-list-item>
-</mat-list>
+
+  <div *ngFor="let dr of drs">
+    <div class ="drinkItems">
+   <h4>{{ dr.productNameBold }}</h4> 
+   <p>{{dr.taste}}</p> 
+   <p>{{ dr.beverageDescriptionShort}}</p>
+   <p>{{ dr.price }}, {{dr.alcoholPercentage}}, {{dr.volume}} </p>
+   <hr>
+    
+    </div>
+  </div>
+  
+
