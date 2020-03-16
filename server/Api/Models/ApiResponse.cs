@@ -17,6 +17,14 @@ namespace Api.Models
             };
         }
 
+        public static ApiResponse<T> Delete<T>(T data)
+        {
+            return new ApiResponse<T>
+            {
+                Data = data
+            };
+        }
+
     }
 
     public class ApiResponse<T>

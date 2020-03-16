@@ -30,6 +30,16 @@ export function reducer(state: DrinksState = initialState, action: drinksActions
     case drinksActions.ActionTypes.CreateSuccess:
       return adapter.addOne(action.dr, state);
 
+      case drinksActions.ActionTypes.DeleteSuccess: {
+        return adapter.removeOne(action.drs, state);
+      }
+      case drinksActions.ActionTypes.DeleteError: {
+        return {
+          ...state,
+          loading: false
+        };
+      }
+
     default:
       return state;
   }

@@ -24,4 +24,7 @@ export class DrinkResource extends ApiResource {
     create(dr: Drink): Observable<Drink> {
         return this.post('drink', dr);
     }
+    
+    
+    
 }

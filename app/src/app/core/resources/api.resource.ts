@@ -48,6 +48,10 @@ export abstract class ApiResource {
 		);
 	}
 
+	deleteDrink(id: number) {
+        return this.http.delete(this.baseUrl+'/drink' + id);
+    }
+
 	/**
 	 * Maps the api response to model object
 	 */

@@ -31,4 +31,6 @@ export class DrinkComponent implements OnInit {
     this.drs$ = this.store$.select(fromDrinks.selectDrinks);
   }
 
+ 
+
 }
