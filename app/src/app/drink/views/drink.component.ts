@@ -23,7 +23,7 @@ export class DrinkComponent implements OnInit {
   }
 
   createDrink(dr: Drink): void {
-
+    this.store$.dispatch(new fromDrinks.Create(dr));
   }
 
   private initializeEvents(): void {

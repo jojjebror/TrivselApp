@@ -1,3 +1,15 @@
-<p>
-  drink-create works!
-</p>
+<div class="ex-drink-create">
+	<form [formGroup]="form" (submit)="onSubmit()">
+		
+    <mat-form-field> <input type="text" matInput placeholder="Namn" formControlName="productNameBold" productNameBold="Namn"></mat-form-field>
+    <mat-form-field> <input type="text" matInput placeholder="Kategori" formControlName="category" category="Namn"></mat-form-field>
+    <mat-form-field> <input type="text" matInput placeholder="Volym" formControlName="volume" volume="Namn"></mat-form-field>
+    <mat-form-field> <input type="text" matInput placeholder="Pris" formControlName="price" price="Namn"></mat-form-field>
+    <mat-form-field> <input type="text" matInput placeholder="Smak" formControlName="taste" taste="Namn"></mat-form-field>
+    <mat-form-field> <input type="text" matInput placeholder="Användning" formControlName="usage" usage="Namn"></mat-form-field>
+    <mat-form-field> <input type="text" matInput placeholder="Alkoholprocent" formControlName="alcoholPercentage" alcoholPercentage="Namn"></mat-form-field>
+    <mat-form-field> <input type="text" matInput placeholder="Beskrivning" formControlName="beverageDescriptionShort" beverageDescriptionShort="Namn"></mat-form-field>
+		
+		<button mat-button color="primary">Skapa</button>
+	</form>
+</div>

@@ -1,4 +1,4 @@
-<div class="ex-menu">
+<!-- <div class="ex-menu">
 	<div class="user">
 		<mat-icon>account_circle</mat-icon>
 		<div class="user-information">
@@ -15,4 +15,50 @@
 			
 		</a>
 	</mat-nav-list>
-</div>
+</div> -->
+
+<nav class="navbar navbar-expand-md navbar-dark bg-nav">
+  <div class="container">
+    <div class="logo float-left">
+      <img src="assets/images/exsitec-logo-white.png" alt="" class="img-fluid" />
+    </div>
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['']">Hem</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/event']">Evenemang</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/drink']">Drycker</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['']">Poängtabeller</a>
+      </li>
+    </ul>
+
+    <!-- <div class="user">
+      <mat-icon>account_circle</mat-icon>
+      <div class="user-information">
+        <div class="username">{{ user?.name }}</div>
+        <div class="actions">
+          <a href (click)="$event.preventDefault(); logout.emit()" class="logout">Logga ut</a>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="dropdown" dropdown>
+      <a class="dropdown-toggle text-light" dropdownToggle>
+        Välkommen
+        {{ user?.name }}
+      </a>
+
+      <div class="dropdown-menu mt-3" *dropdownMenu>
+        <a class="dropdown-item"><i class="fa fa-user"></i> Ändra profil</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" (click)="$event.preventDefault(); logout.emit()"><i class="fa fa-sign-out"></i> Logga ut</a>
+      </div>
+    </div>
+  </div>
+</nav>

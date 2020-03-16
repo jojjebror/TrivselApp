@@ -1,7 +1,12 @@
 <div class="ex-drink">
-  <div class="list">
-    <mat-card>
-      <ex-drink-list [drs]="drs$ | async"></ex-drink-list>
-    </mat-card>
-  </div>
+	<div class="list">
+		<mat-card>
+			<ex-drink-list [drs]="drs$ | async"></ex-drink-list>
+		</mat-card>
+	</div>
+	<div class="form">
+		<mat-card>
+			<ex-drink-create (create)="createDrink($event)"></ex-drink-create>
+		</mat-card>
+	</div>
 </div>

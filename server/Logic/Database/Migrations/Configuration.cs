@@ -56,12 +56,12 @@ namespace Logic.Database.Migrations
             };
             var testDrink = new Drink()
             {
-                Id = 3,
+                Id = 1,
                 ProductNameBold = "Carlsberg Hof",
                 Category = "Öl",
-                AlcoholPercentage = 4.2,
-                Volume = 50,
-                Price = 16,
+                AlcoholPercentage = "4.2%",
+                Volume = "50cl",
+                Price = "16kr",
                 Taste = "Standard ljus öl, rätt svag",
                 Usage = "Gott till grillat",
                 BeverageDescriptionShort = "Klen smak",
