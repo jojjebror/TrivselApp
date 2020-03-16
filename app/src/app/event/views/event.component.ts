@@ -12,9 +12,9 @@ import * as fromEvents from '../state/events';
   templateUrl: './event.component.html',
   styleUrls: ['./event.component.scss']
 })
-export class EventComponent implements OnInit {
+export class EventComponent {
 
-  evs$: Observable<Event[]>;
+/*   evs$: Observable<Event[]>;
 
   constructor(private store$: Store<AppState>) { }
 
@@ -29,6 +29,6 @@ export class EventComponent implements OnInit {
   private initializeEvents(): void {
     this.store$.dispatch(new fromEvents.Load());
     this.evs$ = this.store$.select(fromEvents.selectEvents);
-  }
+  } */
 
 }
