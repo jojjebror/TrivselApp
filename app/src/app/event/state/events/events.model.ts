@@ -4,4 +4,5 @@ import { Event } from '../../../shared/models';
 
 export interface EventsState extends EntityState<Event> {
     loading: boolean;
+    selectedEventId: number | null;
 }

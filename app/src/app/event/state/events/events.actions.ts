@@ -7,6 +7,10 @@ export enum ActionTypes {
   LoadSuccess = '[API: /event] Load success',
   LoadError = '[API: /event] Load error',
 
+  LoadEv = '[Events view] Load ev',
+  LoadEvSuccess = '[API: /event] Load ev success',
+  LoadEvError = '[API: /event] Load ev error',
+
   Create = '[Events view] Create',
   CreateSuccess = '[API: /event] Create success',
   CreateError = '[API: /event] Create error'
@@ -26,6 +30,24 @@ export class LoadError implements Action {
   readonly type = ActionTypes.LoadError;
 }
 
+export class LoadEv implements Action {
+  readonly type = ActionTypes.LoadEv;
+
+  constructor(public payload: number) {}
+}
+
+export class LoadEvSuccess implements Action {
+  readonly type = ActionTypes.LoadEvSuccess;
+
+  constructor(public ev: Event) {}
+}
+
+export class LoadEvError implements Action {
+  readonly type = ActionTypes.LoadEvError;
+
+  constructor(payload: string) {}
+}
+
 export class Create implements Action {
   readonly type = ActionTypes.Create;
 
@@ -42,4 +64,4 @@ export class CreateError implements Action {
   readonly type = ActionTypes.CreateError;
 }
 
-export type Actions = Load | LoadSuccess | LoadError | Create | CreateSuccess | CreateError;
+export type Actions = Load | LoadSuccess | LoadError | LoadEv | LoadEvSuccess | LoadEvError | Create | CreateSuccess | CreateError;

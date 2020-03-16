@@ -4,7 +4,8 @@ import { adapter } from './events.adapter';
 import * as eventsActions from './events.actions';
 
 let initialState = adapter.getInitialState({
-  loading: false
+  loading: false,
+  selectedEventId: null
 });
 
 export function reducer(state: EventsState = initialState, action: eventsActions.Actions): EventsState {
@@ -22,6 +23,25 @@ export function reducer(state: EventsState = initialState, action: eventsActions
       });
 
     case eventsActions.ActionTypes.LoadError:
+      return {
+        ...state,
+        loading: false
+      };
+
+    case eventsActions.ActionTypes.LoadEv:
+      return {
+        ...state,
+        loading: true
+      };
+
+    case eventsActions.ActionTypes.LoadEvSuccess:
+      return adapter.addOne(action.ev, {
+        ...state,
+        loading: false,
+        selectedEventId: action.ev.id
+      });
+
+    case eventsActions.ActionTypes.LoadEvError:
       return {
         ...state,
         loading: false

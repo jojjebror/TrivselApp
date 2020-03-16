@@ -23,11 +23,12 @@ export class EventListComponent implements OnInit {
   constructor(private store$: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.initializeEvents();
-  }
-
-  private initializeEvents(): void {
-    this.store$.dispatch(new fromEvents.Load());
+    /* this.initializeEvents(); */
     this.evs$ = this.store$.select(fromEvents.selectEvents);
   }
+
+  /* private initializeEvents(): void {
+    this.store$.dispatch(new fromEvents.Load());
+    this.evs$ = this.store$.select(fromEvents.selectEvents);
+  } */
 }

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { switchMap, map, mergeMap, catchError } from 'rxjs/operators';
 
 import { EventResource } from '../../../core/resources';
 
 import * as eventsActions from './events.actions';
+import { Event } from 'src/app/shared/models';
 
 @Injectable()
 export class EventsEffects {
@@ -23,6 +24,17 @@ export class EventsEffects {
     ofType(eventsActions.ActionTypes.Load),
     switchMap(() => this.eventResource.loadEvent(id).pipe(map(ev => new eventsActions.LoadSuccess(ev))))
   ); */
+
+  @Effect()
+  loadEv$: Observable<Action> = this.actions$.pipe(
+    ofType(eventsActions.ActionTypes.Load),
+    mergeMap((action: eventsActions.LoadEv) =>
+      this.eventResource.loadEvent(action.payload).pipe(
+        map((event: Event) => new eventsActions.LoadEvSuccess(event)),
+        catchError(err => of(new eventsActions.LoadEvError(err)))
+      )
+    )
+  );
 
   @Effect()
   create$: Observable<Action> = this.actions$.pipe(

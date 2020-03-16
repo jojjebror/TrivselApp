@@ -10,8 +10,10 @@ import { reducers, effects } from './state';
 import { views } from './views';
 import { components } from './components';
 
+import { TabsModule } from 'ngx-bootstrap';
+
 @NgModule({
-  imports: [SharedModule, LoginRoutingModule, StoreModule.forFeature('event', reducers), EffectsModule.forFeature(effects)],
+  imports: [SharedModule, LoginRoutingModule, StoreModule.forFeature('event', reducers), EffectsModule.forFeature(effects), TabsModule],
   exports: [],
   declarations: [...views, ...components],
   providers: []

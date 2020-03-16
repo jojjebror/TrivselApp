@@ -12,17 +12,17 @@ import * as fromEvents from '../state/events';
   templateUrl: './event.component.html',
   styleUrls: ['./event.component.scss']
 })
-export class EventComponent {
+export class EventComponent implements OnInit {
+  evs$: Observable<Event[]>;
 
-/*   evs$: Observable<Event[]>;
-
-  constructor(private store$: Store<AppState>) { }
+  constructor(private store$: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.initializeEvents();
+    /* this.initializeEvents(); */
+    this.store$.dispatch(new fromEvents.Load());
   }
 
-  createEvent(ev: Event): void {
+  /* createEvent(ev: Event): void {
 
   }
 
@@ -30,5 +30,4 @@ export class EventComponent {
     this.store$.dispatch(new fromEvents.Load());
     this.evs$ = this.store$.select(fromEvents.selectEvents);
   } */
-
 }

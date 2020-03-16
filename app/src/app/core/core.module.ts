@@ -15,7 +15,7 @@ import { guards } from './guards';
 import { reducers, effects } from './state';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BsDropdownModule } from 'ngx-bootstrap';
+import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
 
 /**
  * Contains all core functionality of the application.
@@ -30,7 +30,8 @@ import { BsDropdownModule } from 'ngx-bootstrap';
     EffectsModule.forRoot(effects),
 
     BrowserAnimationsModule,
-    BsDropdownModule.forRoot()
+    BsDropdownModule.forRoot(),
+    TabsModule.forRoot()
   ],
   exports: [],
   declarations: [...views, ...components],
