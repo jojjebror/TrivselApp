@@ -13,14 +13,14 @@ import * as fromEvents from '../state/events';
   styleUrls: ['./event.component.scss']
 })
 export class EventComponent implements OnInit {
-  evs$: Observable<Event[]>;
+/*   evs$: Observable<Event[]>;*/
 
   constructor(private store$: Store<AppState>) {}
 
   ngOnInit(): void {
     /* this.initializeEvents(); */
-    this.store$.dispatch(new fromEvents.Load());
-  }
+/*     this.store$.dispatch(new fromEvents.Load());
+ */  }
 
   /* createEvent(ev: Event): void {
 

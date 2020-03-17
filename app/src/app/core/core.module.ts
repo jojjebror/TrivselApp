@@ -16,6 +16,7 @@ import { reducers, effects } from './state';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 /**
  * Contains all core functionality of the application.
@@ -28,6 +29,7 @@ import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
     SharedModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot(effects),
+    StoreDevtoolsModule.instrument(),
 
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),

@@ -3,32 +3,28 @@ import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core
 import { Event } from '../../../shared/models';
 
 import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
-import * as fromEvents from '../../state/events';
+import * as eventActions from '../../state/events';
+import * as fromEvent from '../../state/events/events.selectors';
+import { LoadEvents } from '../../state/events';
 
 @Component({
   selector: 'ex-event-list',
   templateUrl: './event-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./event-list.component.scss']
 })
 export class EventListComponent implements OnInit {
-  /* @Input() evs: Event[];
-
-  constructor() { } */
-
   evs$: Observable<Event[]>;
 
   constructor(private store$: Store<AppState>) {}
 
-  ngOnInit(): void {
-    /* this.initializeEvents(); */
-    this.evs$ = this.store$.select(fromEvents.selectEvents);
+  ngOnInit() {
+    this.InitializeEvents();
   }
 
-  /* private initializeEvents(): void {
-    this.store$.dispatch(new fromEvents.Load());
-    this.evs$ = this.store$.select(fromEvents.selectEvents);
-  } */
+  private InitializeEvents(): void {
+    this.store$.dispatch(new eventActions.LoadEvents());
+    this.evs$ = this.store$.pipe(select(fromEvent.getEvents));
+  }
 }

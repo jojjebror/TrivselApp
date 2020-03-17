@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
 import { EffectsModule } from '@ngrx/effects';
 
 import { SharedModule } from '../shared';
@@ -13,11 +15,16 @@ import { components } from './components';
 import { TabsModule } from 'ngx-bootstrap';
 
 @NgModule({
-  imports: [SharedModule, LoginRoutingModule, StoreModule.forFeature('event', reducers), EffectsModule.forFeature(effects), TabsModule],
+  imports: [SharedModule, 
+    LoginRoutingModule,
+    StoreModule.forFeature('event', reducers),
+    EffectsModule.forFeature(effects),
+    StoreDevtoolsModule.instrument(),
+    TabsModule
+  ]
+    ,
   exports: [],
   declarations: [...views, ...components],
   providers: []
 })
 export class EventModule {}
-
- 

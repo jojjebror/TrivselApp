@@ -1,9 +1,9 @@
 <div class="container mt-4 border border-light p-5">
-<!--   <button class="btn btn-primary" [routerLink]="['/events/edit', event.id]">
+  <button class="btn btn-primary" [routerLink]="['/events/edit', (ev$ | async).id]">
     Redigera evenemang
-  </button> -->
+  </button>
   <div class="row">
-    <h1 class="mb-4">Title</h1>
+    <h1 class="mb-4">{{ (ev$ | async).title }}</h1>
   </div>
   <div class="row">
     <div class="col-sm-4">
@@ -12,21 +12,21 @@
         <div class="card-body">
           <div>
             <strong>Plats:</strong>
-<!--             <p>{{ event.location }}</p>
- -->          </div>
+              <p>{{ (ev$ | async).location }}</p> 
+           </div>
           <div>
             <strong>Tid:</strong>
-<!--             <p>
-              {{ event.startDate | date: "HH:mm" }} -
-              {{ event.endDate | date: "HH:mm" }}
-            </p> -->
+            <p>
+              {{ (ev$ | async).startDate | date: "HH:mm" }} -
+              {{ (ev$ | async).endDate | date: "HH:mm" }}
+            </p>
           </div>
           <div>
             <strong>Datum:</strong>
-<!--             <p>
-              {{ event.startDate | date: "dd/M" }} -
-              {{ event.endDate | date: "dd/M/yyyy" }}
-            </p> -->
+            <p>
+              {{ (ev$ | async).startDate | date: "dd/M" }} -
+              {{ (ev$ | async).endDate | date: "dd/M/yyyy" }}
+            </p>
           </div>
         </div>
         <div class="card-footer">
@@ -42,7 +42,7 @@
          <tabset class="member-tabset">
           <tab heading="Om evenemang">
             <h4 style="font-weight: bold;">Beskrivning</h4>
-            <!-- <p>{{ event.description }}</p> -->
+            <p>{{ (ev$ | async).description }}</p>
           </tab>
           <tab heading="Deltagare">
             <h4 style="font-weight: bold;">Deltagare</h4>

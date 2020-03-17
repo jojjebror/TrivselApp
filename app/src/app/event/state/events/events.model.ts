@@ -1,8 +1,10 @@
-import { EntityState } from "@ngrx/entity";
+import { EntityState } from '@ngrx/entity';
 
 import { Event } from '../../../shared/models';
 
 export interface EventsState extends EntityState<Event> {
-    loading: boolean;
-    selectedEventId: number | null;
+  selectedEventId: number | null;
+  loading: boolean;
+  loaded: boolean;
+  error: string;
 }
