@@ -1,9 +1,9 @@
-<div class="container mt-4 border border-light p-5">
-  <button class="btn btn-primary" [routerLink]="['/events/edit', (ev$ | async).id]">
+<div class="container mt-5 border border-light p-5" *ngIf="ev$ | async; let ev">
+  <button class="btn btn-primary" >
     Redigera evenemang
   </button>
   <div class="row">
-    <h1 class="mb-4">{{ (ev$ | async).title }}</h1>
+    <h1 class="mb-4">{{ ev.title }}</h1>
   </div>
   <div class="row">
     <div class="col-sm-4">
@@ -12,20 +12,20 @@
         <div class="card-body">
           <div>
             <strong>Plats:</strong>
-              <p>{{ (ev$ | async).location }}</p> 
+              <p>{{ ev.location }}</p> 
            </div>
           <div>
             <strong>Tid:</strong>
             <p>
-              {{ (ev$ | async).startDate | date: "HH:mm" }} -
-              {{ (ev$ | async).endDate | date: "HH:mm" }}
+              {{ ev.startDate | date: "HH:mm" }} -
+              {{ ev.endDate | date: "HH:mm" }}
             </p>
           </div>
           <div>
             <strong>Datum:</strong>
             <p>
-              {{ (ev$ | async).startDate | date: "dd/M" }} -
-              {{ (ev$ | async).endDate | date: "dd/M/yyyy" }}
+              {{ ev.startDate | date: "dd/M" }} -
+              {{ ev.endDate | date: "dd/M/yyyy" }}
             </p>
           </div>
         </div>
@@ -42,7 +42,7 @@
          <tabset class="member-tabset">
           <tab heading="Om evenemang">
             <h4 style="font-weight: bold;">Beskrivning</h4>
-            <p>{{ (ev$ | async).description }}</p>
+            <p>{{ ev.description }}</p>
           </tab>
           <tab heading="Deltagare">
             <h4 style="font-weight: bold;">Deltagare</h4>

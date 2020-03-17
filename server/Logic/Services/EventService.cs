@@ -36,6 +36,27 @@ namespace Logic.Services
 
             return dbEvents.Select(EventForListTranslator.ToModel).ToList();
         }
+
+        public async Task<EventForCreateDto> Create(EventForCreateDto ev)
+        {
+            var newEvent = new Event()
+            {
+                Title = ev.Title,
+                Description = ev.Description,
+                Location = ev.Location,
+                Image = ev.Image,
+                StartDate = ev.StartDate,
+                EndDate = ev.EndDate,
+                CreateDate = DateTime.Now,
+                CreatorId = ev.CreatorId,
+            };
+
+            _context.Events.Add(newEvent);
+            await _context.SaveChangesAsync();
+
+            return EventForCreateTranslator.ToModel(newEvent);
+        }
+
     }
 }
 

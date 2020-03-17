@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { EventComponent } from './views';
 import { EventDetailComponent } from './components/event-detail/event-detail.component';
 import { EventListComponent } from './components/event-list/event-list.component';
+import { EventCreateComponent } from './components/event-create/event-create.component';
 
 export const routes: Routes = [
   {
@@ -13,6 +14,10 @@ export const routes: Routes = [
       {
         path: '',
         component: EventListComponent
+      },
+      {
+        path: 'create',
+        component: EventCreateComponent
       },
       {
         path: ':id',

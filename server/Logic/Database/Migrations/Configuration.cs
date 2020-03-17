@@ -54,6 +54,19 @@ namespace Logic.Database.Migrations
                 CreateDate = DateTime.Now,
                 CreatorId = 1
             };
+
+            var testEvent3 = new Event()
+            {
+                Id = 3,
+                Title = "Paintball",
+                Description = "Nu ska vi ha superkul",
+                Image = "test",
+                Location = "Trollskogen",
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now,
+                CreateDate = DateTime.Now,
+                CreatorId = 1
+            };
             var testDrink = new Drink()
             {
                 Id = 1,
@@ -71,6 +84,7 @@ namespace Logic.Database.Migrations
             context.Users.AddOrUpdate(testUser);
             context.Events.AddOrUpdate(testEvent1);
             context.Events.AddOrUpdate(testEvent2);
+            context.Events.AddOrUpdate(testEvent3);
             context.Drinks.AddOrUpdate(testDrink);
 
 

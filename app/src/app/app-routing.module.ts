@@ -44,6 +44,11 @@ export const routes: Routes =
 					path: '',
 					redirectTo: 'start',
 					pathMatch: 'full'
+				},
+				{
+					path: '**',
+					redirectTo: 'start',
+					pathMatch: 'full'
 				}
 			]
 		}

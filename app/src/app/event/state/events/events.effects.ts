@@ -35,21 +35,21 @@ export class EventsEffects {
     )
   );
 
-
-  /*----------Framtida kodidéer nedan------------- */
-
-  /*   @Effect()
+  @Effect()
   createEvent$: Observable<Action> = this.actions$.pipe(
     ofType<eventsActions.CreateEvent>(eventsActions.ActionTypes.CREATE_EVENT),
     map((action: eventsActions.CreateEvent) => action.payload),
     mergeMap((event: Event) =>
-      this.eventResource.createEvent(event).pipe(
+      this.eventResource.create(event).pipe(
         map((newEvent: Event) => new eventsActions.CreateEventSuccess(newEvent)),
         catchError(err => of(new eventsActions.CreateEventError(err)))
       )
     )
   );
 
+  /*----------Framtida kodidéer nedan------------- */
+
+  /*
   @Effect()
   updateEvent$: Observable<Action> = this.actions$.pipe(
     ofType<eventsActions.UpdateEvent>(eventsActions.ActionTypes.UPDATE_EVENT),

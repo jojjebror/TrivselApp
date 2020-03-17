@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { AppState } from 'src/app/core/state';
 import { Store, select } from '@ngrx/store';
@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'ex-event-detail',
   templateUrl: './event-detail.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./event-detail.component.scss']
 })
 export class EventDetailComponent implements OnInit {

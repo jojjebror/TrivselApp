@@ -4,9 +4,15 @@ html, body {
     margin: 0;
     font-family: $ex-font-family;
     color: $ex-font-color;
+    background: #f5f8fd url("/assets/images/exsitec-bg2.png");
+    background-size: cover;
 }
 
 a {
-    color: $ex-primary;
+    color: white;
     text-decoration: none;
+}
+
+a:hover {
+  color: white;
 }
