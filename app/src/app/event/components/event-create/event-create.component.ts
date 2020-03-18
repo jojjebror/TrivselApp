@@ -22,7 +22,7 @@ export class EventCreateComponent implements OnInit {
   eventForm: FormGroup;
   endDateMode = false;
 
-  constructor(private store$: Store<AppState>, private router: Router, private fb: FormBuilder, private localeService: BsLocaleService, private authService: AuthenticationService) {
+  constructor(private store$: Store<AppState>, private router: Router, private fb: FormBuilder, private localeService: BsLocaleService) {
     localeService.use('sv');
   }
 
