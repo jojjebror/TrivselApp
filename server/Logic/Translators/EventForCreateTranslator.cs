@@ -8,23 +8,26 @@ using System.Threading.Tasks;
 
 namespace Logic.Translators
 {
-    //public class EventForCreateTranslator
-    //{
-    //    public static EventForCreateDto ToModel(Event ev)
-    //    {
-    //        if (ev == null)
-    //            return null;
+    public class EventForCreateTranslator
+    {
+        public static EventForCreateDto ToModel(Event ev)
+        {
+            if (ev == null)
+                return null;
 
-    //        return new EventForCreateDto
-    //        {
-    //            Id = ev.Id,
-    //            Title = ev.Title,
-    //            Description = ev.Description,
-    //            Image = ev.Image,
-    //            Location = ev.Location,
-    //            StartDate = ev.StartDate.Date + ev.
-    //            EndDate = ev.EndDate
-    //        };
-    //    }
-    //}
+            return new EventForCreateDto
+            {
+                Id = ev.Id,
+                Title = ev.Title,
+                Description = ev.Description,
+                Image = ev.Image,
+                Location = ev.Location,
+                StartDate = ev.StartDate.Date,
+                EndDate = ev.EndDate,
+                CreatorId = ev.CreatorId,
+                CreateDate = DateTime.Now
+
+            };
+        }
+    }
 }

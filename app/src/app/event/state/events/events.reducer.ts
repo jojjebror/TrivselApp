@@ -4,31 +4,56 @@ import { adapter } from './events.adapter';
 import * as eventsActions from './events.actions';
 
 let initialState = adapter.getInitialState({
-  loading: false
+  selectedEventId: null,
+  loading: false,
+  loaded: false,
+  error: ''
 });
 
 export function reducer(state: EventsState = initialState, action: eventsActions.Actions): EventsState {
   switch (action.type) {
-    case eventsActions.ActionTypes.Load:
-      return {
+    case eventsActions.ActionTypes.LOAD_EVENTS_SUCCESS: {
+      return adapter.addAll(action.payload, {
         ...state,
-        loading: true
-      };
-
-    case eventsActions.ActionTypes.LoadSuccess:
-      return adapter.addAll(action.evs, {
-        ...state,
-        loading: false
+        loading: false,
+        loaded: true
       });
+    }
 
-    case eventsActions.ActionTypes.LoadError:
+    case eventsActions.ActionTypes.LOAD_EVENTS_ERROR: {
       return {
         ...state,
-        loading: false
+        entities: {},
+        loading: false,
+        loaded: false,
+        error: action.payload
       };
+    }
 
-    case eventsActions.ActionTypes.CreateSuccess:
-      return adapter.addOne(action.ev, state);
+    case eventsActions.ActionTypes.LOAD_EVENT_SUCCESS: {
+      return adapter.addOne(action.payload, {
+        ...state,
+        selectedEventId: action.payload.id
+      });
+    }
+
+    case eventsActions.ActionTypes.LOAD_EVENT_ERROR: {
+      return {
+        ...state,
+        error: action.payload
+      };
+    }
+
+    case eventsActions.ActionTypes.CREATE_EVENT_SUCCESS: {
+      return adapter.addOne(action.payload, state);
+    }
+
+    case eventsActions.ActionTypes.CREATE_EVENT_ERROR: {
+      return {
+        ...state,
+        error: action.payload
+      };
+    }
 
     default:
       return state;

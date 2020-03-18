@@ -2,7 +2,6 @@ import { NgModule, NgModuleFactoryLoader } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { CoreModule } from './core';
 
@@ -17,7 +16,6 @@ import { AppRoutingModule } from './app-routing.module';
 		CoreModule,
 		AppRoutingModule,
 
-		StoreDevtoolsModule.instrument()
 	],
 	declarations: [
 		AppComponent,

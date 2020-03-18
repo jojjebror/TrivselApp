@@ -15,7 +15,11 @@ import { guards } from './guards';
 import { reducers, effects } from './state';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BsDropdownModule } from 'ngx-bootstrap';
+import { BsDropdownModule, TabsModule, TimepickerModule, BsDatepickerModule } from 'ngx-bootstrap';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { svLocale } from 'ngx-bootstrap/locale';
+        defineLocale('sv', svLocale);
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 /**
  * Contains all core functionality of the application.
@@ -28,9 +32,13 @@ import { BsDropdownModule } from 'ngx-bootstrap';
     SharedModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot(effects),
+    StoreDevtoolsModule.instrument(),
 
     BrowserAnimationsModule,
-    BsDropdownModule.forRoot()
+    BsDropdownModule.forRoot(),
+    TabsModule.forRoot(),
+    TimepickerModule.forRoot(),
+    BsDatepickerModule.forRoot()
   ],
   exports: [],
   declarations: [...views, ...components],

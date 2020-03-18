@@ -1,33 +1,84 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { switchMap, map, mergeMap, catchError } from 'rxjs/operators';
 
 import { EventResource } from '../../../core/resources';
 
 import * as eventsActions from './events.actions';
+import { Event } from 'src/app/shared/models';
 
 @Injectable()
 export class EventsEffects {
   constructor(private actions$: Actions, private eventResource: EventResource) {}
 
   @Effect()
-  load$: Observable<Action> = this.actions$.pipe(
-    ofType(eventsActions.ActionTypes.Load),
-    switchMap(() => this.eventResource.loadEvents().pipe(map(evs => new eventsActions.LoadSuccess(evs))))
+  loadEvents$: Observable<Action> = this.actions$.pipe(
+    ofType<eventsActions.LoadEvents>(eventsActions.ActionTypes.LOAD_EVENTS),
+    mergeMap((actions: eventsActions.LoadEvents) =>
+      this.eventResource.loadEvents().pipe(
+        map((events: Event[]) => new eventsActions.LoadEventsSuccess(events)),
+        catchError(err => of(new eventsActions.LoadEventsError(err)))
+      )
+    )
   );
-
-  /* @Effect()
-  loadEv$: Observable<Action> = this.actions$.pipe(
-    ofType(eventsActions.ActionTypes.Load),
-    switchMap(() => this.eventResource.loadEvent(id).pipe(map(ev => new eventsActions.LoadSuccess(ev))))
-  ); */
 
   @Effect()
-  create$: Observable<Action> = this.actions$.pipe(
-    ofType(eventsActions.ActionTypes.Create),
-    map((action: eventsActions.Create) => action.ev),
-    switchMap(ev => this.eventResource.create(ev).pipe(map(createdEvent => new eventsActions.CreateSuccess(createdEvent))))
+  loadEvent$: Observable<Action> = this.actions$.pipe(
+    ofType<eventsActions.LoadEvent>(eventsActions.ActionTypes.LOAD_EVENT),
+    mergeMap((action: eventsActions.LoadEvent) =>
+      this.eventResource.loadEvent(action.payload).pipe(
+        map((event: Event) => new eventsActions.LoadEventSuccess(event)),
+        catchError(err => of(new eventsActions.LoadEventError(err)))
+      )
+    )
   );
+
+  @Effect()
+  createEvent$: Observable<Action> = this.actions$.pipe(
+    ofType<eventsActions.CreateEvent>(eventsActions.ActionTypes.CREATE_EVENT),
+    map((action: eventsActions.CreateEvent) => action.payload),
+    mergeMap((event: Event) =>
+      this.eventResource.create(event).pipe(
+        map((newEvent: Event) => new eventsActions.CreateEventSuccess(newEvent)),
+        catchError(err => of(new eventsActions.CreateEventError(err)))
+      )
+    )
+  );
+
+  /*----------Framtida kodidéer nedan------------- */
+
+  /*
+  @Effect()
+  updateEvent$: Observable<Action> = this.actions$.pipe(
+    ofType<eventsActions.UpdateEvent>(eventsActions.ActionTypes.UPDATE_EVENT),
+    map((action: eventsActions.UpdateEvent) => action.payload),
+    mergeMap((event: Event) =>
+      this.eventResource.UpdateEvent(event).pipe(
+        map(
+          (updateEvent: Event) =>
+            new eventsActions.UpdateEventSuccess({
+              id: updateEvent.id,
+              changes: updateEvent
+            })
+        ),
+        catchError(err => of(new eventsActions.UpdateEventError(err)))
+      )
+    )
+  );
+
+  @Effect()
+  deleteEvent$: Observable<Action> = this.actions$.pipe(
+    ofType<eventsActions.DeleteEvent>(eventsActions.ActionTypes.DELETE_EVENT
+      ),
+    map((action: eventsActions.DeleteEvent) => action.payload),
+    mergeMap((id: number) =>
+      this.eventResource.deleteEvent(id).pipe(
+        map(() => new eventsActions.DeleteEventSuccess(id)    
+        ),
+        catchError(err => of(new eventsActions.DeleteEventError(err)))
+      )
+    )
+  ); */
 }

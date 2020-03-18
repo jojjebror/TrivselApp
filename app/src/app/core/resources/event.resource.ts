@@ -7,21 +7,20 @@ import { Event } from '../../shared/models';
 
 @Injectable()
 export class EventResource extends ApiResource {
+  constructor(http: HttpClient) {
+    super(http);
+  }
 
-    constructor(http: HttpClient) {
-        super(http);
-        
-    }
+  loadEvents(): Observable<Event[]> {
+    return this.get('event');
+  }
 
-    loadEvents(): Observable<Event[]> {
-        return this.get('event');
-    }
+  loadEvent(id: number): Observable<Event> {
+    return this.get('event/' + id);
+  }
 
-    loadEvent(id: number): Observable<Event> {
-        return this.get('event/' + id);
-    }
+  create(ev: Event): Observable<Event> {
+    return this.post('event', ev);
+  }
 
-    create(ev: Event): Observable<Event> {
-        return this.post('event', ev);
-    }
 }

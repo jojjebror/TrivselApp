@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.Models;
+using Logic.Models;
 using Logic.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,5 +32,13 @@ namespace Api.Controllers
             var result = await _eventService.GetEvent(id);
             return new OkObjectResult(ApiResponse.Create(result));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody]EventForCreateDto ev)
+        {
+            var result = await _eventService.Create(ev);
+            return new OkObjectResult(ApiResponse.Create(result));
+        }
+
     }
 }
