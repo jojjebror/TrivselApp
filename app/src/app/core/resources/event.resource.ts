@@ -23,4 +23,7 @@ export class EventResource extends ApiResource {
     return this.post('event', ev);
   }
 
+  updateEvent(id: number, event: Event) {
+    return this.put('event/' + id, event);
+  }
 }

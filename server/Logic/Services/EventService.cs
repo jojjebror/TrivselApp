@@ -57,6 +57,20 @@ namespace Logic.Services
             return EventForCreateTranslator.ToModel(newEvent);
         }
 
+        public async Task<EventForUpdateDto> Update(int id, EventForUpdateDto ev)
+        {
+            var dbEvent = await _context.Events
+                .FirstOrDefaultAsync(e => e.Id == id);
+
+            dbEvent.Title = ev.Title;
+            dbEvent.Location = ev.Location;
+            dbEvent.Description = ev.Description;
+
+            await _context.SaveChangesAsync();
+
+            return EventForUpdateTranslator.ToModel(dbEvent);
+        }
+
     }
 }
 
