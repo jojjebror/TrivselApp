@@ -2,11 +2,28 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { DrinkComponent } from './views';
+import { DrinkCreateComponent } from './components/drink-create/drink-create.component';
+import { DrinkDetailComponent } from './components/drink-detail/drink-detail.component';
+import { DrinkListComponent } from './components/drink-list/drink-list.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: DrinkComponent
+    component: DrinkComponent,
+    children: [
+      {
+        path: '',
+        component: DrinkListComponent
+      },
+      {
+        path: 'create',
+        component: DrinkCreateComponent
+      },
+      {
+        path: ':id',
+        component: DrinkDetailComponent
+      }
+    ]
   }
 ];
 
@@ -17,3 +34,4 @@ export const routes: Routes = [
   providers: []
 })
 export class LoginRoutingModule {}
+

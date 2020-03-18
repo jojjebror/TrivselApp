@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { switchMap, map, mergeMap, catchError } from 'rxjs/operators';
 
 
 
 import * as drinksActions from './drinks.actions';
 import { DrinkResource } from 'src/app/core/resources/drink.resource';
+import { Drink } from 'src/app/shared/models';
 
 
 @Injectable()
@@ -15,15 +16,25 @@ export class DrinksEffects {
   constructor(private actions$: Actions, private drinkResource: DrinkResource) {}
 
   @Effect()
-  load$: Observable<Action> = this.actions$.pipe(
-    ofType(drinksActions.ActionTypes.Load),
-    switchMap(() => this.drinkResource.loadDrinks().pipe(map(drs => new drinksActions.LoadSuccess(drs))))
+  loadDrinks$: Observable<Action> = this.actions$.pipe(
+    ofType<drinksActions.LoadDrinks>(drinksActions.ActionTypes.LOAD_DRINKS),
+    mergeMap((actions: drinksActions.LoadDrinks) =>
+    this.drinkResource.loadDrinks().pipe(
+      map((drinks: Drink[]) => new drinksActions.LoadDrinksSuccess(drinks)),
+      catchError(err => of(new drinksActions.LoadDrinkError(err)))
+      )
+    )
   );
 
-  @Effect()
-  create$: Observable<Action> = this.actions$.pipe(
-    ofType(drinksActions.ActionTypes.Create),
-    map((action: drinksActions.Create) => action.dr),
-    switchMap(dr => this.drinkResource.create(dr).pipe(map(createdDrink => new drinksActions.CreateSuccess(createdDrink))))
+@Effect()
+  createDrinks$: Observable<Action> = this.actions$.pipe(
+    ofType<drinksActions.CreateDrink>(drinksActions.ActionTypes.CREATE_DRINK),
+    map((action: drinksActions.CreateDrink) => action.payload),
+    mergeMap((drink: Drink) =>
+      this.drinkResource.create(drink).pipe(
+        map((newDrink: Drink) => new drinksActions.CreateDrinkSuccess(newDrink)),
+        catchError(err => of(new drinksActions.CreateDrinkError(err)))
+      )
+    )
   );
 }
