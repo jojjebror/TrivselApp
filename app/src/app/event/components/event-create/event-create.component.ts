@@ -6,10 +6,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 
 import { Event } from 'src/app/shared/models';
-import * as fromSession from '../../../core/state/session';
 import * as fromEvent from '../../state/events/events.actions';
-import { AuthenticationService } from '../../../core/services';
-
 
 @Component({
   selector: 'ex-event-create',
@@ -19,11 +16,13 @@ import { AuthenticationService } from '../../../core/services';
 export class EventCreateComponent implements OnInit {
   @Output() cancelNewEvent = new EventEmitter();
   event: Event;
+  currentUserId: any;
   eventForm: FormGroup;
   endDateMode = false;
 
-  constructor(private store$: Store<AppState>, private router: Router, private fb: FormBuilder, private localeService: BsLocaleService, private authService: AuthenticationService) {
+  constructor(private store$: Store<AppState>, private router: Router, private fb: FormBuilder, private localeService: BsLocaleService) {
     localeService.use('sv');
+    this.store$.select('session').subscribe(data => (this.currentUserId = data.user.id));
   }
 
   ngOnInit() {
@@ -43,7 +42,7 @@ export class EventCreateComponent implements OnInit {
         enddate: [''],
         endtime: [''],
         createdate: [new Date()],
-        creatorid: [1]
+        creatorid: [this.currentUserId]
       },
       { validator: this.DateValidation }
     );
