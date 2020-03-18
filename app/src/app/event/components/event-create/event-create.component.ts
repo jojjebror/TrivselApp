@@ -8,6 +8,8 @@ import { AppState } from 'src/app/core/state';
 import { Event } from 'src/app/shared/models';
 import * as fromSession from '../../../core/state/session';
 import * as fromEvent from '../../state/events/events.actions';
+import { AuthenticationService } from '../../../core/services';
+
 
 @Component({
   selector: 'ex-event-create',
@@ -20,7 +22,7 @@ export class EventCreateComponent implements OnInit {
   eventForm: FormGroup;
   endDateMode = false;
 
-  constructor(private store$: Store<AppState>, private router: Router, private fb: FormBuilder, private localeService: BsLocaleService) {
+  constructor(private store$: Store<AppState>, private router: Router, private fb: FormBuilder, private localeService: BsLocaleService, private authService: AuthenticationService) {
     localeService.use('sv');
   }
 
