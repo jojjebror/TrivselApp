@@ -13,7 +13,7 @@ import { ApiResource } from 'src/app/core/resources/api.resource';
 
 @Injectable()
 export class DrinksEffects {
-  constructor(private actions$: Actions, private drinkResource: DrinkResource, private apiResource: ApiResource) {}
+  constructor(private actions$: Actions, private drinkResource: DrinkResource) {}
 
   @Effect()
   load$: Observable<Action> = this.actions$.pipe(
@@ -28,7 +28,7 @@ export class DrinksEffects {
     switchMap(dr => this.drinkResource.create(dr).pipe(map(createdDrink => new drinksActions.CreateSuccess(createdDrink))))
   );
 
-  @Effect()
+  /* @Effect()
   delete$: Observable<Action> = this.actions$.pipe(
     ofType<drinksActions.Delete>(
       drinksActions.ActionTypes.Delete
@@ -40,5 +40,5 @@ export class DrinksEffects {
       catchError(err=> of(new drinksActions.DeleteError(err)))
       )
     )
-  );
+  ); */
 }

@@ -41,16 +41,8 @@ export abstract class ApiResource {
 		);
 	}
 
-	protected delete<T>(url: string): Observable<T> {
-		return this.http.delete<T>(`${this.baseUrl}/${url}`, this.createOptions()).pipe(
-			map(this.mapResponse),
-			catchError(this.mapError)
-		);
-	}
 
-	deleteDrink(id: number) {
-        return this.http.delete(this.baseUrl+'/drink' + id);
-    }
+
 
 	/**
 	 * Maps the api response to model object
