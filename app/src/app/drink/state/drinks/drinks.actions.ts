@@ -1,12 +1,13 @@
 import { Action } from '@ngrx/store';
 
-import { Drink } from '../../../shared/models';
 import { Update } from '@ngrx/entity';
+import { Drink } from '../../../shared/models';
+
 
 export enum ActionTypes {
-  LOAD_DRINKS = '[Drinks view] Load Drink',
-  LOAD_DRINKS_SUCCESS = '[API: /drink] Load Drink success',
-  LOAD_DRINKS_ERROR = '[API: /drink] Load Drink error',
+  LOAD_DRINKS = '[Drinks view] Load Drinks',
+  LOAD_DRINKS_SUCCESS = '[API: /drink] Load Drinks success',
+  LOAD_DRINKS_ERROR = '[API: /drink] Load Drinks error',
 
   LOAD_DRINK = '[Drinks view] Load Drink',
   LOAD_DRINK_SUCCESS = '[API: /drink] Load Drink success',
@@ -16,7 +17,7 @@ export enum ActionTypes {
   CREATE_DRINK_SUCCESS = '[API: /drink] Create Drink success',
   CREATE_DRINK_ERROR = '[API: /drink] Create Drink error',
 
-  UPDATE_DRINK = '[Drink view] Update Drink',
+  UPDATE_DRINK = '[Drinks view] Update Drink',
   UPDATE_DRINK_SUCCESS = '[API: /drink] Update Drink success',
   UPDATE_DRINK_ERROR = '[API: /drink] Update Drink error',
 
@@ -25,8 +26,10 @@ export enum ActionTypes {
   DELETE_DRINK_ERROR = '[API: /drink] Delete Drink error'
 }
 
+/*--------------LoadAllEvents--------------*/
+
 export class LoadDrinks implements Action {
-  readonly type = ActionTypes.LOAD_DRINKS
+  readonly type = ActionTypes.LOAD_DRINKS;
 }
 
 export class LoadDrinksSuccess implements Action {
@@ -37,12 +40,11 @@ export class LoadDrinksSuccess implements Action {
 
 export class LoadDrinksError implements Action {
   readonly type = ActionTypes.LOAD_DRINKS_ERROR;
- 
+
   constructor(public payload: string) {}
 }
 
-
-
+/*--------------LoadDrink--------------*/
 
 export class LoadDrink implements Action {
   readonly type = ActionTypes.LOAD_DRINK;
@@ -63,13 +65,14 @@ export class LoadDrinkError implements Action {
 }
 
 
-
+/*--------------CreateDrink--------------*/
 
 export class CreateDrink implements Action {
   readonly type = ActionTypes.CREATE_DRINK;
 
-  constructor(public payload: Drink) {}
-}
+  constructor(public payload: Drink) {
+  }
+} 
 
 export class CreateDrinkSuccess implements Action {
   readonly type = ActionTypes.CREATE_DRINK_SUCCESS;
@@ -84,6 +87,7 @@ export class CreateDrinkError implements Action {
 }
 
 
+/*--------------UpdateDrink--------------*/
 
 export class UpdateDrink implements Action {
   readonly type = ActionTypes.UPDATE_DRINK;
@@ -103,9 +107,7 @@ export class UpdateDrinkError implements Action {
   constructor(public payload: string) {}
 }
 
-
-
-
+/*--------------RemoveDrink--------------*/
 
 export class DeleteDrink implements Action {
   readonly type = ActionTypes.DELETE_DRINK;
@@ -125,6 +127,20 @@ export class DeleteDrinkError implements Action {
   constructor(public payload: string) {}
 }
 
-
-
-export type Actions = LoadDrinks | LoadDrinksSuccess | LoadDrinksError | CreateDrink | CreateDrinkSuccess | CreateDrinkError | DeleteDrink | DeleteDrinkSuccess | DeleteDrinkError | LoadDrink | LoadDrinkError | LoadDrinkSuccess;
+export type Actions =
+  | LoadDrinks
+  | LoadDrinksSuccess
+  | LoadDrinksError
+  | LoadDrink
+  | LoadDrinkSuccess
+  | LoadDrinkError
+  | CreateDrink
+  | CreateDrinkSuccess
+  | CreateDrinkError
+  | UpdateDrink
+  | UpdateDrinkSuccess
+  | UpdateDrinkError
+  | DeleteDrink
+  | DeleteDrinkSuccess
+  | DeleteDrinkError;
+  

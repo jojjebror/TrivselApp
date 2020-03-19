@@ -7,9 +7,9 @@ const { selectAll } = adapter.getSelectors();
 
 export const selectState = (state: AppState) => state.drink.drs;
 
-export const selectLoading = createSelector(selectState, state => state.loading);
+export const getDrinks = createSelector(selectState, selectAll )
 
-export const selectDrinks = createSelector(selectState, selectAll);
+export const getDrinksLoading = createSelector(selectState, state => state.loading);
 
 export const getDrinksLoaded = createSelector(selectState, state => state.loaded);
 
@@ -18,5 +18,3 @@ export const getError = createSelector(selectState, state => state.error);
 export const getCurrentDrinkId = createSelector(selectState, state => state.selectedDrinkId)
 
 export const getCurrentDrink = createSelector(selectState, getCurrentDrinkId, state => state.entities[state.selectedDrinkId])
-
-

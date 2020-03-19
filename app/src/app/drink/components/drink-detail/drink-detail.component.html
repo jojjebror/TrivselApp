@@ -1,9 +1,9 @@
 <div class="container mt-5 border border-light p-5" *ngIf="dr$ | async; let dr">
   <button class="btn btn-primary" >
-    Redigera evenemang
+    Redigera dryck
   </button>
   <div class="row">
-    <h1 class="mb-4">{{ dr.category }}</h1>
+    <h1 class="mb-4">{{ dr.productNameBold }}</h1>
   </div>
   <div class="row">
     <div class="col-sm-4">
@@ -11,9 +11,27 @@
 
         <div class="card-body">
           <div>
-            <strong>Plats:</strong>
+            <strong>Pris:</strong>
               <p>{{ dr.price }}</p> 
            </div>
+          <div>
+            <strong>Smak:</strong>
+            <p>
+              {{ dr.taste}} 
+            </p>
+          </div>
+          <div>
+            <strong>Volym:</strong>
+            <p>
+              {{ dr.volume }} 
+            </p>
+          </div>
+          <div>
+            <strong>Kategori:</strong>
+            <p>
+              {{ dr.category}} 
+            </p>
+          </div>
         </div>
       </div>
     </div>

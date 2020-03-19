@@ -6,6 +6,9 @@ import { DrinkListComponent } from './components/drink-list/drink-list.component
 import { DrinkCreateComponent } from './components/drink-create/drink-create.component';
 
 import { DrinkComponent } from './views';
+import { DrinkCreateComponent } from './components/drink-create/drink-create.component';
+import { DrinkDetailComponent } from './components/drink-detail/drink-detail.component';
+import { DrinkListComponent } from './components/drink-list/drink-list.component';
 
 export const routes: Routes = [
   {
@@ -35,3 +38,4 @@ export const routes: Routes = [
   providers: []
 })
 export class LoginRoutingModule {}
+

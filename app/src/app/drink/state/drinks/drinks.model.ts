@@ -7,5 +7,4 @@ export interface DrinksState extends EntityState<Drink> {
     loading: boolean;
     loaded: boolean;
     error: string;
-    
 }

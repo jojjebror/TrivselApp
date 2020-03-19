@@ -1,38 +1,33 @@
-import { Component, Input, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { Drink } from '../../../shared/models';
-import { AppState } from 'src/app/core/state';
-import * as drinkActions from '../../state/drinks';
-import * as fromDrink from '../../state/drinks/drinks.selectors';
+import { Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 
+import { AppState } from 'src/app/core/state';
+import { Drink } from 'src/app/shared/models';
+
+import * as drinksActions from '../../state/drinks';
+import * as fromDrink from '../../state/drinks/drinks.selectors';
+
+
 @Component({
-  selector: 'ex-drink-list',
+  selector: 'ex-drink',
   templateUrl: './drink-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./drink-list.component.scss']
-  
 })
+
 export class DrinkListComponent implements OnInit {
-  drk$: Observable<Drink[]>;
 
-  constructor(private store$: Store<AppState>) {}
+  drs$: Observable<Drink[]>;
 
-  ngOnInit() {
-    this.InitializeEvents();
+  constructor(private store$: Store<AppState>) { }
+
+  ngOnInit(): void {
+    this.initializeDrinks();
   }
 
-  private InitializeEvents(): void {
-    this.store$.dispatch(new drinkActions.LoadDrinks());
-    this.drk$ = this.store$.pipe(select(fromDrink.selectDrinks));
+  private initializeDrinks(): void {
+    this.store$.dispatch(new drinksActions.LoadDrinks());
+    this.drs$ = this.store$.select(fromDrink.getDrinks);
   }
-
-/*
-  deleteDrink(drink: Drink) {
-    if (confirm("Are You Sure You want to Delete this drink?")) {
-      this.store$.dispatch(new drinkActions.DeleteDrink(drink.id));
-    }
-  }
-  */
-
 }

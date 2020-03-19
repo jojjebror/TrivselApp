@@ -6,9 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./drink.component.scss']
 })
 export class DrinkComponent implements OnInit {
-
   constructor() { }
 
   ngOnInit(): void {
+  
   }
+
 }
