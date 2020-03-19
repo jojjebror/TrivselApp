@@ -26,6 +26,18 @@ export class DrinksEffects {
     )
   );
 
+  @Effect()
+  loadDrink$: Observable<Action> = this.actions$.pipe(
+    ofType<drinksActions.LoadDrink>(drinksActions.ActionTypes.LOAD_DRINK),
+    mergeMap((action: drinksActions.LoadDrink) =>
+      this.drinkResource.loadDrink(action.payload).pipe(
+        map((drink: Drink) => new drinksActions.LoadDrinkSuccess(drink)),
+        catchError(err => of(new drinksActions.LoadDrinkError(err)))
+      )
+    )
+  );
+
+
 @Effect()
   createDrinks$: Observable<Action> = this.actions$.pipe(
     ofType<drinksActions.CreateDrink>(drinksActions.ActionTypes.CREATE_DRINK),

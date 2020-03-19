@@ -70,4 +70,4 @@ export function reducer(state: DrinksState = initialState, action: drinksActions
       }
     }
   }
-}
+
