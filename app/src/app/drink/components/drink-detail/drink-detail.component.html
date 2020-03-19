@@ -1,12 +1,13 @@
 <div class="container mt-5 border border-light p-5" *ngIf="dr$ | async; let dr">
-  <button class="btn btn-primary" >
-    Redigera dryck
-  </button>
-
+ 
   <button class="btn btn-primary">
     <!-- <a (click)=editDrink(drink)>edit</a>  --> 
      
-     <a (click)="deleteDrink(dr.id)">delete</a>
+     <a (click)="deleteDrink(dr.id)">Panta</a>
+  </button>
+ 
+  <button class="btn btn-primary" >
+    Redigera dryck
   </button>
   <div class="row">
     <h1 class="mb-4">{{ dr.productNameBold }}</h1>
