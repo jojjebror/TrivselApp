@@ -1,3 +1,21 @@
-<p>
-  drink-detail works!
-</p>
+<div class="container mt-5 border border-light p-5" *ngIf="dr$ | async; let dr">
+  <button class="btn btn-primary" >
+    Redigera evenemang
+  </button>
+  <div class="row">
+    <h1 class="mb-4">{{ dr.category }}</h1>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+
+        <div class="card-body">
+          <div>
+            <strong>Plats:</strong>
+              <p>{{ dr.price }}</p> 
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

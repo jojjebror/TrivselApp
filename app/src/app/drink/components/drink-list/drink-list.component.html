@@ -1,12 +1,15 @@
 
-  <div *ngFor="let dr of drs">
+  <div *ngFor="let dr of drk$">
     <div class ="drinkItems">
    <h4>{{ dr.productNameBold }}</h4> 
    <p>{{dr.taste}}</p> 
    <p>{{ dr.beverageDescriptionShort}}</p>
    <p>{{ dr.price }}, {{dr.alcoholPercentage}}, {{dr.volume}} </p>
    <hr>
-    
+   <th>
+    <br>
+    <a (click)=deleteDrink(drink)>delete</a>
+  </th>
     </div>
   </div>
   
