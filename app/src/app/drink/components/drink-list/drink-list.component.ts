@@ -1,35 +1,33 @@
-import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
-import { Drink } from '../../../shared/models';
-import { Store } from '@ngrx/store';
+import { Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+
 import { AppState } from 'src/app/core/state';
-import * as fromDrinks from '../../state/drinks/drinks.actions';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Drink } from 'src/app/shared/models';
+
+import * as drinksActions from '../../state/drinks';
+import * as fromDrink from '../../state/drinks/drinks.selectors';
+
 
 @Component({
-  selector: 'ex-drink-list',
+  selector: 'ex-drink',
   templateUrl: './drink-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./drink-list.component.scss']
-  
 })
-export class DrinkListComponent {
 
-  @Input() drs: Drink[];
-  @Output() delete = new EventEmitter<Drink>();
+export class DrinkListComponent implements OnInit {
 
-  formDr: FormGroup = new FormGroup({
-    id: new FormControl('', Validators.required),
-    
-	});
+  drs$: Observable<Drink[]>;
 
   constructor(private store$: Store<AppState>) { }
 
-  onSubmit(): void {
-		let drink = this.formDr.value;
-		this.delete.emit(drink);
-    this.formDr.reset();
+  ngOnInit(): void {
+    this.initializeDrinks();
   }
 
-
-
+  private initializeDrinks(): void {
+    this.store$.dispatch(new drinksActions.LoadDrinks());
+    this.drs$ = this.store$.select(fromDrink.getDrinks);
+  }
 }

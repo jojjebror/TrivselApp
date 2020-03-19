@@ -1,36 +1,59 @@
-import { Component, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, Output, EventEmitter, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { BsLocaleService } from 'ngx-bootstrap';
+import { Store, select } from '@ngrx/store';
+import { AppState } from 'src/app/core/state';
 
 import { Drink } from '../../../shared/models';
+import * as fromDrink from '../../state/drinks/drinks.actions';
 
 @Component({
 	selector: 'ex-drink-create',
 	templateUrl: './drink-create.component.html',
-	changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class DrinkCreateComponent {
-
-	@Output() create = new EventEmitter<Drink>();
+	styleUrls: ['./drink-create.component.scss']
 	
+})
+export class DrinkCreateComponent implements OnInit {
+	@Output() 
+	cancelNewDrink = new EventEmitter();
+	drink: Drink;
+	drinkForm: FormGroup;
 
-	form: FormGroup = new FormGroup({
-    productNameBold: new FormControl('', Validators.required),
-    category: new FormControl('', Validators.required),
-    volume: new FormControl('', Validators.required),
-    price: new FormControl('', Validators.required),
-    taste: new FormControl('', Validators.required),
-    usage: new FormControl('', Validators.required),
-    alcoholPercentage: new FormControl('', Validators.required),
-    beverageDescriptionShort: new FormControl('', Validators.required)
-	});
+	constructor(private store$: Store<AppState>, 
+		private router: Router,
+		private fb: FormBuilder,
+		private localeService: BsLocaleService)
+		{
+			localeService.use('sv');
+		}
 
-	constructor() {}
-
-	onSubmit(): void {
-		let drink = this.form.value;
-		this.create.emit(drink);
-    this.form.reset();
-  
+	ngOnInit() {
+		this.createDrinkForm();
+		console.log(this.drinkForm);
 	}
 
+	createDrinkForm() {
+		this.drinkForm = this.fb.group(
+			{
+				productNameBold: ['', Validators.required],
+				price: ['', Validators.required],
+				taste: ['', Validators.required],
+				volume: ['', Validators.required],
+				category: ['', Validators.required],
+				image:['']
+			},
+		);
+	}
+
+	createDrink() {
+		if (this.drinkForm.valid)
+		{
+			this.drink = Object.assign({}, this.drinkForm.value);
+			this.store$.dispatch(new fromDrink.CreateDrink(this.drink));
+
+			this.router.navigate(['/drink']);
+		}
+	}
 }
+

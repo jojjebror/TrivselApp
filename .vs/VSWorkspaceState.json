@@ -1,6 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\app",
+    "\\app\\src",
+    "\\app\\src\\app",
+    "\\app\\src\\app\\event",
+    "\\app\\src\\app\\event\\views"
   ],
+  "SelectedNode": "\\app\\src\\app\\event\\views\\event.component.html",
   "PreviewInSolutionExplorer": false
 }

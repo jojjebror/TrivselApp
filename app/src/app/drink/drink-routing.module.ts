@@ -2,8 +2,9 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { DrinkComponent } from './views';
-import { DrinkListComponent } from './components/drink-list/drink-list.component';
+import { DrinkCreateComponent } from './components/drink-create/drink-create.component';
 import { DrinkDetailComponent } from './components/drink-detail/drink-detail.component';
+import { DrinkListComponent } from './components/drink-list/drink-list.component';
 
 export const routes: Routes = [
   {
@@ -12,14 +13,18 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        component: DrinkListComponent,
+        component: DrinkListComponent
+      },
+      {
+        path: 'create',
+        component: DrinkCreateComponent
       },
       {
         path: ':id',
         component: DrinkDetailComponent
       }
     ]
-  }  
+  }
 ];
   
 
@@ -30,3 +35,4 @@ export const routes: Routes = [
   providers: []
 })
 export class LoginRoutingModule {}
+

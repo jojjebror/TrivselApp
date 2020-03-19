@@ -1,3 +1,99 @@
+<div class="registerEventMain">
+  <form [formGroup]="drinkForm" class="border border-light p-5" (ngSubmit)="createDrink()">
+    <h3 class="text-center">Information angående dryck</h3>
+    <hr />
+
+    <div class="form-group inputWithIconTitleDescLoca">
+      <input
+        [ngClass]="{
+          'is-invalid': drinkForm.get('productNameBold').errors && drinkForm.get('productNameBold').touched
+        }"
+        class="form-control"
+        placeholder="Namn på dryck"
+        formControlName="productNameBold"
+      />
+      <div class="invalid-feedback">Du måste ange ett namn för drycken</div>
+    </div>
+
+    <div class="form-group inputWithIconTitleDescLoca" style="width: 50%;">
+      <input
+        type="number"
+        [ngClass]="{
+          'is-invalid': drinkForm.get('price').errors && drinkForm.get('price').touched
+        }"
+        class="form-control"
+        placeholder="Pris"
+        formControlName="price"
+      />
+      <div class="invalid-feedback">
+        Du måste ange ett pris
+      </div>
+    </div>
+
+    <div class="form-group inputWithIconTitleDescLoca">
+      <input
+        [ngClass]="{
+          'is-invalid': drinkForm.get('taste').errors && drinkForm.get('taste').touched
+        }"
+        class="form-control"
+        placeholder="Smak"
+        formControlName="taste"
+      />
+      <div class="invalid-feedback">
+        Beskriv smaken
+      </div>
+    </div>
+
+    <div class="form-group inputWithIconTitleDescLoca">
+      <input
+        [ngClass]="{
+          'is-invalid': drinkForm.get('volume').errors && drinkForm.get('volume').touched
+        }"
+        class="form-control"
+        placeholder="Volym ex. 33cl"
+        formControlName="volume"
+      />
+      <div class="invalid-feedback">Ange volym</div>
+    </div>
+
+    <div class="form-group inputWithIconTitleDescLoca">
+      <input
+        [ngClass]="{
+          'is-invalid': drinkForm.get('category').errors && drinkForm.get('category').touched
+        }"
+        class="form-control"
+        placeholder="Kategori"
+        formControlName="category"
+      />
+      <div class="invalid-feedback">Ange en kategori för dryck</div>
+    </div>
+
+
+
+    <div class="form-group" style="width: 50%;">
+      <input
+        type="file"
+        [ngClass]="{
+          'is-invalid': drinkForm.get('image').errors && drinkForm.get('image').touched
+        }"
+        class="form-control"
+        placeholder="Bild-url"
+        formControlName="image"
+      />
+      <div class="invalid-feedback">Du måste ange en bild-url</div>
+    </div>
+    <div class="form-group text-center">
+      <button class="btn btn-success" [disabled]="!drinkForm.valid" type="submit">
+        Skapa evenemang
+      </button>
+      <button class="btn btn-default" type="button" style="color: white;" [routerLink]="['/drink']">
+        Gå tillbaka
+      </button>
+    </div>
+  </form>
+</div>
+
+<!--
 <div class="ex-drink-create">
 	<form [formGroup]="form" (submit)="onSubmit()">
 		
@@ -11,5 +107,5 @@
     <mat-form-field> <input type="text" matInput placeholder="Beskrivning" formControlName="beverageDescriptionShort" beverageDescriptionShort="Namn"></mat-form-field>
 		
 		<button mat-button color="primary">Skapa</button>
-	</form>
-</div>
+  </form>
+</div> -->
