@@ -22,7 +22,7 @@ namespace Logic.Translators
                 Description = ev.Description,
                 Image = ev.Image,
                 Location = ev.Location,
-                StartDate = ev.StartDate.Date,
+                StartDate = ev.StartDate,
                 EndDate = ev.EndDate,
                 CreatorId = ev.CreatorId,
                 CreateDate = DateTime.Now

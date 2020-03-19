@@ -6,10 +6,8 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 
 import { Event } from 'src/app/shared/models';
-import * as fromSession from '../../../core/state/session';
 import * as fromEvent from '../../state/events/events.actions';
-import { AuthenticationService } from '../../../core/services';
-
+import { AlertifyService } from 'src/app/core/services/alertify.service';
 
 @Component({
   selector: 'ex-event-create',
@@ -19,11 +17,19 @@ import { AuthenticationService } from '../../../core/services';
 export class EventCreateComponent implements OnInit {
   @Output() cancelNewEvent = new EventEmitter();
   event: Event;
+  currentUserId: any;
   eventForm: FormGroup;
   endDateMode = false;
 
-  constructor(private store$: Store<AppState>, private router: Router, private fb: FormBuilder, private localeService: BsLocaleService) {
+  constructor(
+    private store$: Store<AppState>,
+    private router: Router,
+    private fb: FormBuilder,
+    private alertify: AlertifyService,
+    private localeService: BsLocaleService
+  ) {
     localeService.use('sv');
+    this.store$.select('session').subscribe(data => (this.currentUserId = data.user.id));
   }
 
   ngOnInit() {
@@ -43,7 +49,7 @@ export class EventCreateComponent implements OnInit {
         enddate: [''],
         endtime: [''],
         createdate: [new Date()],
-        creatorid: [1]
+        creatorid: [this.currentUserId]
       },
       { validator: this.DateValidation }
     );
@@ -51,10 +57,20 @@ export class EventCreateComponent implements OnInit {
 
   createEvent() {
     if (this.eventForm.valid) {
+      this.CheckEmptyEndDate(this.eventForm);
+
+      //Fixar problem med UTC och lokal tid när datum skickas till servern
+      this.fixDateTimeZone(this.eventForm.get('starttime').value)
+      this.fixDateTimeZone(this.eventForm.get('endtime').value);
+      this.fixDateTimeZone(this.eventForm.get('createdate').value);
+
+
       this.event = Object.assign({}, this.eventForm.value);
+
       this.store$.dispatch(new fromEvent.CreateEvent(this.event));
 
       this.router.navigate(['/event']);
+      this.alertify.success('Evenemanget har skapats');
     }
   }
 
@@ -84,4 +100,19 @@ export class EventCreateComponent implements OnInit {
       return null;
     }
   }
+
+  CheckEmptyEndDate(f: FormGroup) {
+    if (f.get('enddate').value == '') {
+      this.eventForm.controls['enddate'].setValue(new Date(0, 0, 0, 0, 0, 0, 0));
+    }
+    if (f.get('endtime').value == '') {
+      this.eventForm.controls['endtime'].setValue(new Date(0, 0, 0, 0, 0, 0, 0));
+    }
+  }
+
+  fixDateTimeZone(d: Date): Date {
+    d.setHours(d.getHours() - d.getTimezoneOffset() / 60);
+    return d;
+  }
 }
+

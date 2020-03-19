@@ -39,15 +39,16 @@ namespace Logic.Services
 
         public async Task<EventForCreateDto> Create(EventForCreateDto ev)
         {
+
             var newEvent = new Event()
             {
                 Title = ev.Title,
                 Description = ev.Description,
                 Location = ev.Location,
                 Image = ev.Image,
-                StartDate = ev.StartDate,
-                EndDate = ev.EndDate,
-                CreateDate = DateTime.Now,
+                StartDate = new DateTime(ev.StartDate.Year, ev.StartDate.Month, ev.StartDate.Day, ev.StartTime.Hour, ev.StartTime.Minute, 0),
+                EndDate = new DateTime(ev.EndDate.Year, ev.EndDate.Month, ev.EndDate.Day, ev.EndTime.Hour, ev.EndTime.Minute, 0),
+                CreateDate = ev.CreateDate,
                 CreatorId = ev.CreatorId,
             };
 
