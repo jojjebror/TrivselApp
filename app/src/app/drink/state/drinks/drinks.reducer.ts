@@ -55,6 +55,19 @@ export function reducer(state: DrinksState = initialState, action: drinksActions
       };
     }
 
+    case drinksActions.ActionTypes.UPDATE_DRINK_SUCCESS: {
+      return adapter.updateOne(action.payload, state);
+    }
+    case drinksActions.ActionTypes.UPDATE_DRINK_ERROR: {
+      return {
+        ...state,
+        entities: {},
+        loading: false,
+        loaded: false,
+        error: action.payload
+      };
+    }
+
       case drinksActions.ActionTypes.DELETE_DRINK: {
         return adapter.removeOne(action.payload, state);
       }

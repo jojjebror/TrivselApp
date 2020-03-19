@@ -6,6 +6,7 @@ import { DrinkListComponent } from './components/drink-list/drink-list.component
 import { DrinkCreateComponent } from './components/drink-create/drink-create.component';
 
 import { DrinkComponent } from './views';
+import { DrinkEditComponent } from './components/drink-edit/drink-edit.component';
 
 
 export const routes: Routes = [
@@ -20,6 +21,10 @@ export const routes: Routes = [
       {
         path: 'create',
         component: DrinkCreateComponent
+      },
+      {
+        path: 'edit',
+        component: DrinkEditComponent
       },
       {
         path: ':id',

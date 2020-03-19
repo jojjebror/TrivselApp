@@ -5,7 +5,7 @@ import { Store, select} from '@ngrx/store';
 
 import { Observable } from 'rxjs';
 import { Drink } from 'src/app/shared/models';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import * as fromDrink from '../../state/drinks';
 import * as drinksActions from '../../state/drinks';
@@ -22,7 +22,7 @@ export class DrinkDetailComponent implements OnInit {
   id: number;
 
 
-  constructor(private store$: Store<AppState>, private route: ActivatedRoute) { }
+  constructor(private store$: Store<AppState>, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.LoadDrink();
@@ -43,6 +43,7 @@ export class DrinkDetailComponent implements OnInit {
     console.log(id);
     if (confirm("Are You Sure You want to Delete the drink?")) {
       this.store$.dispatch(new drinksActions.DeleteDrink(id));
+      this.router.navigate(['/drink']);
     }
   }
 }
