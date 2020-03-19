@@ -65,12 +65,11 @@ export class LoadEventError implements Action {
 
 /*--------------CreateEvent--------------*/
 
- export class CreateEvent implements Action {
+export class CreateEvent implements Action {
   readonly type = ActionTypes.CREATE_EVENT;
 
-  constructor(public payload: Event) {
-  }
-} 
+  constructor(public payload: Event) {}
+}
 
 export class CreateEventSuccess implements Action {
   readonly type = ActionTypes.CREATE_EVENT_SUCCESS;
