@@ -60,8 +60,8 @@ updateDrink() {
   const updateDrink: Drink = {
     productNameBold: this.drinkForm.get("productNameBold").value,
     price: this.drinkForm.get("price").value,
-    taste: this.drinkForm.get("taste").value,
     volume: this.drinkForm.get("volume").value,
+    taste: this.drinkForm.get("taste").value,
     category: this.drinkForm.get("category").value,
     alcoholPercentage: "",
     usage: "",

@@ -29,7 +29,7 @@ export class DrinkResource extends ApiResource {
         return this.delete('drink/' + id);
     }
     updateDrink(dr: Drink): Observable<Drink> {
-        return this.post('drink/', dr);
+        return this.put('drink/', dr);
     }
     
 }
