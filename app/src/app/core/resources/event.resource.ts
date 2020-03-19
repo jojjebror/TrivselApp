@@ -23,7 +23,9 @@ export class EventResource extends ApiResource {
     return this.post('event', ev);
   }
 
-  updateEvent(id: number, event: Event) {
+  updateEvent(id: number, event: Event): Observable<Event> {
+    //console.log("Id:: " + id);
+    console.log("Event: " + event);
     return this.put('event/' + id, event);
   }
 }
