@@ -7,8 +7,8 @@ export class Event extends Base {
   public location: string;
   public startDate: Date;
   public startTime: Date;
-  public endDate: Date;
-  public endTime: Date;
+  public endDate?: Date;
+  public endTime?: Date;
   public createDate: Date;
   public creatorId: number;
 }

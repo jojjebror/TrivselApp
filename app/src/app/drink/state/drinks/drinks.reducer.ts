@@ -55,17 +55,19 @@ export function reducer(state: DrinksState = initialState, action: drinksActions
       };
     }
 
-      case drinksActions.ActionTypes.DeleteSuccess: {
-        return adapter.removeOne(action.drs, state);
+      case drinksActions.ActionTypes.DELETE_DRINK: {
+        return adapter.removeOne(action.payload, state);
       }
-      case drinksActions.ActionTypes.DeleteError: {
+      case drinksActions.ActionTypes.DELETE_DRINK_ERROR: {
         return {
           ...state,
-          loading: false
+          error: action.payload
         };
       }
-
-    default:
-      return state;
+  
+      default: {
+        return state;
+      }
+    }
   }
-}
+

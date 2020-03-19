@@ -24,7 +24,8 @@ export class DrinkResource extends ApiResource {
     create(dr: Drink): Observable<Drink> {
         return this.post('drink', dr);
     }
-    
-    
-    
+
+    deleteDrink(id: number): Observable<Drink> {
+        return this.delete('drink/' + id);
+    }
 }

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { Drink } from 'src/app/shared/models';
 import { ActivatedRoute } from '@angular/router';
 
-import * as fromDrink from '../../state/drinks/drinks.selectors';
+import * as fromDrink from '../../state/drinks';
 import * as drinksActions from '../../state/drinks';
 
 

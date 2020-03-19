@@ -26,6 +26,18 @@ export class DrinksEffects {
     )
   );
 
+  @Effect()
+  loadDrink$: Observable<Action> = this.actions$.pipe(
+    ofType<drinksActions.LoadDrink>(drinksActions.ActionTypes.LOAD_DRINK),
+    mergeMap((action: drinksActions.LoadDrink) =>
+      this.drinkResource.loadDrink(action.payload).pipe(
+        map((drink: Drink) => new drinksActions.LoadDrinkSuccess(drink)),
+        catchError(err => of(new drinksActions.LoadDrinkError(err)))
+      )
+    )
+  );
+
+
 @Effect()
   createDrinks$: Observable<Action> = this.actions$.pipe(
     ofType<drinksActions.CreateDrink>(drinksActions.ActionTypes.CREATE_DRINK),
@@ -38,17 +50,33 @@ export class DrinksEffects {
     )
   );
 
-  /* @Effect()
-  delete$: Observable<Action> = this.actions$.pipe(
-    ofType<drinksActions.Delete>(
-      drinksActions.ActionTypes.Delete
-    ),
-    map((action: drinksActions.Delete) => action.dr),
-    mergeMap((id:number) =>
-    this.apiResource.deleteDrink(id).pipe(
-      map(() => new drinksActions.DeleteSuccess(id)),
-      catchError(err=> of(new drinksActions.DeleteError(err)))
+  @Effect()
+  createDrink$: Observable<Action> = this.actions$.pipe(
+    ofType<drinksActions.CreateDrink>(drinksActions.ActionTypes.CREATE_DRINK),
+    map((action: drinksActions.CreateDrink) => action.payload),
+    mergeMap((drink: Drink) =>
+      this.drinkResource.create(drink).pipe(
+        map((newDrink: Drink) => new drinksActions.CreateDrinkSuccess(newDrink)),
+        catchError(err => of(new drinksActions.CreateDrinkError(err)))
       )
     )
-  ); */
+  );
+
+  /*
+
+  @Effect()
+  deleteDrink$ : Observable<Action> = this.actions$.pipe(
+    ofType<drinksActions.DeleteDrink>(
+      drinksActions.ActionTypes.DELETE_DRINK
+    ),
+    map((action: drinksActions.DeleteDrink) => action.payload),
+    mergeMap((id: number) =>
+      this.drinkResource.deleteDrink(id).pipe(
+        map(() => new drinksActions.DeleteDrinkSuccess(id)),
+        catchError(err => of(new drinksActions.DeleteDrinkError(err)))
+      )
+    )
+  );
+  */
+
 }

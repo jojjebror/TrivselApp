@@ -3,6 +3,7 @@ import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 import { Drink } from '../../../shared/models';
 
+
 export enum ActionTypes {
   LOAD_DRINKS = '[Drinks view] Load Drinks',
   LOAD_DRINKS_SUCCESS = '[API: /drink] Load Drinks success',
@@ -64,7 +65,7 @@ export class LoadDrinkError implements Action {
 }
 
 
-/*--------------CreateEvent--------------*/
+/*--------------CreateDrink--------------*/
 
 export class CreateDrink implements Action {
   readonly type = ActionTypes.CREATE_DRINK;
@@ -86,7 +87,7 @@ export class CreateDrinkError implements Action {
 }
 
 
-/*--------------UpdateEvent--------------*/
+/*--------------UpdateDrink--------------*/
 
 export class UpdateDrink implements Action {
   readonly type = ActionTypes.UPDATE_DRINK;
@@ -94,31 +95,8 @@ export class UpdateDrink implements Action {
   constructor(public payload: Drink) {}
 }
 
-<<<<<<< HEAD
-export class Delete implements Action {
-  readonly type = ActionTypes.Delete;
-
-  constructor(public dr: number) {}
-}
-
-export class DeleteSuccess implements Action {
-  readonly type = ActionTypes.DeleteSuccess;
-
-  constructor(public drs: number) {}
-}
-
-export class DeleteError implements Action {
-  readonly type = ActionTypes.DeleteError;
-
-  constructor(public drs: string) {}
-}
-
-export class CreateSuccess implements Action {
-  readonly type = ActionTypes.CreateSuccess;
-=======
 export class UpdateDrinkSuccess implements Action {
   readonly type = ActionTypes.UPDATE_DRINK_SUCCESS;
->>>>>>> 73c82f79c6f7a701b870a12ca5a42abb062a8532
 
   constructor(public payload: Update<Drink>) {}
 }
@@ -129,7 +107,7 @@ export class UpdateDrinkError implements Action {
   constructor(public payload: string) {}
 }
 
-/*--------------RemoveEvent--------------*/
+/*--------------RemoveDrink--------------*/
 
 export class DeleteDrink implements Action {
   readonly type = ActionTypes.DELETE_DRINK;
@@ -149,9 +127,7 @@ export class DeleteDrinkError implements Action {
   constructor(public payload: string) {}
 }
 
-<<<<<<< HEAD
-export type Actions = Load | LoadSuccess | LoadError | Create | CreateSuccess | CreateError | Delete | DeleteSuccess | DeleteError;
-=======
+
 export type Actions =
   | LoadDrinks
   | LoadDrinksSuccess
@@ -168,5 +144,4 @@ export type Actions =
   | DeleteDrink
   | DeleteDrinkSuccess
   | DeleteDrinkError;
-  
->>>>>>> 73c82f79c6f7a701b870a12ca5a42abb062a8532
+

@@ -29,6 +29,14 @@ namespace Logic.Database.Migrations
                 Password = _passwordHasher.HashPassword("test")
             };
 
+            var testUser1 = new User()
+            {
+                Id = 2,
+                Email = "jerker@test.se",
+                Name = "Jerker Persson",
+                Password = _passwordHasher.HashPassword("test")
+            };
+
             var testEvent1 = new Event()
             {
                 Id = 1,
@@ -82,6 +90,7 @@ namespace Logic.Database.Migrations
 
 
             context.Users.AddOrUpdate(testUser);
+            context.Users.AddOrUpdate(testUser1);
             context.Events.AddOrUpdate(testEvent1);
             context.Events.AddOrUpdate(testEvent2);
             context.Events.AddOrUpdate(testEvent3);

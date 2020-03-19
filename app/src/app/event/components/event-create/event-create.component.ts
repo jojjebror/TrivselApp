@@ -8,6 +8,8 @@ import { AppState } from 'src/app/core/state';
 import { Event } from 'src/app/shared/models';
 import * as fromSession from '../../../core/state/session';
 import * as fromEvent from '../../state/events/events.actions';
+import { AuthenticationService } from '../../../core/services';
+
 
 @Component({
   selector: 'ex-event-create',

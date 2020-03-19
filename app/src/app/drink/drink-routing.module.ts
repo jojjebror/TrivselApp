@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { DrinkComponent } from './views';
-import { DrinkCreateComponent } from './components/drink-create/drink-create.component';
 import { DrinkDetailComponent } from './components/drink-detail/drink-detail.component';
 import { DrinkListComponent } from './components/drink-list/drink-list.component';
+import { DrinkCreateComponent } from './components/drink-create/drink-create.component';
+
+import { DrinkComponent } from './views';
+
 
 export const routes: Routes = [
   {
