@@ -30,4 +30,5 @@ export class DrinkListComponent implements OnInit {
     this.store$.dispatch(new drinksActions.LoadDrinks());
     this.drs$ = this.store$.select(fromDrink.getDrinks);
   }
+
 }

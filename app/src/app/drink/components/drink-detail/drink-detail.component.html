@@ -2,6 +2,12 @@
   <button class="btn btn-primary" >
     Redigera dryck
   </button>
+
+  <button class="btn btn-primary">
+    <!-- <a (click)=editDrink(drink)>edit</a>  --> 
+     
+     <a (click)="deleteDrink(dr.id)">delete</a>
+  </button>
   <div class="row">
     <h1 class="mb-4">{{ dr.productNameBold }}</h1>
   </div>

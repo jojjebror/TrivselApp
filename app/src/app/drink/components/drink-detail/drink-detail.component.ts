@@ -19,6 +19,7 @@ import * as drinksActions from '../../state/drinks';
 })
 export class DrinkDetailComponent implements OnInit {
   dr$: Observable<Drink>;
+  id: number;
 
 
   constructor(private store$: Store<AppState>, private route: ActivatedRoute) { }
@@ -34,6 +35,14 @@ export class DrinkDetailComponent implements OnInit {
 
   private getClickedId() {
     var id = Number(this.route.snapshot.paramMap.get('id'));
+    this.id = id;
     return id;
+  }
+
+  deleteDrink(id) {
+    console.log(id);
+    if (confirm("Are You Sure You want to Delete the drink?")) {
+      this.store$.dispatch(new drinksActions.DeleteDrink(id));
+    }
   }
 }

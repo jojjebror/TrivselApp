@@ -62,7 +62,7 @@ export class DrinksEffects {
     )
   );
 
-  /*
+  
 
   @Effect()
   deleteDrink$ : Observable<Action> = this.actions$.pipe(
@@ -77,6 +77,6 @@ export class DrinksEffects {
       )
     )
   );
-  */
+  
 
 }
