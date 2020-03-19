@@ -40,5 +40,20 @@ namespace Api.Controllers
             var result = await _drinkService.Create(drink);
             return new OkObjectResult(ApiResponse.Create(result));
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDrink(int id)
+        {
+            var result = await _drinkService.DeleteDrink(id);
+            return new OkObjectResult(ApiResponse.Delete(result));
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateDrink(int id, DrinkForUpdateDto dr)
+        {
+            var result = await _drinkService.Update(id, dr);
+
+            return new OkObjectResult(ApiResponse.Create(result));
+        }
     }
 }

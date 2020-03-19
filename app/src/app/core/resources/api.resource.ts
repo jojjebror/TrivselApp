@@ -48,6 +48,7 @@ export abstract class ApiResource {
 		);
 	}
 
+
 	/**
 	 * Maps the api response to model object
 	 */

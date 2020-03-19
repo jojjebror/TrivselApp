@@ -273,6 +273,7 @@
     <Compile Include="Models\BaseDto.cs" />
     <Compile Include="Models\DrinkForDetailedDto.cs" />
     <Compile Include="Models\DrinkForListDto.cs" />
+    <Compile Include="Models\DrinkForUpdateDto.cs" />
     <Compile Include="Models\ErrorDto.cs" />
     <Compile Include="Models\EventForCreateDto.cs" />
     <Compile Include="Models\EventForDetailedDto.cs" />
@@ -287,6 +288,7 @@
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Translators\DrinkForDetailedTranslator.cs" />
     <Compile Include="Translators\DrinkForListTranslator.cs" />
+    <Compile Include="Translators\DrinkForUpdateTranslator.cs" />
     <Compile Include="Translators\EventForCreateTranslator.cs" />
     <Compile Include="Translators\EventForDetailedTranslator.cs" />
     <Compile Include="Translators\EventForListTranslator.cs" />

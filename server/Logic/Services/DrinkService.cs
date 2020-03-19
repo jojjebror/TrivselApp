@@ -57,17 +57,32 @@ namespace Logic.Services
             return DrinkForListTranslator.ToModel(dr);
         }
 
-        //public async Task<DrinkForListDto> DeleteDrink(DrinkForListDto drink, int id)
-        //{
-        //    var result = await _context.Drinks.FirstOrDefaultAsync(e => e.Id == id);
+        public async Task<DrinkForListDto> DeleteDrink(int id)
+        {
+            var result = await _context.Drinks.FirstOrDefaultAsync(e => e.Id == id);
 
-        //    _context.Drinks.Remove(result);
+            _context.Drinks.Remove(result);
 
 
 
-        //    await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-        //    return drink;
-        //}
+            return DrinkForListTranslator.ToModel(result);
+        }
+
+        public async Task<DrinkForUpdateDto> Update(int id, DrinkForUpdateDto dr)
+        {
+            var dbEvent = await _context.Drinks
+                .FirstOrDefaultAsync(e => e.Id == id);
+
+            dbEvent.ProductNameBold = dr.ProductNameBold;
+            dbEvent.Price = dr.Price;
+            dbEvent.Volume = dr.Volume;
+            dbEvent.Category = dr.Category;
+
+            await _context.SaveChangesAsync();
+
+            return DrinkForUpdateTranslator.ToModel(dbEvent);
+        }
     }
 }
