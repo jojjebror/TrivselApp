@@ -46,8 +46,8 @@ namespace Logic.Services
                 Description = ev.Description,
                 Location = ev.Location,
                 Image = ev.Image,
-                StartDate = new DateTime(ev.StartDate.Year, ev.StartDate.Month, ev.StartDate.Day, ev.StartTime.Hour, ev.StartTime.Minute, 0).ToLocalTime(),
-                EndDate = new DateTime(ev.EndDate.Year, ev.EndDate.Month, ev.EndDate.Day, ev.EndTime.Hour, ev.EndTime.Minute, 0).ToLocalTime(),
+                StartDate = new DateTime(ev.StartDate.Year, ev.StartDate.Month, ev.StartDate.Day, ev.StartTime.Hour, ev.StartTime.Minute, 0),
+                EndDate = new DateTime(ev.EndDate.Year, ev.EndDate.Month, ev.EndDate.Day, ev.EndTime.Hour, ev.EndTime.Minute, 0),
                 CreateDate = ev.CreateDate,
                 CreatorId = ev.CreatorId,
             };
