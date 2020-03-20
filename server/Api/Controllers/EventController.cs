@@ -48,5 +48,10 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
+        //public async Task<IActionResult> GetEventParticipants(int id)
+        //{
+        //    var result = await _eventServic
+        //}
+
     }
 }

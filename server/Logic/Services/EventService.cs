@@ -22,8 +22,11 @@ namespace Logic.Services
 
         public async Task<EventForDetailedDto> GetEvent(int id)
         {
-            var dbEvent = await _context.Events
-                .FirstOrDefaultAsync(e => e.Id == id);
+            //var dbEvent = await _context.Events
+            //    .FirstOrDefaultAsync(e => e.Id == id);
+
+            //var dbEvent = await _context.Events.SelectMany(ep => ep.EventParticipants.Select(u => u.User)).FirstOrDefaultAsync(e => e.Id == id);
+            var dbEvent = await _context.Events.Include(e => e.EventParticipants.Select(u => u.User)).FirstOrDefaultAsync(e => e.Id == id);
 
             var ev = EventForDetailedTranslator.ToModel(dbEvent);
 

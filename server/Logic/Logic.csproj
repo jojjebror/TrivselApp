@@ -248,6 +248,7 @@
     <Compile Include="Database\Entities\BaseEntity.cs" />
     <Compile Include="Database\Entities\Drink.cs" />
     <Compile Include="Database\Entities\Event.cs" />
+    <Compile Include="Database\Entities\EventParticipant.cs" />
     <Compile Include="Database\Entities\Example.cs" />
     <Compile Include="Database\Entities\User.cs" />
     <Compile Include="Database\Migrations\201802011317393_Google.cs" />
@@ -266,6 +267,10 @@
     <Compile Include="Database\Migrations\202003131326225_addDrink.cs" />
     <Compile Include="Database\Migrations\202003131326225_addDrink.Designer.cs">
       <DependentUpon>202003131326225_addDrink.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Migrations\202003200842494_EventParticipants.cs" />
+    <Compile Include="Database\Migrations\202003200842494_EventParticipants.Designer.cs">
+      <DependentUpon>202003200842494_EventParticipants.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Helpers\PagedList.cs" />
@@ -316,6 +321,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\Migrations\202003131326225_addDrink.resx">
       <DependentUpon>202003131326225_addDrink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202003200842494_EventParticipants.resx">
+      <DependentUpon>202003200842494_EventParticipants.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

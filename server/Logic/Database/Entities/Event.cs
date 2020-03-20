@@ -17,5 +17,7 @@ namespace Logic.Database.Entities
         public DateTime CreateDate { get; set; }
         public int CreatorId { get; set; }
         public User Creator { get; set; }
+        public virtual ICollection<EventParticipant> EventParticipants { get; set; }
+
     }
 }

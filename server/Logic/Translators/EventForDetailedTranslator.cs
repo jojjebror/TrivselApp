@@ -24,8 +24,40 @@ namespace Logic.Translators
                 Location = ev.Location,
                 StartDate = ev.StartDate,
                 EndDate = ev.EndDate,
-                CreatorId = ev.CreatorId
+                CreatorId = ev.CreatorId,
+                Users = new List<UserDto>
+                {
+                    new UserDto {
+
+                    Id = ev.EventParticipants.FirstOrDefault().User.Id,
+                    Email = ev.EventParticipants.FirstOrDefault().User.Email,
+                    Name = ev.EventParticipants.FirstOrDefault().User.Name
+                    }
+                }
             };
         }
     }
 }
+
+//new UserDto
+//{
+//    //Id = ev.EventParticipants.FirstOrDefault().User.Id,
+//    //Email = ev.EventParticipants.FirstOrDefault().User.Email,
+//    //Name = ev.EventParticipants.FirstOrDefault().User.Name
+
+//    Id = ev.EventParticipants.FirstOrDefault().User.Id,
+//    Email = ev.EventParticipants.FirstOrDefault().User.Email,
+//    Name = ev.EventParticipants.FirstOrDefault().User.Name
+
+//}
+
+
+//ev.EventParticipants.ToList().ForEach(u =>
+//                    {
+//    new UserDto
+//    {
+//        Id = u.User.Id,
+//        Email = u.User.Email,
+//        Name = u.User.Name
+//    }
+//                    })
