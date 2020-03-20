@@ -25,15 +25,25 @@ namespace Logic.Translators
                 StartDate = ev.StartDate,
                 EndDate = ev.EndDate,
                 CreatorId = ev.CreatorId,
-                Users = new List<UserDto>
-                {
-                    new UserDto {
-
-                    Id = ev.EventParticipants.FirstOrDefault().User.Id,
-                    Email = ev.EventParticipants.FirstOrDefault().User.Email,
-                    Name = ev.EventParticipants.FirstOrDefault().User.Name
+                Users = ev.EventParticipants.Select(u =>
+                    new UserDto
+                    {
+                        Id = u.User.Id,
+                        Email = u.User.Email,
+                        Name = u.User.Name
                     }
-                }
+                ).ToList()
+                
+                
+                //new List<UserDto>
+                //{
+                //    new UserDto
+                //    {
+                //        Id = ev.EventParticipants.FirstOrDefault().User.Id,
+                //        Email = ev.EventParticipants.FirstOrDefault().User.Email,
+                //        Name = ev.EventParticipants.FirstOrDefault().User.Name
+                //    }
+                //}
             };
         }
     }
