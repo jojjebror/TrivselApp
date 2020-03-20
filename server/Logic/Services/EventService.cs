@@ -25,7 +25,8 @@ namespace Logic.Services
             //var dbEvent = await _context.Events
             //    .FirstOrDefaultAsync(e => e.Id == id);
 
-            var dbEvent = await _context.Events.Include(e => e.EventParticipants.Select(u => u.User)).FirstOrDefaultAsync(e => e.Id == id);
+            var dbEvent = await _context.Events.Include(e => e.EventParticipants
+                .Select(u => u.User)).FirstOrDefaultAsync(e => e.Id == id);
 
             var ev = EventForDetailedTranslator.ToModel(dbEvent);
 

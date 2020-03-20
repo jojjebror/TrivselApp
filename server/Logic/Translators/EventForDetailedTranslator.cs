@@ -31,9 +31,7 @@ namespace Logic.Translators
                         Id = u.User.Id,
                         Email = u.User.Email,
                         Name = u.User.Name
-                    }
-                ).ToList()
-                
+                    }).ToList()              
                 
                 //new List<UserDto>
                 //{
@@ -48,26 +46,3 @@ namespace Logic.Translators
         }
     }
 }
-
-//new UserDto
-//{
-//    //Id = ev.EventParticipants.FirstOrDefault().User.Id,
-//    //Email = ev.EventParticipants.FirstOrDefault().User.Email,
-//    //Name = ev.EventParticipants.FirstOrDefault().User.Name
-
-//    Id = ev.EventParticipants.FirstOrDefault().User.Id,
-//    Email = ev.EventParticipants.FirstOrDefault().User.Email,
-//    Name = ev.EventParticipants.FirstOrDefault().User.Name
-
-//}
-
-
-//ev.EventParticipants.ToList().ForEach(u =>
-//                    {
-//    new UserDto
-//    {
-//        Id = u.User.Id,
-//        Email = u.User.Email,
-//        Name = u.User.Name
-//    }
-//                    })

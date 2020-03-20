@@ -8,24 +8,23 @@
   <div class="row">
     <div class="col-sm-4">
       <div class="card">
-
         <div class="card-body">
           <div>
             <strong>Plats:</strong>
-              <p>{{ ev.location }}</p> 
-           </div>
+            <p>{{ ev.location }}</p>
+          </div>
           <div>
             <strong>Tid:</strong>
             <p>
-              {{ ev.startDate | date: "HH:mm" }} -
-              {{ ev.endDate | date: "HH:mm" }}
+              {{ ev.startDate | date: 'HH:mm' }} -
+              {{ ev.endDate | date: 'HH:mm' }}
             </p>
           </div>
           <div>
             <strong>Datum:</strong>
             <p>
-              {{ ev.startDate | date: "dd/M" }} -
-              {{ ev.endDate | date: "dd/M/yyyy" }}
+              {{ ev.startDate | date: 'dd/M' }} -
+              {{ ev.endDate | date: 'dd/M/yyyy' }}
             </p>
           </div>
         </div>
@@ -39,14 +38,21 @@
     </div>
     <div class="col-sm-8">
       <div class="tab-panel">
-         <tabset class="member-tabset">
+        <tabset class="member-tabset">
           <tab heading="Om evenemang">
             <h4 style="font-weight: bold;">Beskrivning</h4>
             <p>{{ ev.description }}</p>
           </tab>
           <tab heading="Deltagare">
             <h4 style="font-weight: bold;">Deltagare</h4>
-            <p>Jerker</p>
+            <ul *ngIf="ev.users">
+              <li *ngFor="let u of ev.users">
+                <p class="date">
+                  {{ u.email }}
+                  {{ u.name }}
+                </p>
+              </li>
+            </ul>
           </tab>
         </tabset>
       </div>
