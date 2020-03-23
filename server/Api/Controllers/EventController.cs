@@ -44,14 +44,15 @@ namespace Api.Controllers
         public async Task<IActionResult> UpdateEvent(int id, EventForUpdateDto ev)
         {
             var result = await _eventService.Update(id , ev);
-
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
-        //public async Task<IActionResult> GetEventParticipants(int id)
-        //{
-        //    var result = await _eventServic
-        //}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _eventService.Delete(id);
+            return new OkObjectResult(ApiResponse.Delete(result));
+        }
 
     }
 }

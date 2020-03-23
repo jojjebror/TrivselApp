@@ -32,16 +32,6 @@ namespace Logic.Translators
                         Email = u.User.Email,
                         Name = u.User.Name
                     }).ToList()              
-                
-                //new List<UserDto>
-                //{
-                //    new UserDto
-                //    {
-                //        Id = ev.EventParticipants.FirstOrDefault().User.Id,
-                //        Email = ev.EventParticipants.FirstOrDefault().User.Email,
-                //        Name = ev.EventParticipants.FirstOrDefault().User.Name
-                //    }
-                //}
             };
         }
     }

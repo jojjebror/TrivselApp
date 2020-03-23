@@ -75,6 +75,24 @@ namespace Logic.Services
             return EventForUpdateTranslator.ToModel(dbEvent);
         }
 
+        public async Task<ICollection<EventForListDto>> Delete(int id)
+        {
+            var dbEvent = await _context.Events.FirstOrDefaultAsync(e => e.Id == id);
+
+            _context.Events.Remove(dbEvent);
+
+            await _context.SaveChangesAsync();
+
+            var dbEvents = await _context.Events.ToListAsync();
+
+
+            //return EventForListTranslator.ToModel(dbEvent);
+
+
+            return dbEvents.Select(EventForListTranslator.ToModel).ToList();
+        }
+
+
     }
 }
 

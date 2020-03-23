@@ -51,7 +51,7 @@ export class EventsEffects {
   updateEvent$: Observable<Action> = this.actions$.pipe(
     ofType<eventsActions.UpdateEvent>(eventsActions.ActionTypes.UPDATE_EVENT),
     map((action: eventsActions.UpdateEvent) => action.payload),
-    mergeMap((event: Event) => 
+    mergeMap((event: Event) =>
       this.eventResource.updateEvent(event.id, event).pipe(
         map(
           (updatedEvent: Event) =>
@@ -61,6 +61,18 @@ export class EventsEffects {
             })
         ),
         catchError(err => of(new eventsActions.UpdateEventError(err)))
+      )
+    )
+  );
+
+  @Effect()
+  deleteEvent$: Observable<Action> = this.actions$.pipe(
+    ofType<eventsActions.DeleteEvent>(eventsActions.ActionTypes.DELETE_EVENT),
+    map((action: eventsActions.DeleteEvent) => action.payload),
+    mergeMap((id: number) =>
+      this.eventResource.deleteEvent(id).pipe(
+        map(() => new eventsActions.DeleteEventSuccess(id)),
+        catchError(err => of(new eventsActions.DeleteEventError(err)))
       )
     )
   );
@@ -84,21 +96,4 @@ export class EventsEffects {
   ); */
 
   /*----------Framtida kodidéer nedan------------- */
-
-  /*
- 
-
-  @Effect()
-  deleteEvent$: Observable<Action> = this.actions$.pipe(
-    ofType<eventsActions.DeleteEvent>(eventsActions.ActionTypes.DELETE_EVENT
-      ),
-    map((action: eventsActions.DeleteEvent) => action.payload),
-    mergeMap((id: number) =>
-      this.eventResource.deleteEvent(id).pipe(
-        map(() => new eventsActions.DeleteEventSuccess(id)    
-        ),
-        catchError(err => of(new eventsActions.DeleteEventError(err)))
-      )
-    )
-  ); */
 }

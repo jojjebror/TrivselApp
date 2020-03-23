@@ -12,5 +12,5 @@ export class Event extends Base {
   public endTime?: Date;
   public createDate: Date;
   public creatorId: number;
-  public Users?: User[];
+  public users?: User[];
 }

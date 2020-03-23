@@ -65,6 +65,15 @@ export function reducer(state: EventsState = initialState, action: eventsActions
         error: action.payload
       };
     }
+    case eventsActions.ActionTypes.DELETE_EVENT: {
+      return adapter.removeOne(action.payload, state);
+    }
+    case eventsActions.ActionTypes.DELETE_EVENT_ERROR: {
+      return {
+        ...state,
+        error: action.payload
+      };
+    }
 
     default:
       return state;
