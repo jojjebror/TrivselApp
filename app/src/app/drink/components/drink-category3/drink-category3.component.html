@@ -1,0 +1,29 @@
+<p>
+  drink-category3 works!
+</p>
+
+<div class="container justify-content-center">
+  <h3>
+    Drycker
+  </h3>
+  <div>
+    <div class="btnCreateEvent">
+      <button class="btn btn-primary" [routerLink]="['/drink/create']">
+        Skapa ny dryck
+      </button>
+    </div>
+  </div>
+
+  <ul *ngIf="drs$">
+    <li *ngFor="let dr of (drs$ | async)" [routerLink]="['/drink', dr.id]">
+      <a class="title" [routerLink]="['/drink', dr.id]"> {{ dr.productNameBold }}</a>
+  
+      <p class="location"> Pris:  {{ dr.price}}</p>
+  
+      <p class="location"> Volym:  {{dr.volume}}</p>
+  
+      <p class ="location"> Typ:  {{dr.category}}
+  
+     <a class="btnReadMore">Läs mer</a>
+    </li>
+  </ul> 
