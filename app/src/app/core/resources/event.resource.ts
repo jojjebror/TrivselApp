@@ -24,8 +24,13 @@ export class EventResource extends ApiResource {
   }
 
   updateEvent(id: number, ev: Event): Observable<Event> {
-    //console.log("Id:: " + id);
+    //console.log("Id: " + id);
     console.log("Event: " + ev);
     return this.put('event/' + id, ev);
+  }
+
+  acceptInvite(id: number, userId: number): Observable<Event> {
+    console.log(id + " och " + userId);
+    return this.post('event/' + id + '/' + userId, {});
   }
 }

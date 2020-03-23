@@ -75,6 +75,26 @@ namespace Logic.Services
             return EventForUpdateTranslator.ToModel(dbEvent);
         }
 
+        public async Task<EventParticipant> GetInvitation(int id, int userId)
+        {
+            return await _context.EventParticipants
+                .FirstOrDefaultAsync(ep => ep.EventId == id && ep.UserId == userId);
+        }
+
+        public async Task<EventParticipant> CreateInvite(int id, int userId)
+        {
+            var ep = new EventParticipant
+            {
+                EventId = id,
+                UserId = userId,
+                Accepted = true
+            };
+
+            _context.EventParticipants.Add(ep);
+            await _context.SaveChangesAsync();
+
+            return ep;
+        }
     }
 }
 
