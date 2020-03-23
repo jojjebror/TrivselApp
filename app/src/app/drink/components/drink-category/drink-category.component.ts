@@ -19,16 +19,25 @@ import * as fromDrink from '../../state/drinks/drinks.selectors';
 export class DrinkCategoryComponent implements OnInit {
 
   drs$: Observable<Drink[]>;
+  categoryOne: boolean = false;
+  
+  
 
-  constructor(private store$: Store<AppState>) { }
+  constructor(private store$: Store<AppState>) { 
+    
 
+  }
+
+  
   ngOnInit(): void {
     this.initializeDrinks();
+
   }
 
   private initializeDrinks(): void {
     this.store$.dispatch(new drinksActions.LoadDrinks());
     this.drs$ = this.store$.select(fromDrink.getDrinks);
+    
   }
 
 }

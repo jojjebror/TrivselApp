@@ -15,7 +15,9 @@
   </div>
 
   <ul *ngIf="drs$">
-    <li *ngFor="let dr of (drs$ | async)" [routerLink]="['/drink', dr.id]">
+    <div *ngFor="let dr of (drs$ | async)" [routerLink]="['/drink', dr.id]">
+      <ng-template [ngIf]="dr.price == '20kr'" [ngIfElse]="none">
+        <div class="m">
       <a class="title" [routerLink]="['/drink', dr.id]"> {{ dr.productNameBold }}</a>
   
       <p class="location"> Pris:  {{ dr.price}}</p>
@@ -25,5 +27,13 @@
       <p class ="location"> Typ:  {{dr.category}}
   
      <a class="btnReadMore">Läs mer</a>
-    </li>
-  </ul> 
+    </div>
+      </ng-template>
+
+      <ng-template #none>
+  <p></p>
+      </ng-template>
+    
+    </div>
+  </ul>
+  </div>>
