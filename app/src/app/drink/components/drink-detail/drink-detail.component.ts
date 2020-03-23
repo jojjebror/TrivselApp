@@ -46,4 +46,8 @@ export class DrinkDetailComponent implements OnInit {
       this.router.navigate(['/drink']);
     }
   }
+
+  editDrink(drink: Drink) {
+    this.store$.dispatch(new drinksActions.LoadDrink(drink.id));
+  }
 }

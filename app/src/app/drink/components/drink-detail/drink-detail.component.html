@@ -6,9 +6,11 @@
      <a (click)="deleteDrink(dr.id)">Panta</a>
   </button>
  
-  <button class="btn btn-primary" [routerLink] ="['/drink/edit']" >
+  <button class="btn btn-primary" (click)="editDrink(dr)" [routerLink] ="['/drink/edit']" >
     Redigera dryck
   </button>
+
+  
   <div class="row">
     <h1 class="mb-4">{{ dr.productNameBold }}</h1>
   </div>

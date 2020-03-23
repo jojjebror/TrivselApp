@@ -35,6 +35,7 @@ export class DrinkEditComponent implements OnInit {
       volume: ["", Validators.required],
       image: ["", Validators.required],
       category: ["", Validators.required],
+      id: ["", Validators.required]
       
     });
   
@@ -50,7 +51,8 @@ export class DrinkEditComponent implements OnInit {
         price: currentDrink.price,
         taste: currentDrink.taste,
         volume: currentDrink.volume,
-        category: currentDrink.category
+        category: currentDrink.category,
+        id: currentDrink.id
       });
     }
   });
@@ -63,10 +65,10 @@ updateDrink() {
     volume: this.drinkForm.get("volume").value,
     taste: this.drinkForm.get("taste").value,
     category: this.drinkForm.get("category").value,
-    alcoholPercentage: "",
-    usage: "",
-    beverageDescriptionShort: "",
-    id: 21
+    alcoholPercentage: this.drinkForm.get("alcoholPercentage").value,
+    usage: this.drinkForm.get("usage").value,
+    beverageDescriptionShort: this.drinkForm.get("beverageDescriptionShort").value,
+    id: this.drinkForm.get("id").value
   };
 
   this.store$.dispatch(new drinksActions.UpdateDrink(updateDrink));
