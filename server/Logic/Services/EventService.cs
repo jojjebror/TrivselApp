@@ -69,6 +69,10 @@ namespace Logic.Services
             dbEvent.Title = ev.Title;
             dbEvent.Location = ev.Location;
             dbEvent.Description = ev.Description;
+            dbEvent.Image = ev.Image;
+            dbEvent.StartDate = new DateTime(ev.StartDate.Year, ev.StartDate.Month, ev.StartDate.Day, ev.StartTime.Hour, ev.StartTime.Minute, 0);
+            dbEvent.EndDate = new DateTime(ev.EndDate.Year, ev.EndDate.Month, ev.EndDate.Day, ev.EndTime.Hour, ev.EndTime.Minute, 0);
+
 
             await _context.SaveChangesAsync();
 

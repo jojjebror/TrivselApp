@@ -52,7 +52,7 @@ export class EventsEffects {
     ofType<eventsActions.UpdateEvent>(eventsActions.ActionTypes.UPDATE_EVENT),
     map((action: eventsActions.UpdateEvent) => action.payload),
     mergeMap((event: Event) =>
-      this.eventResource.updateEvent(event.id, event).pipe(
+      this.eventResource.updateEvent(event).pipe(
         map(
           (updatedEvent: Event) =>
             new eventsActions.UpdateEventSuccess({
@@ -76,24 +76,4 @@ export class EventsEffects {
       )
     )
   );
-
-  /* @Effect()
-  updateEvent$: Observable<Action> = this.actions$.pipe(
-    ofType<eventsActions.UpdateEvent>(eventsActions.ActionTypes.UPDATE_EVENT),
-    map((action: eventsActions.UpdateEvent) => action.payload),
-    mergeMap((event: Event) =>
-      this.eventResource.updateEvent(event.id, event).pipe(
-        map(
-          (updateEvent: Event) =>
-            new eventsActions.UpdateEventSuccess({
-              id: updateEvent.id,
-              changes: updateEvent
-            })
-        ),
-        catchError(err => of(new eventsActions.UpdateEventError(err)))
-      )
-    )
-  ); */
-
-  /*----------Framtida kodidéer nedan------------- */
 }
