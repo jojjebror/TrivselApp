@@ -54,5 +54,18 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Delete(result));
         }
 
+        [HttpPost("{id}/{userId}")]
+        public async Task<IActionResult> AcceptInvitation(int id, int userId)
+        {
+            var accepted = await _eventService.GetInvitation(id, userId);
+
+            if (accepted != null)
+                return BadRequest("Already accepted");
+
+            var result = await _eventService.CreateInvite(id, userId);
+
+            return new OkObjectResult(ApiResponse.Create(result));
+        }
+
     }
 }
