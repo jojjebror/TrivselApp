@@ -40,7 +40,7 @@ export class EventsEffects {
     ofType<eventsActions.CreateEvent>(eventsActions.ActionTypes.CREATE_EVENT),
     map((action: eventsActions.CreateEvent) => action.payload),
     mergeMap((event: Event) =>
-      this.eventResource.create(event).pipe(
+      this.eventResource.createEvent(event).pipe(
         map((newEvent: Event) => new eventsActions.CreateEventSuccess(newEvent)),
         catchError(err => of(new eventsActions.CreateEventError(err)))
       )

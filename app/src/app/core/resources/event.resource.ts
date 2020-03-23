@@ -19,13 +19,13 @@ export class EventResource extends ApiResource {
     return this.get('event/' + id);
   }
 
-  create(ev: Event): Observable<Event> {
+  createEvent(ev: Event): Observable<Event> {
     return this.post('event', ev);
   }
 
-  updateEvent(id: number, event: Event): Observable<Event> {
+  updateEvent(id: number, ev: Event): Observable<Event> {
     //console.log("Id:: " + id);
-    console.log("Event: " + event);
-    return this.put('event/' + id, event);
+    console.log("Event: " + ev);
+    return this.put('event/' + id, ev);
   }
 }
