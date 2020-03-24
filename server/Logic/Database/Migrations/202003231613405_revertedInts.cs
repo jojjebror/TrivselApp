@@ -7,7 +7,7 @@ namespace Logic.Database.Migrations
     {
         public override void Up()
         {
-            AlterColumn("dbo.Drinks", "AlcoholPercentage", c => c.Double(nullable: false));
+            AlterColumn("dbo.Drinks", "AlcoholPercentage", c => c.Int(nullable: false));
             AlterColumn("dbo.Drinks", "Volume", c => c.Int(nullable: false));
             AlterColumn("dbo.Drinks", "Price", c => c.Int(nullable: false));
             DropColumn("dbo.Drinks", "ProductId");

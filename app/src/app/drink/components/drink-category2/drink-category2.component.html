@@ -1,39 +1,40 @@
 <p>
-  drink-category2 works!
+  drink-category works!
 </p>
 
 <div class="container justify-content-center">
-  <h3>
-    Drycker
-  </h3>
-  <div>
-    <div class="btnCreateEvent">
-      <button class="btn btn-primary" [routerLink]="['/drink/create']">
-        Skapa ny dryck
-      </button>
+    <h3>
+      Drycker
+    </h3>
+    <div>
+      <div class="btnCreateEvent">
+        <button class="btn btn-primary" [routerLink]="['/drink/create']">
+          Skapa ny dryck
+        </button>
+      </div>
     </div>
-  </div>
 
-  <ul *ngIf="drs$">
-    <div *ngFor="let dr of (drs$ | async)" [routerLink]="['/drink', dr.id]">
-      <ng-template [ngIf]="dr.price == '20kr'" [ngIfElse]="none">
-        <div class="m">
-      <a class="title" [routerLink]="['/drink', dr.id]"> {{ dr.productNameBold }}</a>
   
-      <p class="location"> Pris:  {{ dr.price}}</p>
-  
-      <p class="location"> Volym:  {{dr.volume}}</p>
-  
-      <p class ="location"> Typ:  {{dr.category}}
-  
-     <a class="btnReadMore">Läs mer</a>
-    </div>
-      </ng-template>
-
-      <ng-template #none>
-  <p></p>
-      </ng-template>
+    <ul *ngIf="drs$">
+      <div *ngFor="let dr of (drs$ | async)" [routerLink]="['/drink', dr.id]">
+        <ng-template [ngIf]="dr.price == 20" [ngIfElse]="none">
+          <div class="m">
+        <a class="title" [routerLink]="['/drink', dr.id]"> {{ dr.productNameBold }}</a>
     
+        <p class="location"> Pris:  {{ dr.price}}kr</p>
+    
+        <p class="location"> Volym:  {{dr.volume}}cl</p>
+    
+        <p class ="location"> Typ:  {{dr.category}}
+    
+       <a class="btnReadMore">Läs mer</a>
+      </div>
+        </ng-template>
+  
+        <ng-template #none>
+    <p></p>
+        </ng-template>
+      
+      </div>
+    </ul>
     </div>
-  </ul>
-  </div>>

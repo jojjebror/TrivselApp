@@ -80,7 +80,7 @@ namespace Logic.Database.Migrations
                 Id = 1,
                 ProductNameBold = "Carlsberg Hof",
                 Category = "Öl",
-                AlcoholPercentage = 4.2,
+                AlcoholPercentage = 4,
                 Volume = 50,
                 Price = 16,
                 Taste = "Standard ljus öl, rätt svag",

@@ -267,9 +267,9 @@
     <Compile Include="Database\Migrations\202003131326225_addDrink.Designer.cs">
       <DependentUpon>202003131326225_addDrink.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\Migrations\202003231450258_revertedInts.cs" />
-    <Compile Include="Database\Migrations\202003231450258_revertedInts.Designer.cs">
-      <DependentUpon>202003231450258_revertedInts.cs</DependentUpon>
+    <Compile Include="Database\Migrations\202003231613405_revertedInts.cs" />
+    <Compile Include="Database\Migrations\202003231613405_revertedInts.Designer.cs">
+      <DependentUpon>202003231613405_revertedInts.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Init.cs" />
@@ -318,8 +318,8 @@
     <EmbeddedResource Include="Database\Migrations\202003131326225_addDrink.resx">
       <DependentUpon>202003131326225_addDrink.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Database\Migrations\202003231450258_revertedInts.resx">
-      <DependentUpon>202003231450258_revertedInts.cs</DependentUpon>
+    <EmbeddedResource Include="Database\Migrations\202003231613405_revertedInts.resx">
+      <DependentUpon>202003231613405_revertedInts.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

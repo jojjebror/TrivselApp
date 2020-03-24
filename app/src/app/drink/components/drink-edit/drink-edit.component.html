@@ -1,21 +1,101 @@
-<div class="mt-4">
-  <h3>Edit Customer</h3>
-  <form [formGroup]="drinkForm" (submit)="updateDrink()" class="form-inline mb-4">
 
-    <label class="sr-only" for="Name">Name</label>
-    <div class="input-group mb-2 mr-sm-2">
-      <input type="text" class="form-control" formControlName="productNameBold">
-      <input type="text" class="form-control" formControlName="price">
-      <input type="text" class="form-control" formControlName="taste">
-      <input type="text" class="form-control" formControlName="volume">
-      <input type="text" class="form-control" formControlName="category">
-      <input type="text" class="form-control" formControlName="id">
-      
-      
+<div class="container mt-5 border border-light p-5">
+  
+  <form [formGroup]="drinkEditForm" (ngSubmit)="updateDrink()"> 
+    <button [disabled]="!drinkEditForm.dirty" type="submit" class="btn btn-success">
+      Spara ändringar
+    </button>
+    <div class="card">
+      <div class="card-body">
+        <div>
+          <a>Namn</a>
+          <input
+            type="text"
+            [ngClass]="{
+              'is-invalid': drinkEditForm.get('productNameBold').errors && drinkEditForm.get('productNameBold').touched
+            }"
+            class="form-control"
+            placeholder="Namn på dryck"
+            formControlName="productNameBold"
+          />
+          <div class="invalid-feedback">
+            Du måste ange ett namn för drycken!
+          </div>
+        </div>
+       
+      <div class="card-footer">
+      </div>
     </div>
-
-    <button type="submit" class="btn btn-primary mb-2">Update Customer</button>
-
-  </form>
+  </div>
+    <div class="card">
+      <div class="card-body">
+        <div>
+          <a>Pris</a>
+          <input
+            type="number"
+            [ngClass]="{
+              'is-invalid': drinkEditForm.get('price').errors && drinkEditForm.get('price').touched
+            }"
+            class="form-control"
+            placeholder="Pris, 10, 20 eller 30"
+            formControlName="price"
+          />
+          <div class="invalid-feedback">
+            Du måste ange ett pris för drycken!
+          </div>
+        </div>
+       
+      <div class="card-footer">
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div>
+        <a>Volym</a>
+        <input
+          type="number"
+          [ngClass]="{
+            'is-invalid': drinkEditForm.get('volume').errors && drinkEditForm.get('volume').touched
+          }"
+          class="form-control"
+          placeholder="Volym i cl"
+          formControlName="volume"
+        />
+        <div class="invalid-feedback">
+          Du måste ange dryckens volym!
+        </div>
+      </div>
+     
+    <div class="card-footer">
+    </div>
+  </div>
 </div>
-
+    <div class="row">
+      <div class="col-sm-4">
+        
+      <div class="card">
+        <div class="card-body">
+          <div>
+            <a>Kategori</a>
+            <input
+              type="text"
+              [ngClass]="{
+                'is-invalid': drinkEditForm.get('category').errors && drinkEditForm.get('category').touched
+              }"
+              class="form-control"
+              placeholder="T.ex. öl, vin, cider.."
+              formControlName="category"
+            />
+            <div class="invalid-feedback">
+              Du måste ange en kategori för drycken!
+            </div>
+          </div>
+         
+        <div class="card-footer">
+        </div>
+      </div>
+    </div>
+    </div>
+  
+</div>

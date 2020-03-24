@@ -16,13 +16,13 @@
 
   <ul *ngIf="drs$">
     <div *ngFor="let dr of (drs$ | async)" [routerLink]="['/drink', dr.id]">
-      <ng-template [ngIf]="dr.price == '30kr'" [ngIfElse]="none">
+      <ng-template [ngIf]="dr.price == 30" [ngIfElse]="none">
         <div class="m">
       <a class="title" [routerLink]="['/drink', dr.id]"> {{ dr.productNameBold }}</a>
   
-      <p class="location"> Pris:  {{ dr.price}}</p>
+      <p class="location"> Pris:  {{ dr.price}}kr</p>
   
-      <p class="location"> Volym:  {{dr.volume}}</p>
+      <p class="location"> Volym:  {{dr.volume}}cl</p>
   
       <p class ="location"> Typ:  {{dr.category}}
   

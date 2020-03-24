@@ -10,7 +10,7 @@ namespace Logic.Database.Entities
     {
         public string ProductNameBold { get; set; }
         public string Category { get; set; }
-        public double AlcoholPercentage { get; set; }
+        public int AlcoholPercentage { get; set; }
         public int Volume { get; set; }
         public int Price { get; set; }
         public string Usage { get; set; }
