@@ -25,7 +25,7 @@ export abstract class ApiResource {
 
          protected put<T>(url: string, data: any): Observable<T> {
            return this.http
-             .put(`${this.baseUrl}/${url}`, JSON.stringify(data), this.createOptions())
+             .put<T>(`${this.baseUrl}/${url}`, JSON.stringify(data), this.createOptions())
              .pipe(map(this.mapResponse), catchError(this.mapError));
          }
 

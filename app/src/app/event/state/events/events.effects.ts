@@ -76,4 +76,16 @@ export class EventsEffects {
       )
     )
   );
+
+  @Effect()
+  addUserEvent$: Observable<Action> = this.actions$.pipe(
+    ofType<eventsActions.AddUserEvent>(eventsActions.ActionTypes.ADD_USER_EVENT),
+    map((action: eventsActions.AddUserEvent) => action.payload),
+    mergeMap((data: number[]) =>
+      this.eventResource.acceptInvite(data).pipe(
+        map(() => new eventsActions.AddUserEventSuccess(data)),
+        catchError(err => of(new eventsActions.AddUserEventError(err)))
+      )
+    )
+  );
 }

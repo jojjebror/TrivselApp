@@ -25,7 +25,6 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     private store$: Store<AppState>,
     private alertify: AlertifyService,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
     private router: Router
   ) {
     this.store$.select('session').subscribe(data => (this.currentUserId = data.user.id));
@@ -45,7 +44,6 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   }
 
   deleteEvent(id: number) {
-    console.log(id);
     if (confirm('Vill du verkligen ta bort evenemanget?')) {
       this.store$.dispatch(new eventActions.DeleteEvent(id));
       this.router.navigate(['/event']);
@@ -53,7 +51,10 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  acceptInvite() {}
+  acceptInvite(id: number) {
+    var data = [id, this.currentUserId];
+    this.store$.dispatch(new eventActions.AddUserEvent(data));
+  }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();

@@ -57,6 +57,8 @@ export class EventCreateComponent implements OnInit {
 
   createEvent() {
     if (this.eventForm.valid) {
+    console.log(this.eventForm)
+
       this.CheckEmptyEndDate(this.eventForm);
 
       //Fixar problem med UTC och lokal tid när datum skickas till servern

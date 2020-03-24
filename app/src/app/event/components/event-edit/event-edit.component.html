@@ -11,7 +11,7 @@
         [ngClass]="{
           'is-invalid': eventEditForm.get('title').errors && eventEditForm.get('title').touched
         }"
-        class="form-control"
+        class="form-control title"
         placeholder="Titel på evenemang"
         formControlName="title"
       />
@@ -39,10 +39,10 @@
             <div>
               <strong>Tid:</strong>
               <div class="form-group col-md-4 mt-2">
-                <timepicker formControlName="starttime" [showMeridian]="false" [showSpinners]="false"> </timepicker>
+                <timepicker formControlName="starttime" class="timepick" [showMeridian]="false" [showSpinners]="false"> </timepicker>
               </div>
               <div class="form-group col-md-4">
-                <timepicker formControlName="endtime" [showMeridian]="false" [showSpinners]="false"> </timepicker>
+                <timepicker formControlName="endtime" class="timepick" [showMeridian]="false" [showSpinners]="false"> </timepicker>
               </div>
             </div>
             <div>
@@ -83,6 +83,7 @@
             <tab heading="Om evenemang">
               <h4 style="font-weight: bold;">Beskrivning</h4>
               <textarea
+                id="description"
                 [ngClass]="{
                   'is-invalid': eventEditForm.get('description').errors && eventEditForm.get('description').touched
                 }"

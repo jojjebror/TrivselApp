@@ -22,7 +22,11 @@ export enum ActionTypes {
 
   DELETE_EVENT = '[Events view] Delete Event',
   DELETE_EVENT_SUCCESS = '[API: /event] Delete Event success',
-  DELETE_EVENT_ERROR = '[API: /event] Delete Event error'
+  DELETE_EVENT_ERROR = '[API: /event] Delete Event error',
+
+  ADD_USER_EVENT = '[Events view] Add User Event',
+  ADD_USER_EVENT_SUCCESS = '[API: /Event] Add User Event success',
+  ADD_USER_EVENT_ERROR = '[API: /event] Add User Event error'
 }
 
 /*--------------LoadAllEvents--------------*/
@@ -123,6 +127,25 @@ export class DeleteEventError implements Action {
   constructor(public payload: string) {}
 }
 
+/*--------------AddUserToEvent--------------*/
+
+export class AddUserEvent implements Action {
+  readonly type = ActionTypes.ADD_USER_EVENT;
+
+  constructor(public payload: number[]) {}
+}
+
+export class AddUserEventSuccess implements Action {
+  readonly type = ActionTypes.ADD_USER_EVENT_SUCCESS;
+
+  constructor(public payload: number[]) {}
+}
+
+export class AddUserEventError implements Action {
+  readonly type = ActionTypes.ADD_USER_EVENT_ERROR;
+
+  constructor(public payload: string) {}
+}
 export type Actions =
   | LoadEvents
   | LoadEventsSuccess
@@ -138,4 +161,7 @@ export type Actions =
   | UpdateEventError
   | DeleteEvent
   | DeleteEventSuccess
-  | DeleteEventError;
+  | DeleteEventError
+  | AddUserEvent
+  | AddUserEventSuccess
+  | AddUserEventError;
