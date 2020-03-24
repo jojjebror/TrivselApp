@@ -15,19 +15,7 @@
     text-align: center;
     color: white;
   }
-  
- /*  ul {
-    list-style-type: none;
-    flex-direction: column;
-    margin-right: 10;
-    padding: 1em;
-    display: flex;
-    flex-wrap: wrap;
-    width: 32.3%;
-    background: rgb(37, 2, 48);
-    margin-bottom: 1em;
-    
-  } */
+
 
   .m {
     background: rgb(37, 2, 48);
@@ -38,14 +26,22 @@
     margin-bottom: 1em;
     display: flex;
     flex-direction: column;
+    border-radius: 10px;
     float: left;
+  }
+  
+  
+  
+  ul {
     list-style-type: none;
     margin-left: auto;
     margin-right: auto;
-    display: flex;
+    padding: 0;
+    display: inline-flexbox;
     flex-wrap: wrap;
+    width: 1000px;
+    
   }
-  
   
   /* li {
     background: rgb(37, 2, 48);
@@ -54,9 +50,11 @@
     width: 32.3%;
     height: 200px;
     margin-bottom: 1em;
-    display: flex;
+    display: inline-table;
     flex-direction: column;
+    border-radius: 10px;
     float: left;
+    
   } */
   
   p {
@@ -98,7 +96,7 @@
     text-overflow: ellipsis;
   }
   
-  .btnCreateEvent {
+  .btnCreateDrink {
     float: right;
     margin: 18px;
     margin-right: 45px;

@@ -1,6 +1,3 @@
-<p>
-  drink-category3 works!
-</p>
 
 <div class="container justify-content-center">
   <h3>
@@ -14,8 +11,9 @@
     </div>
   </div>
 
+
   <ul *ngIf="drs$">
-    <div *ngFor="let dr of (drs$ | async)" [routerLink]="['/drink', dr.id]">
+    <li *ngFor="let dr of (drs$ | async)" [routerLink]="['/drink', dr.id]">
       <ng-template [ngIf]="dr.price == 30" [ngIfElse]="none">
         <div class="m">
       <a class="title" [routerLink]="['/drink', dr.id]"> {{ dr.productNameBold }}</a>
@@ -34,6 +32,6 @@
   <p></p>
       </ng-template>
     
-    </div>
+    </li>
   </ul>
   </div>
