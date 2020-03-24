@@ -23,7 +23,7 @@
         }"
         type="number"
         class="form-control"
-        placeholder="Pris"
+        placeholder="Pris, 10, 20 eller 30kr"
         formControlName="price"
       />
       <div class="invalid-feedback">
@@ -37,7 +37,7 @@
           'is-invalid': drinkForm.get('taste').errors && drinkForm.get('taste').touched
         }"
         class="form-control"
-        placeholder="Smak"
+        placeholder="Beskriv dryckens smak!"
         formControlName="taste"
       />
       <div class="invalid-feedback">
@@ -64,7 +64,7 @@
           'is-invalid': drinkForm.get('category').errors && drinkForm.get('category').touched
         }"
         class="form-control"
-        placeholder="Kategori"
+        placeholder="Kategori, t.ex. öl, vin, cider"
         formControlName="category"
       />
       <div class="invalid-feedback">Ange en kategori för dryck</div>
