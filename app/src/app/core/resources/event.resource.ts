@@ -28,7 +28,7 @@ export class EventResource extends ApiResource {
   }
 
   updateEvent(ev: Event): Observable<Event> {
-    return this.patch<Event>('event/'+ ev.id, ev);
+    return this.put<Event>('event/'+ ev.id, ev);
   }
 
   acceptInvite(id: number, userId: number): Observable<Event> {

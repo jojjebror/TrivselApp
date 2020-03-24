@@ -29,12 +29,6 @@ export abstract class ApiResource {
              .pipe(map(this.mapResponse), catchError(this.mapError));
          }
 
-         protected patch<T>(url: string, data: any): Observable<T> {
-           return this.http
-             .patch(`${this.baseUrl}/${url}`, JSON.stringify(data), this.createOptions())
-             .pipe(map(this.mapResponse), catchError(this.mapError));
-         }
-
          protected post<T>(url: string, data: any): Observable<T> {
            return this.http
              .post<T>(`${this.baseUrl}/${url}`, JSON.stringify(data), this.createOptions())

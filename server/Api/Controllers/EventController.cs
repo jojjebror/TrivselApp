@@ -40,7 +40,7 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
-        [HttpPatch("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEvent(int id, [FromBody]EventForUpdateDto ev)
         {
             var result = await _eventService.Update(id , ev);

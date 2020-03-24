@@ -1,13 +1,5 @@
-<p>
-  event-edit works!
-</p>
 
 <div class="container mt-5 border border-light p-5">
-  <!-- <button class="btn btn-primary" [routerLink]="['/event/edit', ev.id]">
-    Redigera evenemang
-  </button> -->
-<!--    <button (click)="updateEvent()">Tryck</button>
- -->
   
   <form [formGroup]="eventEditForm" (ngSubmit)="updateEvent()"> 
     <button [disabled]="!eventEditForm.dirty" type="submit" class="btn btn-success">
@@ -24,7 +16,6 @@
         formControlName="title"
       />
       <div class="invalid-feedback">Du måste ange en titel för evenemanget</div>
-      <!-- <h1 class="mb-4">{{ ev.title }}</h1> -->
     </div>
     <div class="row">
       <div class="col-sm-4">
@@ -44,7 +35,6 @@
               <div class="invalid-feedback">
                 Du måste ange en plats för evenemanget
               </div>
-              <!-- <p>{{ ev.location }}</p> -->
             </div>
             <div>
               <strong>Tid:</strong>
@@ -54,10 +44,6 @@
               <div class="form-group col-md-4">
                 <timepicker formControlName="endtime" [showMeridian]="false" [showSpinners]="false"> </timepicker>
               </div>
-              <!-- <p>
-                {{ ev.startTime | date: 'HH:mm' }} -
-                {{ ev.endTime | date: 'HH:mm' }}
-              </p> -->
             </div>
             <div>
               <strong>Datum:</strong>
@@ -85,17 +71,9 @@
                 placeholder="Slutdatum"
                 formControlName="enddate"
               />
-              <!-- <p>
-                {{ ev.startDate | date: 'dd/M' }} -
-                {{ ev.endDate | date: 'dd/M/yyyy' }}
-              </p> -->
             </div>
           </div>
           <div class="card-footer">
-            <div class="btn-group d-flex">
-              <button class="btn btn-success w-100">Delta</button>
-              <button class="btn btn-danger w-100">Avböj</button>
-            </div>
           </div>
         </div>
       </div>
@@ -115,7 +93,6 @@
               <div class="invalid-feedback">
                 Du måste ange en beskrivning för evenemanget
               </div>
-              <!-- <p>{{ ev.description }}</p> -->
             </tab>
             <tab heading="Deltagare">
               <h4 style="font-weight: bold;">Deltagare</h4>
