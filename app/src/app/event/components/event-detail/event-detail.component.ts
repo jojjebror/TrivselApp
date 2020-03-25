@@ -2,11 +2,11 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestro
 
 import { AppState } from 'src/app/core/state';
 import { Store, select } from '@ngrx/store';
-import * as fromEvent from '../../state/events';
+import * as fromEvents from '../../state/events';
 import { Observable, Subscription } from 'rxjs';
 import { Event } from 'src/app/shared/models';
 
-import * as eventActions from '../../state/events';
+//import * as eventActions from '../../state/events';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertifyService } from 'src/app/core/services/alertify.service';
 
@@ -19,6 +19,7 @@ import { AlertifyService } from 'src/app/core/services/alertify.service';
 export class EventDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   ev$: Observable<Event>;
+  eventUsers: any;
   currentUserId: any;
 
   constructor(
@@ -37,15 +38,18 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   private loadEvent(): void {
     this.subscription = this.route.params.subscribe(params => {
       const id = params['id'];
-      this.store$.dispatch(new eventActions.LoadEvent(+id));
-    });
+      this.store$.dispatch(new fromEvents.LoadEvent(+id));
 
-    this.ev$ = this.store$.pipe(select(fromEvent.getCurrentEvent));
+      this.ev$ = this.store$.pipe(select(fromEvents.getCurrentEvent));
+      this.store$.select(fromEvents.getCurrentUsers).subscribe(data => {
+        this.eventUsers = data;
+      });
+    });
   }
 
   deleteEvent(id: number) {
     if (confirm('Vill du verkligen ta bort evenemanget?')) {
-      this.store$.dispatch(new eventActions.DeleteEvent(id));
+      this.store$.dispatch(new fromEvents.DeleteEvent(id));
       this.router.navigate(['/event']);
       this.alertify.message('Evenemanget togs bort');
     }
@@ -53,7 +57,10 @@ export class EventDetailComponent implements OnInit, OnDestroy {
 
   acceptInvite(id: number) {
     var data = [id, this.currentUserId];
-    this.store$.dispatch(new eventActions.AddUserEvent(data));
+    this.store$.dispatch(new fromEvents.AddUserEvent(data));
+
+    this.loadEvent();
+
   }
 
   ngOnDestroy() {

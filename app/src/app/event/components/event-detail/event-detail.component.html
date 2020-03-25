@@ -1,4 +1,4 @@
-<div class="container mt-5 border border-light p-5" *ngIf="ev$ | async; let ev">
+ <div class="container mt-5 border border-light p-5" *ngIf="ev$ | async; let ev"> 
   <button class="btn btn-primary" [routerLink]="['/event/edit', ev.id]">
     Redigera evenemang
   </button>
@@ -44,27 +44,17 @@
         <tabset class="member-tabset">
           <tab heading="Om evenemang">
             <h4 style="font-weight: bold;">Beskrivning</h4>
-             <p>{{ ev.description }}</p>
-              <ul *ngIf="ev.users"> 
-               <li *ngFor="let item of ev.users">
-                <p>
-                  {{ item.email }}
-                  {{ item.name }} 
-                </p>
-              </li>
-               </ul> 
-             
+             <p>{{ ev.description }}</p>             
           </tab>
           <tab heading="Deltagare">
             <h4 style="font-weight: bold;">Deltagare</h4>
-           <!--  <ul *ngIf="ev$ | async; let ev">
-              <li *ngFor="let u of ev.users">
-                <p>
-                  {{ u.email }}
-                  {{ u.name }}
-                </p>
-              </li>
-            </ul> -->
+          <ul>
+            <li *ngFor="let user of eventUsers">
+              <p>
+                {{ user.name }}
+              </p>
+            </li>
+          </ul>
           </tab>
         </tabset>
       </div>
