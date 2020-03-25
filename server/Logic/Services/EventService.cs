@@ -40,7 +40,7 @@ namespace Logic.Services
             return dbEvents.Select(EventForListTranslator.ToModel).ToList();
         }
 
-        public async Task<EventForCreateDto> Create(EventForCreateDto ev)
+        public async Task<EventForCreateDto> CreateEvent(EventForCreateDto ev)
         {
 
             var newEvent = new Event()
@@ -61,7 +61,7 @@ namespace Logic.Services
             return EventForCreateTranslator.ToModel(newEvent);
         }
 
-        public async Task<EventForUpdateDto> Update(int id, EventForUpdateDto ev)
+        public async Task<EventForUpdateDto> UpdateEvent(int id, EventForUpdateDto ev)
         {
             var dbEvent = await _context.Events
                 .FirstOrDefaultAsync(e => e.Id == id);
@@ -79,7 +79,7 @@ namespace Logic.Services
             return EventForUpdateTranslator.ToModel(dbEvent);
         }
 
-        public async Task<ICollection<EventForListDto>> Delete(int id)
+        public async Task<ICollection<EventForListDto>> DeleteEvent(int id)
         {
             var dbEvent = await _context.Events.FirstOrDefaultAsync(e => e.Id == id);
 

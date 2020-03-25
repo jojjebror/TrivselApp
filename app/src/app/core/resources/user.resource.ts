@@ -17,4 +17,8 @@ export class UserResource extends ApiResource {
 		return this.get('user/authenticated');
 	}
 
+	getUsers(): Observable<User[]> {
+		return this.get('user');
+	}
+
 }
