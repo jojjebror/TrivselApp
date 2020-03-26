@@ -1,4 +1,3 @@
-
 <div class="container justify-content-center">
   <h3>
     Kommande evenemang
@@ -21,9 +20,31 @@
       />
       <i class="material-icons">search</i>
     </div> -->
-
   </div>
-  <ul *ngIf="evs$">
+
+  <div class="mat-card-demo" *ngFor="let ev of evs$ | async">
+    <mat-card>
+      <mat-card-header>
+        <div mat-card-avatar></div>
+        <mat-card-title style="color: white;">{{ ev.title }}</mat-card-title>
+        <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+      </mat-card-header>
+      <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+      <mat-card-content>
+        <p>{{ ev.startDate | date: 'd MMM, y' }}</p>
+        <p>
+          <i class="material-icons">&#xe916;</i>
+          {{ ev.location }}
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button style="color: white;" mat-button [routerLink]="['/event', ev.id]">Läs mer</button>
+        <!--  <button mat-button>SHARE</button> -->
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- <ul *ngIf="evs$">
     <li *ngFor="let ev of (evs$ | async)" [routerLink]="['/event', ev.id]">
       <a class="title" [routerLink]="['/event', ev.id]"> {{ ev.title }}</a>
 
@@ -36,7 +57,7 @@
 
       <a [routerLink]="['/event', ev.id]" class="btnReadMore">Läs mer</a>
     </li>
-  </ul>
+  </ul> -->
 </div>
 
 <!-- <div class="d-flex justify-content-center">

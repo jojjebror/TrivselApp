@@ -1,5 +1,5 @@
 /* Clear floats after the columns */
-.row:after {
+/* .row:after {
   content: "";
   display: table;
   clear: both;
@@ -122,4 +122,19 @@ input[type="text"] {
 
 li {
   cursor: pointer;
+} */
+
+.mat-card-demo {
+  display: flex;
+  
+  
+  
+  margin-right: 10px;
+  float:left;
+}
+
+.mat-card {
+
+  background-color: rgb(37, 2, 48); 
+  color: white;
 }
