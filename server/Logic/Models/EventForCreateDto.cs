@@ -18,5 +18,6 @@ namespace Logic.Models
         public DateTime EndTime { get; set; }
         public DateTime CreateDate { get; set; }
         public int CreatorId { get; set; }
+        public ICollection<UserDto> Users { get; set; }
     }
 }

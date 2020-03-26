@@ -83,3 +83,11 @@ textarea {
 .mat-list-option {
   color: white;
 }
+.mat-pseudo-checkbox {
+    color: white !important;
+}
+
+::ng-deep .mat-pseudo-checkbox {
+    //background: grey;
+    color: white;
+}

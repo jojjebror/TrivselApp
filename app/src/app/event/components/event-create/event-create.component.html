@@ -113,11 +113,14 @@
       </div>
     </div>
 
-    <mat-selection-list>
-      <mat-list-option *ngFor="let user of users$ | async">
+    <mat-selection-list class="form-group" #selectedUsers formControlName="users">
+      <mat-list-option *ngFor="let user of users$ | async" [value]="user">
         {{user.name}}
       </mat-list-option>
     </mat-selection-list>
+    <p>
+      Antal deltagare: {{selectedUsers.selectedOptions.selected.length}}
+    </p>
 
     <div class="form-group text-center">
       <button class="btn btn-success" [disabled]="!eventForm.valid" type="submit">
