@@ -55,6 +55,17 @@ export function reducer(state: EventsState = initialState, action: eventsActions
       };
     }
 
+    case eventsActions.ActionTypes.UPDATE_EVENT_SUCCESS: {
+      return adapter.updateOne(action.payload, state);
+    }
+
+    case eventsActions.ActionTypes.UPDATE_EVENT_ERROR: {
+      return {
+        ...state,
+        error: action.payload
+      };
+    }
+
     default:
       return state;
   }

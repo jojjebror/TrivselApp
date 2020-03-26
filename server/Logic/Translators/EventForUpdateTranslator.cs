@@ -8,25 +8,25 @@ using System.Threading.Tasks;
 
 namespace Logic.Translators
 {
-    public class EventForCreateTranslator
+    public class EventForUpdateTranslator
     {
-        public static EventForCreateDto ToModel(Event ev)
+        public static EventForUpdateDto ToModel(Event ev)
         {
             if (ev == null)
                 return null;
 
-            return new EventForCreateDto
+            return new EventForUpdateDto
             {
-                Id = ev.Id,
+                
                 Title = ev.Title,
                 Description = ev.Description,
-                Image = ev.Image,
+                
                 Location = ev.Location,
-                StartDate = ev.StartDate,
-                EndDate = ev.EndDate,
-                CreatorId = ev.CreatorId,
-                CreateDate = DateTime.Now
-
+                //Id = ev.Id,
+                //Image = ev.Image,
+                //StartDate = ev.StartDate,
+                //EndDate = ev.EndDate,
+                //CreatorId = ev.CreatorId
             };
         }
     }
