@@ -124,17 +124,29 @@ li {
   cursor: pointer;
 } */
 
-.mat-card-demo {
-  display: flex;
-  
-  
-  
-  margin-right: 10px;
-  float:left;
+i {
+  margin-right: 5px;
+}
+
+h3 {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.btn-create-event {
+  text-align: right;
 }
 
 .mat-card {
-
-  background-color: rgb(37, 2, 48); 
+  width: 32%;
+  margin-top: 20px;
+  margin-right: 1%;
+  float: left;
   color: white;
+  cursor: pointer;
+  background-color: rgb(37, 2, 48); 
+}
+
+.mat-card-title {
+  font-size: 1.2rem;
 }

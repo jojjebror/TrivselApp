@@ -2,8 +2,8 @@
   <h3>
     Kommande evenemang
   </h3>
-  <div>
-    <div class="btnCreateEvent">
+  <div class="btn-create-event">
+    <div>
       <button class="btn btn-primary" [routerLink]="['/event/create']">
         Skapa evenemang
       </button>
@@ -22,23 +22,24 @@
     </div> -->
   </div>
 
-  <div class="mat-card-demo" *ngFor="let ev of evs$ | async">
-    <mat-card>
+  <div class="mat-card-div">
+    <mat-card *ngFor="let ev of evs$ | async" [routerLink]="['/event', ev.id]">
       <mat-card-header>
-        <div mat-card-avatar></div>
-        <mat-card-title style="color: white;">{{ ev.title }}</mat-card-title>
+        <mat-card-title>{{ ev.title }}</mat-card-title>
         <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
       </mat-card-header>
       <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
       <mat-card-content>
-        <p>{{ ev.startDate | date: 'd MMM, y' }}</p>
         <p>
-          <i class="material-icons">&#xe916;</i>
+          <i class="material-icons">calendar_today</i>         
+          {{ ev.startDate | date: 'd MMM, y' }}</p>
+        <p>
+          <i class="material-icons">location_on</i>
           {{ ev.location }}
         </p>
       </mat-card-content>
       <mat-card-actions>
-        <button style="color: white;" mat-button [routerLink]="['/event', ev.id]">Läs mer</button>
+        <button mat-button [routerLink]="['/event', ev.id]">Läs mer</button>
         <!--  <button mat-button>SHARE</button> -->
       </mat-card-actions>
     </mat-card>

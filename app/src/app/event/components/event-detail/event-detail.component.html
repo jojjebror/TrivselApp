@@ -1,10 +1,10 @@
- <div class="container mt-5 border border-light p-5" *ngIf="ev$ | async; let ev"> 
+<div class="container mt-5 border border-light p-5" *ngIf="ev$ | async; let ev">
   <button class="btn btn-primary" [routerLink]="['/event/edit', ev.id]">
     Redigera evenemang
   </button>
-    <button class="btn btn-danger" style="margin-right: 10px;">
-      <a (click)="deleteEvent(ev.id)">Ta bort</a>
-    </button>
+  <button class="btn btn-danger" style="margin-right: 10px;">
+    <a (click)="deleteEvent(ev.id)">Ta bort</a>
+  </button>
   <div class="row">
     <h1 class="mb-4">{{ ev.title }}</h1>
   </div>
@@ -41,7 +41,23 @@
     </div>
     <div class="col-sm-8">
       <div class="tab-panel">
-        <tabset class="member-tabset">
+        <mat-tab-group animationDuration="0ms">
+          <mat-tab label="Om evenemang">
+            <p>
+              {{ ev.description }}
+            </p>
+          </mat-tab>
+          <mat-tab label="Deltagare">
+            <mat-list>
+              <mat-list-item *ngFor="let user of eventUsers">
+                <p>
+                  {{ user.name }}
+                </p>
+              </mat-list-item>
+            </mat-list>
+          </mat-tab>
+        </mat-tab-group>
+        <!-- <tabset class="member-tabset">
           <tab heading="Om evenemang">
             <h4 style="font-weight: bold;">Beskrivning</h4>
              <p>{{ ev.description }}</p>             
@@ -56,7 +72,7 @@
             </li>
           </ul>
           </tab>
-        </tabset>
+        </tabset> -->
       </div>
     </div>
   </div>
