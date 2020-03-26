@@ -44,19 +44,5 @@ export class SetUserError implements Action {
   public error: Error;
 }
 
-export class GetUsers implements Action {
-  readonly type = ActionTypes.GetUsers;
-}
 
-export class GetUsersSuccess implements Action {
-  readonly type = ActionTypes.GetUsersSuccess;
-
-  constructor(public payload: User[]) {}
-}
-
-export class GetUsersError implements Action {
-  readonly type = ActionTypes.GetUsersError;
-  public error: Error;
-}
-
-export type Actions = Initialize | SetUser | SetUserNull | SetUserSuccess | SetUserError | GetUsers | GetUsersSuccess | GetUsersError;
+export type Actions = Initialize | SetUser | SetUserNull | SetUserSuccess | SetUserError;

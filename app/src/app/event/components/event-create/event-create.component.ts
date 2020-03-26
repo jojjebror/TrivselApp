@@ -1,22 +1,28 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BsLocaleService } from 'ngx-bootstrap';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 
-import { Event } from 'src/app/shared/models';
+import { Event, User } from 'src/app/shared/models';
 import * as fromEvent from '../../state/events/events.actions';
+import * as fromUsers from '../../../user/state/users';
+import * as fromUsersS from '../../../user/state/users/users.selectors';
+
 import { AlertifyService } from 'src/app/core/services/alertify.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'ex-event-create',
   templateUrl: './event-create.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./event-create.component.scss']
 })
 export class EventCreateComponent implements OnInit {
   @Output() cancelNewEvent = new EventEmitter();
   event: Event;
+  users$: Observable<User[]>;
   currentUserId: any;
   eventForm: FormGroup;
   endDateMode = false;
@@ -33,8 +39,9 @@ export class EventCreateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loadUsers();
     this.createEventForm();
-    console.log(this.eventForm);
+    console.log(this.eventForm)
   }
 
   createEventForm() {
@@ -49,7 +56,8 @@ export class EventCreateComponent implements OnInit {
         enddate: [''],
         endtime: [''],
         createdate: [new Date()],
-        creatorid: [this.currentUserId]
+        creatorid: [this.currentUserId],
+        users: ['']
       },
       { validator: this.DateValidation }
     );
@@ -57,15 +65,14 @@ export class EventCreateComponent implements OnInit {
 
   createEvent() {
     if (this.eventForm.valid) {
-    console.log(this.eventForm)
+      console.log(this.eventForm);
 
       this.CheckEmptyEndDate(this.eventForm);
 
       //Fixar problem med UTC och lokal tid när datum skickas till servern
-      this.fixDateTimeZone(this.eventForm.get('starttime').value)
+      this.fixDateTimeZone(this.eventForm.get('starttime').value);
       this.fixDateTimeZone(this.eventForm.get('endtime').value);
       this.fixDateTimeZone(this.eventForm.get('createdate').value);
-
 
       this.event = Object.assign({}, this.eventForm.value);
 
@@ -74,6 +81,14 @@ export class EventCreateComponent implements OnInit {
       this.router.navigate(['/event']);
       this.alertify.success('Evenemanget har skapats');
     }
+  }
+
+  private loadUsers(): void {
+    this.store$.dispatch(new fromUsers.GetUsers());
+    this.users$ = this.store$.pipe(select(fromUsersS.getUsers));
+    // this.store$.pipe(select(fromUsers.getUsers)).subscribe(data => { this.users = data});
+
+    console.log(this.users$);
   }
 
   endDateToggle() {
@@ -117,4 +132,3 @@ export class EventCreateComponent implements OnInit {
     return d;
   }
 }
-
