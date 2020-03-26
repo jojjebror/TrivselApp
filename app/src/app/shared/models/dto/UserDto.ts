@@ -1,6 +1,4 @@
 ﻿
-
-
 import { Base } from './BaseDto';
 
 

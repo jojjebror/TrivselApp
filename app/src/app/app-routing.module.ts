@@ -4,55 +4,54 @@ import { RouterModule, PreloadAllModules, Routes } from '@angular/router';
 import { ProtectedComponent } from './core/views';
 import { AuthenticationGuard } from './core/guards';
 
-export const routes: Routes = 
-	[
-		{
-			path: 'authentication',
-			loadChildren: './authentication/authentication.module#AuthenticationModule'
-		},
-		{
-			path: 'login',
-			loadChildren: './login/login.module#LoginModule'
-		},
-		{
-			path: '',
-			component: ProtectedComponent,
-			canActivate: [
-				AuthenticationGuard
-			],
-			canActivateChild: [
-				AuthenticationGuard
-			],
-			children: [
-				{
-					path: 'start',
-					loadChildren: './start/start.module#StartModule'
-				},
-				{
-					path: 'exempel',
-					loadChildren: './example/example.module#ExampleModule'
-				},
-				{
-					path: 'event',
-					loadChildren: './event/event.module#EventModule'
-				},
-				{
-					path: 'drink',
-					loadChildren: './drink/drink.module#DrinkModule'
-				},
-				{
-					path: '',
-					redirectTo: 'start',
-					pathMatch: 'full'
-				},
-				{
-					path: '**',
-					redirectTo: 'start',
-					pathMatch: 'full'
-				}
-			]
-		}
-	];
+export const routes: Routes = [
+         {
+           path: 'authentication',
+           loadChildren: './authentication/authentication.module#AuthenticationModule'
+         },
+         {
+           path: 'login',
+           loadChildren: './login/login.module#LoginModule'
+         },
+         {
+           path: '',
+           component: ProtectedComponent,
+           canActivate: [AuthenticationGuard],
+           canActivateChild: [AuthenticationGuard],
+           children: [
+             {
+               path: 'start',
+               loadChildren: './start/start.module#StartModule'
+             },
+             {
+               path: 'exempel',
+               loadChildren: './example/example.module#ExampleModule'
+             },
+             {
+               path: 'event',
+               loadChildren: './event/event.module#EventModule'
+             },
+             {
+               path: 'drink',
+               loadChildren: './drink/drink.module#DrinkModule'
+             },
+             {
+               path: 'user',
+               loadChildren: './user/user.module#UserModule'
+             },
+             {
+               path: '',
+               redirectTo: 'start',
+               pathMatch: 'full'
+             },
+             {
+               path: '**',
+               redirectTo: 'start',
+               pathMatch: 'full'
+             }
+           ]
+         }
+       ];
 
 @NgModule({
 	imports: [
