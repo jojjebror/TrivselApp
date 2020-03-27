@@ -22,15 +22,10 @@ namespace Logic.Services
 
         public async Task<EventForDetailedDto> GetEvent(int id)
         {
-            //var dbEvent = await _context.Events
-            //    .FirstOrDefaultAsync(e => e.Id == id);
-
             var dbEvent = await _context.Events.Include(e => e.EventParticipants
                 .Select(u => u.User)).FirstOrDefaultAsync(e => e.Id == id);
 
-            var ev = EventForDetailedTranslator.ToModel(dbEvent);
-
-            return ev;
+            return EventForDetailedTranslator.ToModel(dbEvent);
         }
 
         public async Task<ICollection<EventForListDto>> GetEvents()
@@ -49,24 +44,29 @@ namespace Logic.Services
                 Description = ev.Description,
                 Location = ev.Location,
                 Image = ev.Image,
-                StartDate = new DateTime(ev.StartDate.Year, ev.StartDate.Month, ev.StartDate.Day, ev.StartTime.Hour, ev.StartTime.Minute, 0),
-                EndDate = new DateTime(ev.EndDate.Year, ev.EndDate.Month, ev.EndDate.Day, ev.EndTime.Hour, ev.EndTime.Minute, 0),
+                StartDate = new DateTime(ev.StartDate.Year, ev.StartDate.Month,
+                    ev.StartDate.Day, ev.StartTime.Hour, ev.StartTime.Minute, 0),
+                EndDate = new DateTime(ev.EndDate.Year, 
+                    ev.EndDate.Month, ev.EndDate.Day, ev.EndTime.Hour, ev.EndTime.Minute, 0),
                 CreateDate = ev.CreateDate,
-                CreatorId = ev.CreatorId,
+                CreatorId = ev.CreatorId
             };
 
-            if (ev.Users != null) {
-            foreach(var user in ev.Users)
-            {
-                var newEventParticipant = new EventParticipant()
-                {
-                    EventId = ev.Id,
-                    UserId = user.Id,
-                };
-                _context.EventParticipants.Add(newEventParticipant);
-            }
-            }
             _context.Events.Add(newEvent);
+
+            if (ev.Users != null) 
+            {
+                foreach(var user in ev.Users)
+                {
+                    var newEventParticipant = new EventParticipant()
+                    {
+                        EventId = ev.Id,
+                        UserId = user.Id
+                    };
+                    _context.EventParticipants.Add(newEventParticipant);
+                }
+            }
+            
             await _context.SaveChangesAsync();
 
             return EventForCreateTranslator.ToModel(newEvent);
@@ -84,27 +84,19 @@ namespace Logic.Services
             dbEvent.StartDate = new DateTime(ev.StartDate.Year, ev.StartDate.Month, ev.StartDate.Day, ev.StartTime.Hour, ev.StartTime.Minute, 0);
             dbEvent.EndDate = new DateTime(ev.EndDate.Year, ev.EndDate.Month, ev.EndDate.Day, ev.EndTime.Hour, ev.EndTime.Minute, 0);
 
-
             await _context.SaveChangesAsync();
 
             return EventForUpdateTranslator.ToModel(dbEvent);
         }
 
-        public async Task<ICollection<EventForListDto>> DeleteEvent(int id)
+        public async Task<EventForDetailedDto> DeleteEvent(int id)
         {
             var dbEvent = await _context.Events.FirstOrDefaultAsync(e => e.Id == id);
 
             _context.Events.Remove(dbEvent);
-
             await _context.SaveChangesAsync();
 
-            var dbEvents = await _context.Events.ToListAsync();
-
-
-            //return EventForListTranslator.ToModel(dbEvent);
-
-
-            return dbEvents.Select(EventForListTranslator.ToModel).ToList();
+            return EventForDetailedTranslator.ToModel(dbEvent);
         }
 
 
