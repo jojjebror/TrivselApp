@@ -23,7 +23,7 @@ export class EventResource extends ApiResource {
     return this.post('event', ev);
   }
 
-  deleteEvent(id: number): Observable<Event[]> {
+  deleteEvent(id: number): Observable<Event> {
     return this.delete('event/' + id);
   }
 

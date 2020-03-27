@@ -71,7 +71,7 @@ export class EventsEffects {
     map((action: eventsActions.DeleteEvent) => action.payload),
     mergeMap((id: number) =>
       this.eventResource.deleteEvent(id).pipe(
-        map(() => new eventsActions.DeleteEventSuccess(id)),
+        map((deletedEvent: Event) => new eventsActions.DeleteEventSuccess(deletedEvent.id)),
         catchError(err => of(new eventsActions.DeleteEventError(err)))
       )
     )
