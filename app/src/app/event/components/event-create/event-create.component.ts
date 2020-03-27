@@ -41,7 +41,6 @@ export class EventCreateComponent implements OnInit {
   ngOnInit() {
     this.loadUsers();
     this.createEventForm();
-    console.log(this.eventForm)
   }
 
   createEventForm() {
@@ -57,15 +56,15 @@ export class EventCreateComponent implements OnInit {
         endtime: [''],
         createdate: [new Date()],
         creatorid: [this.currentUserId],
-        users: ['']
+        users: [null]
       },
       { validator: this.DateValidation }
     );
+
   }
 
   createEvent() {
     if (this.eventForm.valid) {
-      console.log(this.eventForm);
 
       this.CheckEmptyEndDate(this.eventForm);
 
@@ -74,7 +73,9 @@ export class EventCreateComponent implements OnInit {
       this.fixDateTimeZone(this.eventForm.get('endtime').value);
       this.fixDateTimeZone(this.eventForm.get('createdate').value);
 
+
       this.event = Object.assign({}, this.eventForm.value);
+      console.log(this.event)
 
       this.store$.dispatch(new fromEvent.CreateEvent(this.event));
 
@@ -86,9 +87,6 @@ export class EventCreateComponent implements OnInit {
   private loadUsers(): void {
     this.store$.dispatch(new fromUsers.GetUsers());
     this.users$ = this.store$.pipe(select(fromUsersS.getUsers));
-    // this.store$.pipe(select(fromUsers.getUsers)).subscribe(data => { this.users = data});
-
-    console.log(this.users$);
   }
 
   endDateToggle() {

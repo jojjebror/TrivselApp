@@ -55,6 +55,17 @@ namespace Logic.Services
                 CreatorId = ev.CreatorId,
             };
 
+            if (ev.Users != null) {
+            foreach(var user in ev.Users)
+            {
+                var newEventParticipant = new EventParticipant()
+                {
+                    EventId = ev.Id,
+                    UserId = user.Id,
+                };
+                _context.EventParticipants.Add(newEventParticipant);
+            }
+            }
             _context.Events.Add(newEvent);
             await _context.SaveChangesAsync();
 

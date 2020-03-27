@@ -78,8 +78,18 @@ textarea {
 .mat-selection-list {
   border: 1px solid white;
   margin-bottom: 20px;
+  max-height: 250px;
+  overflow: auto;
 }
 
 .mat-list-option {
   color: white;
+}
+.mat-pseudo-checkbox {
+    color: white !important;
+}
+
+::ng-deep .mat-pseudo-checkbox {
+    //background: grey;
+    color: white;
 }
