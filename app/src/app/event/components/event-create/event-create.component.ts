@@ -79,7 +79,7 @@ export class EventCreateComponent implements OnInit {
 
       this.store$.dispatch(new fromEvent.CreateEvent(this.event));
 
-      this.router.navigate(['/event']);
+      //this.router.navigate(['/event']);
       this.alertify.success('Evenemanget har skapats');
     }
   }

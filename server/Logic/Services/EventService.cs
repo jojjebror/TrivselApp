@@ -89,14 +89,14 @@ namespace Logic.Services
             return EventForUpdateTranslator.ToModel(dbEvent);
         }
 
-        public async Task<EventForDetailedDto> DeleteEvent(int id)
+        public async Task<int> DeleteEvent(int id)
         {
             var dbEvent = await _context.Events.FirstOrDefaultAsync(e => e.Id == id);
 
             _context.Events.Remove(dbEvent);
             await _context.SaveChangesAsync();
 
-            return EventForDetailedTranslator.ToModel(dbEvent);
+            return id;
         }
 
 

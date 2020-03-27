@@ -18,7 +18,7 @@ namespace Logic.Database.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: false)
-                .ForeignKey("dbo.Events", t => t.EventId, cascadeDelete: false)
+                .ForeignKey("dbo.Events", t => t.EventId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.EventId);
             

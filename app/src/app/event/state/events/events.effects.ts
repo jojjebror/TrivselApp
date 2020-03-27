@@ -2,21 +2,22 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { map, mergeMap, catchError } from 'rxjs/operators';
+import { map, mergeMap, catchError, concatMap, switchMap, tap } from 'rxjs/operators';
 
 import { EventResource } from '../../../core/resources';
 
 import * as eventsActions from './events.actions';
 import { Event } from 'src/app/shared/models';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class EventsEffects {
-  constructor(private actions$: Actions, private eventResource: EventResource) {}
+  constructor(private actions$: Actions, private eventResource: EventResource, private router: Router) {}
 
   @Effect()
   loadEvents$: Observable<Action> = this.actions$.pipe(
-    ofType<eventsActions.LoadEvents>(eventsActions.ActionTypes.LOAD_EVENTS),
-    mergeMap((actions: eventsActions.LoadEvents) =>
+    ofType(eventsActions.ActionTypes.LOAD_EVENTS),
+    switchMap((actions: eventsActions.LoadEvents) =>
       this.eventResource.loadEvents().pipe(
         map((events: Event[]) => new eventsActions.LoadEventsSuccess(events)),
         catchError(err => of(new eventsActions.LoadEventsError(err)))
@@ -26,8 +27,8 @@ export class EventsEffects {
 
   @Effect()
   loadEvent$: Observable<Action> = this.actions$.pipe(
-    ofType<eventsActions.LoadEvent>(eventsActions.ActionTypes.LOAD_EVENT),
-    mergeMap((action: eventsActions.LoadEvent) =>
+    ofType(eventsActions.ActionTypes.LOAD_EVENT),
+    switchMap((action: eventsActions.LoadEvent) =>
       this.eventResource.loadEvent(action.payload).pipe(
         map((event: Event) => new eventsActions.LoadEventSuccess(event)),
         catchError(err => of(new eventsActions.LoadEventError(err)))
@@ -37,11 +38,12 @@ export class EventsEffects {
 
   @Effect()
   createEvent$: Observable<Action> = this.actions$.pipe(
-    ofType<eventsActions.CreateEvent>(eventsActions.ActionTypes.CREATE_EVENT),
+    ofType(eventsActions.ActionTypes.CREATE_EVENT),
     map((action: eventsActions.CreateEvent) => action.payload),
-    mergeMap((event: Event) =>
+    switchMap((event: Event) =>
       this.eventResource.createEvent(event).pipe(
         map((newEvent: Event) => new eventsActions.CreateEventSuccess(newEvent)),
+        tap(() => this.router.navigate(['/event'])),
         catchError(err => of(new eventsActions.CreateEventError(err)))
       )
     )
@@ -51,7 +53,7 @@ export class EventsEffects {
   updateEvent$: Observable<Action> = this.actions$.pipe(
     ofType<eventsActions.UpdateEvent>(eventsActions.ActionTypes.UPDATE_EVENT),
     map((action: eventsActions.UpdateEvent) => action.payload),
-    mergeMap((event: Event) =>
+    switchMap((event: Event) =>
       this.eventResource.updateEvent(event).pipe(
         map(
           (updatedEvent: Event) =>
@@ -60,6 +62,7 @@ export class EventsEffects {
               changes: updatedEvent
             })
         ),
+        tap(() => this.router.navigate(['/event/'+ event.id])),
         catchError(err => of(new eventsActions.UpdateEventError(err)))
       )
     )
@@ -67,11 +70,12 @@ export class EventsEffects {
 
   @Effect()
   deleteEvent$: Observable<Action> = this.actions$.pipe(
-    ofType<eventsActions.DeleteEvent>(eventsActions.ActionTypes.DELETE_EVENT),
+    ofType(eventsActions.ActionTypes.DELETE_EVENT),
     map((action: eventsActions.DeleteEvent) => action.payload),
-    mergeMap((id: number) =>
+    switchMap((id: number) =>
       this.eventResource.deleteEvent(id).pipe(
-        map((deletedEvent: Event) => new eventsActions.DeleteEventSuccess(deletedEvent.id)),
+        map(() => new eventsActions.DeleteEventSuccess(id)),
+        tap(() => this.router.navigate(['/event'])),
         catchError(err => of(new eventsActions.DeleteEventError(err)))
       )
     )
@@ -79,9 +83,9 @@ export class EventsEffects {
 
   @Effect()
   addUserEvent$: Observable<Action> = this.actions$.pipe(
-    ofType<eventsActions.AddUserEvent>(eventsActions.ActionTypes.ADD_USER_EVENT),
+    ofType(eventsActions.ActionTypes.ADD_USER_EVENT),
     map((action: eventsActions.AddUserEvent) => action.payload),
-    mergeMap((data: number[]) =>
+    switchMap((data: number[]) =>
       this.eventResource.acceptInvite(data).pipe(
         map(() => new eventsActions.AddUserEventSuccess(data)),
         catchError(err => of(new eventsActions.AddUserEventError(err)))

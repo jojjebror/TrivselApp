@@ -55,7 +55,7 @@ export class EventEditComponent implements OnInit {
       this.event = Object.assign({}, this.eventEditForm.value);
       console.log(this.event);
       this.store$.dispatch(new fromEvent.UpdateEvent(this.event));
-      this.router.navigate(['/event/' + this.event.id]);
+      //this.router.navigate(['/event/' + this.event.id]);
     }
   }
 

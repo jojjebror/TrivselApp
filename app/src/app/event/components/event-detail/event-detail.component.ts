@@ -16,7 +16,7 @@ import { AlertifyService } from 'src/app/core/services/alertify.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./event-detail.component.scss']
 })
-export class EventDetailComponent implements OnInit, OnDestroy {
+export class EventDetailComponent implements OnInit {
   subscription: Subscription;
   ev$: Observable<Event>;
   eventUsers: any;
@@ -50,7 +50,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   deleteEvent(id: number) {
     if (confirm('Vill du verkligen ta bort evenemanget?')) {
       this.store$.dispatch(new fromEvents.DeleteEvent(id));
-      this.router.navigate(['/event']);
+      //this.router.navigate(['/event']);
       this.alertify.message('Evenemanget togs bort');
     }
   }
@@ -60,10 +60,9 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     this.store$.dispatch(new fromEvents.AddUserEvent(data));
 
     this.loadEvent();
-
   }
 
-  ngOnDestroy() {
+  /* ngOnDestroy() {
     this.subscription.unsubscribe();
-  }
+  } */
 }
