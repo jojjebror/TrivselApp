@@ -20,25 +20,28 @@
         Du måste ange ett namn för drycken!
       </div>
     </div>
-
-    <div>
-      <a>Pris</a>
-      <mat-select
-        [ngClass]="{
-          'is-invalid':
-            drinkEditForm.get('price').errors &&
-            drinkEditForm.get('price').touched
-        }"
-        class="form-control"
-        placeholder="Pris"
-        formControlName="price"
-      >
-        <mat-option value="10">10kr</mat-option>
-        <mat-option value="20">20kr</mat-option>
-        <mat-option value="30">30kr</mat-option>
-      </mat-select>
-      <div class="invalid-feedback">
-        Du måste ange ett pris för drycken!
+    <div class="row">
+      <div class="col-sm-4">
+        <div>
+          <a>Pris</a>
+          <mat-select
+            [ngClass]="{
+              'is-invalid':
+                drinkEditForm.get('price').errors &&
+                drinkEditForm.get('price').touched
+            }"
+            class="form-control"
+            placeholder="Pris"
+            formControlName="price"
+          >
+            <mat-option value="10">10kr</mat-option>
+            <mat-option value="20">20kr</mat-option>
+            <mat-option value="30">30kr</mat-option>
+          </mat-select>
+          <div class="invalid-feedback">
+            Du måste ange ett pris för drycken!
+          </div>
+        </div>
       </div>
     </div>
 
@@ -82,19 +85,24 @@
           </div>
         </div>
       </div>
-      <hr />
-      <div class="form-group text-center">
-        <button
-          [disabled]="!drinkEditForm.dirty"
-          type="submit"
-          class="btn btn-success"
-        >
-          Spara ändringar
-        </button>
-        <button class="btn btn-default" type="button" style="color: white;" [routerLink]="['/drink']">
-          Gå tillbaka
-        </button>
-      </div>
+    </div>
+    <hr />
+    <div class="form-group text-center">
+      <button
+        [disabled]="!drinkEditForm.dirty"
+        type="submit"
+        class="btn btn-success"
+      >
+        Spara ändringar
+      </button>
+      <button
+        class="btn btn-default"
+        type="button"
+        style="color: white;"
+        [routerLink]="['/drink']"
+      >
+        Gå tillbaka
+      </button>
     </div>
   </form>
 </div>
