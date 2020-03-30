@@ -7,6 +7,10 @@ import { DrinkCreateComponent } from './components/drink-create/drink-create.com
 
 import { DrinkComponent } from './views';
 import { DrinkEditComponent } from './components/drink-edit/drink-edit.component';
+import { DrinkCategoryComponent } from './components/drink-category/drink-category.component';
+import { DrinkCategory3Component } from './components/drink-category3/drink-category3.component';
+import { DrinkCategory2Component } from './components/drink-category2/drink-category2.component';
+
 
 
 export const routes: Routes = [
@@ -25,6 +29,18 @@ export const routes: Routes = [
       {
         path: 'edit',
         component: DrinkEditComponent
+      },
+      {
+        path: 'category',
+        component: DrinkCategoryComponent
+      },
+      {
+        path: 'category2',
+        component: DrinkCategory2Component
+      },
+      {
+        path: 'category3',
+        component: DrinkCategory3Component
       },
       {
         path: ':id',

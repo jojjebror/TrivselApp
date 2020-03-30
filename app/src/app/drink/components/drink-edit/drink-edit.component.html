@@ -1,19 +1,108 @@
-<div class="mt-4">
-  <h3>Edit Customer</h3>
-  <form [formGroup]="drinkForm" (submit)="updateDrink()" class="form-inline mb-4">
+<div class="container mt-5 border border-light p-5">
+  <form [formGroup]="drinkEditForm" (ngSubmit)="updateDrink()">
+    <h3 class="text-center">Ändra information om dryck</h3>
+    <hr />
 
-    <label class="sr-only" for="Name">Name</label>
-    <div class="input-group mb-2 mr-sm-2">
-      <input type="text" class="form-control" formControlName="productNameBold">
-      <input type="text" class="form-control" formControlName="price">
-      <input type="text" class="form-control" formControlName="taste">
-      <input type="text" class="form-control" formControlName="volume">
-      <input type="text" class="form-control" formControlName="category">
-      
+    <div>
+      <a>Namn</a>
+      <input
+        type="text"
+        [ngClass]="{
+          'is-invalid':
+            drinkEditForm.get('productNameBold').errors &&
+            drinkEditForm.get('productNameBold').touched
+        }"
+        class="form-control"
+        placeholder="Namn på dryck"
+        formControlName="productNameBold"
+      />
+      <div class="invalid-feedback">
+        Du måste ange ett namn för drycken!
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4">
+        <div>
+          <a>Pris</a>
+          <mat-select
+            [ngClass]="{
+              'is-invalid':
+                drinkEditForm.get('price').errors &&
+                drinkEditForm.get('price').touched
+            }"
+            class="form-control"
+            placeholder="Pris"
+            formControlName="price"
+          >
+            <mat-option value="10">10kr</mat-option>
+            <mat-option value="20">20kr</mat-option>
+            <mat-option value="30">30kr</mat-option>
+          </mat-select>
+          <div class="invalid-feedback">
+            Du måste ange ett pris för drycken!
+          </div>
+        </div>
+      </div>
     </div>
 
-    <button type="submit" class="btn btn-primary mb-2">Update Customer</button>
-
+    <div>
+      <a>Volym</a>
+      <input
+        type="number"
+        [ngClass]="{
+          'is-invalid':
+            drinkEditForm.get('volume').errors &&
+            drinkEditForm.get('volume').touched
+        }"
+        class="form-control"
+        placeholder="Volym i cl"
+        formControlName="volume"
+      />
+      <div class="invalid-feedback">
+        Du måste ange dryckens volym!
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4">
+        <div>
+          <a>Kategori</a>
+          <mat-select
+            [ngClass]="{
+              'is-invalid':
+                drinkEditForm.get('category').errors &&
+                drinkEditForm.get('category').touched
+            }"
+            class="form-control"
+            placeholder="Kategori, t.ex. öl, vin, cider"
+            formControlName="category"
+          >
+            <mat-option value="Vin">Vin</mat-option>
+            <mat-option value="Öl">Öl</mat-option>
+            <mat-option value="Cider">Cider</mat-option>
+          </mat-select>
+          <div class="invalid-feedback">
+            Du måste ange en kategori för drycken!
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div class="form-group text-center">
+      <button
+        [disabled]="!drinkEditForm.dirty"
+        type="submit"
+        class="btn btn-success"
+      >
+        Spara ändringar
+      </button>
+      <button
+        class="btn btn-default"
+        type="button"
+        style="color: white;"
+        [routerLink]="['/drink']"
+      >
+        Gå tillbaka
+      </button>
+    </div>
   </form>
 </div>
-

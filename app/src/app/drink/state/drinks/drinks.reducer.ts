@@ -81,6 +81,6 @@ export function reducer(state: DrinksState = initialState, action: drinksActions
       default: {
         return state;
       }
-    }
+    } 
   }
 

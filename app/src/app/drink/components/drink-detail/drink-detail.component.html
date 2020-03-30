@@ -1,14 +1,17 @@
 <div class="container mt-5 border border-light p-5" *ngIf="dr$ | async; let dr">
  
-  <button class="btn btn-primary">
+  <button class="btn btn-danger">
     <!-- <a (click)=editDrink(drink)>edit</a>  --> 
      
      <a (click)="deleteDrink(dr.id)">Panta</a>
   </button>
- 
-  <button class="btn btn-primary" [routerLink] ="['/drink/edit']" >
+  <button class="btn btn-primary" (click)="editDrink(dr)" [routerLink] ="['/drink/edit']" >
     Redigera dryck
   </button>
+  <button class="btn btn-success">
+    Köp dryck!
+  </button>
+
   <div class="row">
     <h1 class="mb-4">{{ dr.productNameBold }}</h1>
   </div>
@@ -19,7 +22,7 @@
         <div class="card-body">
           <div>
             <strong>Pris:</strong>
-              <p>{{ dr.price }}</p> 
+              <p>{{ dr.price }}kr</p> 
            </div>
           <div>
             <strong>Smak:</strong>
@@ -30,7 +33,7 @@
           <div>
             <strong>Volym:</strong>
             <p>
-              {{ dr.volume }} 
+              {{ dr.volume }}cl 
             </p>
           </div>
           <div>
@@ -43,4 +46,7 @@
       </div>
     </div>
   </div>
+  <button class="btn btn-back" id="back" type="button" style="color: white;" [routerLink]="['/drink']">
+    Gå tillbaka
+  </button>
 </div>

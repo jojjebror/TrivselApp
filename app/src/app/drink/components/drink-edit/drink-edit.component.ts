@@ -1,74 +1,63 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Drink } from 'src/app/shared/models';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/core/state';
-import { Router } from '@angular/router';
-import { BsLocaleService } from 'ngx-bootstrap';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
-import * as drinksActions from "../../state/drinks/drinks.actions";
-import * as fromDrink from '../../state/drinks/';
+import { Store, select } from '@ngrx/store';
+import { AppState } from 'src/app/core/state';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { Drink } from 'src/app/shared/models';
+import * as fromDrink from '../../state/drinks';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'ex-drink-edit',
+  selector: 'ex-event-edit',
   templateUrl: './drink-edit.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./drink-edit.component.scss']
 })
 export class DrinkEditComponent implements OnInit {
-  drinkForm: FormGroup;
-  @Output() 
-	cancelNewDrink = new EventEmitter();
-	drink: Drink;
-	
+  dr$: Observable<Drink>;
+  drink: Drink;
+  drinkEditForm: FormGroup;
 
-  constructor(private store$: Store<AppState>, 
-		private router: Router,
-    private fb: FormBuilder
-    ) {}
+  constructor(private store$: Store<AppState>, private route: ActivatedRoute, private fb: FormBuilder, private router: Router) {}
 
   ngOnInit() {
-    this.drinkForm = this.fb.group({
-      productNameBold: ["", Validators.required],
-      price: ["", Validators.required],
-      taste: ["", Validators.required],
-      volume: ["", Validators.required],
-      image: ["", Validators.required],
-      category: ["", Validators.required],
-      
-    });
-  
+    this.dr$ = this.store$.pipe(select(fromDrink.getCurrentDrink));
+    console.log(this.dr$);
+    this.createDrinkEditForm();
+    console.log(this.drinkEditForm);
+  }
 
-  const drink$: Observable<Drink> = this.store$.select(
-    fromDrink.getCurrentDrink
-  );
-
-  drink$.subscribe(currentDrink => {
-    if(currentDrink) {
-      this.drinkForm.patchValue({
-        productNameBold: currentDrink.productNameBold,
-        price: currentDrink.price,
-        taste: currentDrink.taste,
-        volume: currentDrink.volume,
-        category: currentDrink.category
+  createDrinkEditForm() {
+    this.dr$.subscribe(dr => {
+      this.drinkEditForm = this.fb.group({
+        id: [dr.id],
+        productNameBold: [dr.productNameBold, Validators.required],
+        price: [dr.price, Validators.required],
+        volume: [dr.volume, Validators.required],
+        category: [dr.category, Validators.required],
+        
       });
+    });
+  }
+
+  updateDrink() {
+    if (this.drinkEditForm.valid) {
+
+      //Fixar problem med UTC och lokal tid när datum skickas till servern
+
+      //this.fixDateTimeZone(this.eventEditForm.get('starttime').value);
+      //this.fixDateTimeZone(this.eventEditForm.get('endtime').value);
+
+      this.drink = Object.assign({}, this.drinkEditForm.value);
+      console.log(this.drink);
+      this.store$.dispatch(new fromDrink.UpdateDrink(this.drink));
+      this.router.navigate(['/drink/' + this.drink.id]);
     }
-  });
-}
+  }
 
-updateDrink() {
-  const updateDrink: Drink = {
-    productNameBold: this.drinkForm.get("productNameBold").value,
-    price: this.drinkForm.get("price").value,
-    volume: this.drinkForm.get("volume").value,
-    taste: this.drinkForm.get("taste").value,
-    category: this.drinkForm.get("category").value,
-    alcoholPercentage: "",
-    usage: "",
-    beverageDescriptionShort: "",
-    id: 21
-  };
-
-  this.store$.dispatch(new drinksActions.UpdateDrink(updateDrink));
-}
+  fixDateTimeZone(d: Date): Date {
+    d.setHours(d.getHours() - d.getTimezoneOffset() / 60);
+    return d;
+  }
 }
