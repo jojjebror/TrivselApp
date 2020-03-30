@@ -1,31 +1,31 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable} from 'rxjs';
 import { Event } from 'src/app/shared/models';
-import * as fromEvent from '../../state/events';
+import * as fromEvents from '../../state/events';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'ex-event-edit',
   templateUrl: './event-edit.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   styleUrls: ['./event-edit.component.scss']
 })
-export class EventEditComponent implements OnInit {
+export class EventEditComponent implements OnInit, OnDestroy {
   ev$: Observable<Event>;
-  event: Event;
   eventEditForm: FormGroup;
 
-  constructor(private store$: Store<AppState>, private route: ActivatedRoute, private fb: FormBuilder, private router: Router) {}
+  constructor(private store$: Store<AppState>, private fb: FormBuilder) {}
 
   ngOnInit() {
-    this.ev$ = this.store$.pipe(select(fromEvent.getCurrentEvent));
-    console.log(this.ev$);
+    this.ev$ = this.store$.pipe(select(fromEvents.getCurrentEvent));
     this.createEventEditForm();
-    console.log(this.eventEditForm);
+  }
+
+  ngOnDestroy() {
+    
   }
 
   createEventEditForm() {
@@ -46,16 +46,12 @@ export class EventEditComponent implements OnInit {
 
   updateEvent() {
     if (this.eventEditForm.valid) {
-
       //Fixar problem med UTC och lokal tid när datum skickas till servern
-
       //this.fixDateTimeZone(this.eventEditForm.get('starttime').value);
       //this.fixDateTimeZone(this.eventEditForm.get('endtime').value);
 
-      this.event = Object.assign({}, this.eventEditForm.value);
-      console.log(this.event);
-      this.store$.dispatch(new fromEvent.UpdateEvent(this.event));
-      //this.router.navigate(['/event/' + this.event.id]);
+      const ev = Object.assign({}, this.eventEditForm.value);
+      this.store$.dispatch(new fromEvents.UpdateEvent(ev));
     }
   }
 

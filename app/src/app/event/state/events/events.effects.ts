@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { map, mergeMap, catchError, concatMap, switchMap, tap } from 'rxjs/operators';
+import { map, catchError, switchMap, tap, exhaustMap } from 'rxjs/operators';
 
 import { EventResource } from '../../../core/resources';
 
@@ -31,6 +31,7 @@ export class EventsEffects {
     switchMap((action: eventsActions.LoadEvent) =>
       this.eventResource.loadEvent(action.payload).pipe(
         map((event: Event) => new eventsActions.LoadEventSuccess(event)),
+        tap(() => this.router.navigate(['/event/' + action.payload])),
         catchError(err => of(new eventsActions.LoadEventError(err)))
       )
     )
@@ -62,7 +63,7 @@ export class EventsEffects {
               changes: updatedEvent
             })
         ),
-        tap(() => this.router.navigate(['/event/'+ event.id])),
+        tap(() => this.router.navigate(['/event/' + event.id])),
         catchError(err => of(new eventsActions.UpdateEventError(err)))
       )
     )

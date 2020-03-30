@@ -1,134 +1,82 @@
 <div class="registerEventMain">
   <form [formGroup]="eventForm" class="border border-light p-5" (ngSubmit)="createEvent()">
-    <h3 class="text-center">Information angående evenemang</h3>
+    <h3 class="text-center">Evenemangets detaljer</h3>
     <hr />
 
     <div>
-      <mat-form-field>
+      <mat-form-field appearance="outline" style="width: 100%">
         <mat-icon matPrefix>title</mat-icon>
-        <input
-          type="text"
-          matInput
-          [ngClass]="{
-            'is-invalid': eventForm.get('title').errors && eventForm.get('title').touched
-          }"
-          placeholder="Titel på evenemang"
-          formControlName="title"
-        />
-        <div class="invalid-feedback">Du måste ange en titel för evenemanget</div>
+        <mat-label>Titel</mat-label>
+        <mat-error *ngIf="eventForm.invalid">{{ getErrorMessageTitle() }}</mat-error>
+        <input type="text" matInput formControlName="title" autocomplete="off" />
       </mat-form-field>
     </div>
 
     <div>
-      <mat-form-field>
-        <mat-icon matPrefix>location_on</mat-icon>
-        <input
-          type="text"
-          matInput
-          [ngClass]="{
-            'is-invalid': eventForm.get('location').errors && eventForm.get('location').touched
-          }"
-          placeholder="Plats"
-          formControlName="location"
-        />
-        <div class="invalid-feedback">Du måste ange en plats för evenemanget</div>
+      <mat-form-field appearance="outline">
+        <mat-icon matPrefix>add_location</mat-icon>
+        <mat-label>Plats</mat-label>
+        <mat-error *ngIf="eventForm.invalid">{{ getErrorMessageLocation() }}</mat-error>
+        <input type="text" matInput formControlName="location" autocomplete="off" />
       </mat-form-field>
     </div>
 
     <div>
-      <mat-form-field>
-        <mat-icon matPrefix>info</mat-icon>
-        <textarea
-          [ngClass]="{
-            'is-invalid': eventForm.get('description').errors && eventForm.get('description').touched
-          }"
-          matInput
-          placeholder="Beskrivning"
-          formControlName="description"
-        ></textarea>
-        <div class="invalid-feedback">
-          Du måste ange en beskrivning för evenemanget
-        </div>
+      <mat-form-field appearance="outline" class="fieldDescription">
+        <mat-icon matPrefix>info_outline</mat-icon>
+        <mat-label>Beskrivning</mat-label>
+        <mat-error *ngIf="eventForm.invalid">{{ getErrorMessageDescription() }}</mat-error>
+        <textarea matInput formControlName="description" autocomplete="off"></textarea>
       </mat-form-field>
     </div>
 
     <div>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Bild-url</mat-label>
         <input
           type="text"
           matInput
-          [ngClass]="{
-            'is-invalid': eventForm.get('image').errors && eventForm.get('image').touched
-          }"
-          placeholder="Bild-url"
           formControlName="image"
+          autocomplete="off"
         />
-        <div class="invalid-feedback">Du måste ange en bild-url</div>
       </mat-form-field>
     </div>
 
     <div class="form-row">
       <div>
-        <mat-form-field>
-          <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
-          <input
-            matInput
-            [matDatepicker]="picker"
-            [ngClass]="{
-              'is-invalid': eventForm.get('startdate').errors && eventForm.get('startdate').touched
-            }"
-            placeholder="Startdatum"
-            formControlName="startdate"
-          />
+        <mat-form-field appearance="outline">
+          <mat-datepicker-toggle matPrefix [for]="picker" style="color: white;"></mat-datepicker-toggle>
+          <mat-label>Startdatum</mat-label>
+          <mat-error *ngIf="eventForm.invalid">{{ getErrorMessageStartdate() }}</mat-error>
+          <input matInput (focus)="picker.open()" [matDatepicker]="picker" formControlName="startdate" autocomplete="off"/>
           <mat-datepicker #picker></mat-datepicker>
-          <div class="invalid-feedback">
-            Du måste ange ett startdatum för evenemanget
-          </div>
         </mat-form-field>
       </div>
 
-      <!-- <div class="form-group col-md-6 inputWithIcon datePicker">
-        <input
-          type="text"
-          bsDatepicker
-          [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
-          [ngClass]="{
-            'is-invalid': eventForm.get('startdate').errors && eventForm.get('startdate').touched
-          }"
-          class="form-control"
-          placeholder="Startdatum"
-          formControlName="startdate"
-        />
-        <i class="material-icons">&#xe916;</i>
-        <div class="invalid-feedback">
-          Du måste ange ett startdatum för evenemanget
-        </div>
-      </div> -->
-
       <div class="form-group col-md-4 mt-2">
         <timepicker formControlName="starttime" [showMeridian]="false" [showSpinners]="false"> </timepicker>
-      </div>
+      </div> 
+      <!-- <div class="form-group col-md-2 mt-2">
+        <mat-form-field>
+          <mat-label>Starttid</mat-label>
+          <input matInput [ngxTimepicker]="startTime" [format]="24" formControlName="starttime" autocomplete="off"/>
+        </mat-form-field>
+        <ngx-material-timepicker #startTime></ngx-material-timepicker>
+      </div> -->
 
       <div *ngIf="!endDateMode" class="form-group col-md-2 mt-3">
         <a (click)="endDateToggle()">+ Sluttid</a>
       </div>
     </div>
 
-    <div *ngIf="endDateMode" class="form-row inputWithIcon" id="sectionEndDate">
-      <div class="form-group col-md-6">
-        <input
-          type="text"
-          bsDatepicker
-          [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
-          [ngClass]="{ 'is-invalid': eventForm.hasError('mismatch') }"
-          class="form-control"
-          placeholder="Slutdatum"
-          formControlName="enddate"
-        />
-        <i class="material-icons">&#xe916;</i>
-        <div class="invalid-feedback">
-          Slutdatumet måste vara samma eller senare än startdatum
-        </div>
+    <div *ngIf="endDateMode" class="form-row" id="sectionEndDate">
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-datepicker-toggle matPrefix [for]="picker" style="color: white;"></mat-datepicker-toggle>
+          <mat-label>Slutdatum</mat-label>
+          <input matInput (focus)="picker.open()" [matDatepicker]="picker" formControlName="enddate" autocomplete="off"/>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
       </div>
 
       <div class="form-group col-md-4" style="margin-top: 6.5px;">

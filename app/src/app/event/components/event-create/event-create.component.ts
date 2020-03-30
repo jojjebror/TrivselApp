@@ -1,17 +1,16 @@
 import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { BsLocaleService } from 'ngx-bootstrap';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 
 import { Event, User } from 'src/app/shared/models';
-import * as fromEvent from '../../state/events/events.actions';
+import * as fromEvents from '../../state/events';
 import * as fromUsers from '../../../user/state/users';
-import * as fromUsersS from '../../../user/state/users/users.selectors';
 
 import { AlertifyService } from 'src/app/core/services/alertify.service';
 import { Observable } from 'rxjs';
+import { DateAdapter } from '@angular/material';
 
 @Component({
   selector: 'ex-event-create',
@@ -29,12 +28,13 @@ export class EventCreateComponent implements OnInit {
 
   constructor(
     private store$: Store<AppState>,
-    private router: Router,
     private fb: FormBuilder,
     private alertify: AlertifyService,
-    private localeService: BsLocaleService
+    private localeService: BsLocaleService,
+    private dateAdapter: DateAdapter<Date>
   ) {
     localeService.use('sv');
+    dateAdapter.setLocale('sv');
     this.store$.select('session').subscribe(data => (this.currentUserId = data.user.id));
   }
 
@@ -60,12 +60,10 @@ export class EventCreateComponent implements OnInit {
       },
       { validator: this.DateValidation }
     );
-
   }
 
   createEvent() {
     if (this.eventForm.valid) {
-
       this.CheckEmptyEndDate(this.eventForm);
 
       //Fixar problem med UTC och lokal tid när datum skickas till servern
@@ -73,20 +71,18 @@ export class EventCreateComponent implements OnInit {
       this.fixDateTimeZone(this.eventForm.get('endtime').value);
       this.fixDateTimeZone(this.eventForm.get('createdate').value);
 
-
       this.event = Object.assign({}, this.eventForm.value);
-      console.log(this.event)
+      console.log(this.event);
 
-      this.store$.dispatch(new fromEvent.CreateEvent(this.event));
+      this.store$.dispatch(new fromEvents.CreateEvent(this.event));
 
-      //this.router.navigate(['/event']);
       this.alertify.success('Evenemanget har skapats');
     }
   }
 
   private loadUsers(): void {
     this.store$.dispatch(new fromUsers.GetUsers());
-    this.users$ = this.store$.pipe(select(fromUsersS.getUsers));
+    this.users$ = this.store$.pipe(select(fromUsers.getUsers));
   }
 
   endDateToggle() {
@@ -118,7 +114,7 @@ export class EventCreateComponent implements OnInit {
 
   CheckEmptyEndDate(f: FormGroup) {
     if (f.get('enddate').value == '') {
-      this.eventForm.controls['enddate'].setValue(new Date(0, 0, 0, 0, 0, 0, 0));
+      this.eventForm.controls['enddate'].setValue(this.eventForm.value.startdate);
     }
     if (f.get('endtime').value == '') {
       this.eventForm.controls['endtime'].setValue(new Date(0, 0, 0, 0, 0, 0, 0));
@@ -128,5 +124,41 @@ export class EventCreateComponent implements OnInit {
   fixDateTimeZone(d: Date): Date {
     d.setHours(d.getHours() - d.getTimezoneOffset() / 60);
     return d;
+  }
+
+  /* public timeChange(time: string) {
+    var splitted = time.split(':');
+    var hour = splitted[0];
+    var minute = splitted[1];
+    var date = new Date('08/18/2016 00:00:00');
+    date.setHours(parseInt(hour));
+    date.setMinutes(parseInt(minute));
+
+    this.eventForm.controls['starttime'].setValue(date);
+    console.log(this.eventForm);
+  } */
+
+  getErrorMessageTitle() {
+    if (this.eventForm.get('title').hasError('required')) {
+      return 'Du måste ange en titel';
+    }
+  }
+
+  getErrorMessageLocation() {
+    if (this.eventForm.get('location').hasError('required')) {
+      return 'Du måste ange en plats';
+    }
+  }
+
+  getErrorMessageDescription() {
+    if (this.eventForm.get('description').hasError('required')) {
+      return 'Du måste ange en beskrivning';
+    }
+  }
+
+  getErrorMessageStartdate() {
+    if (this.eventForm.get('startdate').hasError('required')) {
+      return 'Du måste ange ett startdatum';
+    }
   }
 }
