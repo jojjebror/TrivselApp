@@ -22,8 +22,17 @@ namespace Logic.Services
 
         public async Task<ICollection<DrinkForListDto>> GetDrinks()
         {
-            var dbDrinks = await _context.Drinks.ToListAsync();
-            return dbDrinks.Select(DrinkForListTranslator.ToModel).ToList();
+            var filter = await _context.Drinks.Where(d => d.Category == "Öl").ToListAsync();
+            var filter2 = await _context.Drinks.Where(d => d.Category == "Vin").ToListAsync();
+            var filter3 = await _context.Drinks.Where(d => d.Category == "Cider").ToListAsync();
+           
+            if (filter != null)
+            {
+                return filter.Select(DrinkForListTranslator.ToModel).ToList();
+            }
+            
+
+            return null;
         }
 
         public async Task<DrinkForListDto> GetDrink(int id)
@@ -34,6 +43,20 @@ namespace Logic.Services
 
             return dr;
 
+        }
+
+        public async Task <ICollection<DrinkForListDto>> FilterDrinks()
+        {
+
+            var filter = await _context.Drinks.Where(d => d.Category == "Vin").ToListAsync();
+
+            if (filter != null)
+            {
+                return filter.Select(DrinkForListTranslator.ToModel).ToList();
+            }
+
+
+            return null;
         }
 
         public async Task<DrinkForListDto> Create(DrinkForListDto drink)
@@ -69,6 +92,8 @@ namespace Logic.Services
 
             return DrinkForListTranslator.ToModel(result);
         }
+
+        
 
         public async Task<DrinkForUpdateDto> Update(int id, DrinkForUpdateDto dr)
         {

@@ -34,6 +34,14 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
+        [HttpGet("{category}")]
+        public async Task<IActionResult> FilterDrinks()
+        {
+            var result = await _drinkService.FilterDrinks();
+
+            return new OkObjectResult(ApiResponse.Create(result));
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]DrinkForListDto drink)
         {
@@ -55,5 +63,7 @@ namespace Api.Controllers
 
             return new OkObjectResult(ApiResponse.Create(result));
         }
-    }
+
+    } 
+
 }
