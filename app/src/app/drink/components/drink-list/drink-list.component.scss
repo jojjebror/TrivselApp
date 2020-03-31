@@ -1,5 +1,5 @@
 
-
+ @media (min-width: 415px) {
 /* Clear floats after the columns */
 .row:after {
     content: "";
@@ -126,5 +126,36 @@
   
   li {
     cursor: pointer;
+  }
+}
+  
+  @media (max-width: 414px) {
+  
+    .container{
+    margin-top: 50px;
+   }
+
+   ul {
+    list-style-type: none;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+    flex-wrap: wrap;
+    width: 1000px;
+    
+    }
+
+    li {
+      background: #FE6F5E;
+      padding: 1em;
+      margin-right: 10px;
+      width: 34.3%;
+      height: 150px;
+      margin-bottom: 1em;
+      flex-direction: column;
+      border-radius: 10px;
+      text-align: center;
+      
+    }
   }
   
