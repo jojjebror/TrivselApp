@@ -12,9 +12,13 @@
   <button class="btn btn-success" (click)="GetToSwish(dr)">
     Köp dryck!
   </button>
-  <button class="btn btn-success"(click)="clickCountM()">-</button>
+
   <p class="btn btn-success">{{clickCounter}}</p>
   <button class="btn btn-success" (click)="clickCount()">+</button>
+
+  <ng-template [ngIf]="clickCounter > 1">
+    <button class="btn btn-success"(click)="clickCountM()">-</button>
+  </ng-template>
  </div>
 
   <div class="row">
