@@ -20,8 +20,8 @@ import * as drinksActions from '../../state/drinks';
 export class DrinkDetailComponent implements OnInit {
   dr$: Observable<Drink>;
   id: number;
-
-
+  isShown: boolean = false ; // hidden by default
+ 
   constructor(private store$: Store<AppState>, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
@@ -50,4 +50,10 @@ export class DrinkDetailComponent implements OnInit {
   editDrink(drink: Drink) {
     this.store$.dispatch(new drinksActions.LoadDrink(drink.id));
   }
+
+  toggleShow() {
+
+    this.isShown = ! this.isShown;
+  }
+
 }

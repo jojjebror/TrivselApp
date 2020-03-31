@@ -1,5 +1,4 @@
 .img-thumbnail {
-    margin: 25px;
     width: 85%;
     height: 85%;
 }
@@ -7,6 +6,7 @@
 .card-body {
     padding: 0 25px;
     color: white;
+    
 }
 
 .card-footer {
@@ -23,11 +23,15 @@
 }
 .card {
   background-color: transparent;
+  padding-left: 60px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 button {
-  float: right;
-  margin-right: 3%;
+  float: left;
+  margin-left: 3%;
+  
 }
 
 h4  {
@@ -36,4 +40,25 @@ h4  {
 
 a {
   color: white !important;
+}
+
+.buyButton {
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.product-details {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-left: 400px;
+}
+
+header > p {
+  display: inline-block;
+}
+
+img {
+  width: 200px;
+  float:left;
 }
