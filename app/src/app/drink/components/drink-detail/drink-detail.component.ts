@@ -20,8 +20,15 @@ import * as drinksActions from '../../state/drinks';
 export class DrinkDetailComponent implements OnInit {
   dr$: Observable<Drink>;
   id: number;
+<<<<<<< HEAD
   isShown: boolean = false ; // hidden by default
  
+=======
+  clickCounter: number = 1;
+  totalSum: number = 0;
+
+
+>>>>>>> 5322b42730a9235b05135cbf37b6d06921630d01
   constructor(private store$: Store<AppState>, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
@@ -47,13 +54,30 @@ export class DrinkDetailComponent implements OnInit {
     }
   }
 
+  clickCount(){
+    this.clickCounter +=1;
+    console.log(this.clickCounter);
+  }
+  clickCountM(){
+    if(this.clickCounter > 1)
+    this.clickCounter -=1;
+    console.log(this.clickCounter);
+  }
+
   editDrink(drink: Drink) {
     this.store$.dispatch(new drinksActions.LoadDrink(drink.id));
   }
 
+<<<<<<< HEAD
   toggleShow() {
 
     this.isShown = ! this.isShown;
+=======
+  GetToSwish(drink: Drink){
+    this.totalSum = 0;
+   this.totalSum += this.clickCounter * drink.price;
+    console.log(this.totalSum);
+>>>>>>> 5322b42730a9235b05135cbf37b6d06921630d01
   }
 
 }
