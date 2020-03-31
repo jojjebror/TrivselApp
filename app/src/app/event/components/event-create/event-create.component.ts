@@ -12,6 +12,8 @@ import { AlertifyService } from 'src/app/core/services/alertify.service';
 import { Observable } from 'rxjs';
 import { DateAdapter } from '@angular/material';
 
+import * as fromSession from '../../../core/state/session';
+
 @Component({
   selector: 'ex-event-create',
   templateUrl: './event-create.component.html',
@@ -22,7 +24,7 @@ export class EventCreateComponent implements OnInit {
   @Output() cancelNewEvent = new EventEmitter();
   event: Event;
   users$: Observable<User[]>;
-  currentUserId: any;
+  userId: number;
   eventForm: FormGroup;
   endDateMode = false;
 
@@ -35,7 +37,7 @@ export class EventCreateComponent implements OnInit {
   ) {
     localeService.use('sv');
     dateAdapter.setLocale('sv');
-    this.store$.select('session').subscribe(data => (this.currentUserId = data.user.id));
+    this.store$.select(fromSession.selectUser).subscribe(user => (this.userId = user.id));
   }
 
   ngOnInit() {
@@ -55,7 +57,7 @@ export class EventCreateComponent implements OnInit {
         enddate: [''],
         endtime: [''],
         createdate: [new Date()],
-        creatorid: [this.currentUserId],
+        creatorid: [this.userId],
         users: [null]
       },
       { validator: this.DateValidation }

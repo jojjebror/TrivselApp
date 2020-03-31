@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy} from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ViewEncapsulation} from '@angular/core';
 
 import { AppState } from 'src/app/core/state';
 import { Store, select } from '@ngrx/store';
