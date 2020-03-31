@@ -24,15 +24,15 @@ export class UsersEffects {
       )
     )
   );
-}
 
-/*   @Effect()
-  loadEvents$: Observable<Action> = this.actions$.pipe(
-    ofType<eventsActions.LoadEvents>(eventsActions.ActionTypes.LOAD_EVENTS),
-    mergeMap((actions: eventsActions.LoadEvents) =>
-      this.eventResource.loadEvents().pipe(
-        map((events: Event[]) => new eventsActions.LoadEventsSuccess(events)),
-        catchError(err => of(new eventsActions.LoadEventsError(err)))
+  @Effect()
+  loadOffices$: Observable<Action> = this.actions$.pipe(
+    ofType<usersActions.GetOffices>(usersActions.ActionTypes.GET_OFFICES),
+    mergeMap((actions: usersActions.GetOffices) =>
+      this.userResource.getUsers().pipe(
+        map((offices: User[]) => new usersActions.GetOfficesSuccess(offices)),
+        catchError(err => of(new usersActions.GetOfficesError(err)))
       )
     )
-  ); */
+  );
+}

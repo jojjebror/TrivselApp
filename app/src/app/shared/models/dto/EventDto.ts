@@ -13,4 +13,5 @@ export class Event extends Base {
          public createDate: Date;
          public creatorId: number;
          public users?: User[];
+         public offices?: string[];
        }

@@ -19,5 +19,7 @@ namespace Logic.Models
         public DateTime CreateDate { get; set; }
         public int CreatorId { get; set; }
         public ICollection<UserDto> Users { get; set; }
+
+        public string[] Offices { get; set; }
     }
 }

@@ -31,15 +31,13 @@ h4 {
   margin-top: 10px;
 }
 
-:ng-deep .mat-tab-labels,
-.mat-tab-label,
-.mat-tab-link {
-  color: white;
-  font-size: 20px;
+/* active tab */
+::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+color:white;
+font-size: 18px;
 }
 
-:ng-deep .mat-tab-group.mat-primary .mat-ink-bar,
-.mat-tab-nav-bar.mat-primary .mat-ink-bar {
-  background: white;
-  height: 3px;
+/* ink bar */
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary {
+background-color: white !important;
 }

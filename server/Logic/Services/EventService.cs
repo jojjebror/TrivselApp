@@ -54,6 +54,29 @@ namespace Logic.Services
 
             _context.Events.Add(newEvent);
 
+            var CheckIfUserIsAddedInOffice = new List<EventParticipant>();
+
+            if (ev.Offices != null)
+            {
+                foreach (var office in ev.Offices)
+                {
+                    var usersToAdd =  await _context.Users.Where(o => o.Office == office).ToListAsync();
+
+                    foreach(var user in usersToAdd) 
+                    {
+                        
+                        var newEventParticipant = new EventParticipant()
+                        {
+                            EventId = ev.Id,
+                            UserId = user.Id
+                        };
+
+                        CheckIfUserIsAddedInOffice.Add(newEventParticipant);
+                        _context.EventParticipants.Add(newEventParticipant);              
+                    }
+                }
+            }
+
             if (ev.Users != null) 
             {
                 foreach(var user in ev.Users)
@@ -63,7 +86,11 @@ namespace Logic.Services
                         EventId = ev.Id,
                         UserId = user.Id
                     };
-                    _context.EventParticipants.Add(newEventParticipant);
+                    //if (!usersToAdd1.Contains(newEventParticipant))
+                    if (!CheckIfUserIsAddedInOffice.Exists(x => x.UserId == newEventParticipant.UserId))
+                    {
+                        _context.EventParticipants.Add(newEventParticipant);
+                    }
                 }
             }
             

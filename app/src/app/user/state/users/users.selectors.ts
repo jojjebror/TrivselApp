@@ -17,6 +17,8 @@ export const getError = createSelector(selectState, state => state.error);
 
 export const getAllUsers = createSelector(selectState, state => state.entities);
 
+export const getAllOffices = createSelector(selectState, state => state.entities.offices);
+
 
 /* export const getCurrentUserId = createSelector(selectState, state => state.selectedUserId);
 

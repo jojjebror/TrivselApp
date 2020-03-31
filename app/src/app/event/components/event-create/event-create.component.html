@@ -5,7 +5,7 @@
 
     <div>
       <mat-form-field appearance="outline" style="width: 100%">
-        <mat-icon matPrefix>title</mat-icon>
+        <!-- <mat-icon matPrefix>title</mat-icon> -->
         <mat-label>Titel</mat-label>
         <mat-error *ngIf="eventForm.invalid">{{ getErrorMessageTitle() }}</mat-error>
         <input type="text" matInput formControlName="title" autocomplete="off" />
@@ -14,7 +14,6 @@
 
     <div>
       <mat-form-field appearance="outline">
-        <mat-icon matPrefix>add_location</mat-icon>
         <mat-label>Plats</mat-label>
         <mat-error *ngIf="eventForm.invalid">{{ getErrorMessageLocation() }}</mat-error>
         <input type="text" matInput formControlName="location" autocomplete="off" />
@@ -23,7 +22,6 @@
 
     <div>
       <mat-form-field appearance="outline" class="fieldDescription">
-        <mat-icon matPrefix>info_outline</mat-icon>
         <mat-label>Beskrivning</mat-label>
         <mat-error *ngIf="eventForm.invalid">{{ getErrorMessageDescription() }}</mat-error>
         <textarea matInput formControlName="description" autocomplete="off"></textarea>
@@ -33,29 +31,24 @@
     <div>
       <mat-form-field appearance="outline">
         <mat-label>Bild-url</mat-label>
-        <input
-          type="text"
-          matInput
-          formControlName="image"
-          autocomplete="off"
-        />
+        <input type="text" matInput formControlName="image" autocomplete="off" />
       </mat-form-field>
     </div>
 
     <div class="form-row">
       <div>
         <mat-form-field appearance="outline">
-          <mat-datepicker-toggle matPrefix [for]="picker" style="color: white;"></mat-datepicker-toggle>
+<!--           <mat-datepicker-toggle matPrefix [for]="picker" style="color: white;"></mat-datepicker-toggle> -->
           <mat-label>Startdatum</mat-label>
           <mat-error *ngIf="eventForm.invalid">{{ getErrorMessageStartdate() }}</mat-error>
-          <input matInput (focus)="picker.open()" [matDatepicker]="picker" formControlName="startdate" autocomplete="off"/>
+          <input matInput (focus)="picker.open()" [matDatepicker]="picker" formControlName="startdate" autocomplete="off" />
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
 
       <div class="form-group col-md-4 mt-2">
         <timepicker formControlName="starttime" [showMeridian]="false" [showSpinners]="false"> </timepicker>
-      </div> 
+      </div>
       <!-- <div class="form-group col-md-2 mt-2">
         <mat-form-field>
           <mat-label>Starttid</mat-label>
@@ -72,9 +65,9 @@
     <div *ngIf="endDateMode" class="form-row" id="sectionEndDate">
       <div>
         <mat-form-field appearance="outline">
-          <mat-datepicker-toggle matPrefix [for]="picker" style="color: white;"></mat-datepicker-toggle>
-          <mat-label>Slutdatum</mat-label>
-          <input matInput (focus)="picker.open()" [matDatepicker]="picker" formControlName="enddate" autocomplete="off"/>
+<!--           <mat-datepicker-toggle matPrefix [for]="picker" style="color: white;"></mat-datepicker-toggle>
+ -->          <mat-label>Slutdatum</mat-label>
+          <input matInput (focus)="picker.open()" [matDatepicker]="picker" formControlName="enddate" autocomplete="off" />
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
@@ -88,14 +81,28 @@
       </div>
     </div>
 
-    <mat-selection-list class="form-group" #selectedUsers formControlName="users">
-      <mat-list-option *ngFor="let user of users$ | async" [value]="user">
-        {{ user.name }}
-      </mat-list-option>
-    </mat-selection-list>
-    <p>Antal deltagare: {{ selectedUsers.selectedOptions.selected.length }}</p>
+    <div class="inviteContainer">
+      <div class="officeContainer">
+        <p>Välj kontor att bjuda in</p>
+        <mat-selection-list class="form-group" #selectedOffices formControlName="offices">
+          <mat-list-option *ngFor="let office of offices" [value]="office">
+            {{ office }}
+          </mat-list-option>
+        </mat-selection-list>
+        <p>Inbjudna kontor: {{ selectedOffices.selectedOptions.selected.length }}</p>
+      </div>
+      <div class="userContainer">
+        <p>Välj specifika användare</p>
+        <mat-selection-list class="form-group" #selectedUsers formControlName="users">
+          <mat-list-option *ngFor="let user of users$ | async" [value]="user">
+            {{ user.name }}
+          </mat-list-option>
+        </mat-selection-list>
+        <p>Inbjudna användare: {{ selectedUsers.selectedOptions.selected.length }}</p>
+      </div>    
+    </div>
 
-    <div class="form-group text-center">
+    <div class="form-group text-center btnGroup">
       <button class="btn btn-success" [disabled]="!eventForm.valid" type="submit">
         Skapa evenemang
       </button>

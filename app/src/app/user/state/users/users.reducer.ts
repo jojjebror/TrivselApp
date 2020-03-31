@@ -5,7 +5,7 @@ import * as usersActions from './users.actions';
 
 let initialState = adapter.getInitialState({
   selectedUserId: null,
-  //users: [],
+  offices: [],
   loading: false,
   loaded: false,
   error: ''
