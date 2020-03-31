@@ -30,6 +30,19 @@ export class EventCreateComponent implements OnInit {
   fileUpload: File = null;
   imageUrl: string = 'assets/images/event-images/';
 
+  offices: string[] = [
+    'Linköping',
+    'Stockholm',
+    'Göteborg',
+    'Malmö',
+    'Uppsala',
+    'Örebro',
+    'Söderhamn',
+    'Borlänge',
+    'Helsingborg',
+    'Karlstad'
+  ];
+
   constructor(
     private store$: Store<AppState>,
     private fb: FormBuilder,
@@ -43,7 +56,7 @@ export class EventCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadUsers();
+    this.loadOffices();
     this.createEventForm();
   }
 
@@ -60,7 +73,8 @@ export class EventCreateComponent implements OnInit {
         endtime: [''],
         createdate: [new Date()],
         creatorid: [this.userId],
-        users: [null]
+        users: [null],
+        offices: [['']]
       },
       { validator: this.DateValidation }
     );
@@ -80,6 +94,8 @@ export class EventCreateComponent implements OnInit {
     if (this.eventForm.valid) {
       this.CheckEmptyEndDate(this.eventForm);
 
+      console.log(this.eventForm);
+
       //Fixar problem med UTC och lokal tid när datum skickas till servern
       this.fixDateTimeZone(this.eventForm.get('starttime').value);
       this.fixDateTimeZone(this.eventForm.get('endtime').value);
@@ -94,7 +110,12 @@ export class EventCreateComponent implements OnInit {
     }
   }
 
-  private loadUsers(): void {
+  /*  private loadUsers(): void {
+    this.store$.dispatch(new fromUsers.GetUsers());
+    this.users$ = this.store$.pipe(select(fromUsers.getUsers));
+  } */
+
+  private loadOffices(): void {
     this.store$.dispatch(new fromUsers.GetUsers());
     this.users$ = this.store$.pipe(select(fromUsers.getUsers));
   }

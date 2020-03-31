@@ -7,5 +7,5 @@ export interface UsersState extends EntityState<User> {
   loading: boolean;
   loaded: boolean;
   error: string;
-  //users: User[];
+  offices: string[]
 }
