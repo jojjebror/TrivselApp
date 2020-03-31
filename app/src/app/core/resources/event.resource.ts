@@ -19,13 +19,26 @@ export class EventResource extends ApiResource {
     return this.get('event/' + id);
   }
 
-  create(ev: Event): Observable<Event> {
+  createEvent(ev: Event): Observable<Event> {
     return this.post('event', ev);
   }
 
-  updateEvent(id: number, event: Event): Observable<Event> {
-    //console.log("Id:: " + id);
-    console.log("Event: " + event);
-    return this.put('event/' + id, event);
+  deleteEvent(id: number) {
+    return this.delete('event/' + id);
+  }
+
+  updateEvent(ev: Event): Observable<Event> {
+    return this.put('event/'+ ev.id, ev);
+  }
+
+  acceptInvite(data: number[]): Observable<Event[]> {
+    return this.post('event/' + data[0] + '/' + data[1], {});
+  }
+
+  uploadImage(image: File) {
+    console.log(image);
+    var formData = new FormData();
+    formData.append('image', image, image.name);
+    return this.post2('event/uploadimage', formData);
   }
 }

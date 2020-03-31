@@ -6,6 +6,7 @@ import { SessionState } from './session';
 import { ExampleState } from '../../example/state';
 import { EventState } from '../../event/state';
 import { DrinkState } from '../../drink/state';
+import { UserState } from '../../user/state';
 
 
 /**
@@ -23,4 +24,6 @@ export interface AppState {
 	event?: EventState;
 	
 	drink?: DrinkState;
+
+	user?: UserState;
 }

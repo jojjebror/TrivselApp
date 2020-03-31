@@ -248,6 +248,7 @@
     <Compile Include="Database\Entities\BaseEntity.cs" />
     <Compile Include="Database\Entities\Drink.cs" />
     <Compile Include="Database\Entities\Event.cs" />
+    <Compile Include="Database\Entities\EventParticipant.cs" />
     <Compile Include="Database\Entities\Example.cs" />
     <Compile Include="Database\Entities\User.cs" />
     <Compile Include="Database\Migrations\201802011317393_Google.cs" />
@@ -285,6 +286,7 @@
     <Compile Include="Models\EventForUpdateDto.cs" />
     <Compile Include="Models\ExampleDto.cs" />
     <Compile Include="Models\UserDto.cs" />
+    <Compile Include="Models\UserForListDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DrinkService.cs" />
     <Compile Include="Services\EventService.cs" />
@@ -298,6 +300,7 @@
     <Compile Include="Translators\EventForListTranslator.cs" />
     <Compile Include="Translators\EventForUpdateTranslator.cs" />
     <Compile Include="Translators\ExampleTranslator.cs" />
+    <Compile Include="Translators\UserForListTranslator.cs" />
     <Compile Include="Translators\UserTranslator.cs" />
   </ItemGroup>
   <ItemGroup>

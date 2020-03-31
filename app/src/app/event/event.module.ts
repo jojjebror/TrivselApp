@@ -15,7 +15,8 @@ import { components } from './components';
 import { TabsModule, BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap';
 
 @NgModule({
-  imports: [SharedModule, 
+  imports: [
+    SharedModule,
     LoginRoutingModule,
     StoreModule.forFeature('event', reducers),
     EffectsModule.forFeature(effects),
@@ -23,8 +24,7 @@ import { TabsModule, BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap'
     TabsModule,
     TimepickerModule,
     BsDatepickerModule
-  ]
-    ,
+  ],
   exports: [],
   declarations: [...views, ...components],
   providers: []

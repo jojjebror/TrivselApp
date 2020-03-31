@@ -22,7 +22,7 @@ namespace Logic.Database.Migrations
                         CreatorId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Users", t => t.CreatorId, cascadeDelete: true)
+                .ForeignKey("dbo.Users", t => t.CreatorId, cascadeDelete: false)
                 .Index(t => t.CreatorId);
             
             AddColumn("dbo.Users", "Office", c => c.String());

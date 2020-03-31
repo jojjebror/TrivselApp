@@ -24,7 +24,14 @@ namespace Logic.Translators
                 Location = ev.Location,
                 StartDate = ev.StartDate,
                 EndDate = ev.EndDate,
-                CreatorId = ev.CreatorId
+                CreatorId = ev.CreatorId,
+                Users = ev.EventParticipants.Select(u =>
+                    new UserDto
+                    {
+                        Id = u.User.Id,
+                        Email = u.User.Email,
+                        Name = u.User.Name
+                    }).ToList()              
             };
         }
     }

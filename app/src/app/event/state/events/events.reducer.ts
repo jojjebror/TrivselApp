@@ -5,6 +5,7 @@ import * as eventsActions from './events.actions';
 
 let initialState = adapter.getInitialState({
   selectedEventId: null,
+  users: [],
   loading: false,
   loaded: false,
   error: ''
@@ -33,7 +34,8 @@ export function reducer(state: EventsState = initialState, action: eventsActions
     case eventsActions.ActionTypes.LOAD_EVENT_SUCCESS: {
       return adapter.addOne(action.payload, {
         ...state,
-        selectedEventId: action.payload.id
+        selectedEventId: action.payload.id,
+        users: action.payload.users
       });
     }
 
@@ -60,6 +62,15 @@ export function reducer(state: EventsState = initialState, action: eventsActions
     }
 
     case eventsActions.ActionTypes.UPDATE_EVENT_ERROR: {
+      return {
+        ...state,
+        error: action.payload
+      };
+    }
+    case eventsActions.ActionTypes.DELETE_EVENT: {
+      return adapter.removeOne(action.payload, state);
+    }
+    case eventsActions.ActionTypes.DELETE_EVENT_ERROR: {
       return {
         ...state,
         error: action.payload
