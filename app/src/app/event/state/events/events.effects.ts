@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { switchMap, map, mergeMap, catchError } from 'rxjs/operators';
+import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { EventResource } from '../../../core/resources';
 
@@ -47,15 +47,30 @@ export class EventsEffects {
     )
   );
 
-  /*----------Framtida kodidéer nedan------------- */
-
-  /*
   @Effect()
   updateEvent$: Observable<Action> = this.actions$.pipe(
     ofType<eventsActions.UpdateEvent>(eventsActions.ActionTypes.UPDATE_EVENT),
     map((action: eventsActions.UpdateEvent) => action.payload),
+    mergeMap((event: Event) => 
+      this.eventResource.updateEvent(event.id, event).pipe(
+        map(
+          (updatedEvent: Event) =>
+            new eventsActions.UpdateEventSuccess({
+              id: updatedEvent.id,
+              changes: updatedEvent
+            })
+        ),
+        catchError(err => of(new eventsActions.UpdateEventError(err)))
+      )
+    )
+  );
+
+  /* @Effect()
+  updateEvent$: Observable<Action> = this.actions$.pipe(
+    ofType<eventsActions.UpdateEvent>(eventsActions.ActionTypes.UPDATE_EVENT),
+    map((action: eventsActions.UpdateEvent) => action.payload),
     mergeMap((event: Event) =>
-      this.eventResource.UpdateEvent(event).pipe(
+      this.eventResource.updateEvent(event.id, event).pipe(
         map(
           (updateEvent: Event) =>
             new eventsActions.UpdateEventSuccess({
@@ -66,7 +81,12 @@ export class EventsEffects {
         catchError(err => of(new eventsActions.UpdateEventError(err)))
       )
     )
-  );
+  ); */
+
+  /*----------Framtida kodidéer nedan------------- */
+
+  /*
+ 
 
   @Effect()
   deleteEvent$: Observable<Action> = this.actions$.pipe(

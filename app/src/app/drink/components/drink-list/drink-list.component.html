@@ -19,16 +19,20 @@
     
     <h3>Välj en kategori!</h3>
     <hr />
-  
+  <!----<a class ="title" (click)="ListDrink('öl')">Öl</a>-->
   <ul>
   <li [routerLink]="['/drink/category']">
     
     <a class ="title">Öl</a>
     <hr/>
+    <img src="assets/images/Beer-icon.png">
+    <hr/>
     <h6>Öl är ju oerhört trevligt!</h6>
   </li>
   <li [routerLink]="['/drink/category2']">
     <a class ="title">Vin</a>
+    <hr/>
+    <img src="assets/images/Wine-icon.png">
     <hr/>
     <h6>Ett glas vin om dagen, det är bra för magen! 
       </h6>

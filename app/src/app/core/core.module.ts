@@ -38,7 +38,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     TimepickerModule.forRoot(),
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    
   ],
   exports: [],
   declarations: [...views, ...components],
