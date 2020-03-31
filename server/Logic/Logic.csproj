@@ -272,6 +272,10 @@
     <Compile Include="Database\Migrations\202003231613405_revertedInts.Designer.cs">
       <DependentUpon>202003231613405_revertedInts.cs</DependentUpon>
     </Compile>
+    <Compile Include="Database\Migrations\202003311503529_test.cs" />
+    <Compile Include="Database\Migrations\202003311503529_test.Designer.cs">
+      <DependentUpon>202003311503529_test.cs</DependentUpon>
+    </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Helpers\PagedList.cs" />
     <Compile Include="Init.cs" />
@@ -326,6 +330,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\Migrations\202003231613405_revertedInts.resx">
       <DependentUpon>202003231613405_revertedInts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202003311503529_test.resx">
+      <DependentUpon>202003311503529_test.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
