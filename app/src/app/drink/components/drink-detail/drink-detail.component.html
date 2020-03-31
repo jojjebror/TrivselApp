@@ -3,6 +3,8 @@
  
  
   <button (click)="toggleShow()" type="checkbox" style="float: right;"> <i class="fa fa-gear"></i></button>
+
+
   <div class="row">
     <h1 class="mb-4" style="padding-left: 110px;">{{ dr.productNameBold }}</h1>
   </div>
@@ -33,11 +35,16 @@
     <button class="btn btn-success" (click)="GetToSwish(dr)">
       Köp dryck!
     </button>
-    <button class="btn btn-success"(click)="clickCountM()">-</button>
+  
     <p class="btn btn-success">{{clickCounter}}</p>
     <button class="btn btn-success" (click)="clickCount()">+</button>
+  
+    <ng-template [ngIf]="clickCounter > 1">
+      <button class="btn btn-success"(click)="clickCountM()">-</button>
+    </ng-template>
+   </div>
 
-  </div>
+
 
 
   <div *ngIf="isShown" class="row" id="divshow" >
@@ -53,8 +60,6 @@
     </button>
   </div>
 </div>
-
-
 <script>
   document.getElementById('toggleBtn').onclick = function(){
       var display = getComputedStyle(myDIV).display=='none'?'':'none';

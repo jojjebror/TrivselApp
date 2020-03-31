@@ -1,3 +1,5 @@
+@media (min-width: 415px) {
+
 .img-thumbnail {
     width: 85%;
     height: 85%;
@@ -64,5 +66,11 @@ header > p {
 
 img {
   float:left;
+  }
+
+}
+/*    Mobil            */
+
+@media (max-width: 414px) {
 
 }
