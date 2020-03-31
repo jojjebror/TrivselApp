@@ -35,6 +35,15 @@ namespace Logic.Services
             return null;
         }
 
+        //public async Task<ICollection<DrinkForListDto>> GetDrinks(string category)
+        //{
+        //    var filter = await _context.Drinks.Where(d => d.Category == category || d.Category == category || d.Category == category ).ToListAsync();
+
+        //    var add = filter.Select(DrinkForListTranslator.ToModel).ToList();
+
+        //    return add;
+        //}
+
         public async Task<DrinkForListDto> GetDrink(int id)
         {
             var dbDrink = await _context.Drinks

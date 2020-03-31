@@ -8,9 +8,14 @@
   <button class="btn btn-primary" (click)="editDrink(dr)" [routerLink] ="['/drink/edit']" >
     Redigera dryck
   </button>
-  <button class="btn btn-success">
+ <div>
+  <button class="btn btn-success" (click)="GetToSwish(dr)">
     Köp dryck!
   </button>
+  <button class="btn btn-success"(click)="clickCountM()">-</button>
+  <p class="btn btn-success">{{clickCounter}}</p>
+  <button class="btn btn-success" (click)="clickCount()">+</button>
+ </div>
 
   <div class="row">
     <h1 class="mb-4">{{ dr.productNameBold }}</h1>
