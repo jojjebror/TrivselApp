@@ -256,24 +256,9 @@
     <Compile Include="Database\Migrations\201802051252482_Init.Designer.cs">
       <DependentUpon>201802051252482_Init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\Migrations\202003111100202_AddEvent.cs" />
-    <Compile Include="Database\Migrations\202003111100202_AddEvent.Designer.cs">
-      <DependentUpon>202003111100202_AddEvent.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Database\Migrations\202003111420106_drinks.cs" />
-    <Compile Include="Database\Migrations\202003111420106_drinks.Designer.cs">
-      <DependentUpon>202003111420106_drinks.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Database\Migrations\202003131326225_addDrink.cs" />
-    <Compile Include="Database\Migrations\202003131326225_addDrink.Designer.cs">
-      <DependentUpon>202003131326225_addDrink.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Database\Migrations\202003200842494_EventParticipants.cs" />
-    <Compile Include="Database\Migrations\202003200842494_EventParticipants.Designer.cs">
-      <DependentUpon>202003200842494_EventParticipants.cs</DependentUpon>
-    <Compile Include="Database\Migrations\202003231613405_revertedInts.cs" />
-    <Compile Include="Database\Migrations\202003231613405_revertedInts.Designer.cs">
-      <DependentUpon>202003231613405_revertedInts.cs</DependentUpon>
+    <Compile Include="Database\Migrations\202003311451509_MergeMigration.cs" />
+    <Compile Include="Database\Migrations\202003311451509_MergeMigration.Designer.cs">
+      <DependentUpon>202003311451509_MergeMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Helpers\PagedList.cs" />
@@ -318,19 +303,8 @@
     <EmbeddedResource Include="Database\Migrations\201802051252482_Init.resx">
       <DependentUpon>201802051252482_Init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Database\Migrations\202003111100202_AddEvent.resx">
-      <DependentUpon>202003111100202_AddEvent.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Database\Migrations\202003111420106_drinks.resx">
-      <DependentUpon>202003111420106_drinks.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Database\Migrations\202003131326225_addDrink.resx">
-      <DependentUpon>202003131326225_addDrink.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Database\Migrations\202003200842494_EventParticipants.resx">
-      <DependentUpon>202003200842494_EventParticipants.cs</DependentUpon>
-    <EmbeddedResource Include="Database\Migrations\202003231613405_revertedInts.resx">
-      <DependentUpon>202003231613405_revertedInts.cs</DependentUpon>
+    <EmbeddedResource Include="Database\Migrations\202003311451509_MergeMigration.resx">
+      <DependentUpon>202003311451509_MergeMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

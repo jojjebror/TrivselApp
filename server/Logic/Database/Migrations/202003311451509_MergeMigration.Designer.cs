@@ -7,13 +7,13 @@ namespace Logic.Database.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class revertedInts : IMigrationMetadata
+    public sealed partial class MergeMigration : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(revertedInts));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(MergeMigration));
         
         string IMigrationMetadata.Id
         {
-            get { return "202003231613405_revertedInts"; }
+            get { return "202003311451509_MergeMigration"; }
         }
         
         string IMigrationMetadata.Source
