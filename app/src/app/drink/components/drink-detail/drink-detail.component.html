@@ -1,9 +1,46 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="container mt-5 border border-light p-5" style="width:35%;" *ngIf="dr$ | async; let dr">
  
-<<<<<<< HEAD
-  <button (click)="toggleShow()" type="checkbox" >Ändra</button>
+ 
+  <button (click)="toggleShow()" type="checkbox" style="float: right;"> <i class="fa fa-gear"></i></button>
+  <div class="row">
+    <h1 class="mb-4" style="padding-left: 110px;">{{ dr.productNameBold }}</h1>
+  </div>
+  
+  <div class="row">
+    
+      <div class="product-details">
+        <header>
+            <h4>Pris: {{ dr.price }}kr</h4>
+            <br>
 
-  <div *ngIf="isShown" class="row container-fluid"  id="divshow" >
+            <h4>Volym: {{ dr.volume}}cl</h4>
+            <br>
+        
+            <h4>Kategori: {{ dr.category}}</h4> 
+        </header>
+       
+       </div>
+  </div>
+    
+  <button class="btn btn-back" id="back" type="button" style="color: white;" [routerLink]="['/drink']">
+    Gå tillbaka
+  </button>
+
+
+  <div class="row" style="padding-left: 200px;">
+
+    <button class="btn btn-success" (click)="GetToSwish(dr)">
+      Köp dryck!
+    </button>
+    <button class="btn btn-success"(click)="clickCountM()">-</button>
+    <p class="btn btn-success">{{clickCounter}}</p>
+    <button class="btn btn-success" (click)="clickCount()">+</button>
+
+  </div>
+
+
+  <div *ngIf="isShown" class="row" id="divshow" >
     
     <button class="btn btn-danger">
       <!-- <a (click)=editDrink(drink)>edit</a>  --> 
@@ -15,55 +52,6 @@
       Redigera dryck
     </button>
   </div>
-=======
-  <button class="btn btn-danger">
-    <!-- <a (click)=editDrink(drink)>edit</a>  --> 
-     
-     <a (click)="deleteDrink(dr.id)">Panta</a>
-  </button>
-  <button class="btn btn-primary" (click)="editDrink(dr)" [routerLink] ="['/drink/edit']" >
-    Redigera dryck
-  </button>
- <div>
-  <button class="btn btn-success" (click)="GetToSwish(dr)">
-    Köp dryck!
-  </button>
-  <button class="btn btn-success"(click)="clickCountM()">-</button>
-  <p class="btn btn-success">{{clickCounter}}</p>
-  <button class="btn btn-success" (click)="clickCount()">+</button>
- </div>
->>>>>>> 5322b42730a9235b05135cbf37b6d06921630d01
-
-  <div class="row">
-    <h1 class="mb-4" style="padding-left: 110px;">{{ dr.productNameBold }}</h1>
-  </div>
-  <div class="row">
-    
-      <div class="product-details">
-        <header>
-            <strong>Pris: </strong><p> &nbsp; {{ dr.price }}kr</p> 
-            <hr/>
-        
-            <strong>Smak:</strong> <p>  &nbsp; {{ dr.taste}}</p>
-            <hr/>
-          
-            <strong>Volym:</strong> <p>  &nbsp; {{ dr.volume}}cl</p>
-            <hr/>
-        
-            <strong>Kategori:</strong> <p> &nbsp; {{ dr.category}}</p> 
-        </header>
-       
-          <button class="btn btn-success buyButton">
-            Köp dryck!
-          </button>
-       </div>
-    <div>
-    <img src="assets/images/Beer-icon.png">
-    </div>
-  </div>
-  <button class="btn btn-back" id="back" type="button" style="color: white;" [routerLink]="['/drink']">
-    Gå tillbaka
-  </button>
 </div>
 
 

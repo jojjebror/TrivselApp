@@ -6,7 +6,7 @@
 .card-body {
     padding: 0 25px;
     color: white;
-    
+   
 }
 
 .card-footer {
@@ -15,17 +15,20 @@
 }
 
 .container {
-  color: white;
+
+  background-image:url('../../../../assets/images/Beer-image.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 #back {
   float: left;
 }
 .card {
-  background-color: transparent;
-  padding-left: 60px;
+
   margin-left: auto;
   margin-right: auto;
+
 }
 
 button {
@@ -51,7 +54,8 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-left: 400px;
+  width: 600px;
+  height: 300px;
 }
 
 header > p {
@@ -59,6 +63,6 @@ header > p {
 }
 
 img {
-  width: 200px;
   float:left;
+
 }
