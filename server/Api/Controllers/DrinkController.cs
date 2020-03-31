@@ -49,7 +49,7 @@ namespace Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateDrink(int id, DrinkForUpdateDto dr)
+        public async Task<IActionResult> UpdateDrink(int id, [FromBody]DrinkForUpdateDto dr)
         {
             var result = await _drinkService.Update(id, dr);
 

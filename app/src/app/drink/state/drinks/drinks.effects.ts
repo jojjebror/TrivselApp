@@ -15,6 +15,7 @@ import { Drink } from 'src/app/shared/models';
 export class DrinksEffects {
   constructor(private actions$: Actions, private drinkResource: DrinkResource) {}
 
+  //load drinks
   @Effect()
   loadDrinks$: Observable<Action> = this.actions$.pipe(
     ofType<drinksActions.LoadDrinks>(drinksActions.ActionTypes.LOAD_DRINKS),
@@ -26,6 +27,7 @@ export class DrinksEffects {
     )
   );
 
+  //load drink
   @Effect()
   loadDrink$: Observable<Action> = this.actions$.pipe(
     ofType<drinksActions.LoadDrink>(drinksActions.ActionTypes.LOAD_DRINK),
@@ -80,9 +82,7 @@ export class DrinksEffects {
   
   @Effect()
   updateDrink$: Observable<Action> = this.actions$.pipe(
-    ofType<drinksActions.UpdateDrink>(
-      drinksActions.ActionTypes.UPDATE_DRINK
-    ),
+    ofType<drinksActions.UpdateDrink>(drinksActions.ActionTypes.UPDATE_DRINK),
     map((action: drinksActions.UpdateDrink) => action.payload),
     mergeMap((drink: Drink) =>
       this.drinkResource.updateDrink(drink).pipe(

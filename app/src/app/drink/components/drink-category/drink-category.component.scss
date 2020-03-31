@@ -1,5 +1,5 @@
 
- @media (min-width: 415px) {
+
 /* Clear floats after the columns */
 .row:after {
     content: "";
@@ -10,17 +10,31 @@
   .container {
     margin-top: 50px;
   }
-
-  #categories li{
-    display: inline;
-  }
   
-  
-  h3 {
+  h2 {
     text-align: center;
     color: white;
-    margin-bottom: auto;
   }
+
+  .info {
+    position: relative;
+  }
+
+  .m {
+    background: #FE6F5E;
+    padding: 1em;
+    margin-right: 10px;
+    width: 32.3%;
+    height: 150px;
+    margin-bottom: 1em;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    float: left;
+    text-align: center;
+  }
+  
+  
   
   ul {
     list-style-type: none;
@@ -33,20 +47,19 @@
     
   }
   
-  li {
-    background: #FE6F5E;
+  /* li {
+    background: rgb(37, 2, 48);
     padding: 1em;
     margin-right: 10px;
     width: 32.3%;
-    height: 150px;
+    height: 200px;
     margin-bottom: 1em;
     display: inline-table;
     flex-direction: column;
     border-radius: 10px;
     float: left;
-    text-align: center;
     
-  }
+  } */
   
   p {
     margin: 0;
@@ -55,17 +68,13 @@
   
   a {
     color: white;
-    text-align: center;
-    margin-bottom: auto;
   }
   
   .title {
     font-weight: bold;
     font-size: 1.2rem;
     color: white;
-    margin-bottom: 4px;
-    text-align: center;
-    cursor: pointer;
+    margin-bottom: 8px;
   }
   
   .iconMargin {
@@ -91,6 +100,19 @@
     text-overflow: ellipsis;
   }
   
+  .btnCreateDrink {
+    float: right;
+    margin: 18px;
+    margin-right: 45px;
+    width: 200px;
+  }
+  
+  .searchbar {
+    float: left;
+    width: 200px;
+    margin: 10px;
+    margin-left: 60px;
+  }
   
   input[type="text"] {
     width: 100%;
@@ -126,42 +148,5 @@
   
   li {
     cursor: pointer;
-  }
-  
-  img {
-    width: 200px;
-    margin-left: 0;
-    margin-right: 0;
-  }
-}
-  
-  @media (max-width: 414px) {
-  
-    .container{
-    margin-top: 50px;
-   }
-
-   ul {
-    list-style-type: none;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0;
-    flex-wrap: wrap;
-    width: 820px;
-    
-    }
-
-    li {
-      background: #FE6F5E;
-      padding: 1em;
-      margin-right: 10px;
-      width: 34.3%;
-      height: 150px;
-      margin-bottom: 1em;
-      flex-direction: column;
-      border-radius: 10px;
-      text-align: center;
-      
-    }
   }
   
