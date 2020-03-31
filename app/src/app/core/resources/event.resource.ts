@@ -34,4 +34,11 @@ export class EventResource extends ApiResource {
   acceptInvite(data: number[]): Observable<Event[]> {
     return this.post('event/' + data[0] + '/' + data[1], {});
   }
+
+  uploadImage(image: File) {
+    console.log(image);
+    var formData = new FormData();
+    formData.append('image', image, image.name);
+    return this.post2('event/uploadimage', formData);
+  }
 }

@@ -67,5 +67,14 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
+        [HttpPost]
+        [Route("/uploadimage")]
+        public IActionResult UploadImage()
+        {
+            var httpRequest = HttpContext.Request;
+            var file = httpRequest.Form["image"];
+            return new OkObjectResult(ApiResponse.Create(file));
+        }
+
     }
 }

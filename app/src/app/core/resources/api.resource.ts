@@ -24,9 +24,7 @@ export abstract class ApiResource {
          }
 
          protected put<T>(url: string, data: any): Observable<T> {
-           return this.http
-             .put<T>(`${this.baseUrl}/${url}`, JSON.stringify(data), this.createOptions())
-             .pipe(map(this.mapResponse), catchError(this.mapError));
+           return this.http.put<T>(`${this.baseUrl}/${url}`, JSON.stringify(data), this.createOptions()).pipe(map(this.mapResponse), catchError(this.mapError));
          }
 
          protected post<T>(url: string, data: any): Observable<T> {
@@ -35,10 +33,14 @@ export abstract class ApiResource {
              .pipe(map(this.mapResponse), catchError(this.mapError));
          }
 
-         protected delete<T>(url: string): Observable<T> {
+         protected post2<T>(url: string, data: any): Observable<T> {
            return this.http
-             .delete<T>(`${this.baseUrl}/${url}`, this.createOptions())
+             .post<T>(`${this.baseUrl}/${url}`, data, this.createOptions2())
              .pipe(map(this.mapResponse), catchError(this.mapError));
+         }
+
+         protected delete<T>(url: string): Observable<T> {
+           return this.http.delete<T>(`${this.baseUrl}/${url}`, this.createOptions()).pipe(map(this.mapResponse), catchError(this.mapError));
          }
 
          /**
@@ -67,6 +69,15 @@ export abstract class ApiResource {
 
            // Set content type
            headers = headers.set('Content-Type', 'application/json');
+
+           return { headers: headers };
+         }
+
+         private createOptions2(): { headers: HttpHeaders } {
+           let headers = new HttpHeaders();
+
+           // Set content type
+           headers = headers.set('Content-Type', 'multipart/form');
 
            return { headers: headers };
          }

@@ -27,6 +27,8 @@ export class EventCreateComponent implements OnInit {
   userId: number;
   eventForm: FormGroup;
   endDateMode = false;
+  fileUpload: File = null;
+  imageUrl: string = 'assets/images/event-images/';
 
   constructor(
     private store$: Store<AppState>,
@@ -62,6 +64,16 @@ export class EventCreateComponent implements OnInit {
       },
       { validator: this.DateValidation }
     );
+  }
+
+  handleFileInput(file: FileList) {
+    this.fileUpload = file.item(0);
+
+    var reader = new FileReader();
+    reader.onload = (event: any) => {
+      this.imageUrl = event.target.result;
+    };
+    reader.readAsDataURL(this.fileUpload);
   }
 
   createEvent() {
