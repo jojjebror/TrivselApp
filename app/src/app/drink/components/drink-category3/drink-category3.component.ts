@@ -23,12 +23,17 @@ export class DrinkCategory3Component implements OnInit {
   constructor(private store$: Store<AppState>) { }
 
   ngOnInit(): void {
-    this.initializeDrinks();
+    this.instializeFilterBeer();
   }
 
   private initializeDrinks(): void {
     this.store$.dispatch(new drinksActions.LoadDrinks());
     this.drs$ = this.store$.select(fromDrink.getDrinks);
+  }
+
+  public instializeFilterBeer(): void {
+    this.store$.dispatch(new drinksActions.FilterDrink('Cider'));
+    this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
   }
 
 }

@@ -18,3 +18,5 @@ export const getError = createSelector(selectState, state => state.error);
 export const getCurrentDrinkId = createSelector(selectState, state => state.selectedDrinkId)
 
 export const getCurrentDrink = createSelector(selectState, getCurrentDrinkId, state => state.entities[state.selectedDrinkId])
+
+export const getFilterDrinks = createSelector(selectState, selectAll)

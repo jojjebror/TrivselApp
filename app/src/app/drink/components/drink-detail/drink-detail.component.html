@@ -2,12 +2,24 @@
 <div class="container mt-5 border border-light p-5" style="width:35%;" *ngIf="dr$ | async; let dr">
  
  
-  <button (click)="toggleShow()" type="checkbox" style="float: right;"> <i class="fa fa-gear"></i></button>
-
+  <button (click)="toggleShow()" type="checkbox" style="float: right; margin-left:5px;"> <i class="fa fa-gear"></i></button>
+  <div *ngIf="isShown" class="row" id="divshow" style="float:right;" >
+    
+    <button class="btn btn-danger btn-sm" style="float:left; margin-right: 15px;">
+      <!-- <a (click)=editDrink(drink)>edit</a>  --> 
+      
+      <a (click)="deleteDrink(dr.id)">Panta</a>
+    </button>
+  
+    <button class="btn btn-primary btn-sm" style="margin-right:20px;" (click)="editDrink(dr)" [routerLink] ="['/drink/edit']" >
+      Redigera dryck
+    </button>
+  </div>
 
   <div class="row">
-    <h1 class="mb-4" style="padding-left: 110px;">{{ dr.productNameBold }}</h1>
+    <h1 class="mb-4">{{ dr.productNameBold }}</h1>
   </div>
+  
   
   <div class="row">
     
@@ -43,23 +55,6 @@
     <button class="btn btn-success" style="margin-left: 10px;" (click)="clickCount()">+</button>
   
    </div>
-
-
-
-
-  <div *ngIf="isShown" class="row" id="divshow" >
-    
-    <button class="btn btn-danger">
-      <!-- <a (click)=editDrink(drink)>edit</a>  --> 
-      
-      <a (click)="deleteDrink(dr.id)">Panta</a>
-    </button>
-  
-    <button class="btn btn-primary" (click)="editDrink(dr)" [routerLink] ="['/drink/edit']" >
-      Redigera dryck
-    </button>
-  </div>
-</div>
 <script>
   document.getElementById('toggleBtn').onclick = function(){
       var display = getComputedStyle(myDIV).display=='none'?'':'none';

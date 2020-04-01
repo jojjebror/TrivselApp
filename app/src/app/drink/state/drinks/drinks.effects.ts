@@ -52,6 +52,7 @@ export class DrinksEffects {
     )
   ); */
 
+  //Create Drink
   @Effect()
   createDrink$: Observable<Action> = this.actions$.pipe(
     ofType<drinksActions.CreateDrink>(drinksActions.ActionTypes.CREATE_DRINK),
@@ -64,8 +65,8 @@ export class DrinksEffects {
     )
   );
 
-  
 
+  //Delete Drink
   @Effect()
   deleteDrink$ : Observable<Action> = this.actions$.pipe(
     ofType<drinksActions.DeleteDrink>(
@@ -80,6 +81,7 @@ export class DrinksEffects {
     )
   );
   
+  //Update Drink
   @Effect()
   updateDrink$: Observable<Action> = this.actions$.pipe(
     ofType<drinksActions.UpdateDrink>(drinksActions.ActionTypes.UPDATE_DRINK),
@@ -98,4 +100,19 @@ export class DrinksEffects {
     )
   );
 
+  @Effect()
+  filterDrink$: Observable<Action> = this.actions$.pipe(
+    ofType<drinksActions.FilterDrink>(drinksActions.ActionTypes.FILTER_DRINK),
+    map((action: drinksActions.FilterDrink) => action.payload),
+    mergeMap((drink: string) =>
+    this.drinkResource.filterDrink(drink).pipe(
+      map(
+        (FilterDrink: Drink[]) =>
+        new drinksActions.FilterDrinkSuccess(FilterDrink)
+      ),
+      catchError(err => of(new drinksActions.FilterDrinkError(err)))
+    )
+  )
+);
+  
 }
