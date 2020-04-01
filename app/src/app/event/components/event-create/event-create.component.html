@@ -5,7 +5,6 @@
 
     <div>
       <mat-form-field appearance="outline" style="width: 100%">
-        <!-- <mat-icon matPrefix>title</mat-icon> -->
         <mat-label>Titel</mat-label>
         <mat-error *ngIf="eventForm.invalid">{{ getErrorMessageTitle() }}</mat-error>
         <input type="text" matInput formControlName="title" autocomplete="off" />
@@ -38,19 +37,18 @@
           (change)="imagePreview($event.target.files)"
           formControlName="image"
           autocomplete="off"
-        />
+        /> -->
       <!-- </mat-form-field> -->
 
-      <!-- <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline">
         <mat-label>Bild-url</mat-label>
         <input type="text" matInput formControlName="image" autocomplete="off" />
-      </mat-form-field> -->
+      </mat-form-field>
     </div>
 
     <div class="form-row">
       <div>
         <mat-form-field appearance="outline">
-<!--           <mat-datepicker-toggle matPrefix [for]="picker" style="color: white;"></mat-datepicker-toggle> -->
           <mat-label>Startdatum</mat-label>
           <mat-error *ngIf="eventForm.invalid">{{ getErrorMessageStartdate() }}</mat-error>
           <input matInput (focus)="picker.open()" [matDatepicker]="picker" formControlName="startdate" autocomplete="off" />
@@ -58,16 +56,12 @@
         </mat-form-field>
       </div>
 
-      <div class="form-group col-md-4 mt-2">
-        <timepicker formControlName="starttime" [showMeridian]="false" [showSpinners]="false"> </timepicker>
-      </div>
-      <!-- <div class="form-group col-md-2 mt-2">
-        <mat-form-field>
-          <mat-label>Starttid</mat-label>
-          <input matInput [ngxTimepicker]="startTime" [format]="24" formControlName="starttime" autocomplete="off"/>
-        </mat-form-field>
-        <ngx-material-timepicker #startTime></ngx-material-timepicker>
-      </div> -->
+      <ng-template #popTemplate>
+        <timepicker formControlName="starttime" [(ngModel)]="mytime" [showMeridian]="false"></timepicker>
+      </ng-template>
+      <div class="form-group col-md-4" style="margin-top: 6.5px;">
+      <input class="hoursTxt" value="{{ mytime | date: 'HH:mm' }}" placeholder="00:00" [popover]="popTemplate" [outsideClick]="true" placement="bottom" readonly />
+    </div>
 
       <div *ngIf="!endDateMode" class="form-group col-md-2 mt-3">
         <a (click)="endDateToggle()">+ Sluttid</a>
@@ -77,17 +71,18 @@
     <div *ngIf="endDateMode" class="form-row" id="sectionEndDate">
       <div>
         <mat-form-field appearance="outline">
-<!--           <mat-datepicker-toggle matPrefix [for]="picker" style="color: white;"></mat-datepicker-toggle>
- -->          <mat-label>Slutdatum</mat-label>
+          <mat-label>Slutdatum</mat-label>
           <input matInput (focus)="picker.open()" [matDatepicker]="picker" formControlName="enddate" autocomplete="off" />
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
 
+       <ng-template #popTemplate>
+        <timepicker formControlName="endtime" [(ngModel)]="mytime2" [showMeridian]="false"></timepicker>
+      </ng-template>
       <div class="form-group col-md-4" style="margin-top: 6.5px;">
-        <timepicker formControlName="endtime" [showMeridian]="false" [showSpinners]="false"> </timepicker>
+      <input class="hoursTxt" value="{{ mytime2 | date: 'HH:mm' }}" placeholder="00:00" [popover]="popTemplate" [outsideClick]="true" placement="bottom" readonly />
       </div>
-
       <div class="form-group col-md-2" style="margin-top: 15px;">
         <a (click)="endDateToggle()">- Ångra</a>
       </div>
@@ -111,7 +106,7 @@
           </mat-list-option>
         </mat-selection-list>
         <p>Inbjudna användare: {{ selectedUsers.selectedOptions.selected.length }}</p>
-      </div>    
+      </div>
     </div>
 
     <div class="form-group text-center btnGroup">
@@ -123,5 +118,4 @@
       </button>
     </div>
   </form>
-
 </div>
