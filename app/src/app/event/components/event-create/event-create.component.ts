@@ -51,16 +51,14 @@ export class EventCreateComponent implements OnInit {
     private store$: Store<AppState>,
     private fb: FormBuilder,
     private alertify: AlertifyService,
-    private localeService: BsLocaleService,
     private dateAdapter: DateAdapter<Date>
   ) {
-    localeService.use('sv');
     dateAdapter.setLocale('sv');
     this.store$.select(fromSession.selectUser).subscribe(user => (this.userId = user.id));
   }
 
   ngOnInit() {
-    this.loadOffices();
+    this.loadUsers();
     this.createEventForm();
   }
 
@@ -114,12 +112,7 @@ export class EventCreateComponent implements OnInit {
     }
   }
 
-  /*  private loadUsers(): void {
-    this.store$.dispatch(new fromUsers.GetUsers());
-    this.users$ = this.store$.pipe(select(fromUsers.getUsers));
-  } */
-
-  private loadOffices(): void {
+  private loadUsers(): void {
     this.store$.dispatch(new fromUsers.GetUsers());
     this.users$ = this.store$.pipe(select(fromUsers.getUsers));
   }
@@ -164,18 +157,6 @@ export class EventCreateComponent implements OnInit {
     d.setHours(d.getHours() - d.getTimezoneOffset() / 60);
     return d;
   }
-  /* 
-  timeChange(time1: string) {
-    var splitted = time1.split(':');
-    var hour = splitted[0];
-    var minute = splitted[1];
-    let dateString = '1967-11-16T' + hour +':' + minute + ':00';
-    var date = new Date(dateString);
-
-
-    this.eventForm.controls['starttime'].setValue(date);
-    console.log(this.eventForm);
-  }  */
 
   getErrorMessageTitle() {
     if (this.eventForm.get('title').hasError('required')) {
