@@ -88,12 +88,43 @@ namespace Logic.Database.Migrations
                 BeverageDescriptionShort = "Klen smak",
             };
 
+            var testEp = new EventParticipant()
+            {
+                Id = 1,
+                UserId = 1,
+                EventId = 3,
+                Accepted = true
+            };
+
+            var testEp1 = new EventParticipant()
+            {
+                Id = 2,
+                UserId = 2,
+                EventId = 3
+            };
+
+            var testEp2 = new EventParticipant()
+            {
+                Id = 3,
+                UserId = 1,
+                EventId = 1,
+                Accepted = true
+            };
+
 
             context.Users.AddOrUpdate(testUser);
             context.Users.AddOrUpdate(testUser1);
+
             context.Events.AddOrUpdate(testEvent1);
             context.Events.AddOrUpdate(testEvent2);
             context.Events.AddOrUpdate(testEvent3);
+
+            context.EventParticipants.AddOrUpdate(testEp);
+            context.EventParticipants.AddOrUpdate(testEp1);
+            context.EventParticipants.AddOrUpdate(testEp2);
+
+
+
             context.Drinks.AddOrUpdate(testDrink);
 
 

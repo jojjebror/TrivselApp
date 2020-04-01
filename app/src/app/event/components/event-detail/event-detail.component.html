@@ -1,6 +1,9 @@
-<div class="container mt-5 border border-light p-5" *ngIf="ev$ | async; let ev">
+<div class="container mt-5 border border-light p-5" *ngIf="ev$ | async let ev">
   <button class="btn btn-primary" [routerLink]="['/event/edit', ev.id]">
     Redigera evenemang
+  </button>
+  <button class="btn btn-danger" style="margin-right: 10px;">
+    <a (click)="deleteEvent(ev.id)">Ta bort</a>
   </button>
   <div class="row">
     <h1 class="mb-4">{{ ev.title }}</h1>
@@ -8,47 +11,68 @@
   <div class="row">
     <div class="col-sm-4">
       <div class="card">
-
         <div class="card-body">
           <div>
             <strong>Plats:</strong>
-              <p>{{ ev.location }}</p> 
-           </div>
+            <p>{{ ev.location }}</p>
+          </div>
           <div>
             <strong>Tid:</strong>
             <p>
-              {{ ev.startDate | date: "HH:mm" }} -
-              {{ ev.endDate | date: "HH:mm" }}
+              {{ ev.startDate | date: 'HH:mm' }} -
+              {{ ev.endDate | date: 'HH:mm' }}
             </p>
           </div>
           <div>
             <strong>Datum:</strong>
             <p>
-              {{ ev.startDate | date: "dd/M" }} -
-              {{ ev.endDate | date: "dd/M/yyyy" }}
+              {{ ev.startDate | date: 'dd/M' }} -
+              {{ ev.endDate | date: 'dd/M/yyyy' }}
             </p>
           </div>
         </div>
         <div class="card-footer">
           <div class="btn-group d-flex">
-            <button class="btn btn-success w-100">Delta</button>
-            <button class="btn btn-danger w-100">Avböj</button>
+            <button class="btn btn-success w-100" id="accept" (click)="acceptInvite(ev.id)">Delta</button>
+            <button class="btn btn-danger w-100" id="decline">Avböj</button>
           </div>
         </div>
       </div>
     </div>
     <div class="col-sm-8">
       <div class="tab-panel">
-         <tabset class="member-tabset">
+        <mat-tab-group animationDuration="0ms">
+          <mat-tab label="Om evenemang">
+            <p>
+              {{ ev.description }}
+            </p>
+          </mat-tab>
+          <mat-tab label="Deltagare">
+            <mat-list>
+              <mat-list-item *ngFor="let user of eventUsers$ | async">
+                <p>
+                  {{ user.name }}
+                </p>
+              </mat-list-item>
+            </mat-list>
+          </mat-tab>
+        </mat-tab-group>
+        <!-- <tabset class="member-tabset">
           <tab heading="Om evenemang">
             <h4 style="font-weight: bold;">Beskrivning</h4>
-            <p>{{ ev.description }}</p>
+             <p>{{ ev.description }}</p>             
           </tab>
           <tab heading="Deltagare">
             <h4 style="font-weight: bold;">Deltagare</h4>
-            <p>Jerker</p>
+          <ul>
+            <li *ngFor="let user of eventUsers">
+              <p>
+                {{ user.name }}
+              </p>
+            </li>
+          </ul>
           </tab>
-        </tabset>
+        </tabset> -->
       </div>
     </div>
   </div>

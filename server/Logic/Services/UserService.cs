@@ -51,6 +51,13 @@ namespace Logic.Services
             return user;
         }
 
+        public async Task<ICollection<UserForListDto>> GetUsers()
+        {
+            var dbUsers = await _context.Users.ToListAsync();
+
+            return dbUsers.Select(UserForListTranslator.ToModel).ToList();
+        }
+
         public async Task<UserDto> Login(string email, string password)
         {
             var dbUser = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);

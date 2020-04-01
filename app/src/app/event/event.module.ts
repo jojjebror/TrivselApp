@@ -12,19 +12,24 @@ import { reducers, effects } from './state';
 import { views } from './views';
 import { components } from './components';
 
-import { TabsModule, BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap';
+import { TabsModule, BsDatepickerModule, TimepickerModule, PopoverModule } from 'ngx-bootstrap';
+
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+
 
 @NgModule({
-  imports: [SharedModule, 
+  imports: [
+    SharedModule,
     LoginRoutingModule,
     StoreModule.forFeature('event', reducers),
     EffectsModule.forFeature(effects),
     StoreDevtoolsModule.instrument(),
     TabsModule,
     TimepickerModule,
-    BsDatepickerModule
-  ]
-    ,
+    BsDatepickerModule,
+    NgxMaterialTimepickerModule,
+    PopoverModule.forRoot()
+  ],
   exports: [],
   declarations: [...views, ...components],
   providers: []

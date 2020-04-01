@@ -1,40 +1,67 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { BsLocaleService } from 'ngx-bootstrap';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 
-import { Event } from 'src/app/shared/models';
-import * as fromEvent from '../../state/events/events.actions';
+import { Event, User } from 'src/app/shared/models';
+import * as fromEvents from '../../state/events';
+import * as fromUsers from '../../../user/state/users';
+
 import { AlertifyService } from 'src/app/core/services/alertify.service';
+import { Observable } from 'rxjs';
+import { DateAdapter } from '@angular/material';
+
+import * as fromSession from '../../../core/state/session';
 
 @Component({
   selector: 'ex-event-create',
   templateUrl: './event-create.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./event-create.component.scss']
 })
 export class EventCreateComponent implements OnInit {
   @Output() cancelNewEvent = new EventEmitter();
   event: Event;
-  currentUserId: any;
+  users$: Observable<User[]>;
+  userId: number;
   eventForm: FormGroup;
   endDateMode = false;
+  fileUpload: File = null;
+  imageUrl: string = 'assets/images/event-images/';
+
+  mytime: Date;
+  mytime2: Date;
+
+
+  offices: string[] = [
+    'Linköping',
+    'Stockholm',
+    'Göteborg',
+    'Malmö',
+    'Uppsala',
+    'Örebro',
+    'Söderhamn',
+    'Borlänge',
+    'Helsingborg',
+    'Karlstad'
+  ];
 
   constructor(
     private store$: Store<AppState>,
-    private router: Router,
     private fb: FormBuilder,
     private alertify: AlertifyService,
-    private localeService: BsLocaleService
+    private localeService: BsLocaleService,
+    private dateAdapter: DateAdapter<Date>
   ) {
     localeService.use('sv');
-    this.store$.select('session').subscribe(data => (this.currentUserId = data.user.id));
+    dateAdapter.setLocale('sv');
+    this.store$.select(fromSession.selectUser).subscribe(user => (this.userId = user.id));
   }
 
   ngOnInit() {
+    this.loadOffices();
     this.createEventForm();
-    console.log(this.eventForm);
   }
 
   createEventForm() {
@@ -49,29 +76,52 @@ export class EventCreateComponent implements OnInit {
         enddate: [''],
         endtime: [''],
         createdate: [new Date()],
-        creatorid: [this.currentUserId]
+        creatorid: [this.userId],
+        users: [null],
+        offices: [['']]
       },
       { validator: this.DateValidation }
     );
+  }
+
+  handleFileInput(file: FileList) {
+    this.fileUpload = file.item(0);
+
+    var reader = new FileReader();
+    reader.onload = (event: any) => {
+      this.imageUrl = event.target.result;
+    };
+    reader.readAsDataURL(this.fileUpload);
   }
 
   createEvent() {
     if (this.eventForm.valid) {
       this.CheckEmptyEndDate(this.eventForm);
 
+      console.log(this.eventForm);
+
       //Fixar problem med UTC och lokal tid när datum skickas till servern
-      this.fixDateTimeZone(this.eventForm.get('starttime').value)
+      this.fixDateTimeZone(this.eventForm.get('starttime').value);
       this.fixDateTimeZone(this.eventForm.get('endtime').value);
       this.fixDateTimeZone(this.eventForm.get('createdate').value);
 
-
       this.event = Object.assign({}, this.eventForm.value);
+      console.log(this.event);
 
-      this.store$.dispatch(new fromEvent.CreateEvent(this.event));
+      this.store$.dispatch(new fromEvents.CreateEvent(this.event));
 
-      this.router.navigate(['/event']);
       this.alertify.success('Evenemanget har skapats');
     }
+  }
+
+  /*  private loadUsers(): void {
+    this.store$.dispatch(new fromUsers.GetUsers());
+    this.users$ = this.store$.pipe(select(fromUsers.getUsers));
+  } */
+
+  private loadOffices(): void {
+    this.store$.dispatch(new fromUsers.GetUsers());
+    this.users$ = this.store$.pipe(select(fromUsers.getUsers));
   }
 
   endDateToggle() {
@@ -103,7 +153,7 @@ export class EventCreateComponent implements OnInit {
 
   CheckEmptyEndDate(f: FormGroup) {
     if (f.get('enddate').value == '') {
-      this.eventForm.controls['enddate'].setValue(new Date(0, 0, 0, 0, 0, 0, 0));
+      this.eventForm.controls['enddate'].setValue(this.eventForm.value.startdate);
     }
     if (f.get('endtime').value == '') {
       this.eventForm.controls['endtime'].setValue(new Date(0, 0, 0, 0, 0, 0, 0));
@@ -114,5 +164,40 @@ export class EventCreateComponent implements OnInit {
     d.setHours(d.getHours() - d.getTimezoneOffset() / 60);
     return d;
   }
-}
+  /* 
+  timeChange(time1: string) {
+    var splitted = time1.split(':');
+    var hour = splitted[0];
+    var minute = splitted[1];
+    let dateString = '1967-11-16T' + hour +':' + minute + ':00';
+    var date = new Date(dateString);
 
+
+    this.eventForm.controls['starttime'].setValue(date);
+    console.log(this.eventForm);
+  }  */
+
+  getErrorMessageTitle() {
+    if (this.eventForm.get('title').hasError('required')) {
+      return 'Du måste ange en titel';
+    }
+  }
+
+  getErrorMessageLocation() {
+    if (this.eventForm.get('location').hasError('required')) {
+      return 'Du måste ange en plats';
+    }
+  }
+
+  getErrorMessageDescription() {
+    if (this.eventForm.get('description').hasError('required')) {
+      return 'Du måste ange en beskrivning';
+    }
+  }
+
+  getErrorMessageStartdate() {
+    if (this.eventForm.get('startdate').hasError('required')) {
+      return 'Du måste ange ett startdatum';
+    }
+  }
+}

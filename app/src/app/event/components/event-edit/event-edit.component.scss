@@ -32,3 +32,24 @@ h4  {
 a {
   color: white !important;
 }
+
+.title {
+  font-size: 2.5rem;
+  width: auto;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.timepick {
+  background-color: transparent;
+}
+
+#description {
+  background-color: transparent;
+  color: #fff;
+}
+
+input[type="text"] {
+  background-color: transparent;
+  color: #fff;
+}

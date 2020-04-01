@@ -5,8 +5,7 @@ import { Event } from '../../../shared/models';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
-import * as eventActions from '../../state/events';
-import * as fromEvent from '../../state/events/events.selectors';
+import * as fromEvents from '../../state/events';
 
 @Component({
   selector: 'ex-event-list',
@@ -20,11 +19,11 @@ export class EventListComponent implements OnInit {
   constructor(private store$: Store<AppState>) {}
 
   ngOnInit() {
-    this.InitializeEvents();
+    this.loadEvents();
   }
 
-  private InitializeEvents(): void {
-    this.store$.dispatch(new eventActions.LoadEvents());
-    this.evs$ = this.store$.pipe(select(fromEvent.getEvents));
+  private loadEvents() {
+    this.store$.dispatch(new fromEvents.LoadEvents());
+    this.evs$ = this.store$.pipe(select(fromEvents.getEvents));
   }
 }

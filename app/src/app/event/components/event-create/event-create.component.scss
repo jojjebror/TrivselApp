@@ -5,6 +5,7 @@ form {
   margin-left: auto;
   margin-right: auto;
   color: white;
+  height: 1050px;
 }
 
 /* Diven runt formen */
@@ -24,54 +25,131 @@ a {
   cursor: pointer;
 }
 
-/* ------------------------ */
+.mat-selection-list {
+  border: 1px solid white;
+  margin-bottom: 20px;
+  min-height: 250px;
+  max-height: 250px;
+  overflow: auto;
+}
 
-input[type="text"] {
+.mat-list-option {
+  color: white;
+}
+.mat-pseudo-checkbox {
+    color: white !important;
+}
+
+::ng-deep .mat-pseudo-checkbox {
+    color: white;
+} 
+
+mat-form-field {
   width: 100%;
-  border: 2px solid #aaa;
-  border-radius: 4px;
-  margin: 8px 0;
-  outline: none;
-  padding: 8px;
-  box-sizing: border-box;
-  transition: 0.3s;
-}
-
-.inputWithIcon input[type="text"] {
-  padding-left: 40px;
-}
-
-.inputWithIcon {
-  position: relative;
-}
-
-.inputWithIcon i {
-  position: absolute;
-  left: 0;
-  top: 8px;
-  padding: 8px 9px;
-  color: #aaa;
-  transition: 0.3s;
-}
-
-.inputWithIconTitleDescLoca input[type="text"] {
-  padding-left: 40px;
 }
 
 textarea {
-  padding-left: 40px;
+  height: 80px;
 }
 
-.inputWithIconTitleDescLoca {
-  position: relative;
+
+// mat-icon-stepper selected color change 
+::ng-deep .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
+    background-color: red!important;
 }
 
-.inputWithIconTitleDescLoca i {
-  position: absolute;
-  left: 0;
-  top: 8px;
-  padding: 0.5px 9px;
-  color: #aaa;
-  transition: 0.3s;
+//input outline color
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: white!important;
 }
 
+//mat-input focused color
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    color: white!important;
+}
+
+// mat-input error outline color
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick{
+    color: white!important;
+    opacity: 0.8!important;
+}
+
+// mat-input carent color
+::ng-deep .mat-input-element {
+    caret-color: white!important;
+}
+
+// mat-input error carent color
+::ng-deep .mat-form-field-invalid .mat-input-element, .mat-warn .mat-input-element {
+    caret-color: white!important;
+}
+
+// mat-label normal state style
+::ng-deep .mat-form-field-label {
+    color: white!important;
+    // color: $mainColor!important;
+}
+
+// mat-label focused style
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+    color: white!important;
+}
+
+// mat-label error style
+::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label {
+    color: white!important;
+}
+
+// mat-error color
+::ng-deep .mat-error {
+    color: rgb(163, 27, 27);
+}
+
+//timepicker
+:host /deep/ .timepicker__header {
+    background-color: #FF7043 !important;
+}
+
+.inviteContainer {
+  margin-bottom: 20px;
+  height: 280px;
+}
+
+.officeContainer {
+  width: 40%;
+  float: left;
+}
+
+.userContainer {
+  width: 40%;
+  float: right;
+  height: 180px;
+}
+
+.btnGroup {
+  margin-top: 100px;
+}
+
+.hoursTxt {
+  margin-left: 10px;
+  width: 80px;
+  background-color:transparent;
+  color: white;
+  border-radius: 5px;
+  border: 1px solid white;
+  padding: 16px; 
+  //height: 25px;  
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: white;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: white;
+}

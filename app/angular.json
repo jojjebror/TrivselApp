@@ -34,7 +34,7 @@
 						"styles": [
 							"src/assets/stylesheets/app.scss"
 						],
-						"scripts": [ ]
+						"scripts": []
 					},
 					"configurations": {
 						"test": {

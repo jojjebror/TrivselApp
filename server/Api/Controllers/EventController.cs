@@ -34,18 +34,46 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]EventForCreateDto ev)
+        public async Task<IActionResult> CreateEvent([FromBody]EventForCreateDto ev)
         {
-            var result = await _eventService.Create(ev);
+            var result = await _eventService.CreateEvent(ev);
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateEvent(int id, EventForUpdateDto ev)
+        public async Task<IActionResult> UpdateEvent(int id, [FromBody]EventForUpdateDto ev)
         {
-            var result = await _eventService.Update(id , ev);
+            var result = await _eventService.UpdateEvent(id , ev);
+            return new OkObjectResult(ApiResponse.Create(result));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteEvent(int id)
+        {
+            var result = await _eventService.DeleteEvent(id);
+            return new OkObjectResult(ApiResponse.Delete(result));
+        }
+
+        [HttpPost("{eventId}/{userId}")]
+        public async Task<IActionResult> AcceptInvitation(int eventId, int userId)
+        {
+            var accepted = await _eventService.GetInvitation(eventId, userId);
+
+            if (accepted != null)
+                return BadRequest("Already accepted");
+
+            var result = await _eventService.CreateInvite(eventId, userId);
 
             return new OkObjectResult(ApiResponse.Create(result));
+        }
+
+        [HttpPost]
+        [Route("/uploadimage")]
+        public IActionResult UploadImage()
+        {
+            var httpRequest = HttpContext.Request;
+            var file = httpRequest.Form["image"];
+            return new OkObjectResult(ApiResponse.Create(file));
         }
 
     }
