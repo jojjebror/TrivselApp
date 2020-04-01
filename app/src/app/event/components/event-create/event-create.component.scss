@@ -129,3 +129,27 @@ textarea {
 .btnGroup {
   margin-top: 100px;
 }
+
+.hoursTxt {
+  margin-left: 10px;
+  width: 80px;
+  background-color:transparent;
+  color: white;
+  border-radius: 5px;
+  border: 1px solid white;
+  padding: 16px; 
+  //height: 25px;  
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: white;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: white;
+}

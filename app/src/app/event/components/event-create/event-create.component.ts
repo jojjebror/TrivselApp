@@ -30,6 +30,10 @@ export class EventCreateComponent implements OnInit {
   fileUpload: File = null;
   imageUrl: string = 'assets/images/event-images/';
 
+  mytime: Date;
+  mytime2: Date;
+
+
   offices: string[] = [
     'Linköping',
     'Stockholm',
@@ -160,18 +164,18 @@ export class EventCreateComponent implements OnInit {
     d.setHours(d.getHours() - d.getTimezoneOffset() / 60);
     return d;
   }
-
-  /* public timeChange(time: string) {
-    var splitted = time.split(':');
+  /* 
+  timeChange(time1: string) {
+    var splitted = time1.split(':');
     var hour = splitted[0];
     var minute = splitted[1];
-    var date = new Date('08/18/2016 00:00:00');
-    date.setHours(parseInt(hour));
-    date.setMinutes(parseInt(minute));
+    let dateString = '1967-11-16T' + hour +':' + minute + ':00';
+    var date = new Date(dateString);
+
 
     this.eventForm.controls['starttime'].setValue(date);
     console.log(this.eventForm);
-  } */
+  }  */
 
   getErrorMessageTitle() {
     if (this.eventForm.get('title').hasError('required')) {
