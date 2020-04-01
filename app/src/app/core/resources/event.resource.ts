@@ -35,10 +35,11 @@ export class EventResource extends ApiResource {
     return this.post('event/' + data[0] + '/' + data[1], {});
   }
 
-  uploadImage(image: File) {
+  uploadImage(id: number, image: File): Observable<boolean> {
+    console.log(id);
     console.log(image);
     var formData = new FormData();
     formData.append('image', image, image.name);
-    return this.post2('event/uploadimage', formData);
+    return this.post2('event/' + id + '/uploadimage', formData);
   }
 }

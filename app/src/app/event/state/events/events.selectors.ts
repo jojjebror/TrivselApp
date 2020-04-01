@@ -26,3 +26,7 @@ const { selectIds, selectEntities } = adapter.getSelectors(selectState);
 export const getCurrentEvent = createSelector(selectEntities, getCurrentEventId, (entities, currentEventId) => {
   return entities[currentEventId];
 });
+
+/* export const getCurrentEventParticipants = createSelector(selectEntities, getCurrentEventId, (entities, currentEventId) => {
+  return entities[currentEventId].users;
+}); */

@@ -31,11 +31,11 @@
     <div>
       <!-- <mat-form-field appearance="outline">
         <mat-label>Bild-url</mat-label> -->
-        <img [src]="imageUrl" style="width: auto; height: 150px; border: 1px solid white;">
+        <img [src]="imageUrl || ''" style="width: auto; height: 150px; border: 1px solid white;">
         <input
           type="file"
           accept="image/*"
-          (change)="handleFileInput($event.target.files)"
+          (change)="imagePreview($event.target.files)"
           formControlName="image"
           autocomplete="off"
         />

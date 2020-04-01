@@ -77,7 +77,7 @@ export abstract class ApiResource {
            let headers = new HttpHeaders();
 
            // Set content type
-           headers = headers.set('Content-Type', 'multipart/form');
+           headers = headers.set('Content-Disposition', 'multipart/form');
 
            return { headers: headers };
          }

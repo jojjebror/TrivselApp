@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Api.Models;
 using Logic.Models;
 using Logic.Services;
@@ -67,13 +64,16 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
-        [HttpPost]
-        [Route("/uploadimage")]
-        public IActionResult UploadImage()
+        [HttpPost("{id}/uploadimage")]
+        //[Route("uploadimage")]
+        public async Task<IActionResult> UploadImage(int id)
         {
-            var httpRequest = HttpContext.Request;
-            var file = httpRequest.Form["image"];
-            return new OkObjectResult(ApiResponse.Create(file));
+            var httpRequest = Request.Form;
+            var image = httpRequest.Files["image"];
+
+            var result = await _eventService.UploadImage(id, image);
+
+            return new OkObjectResult(ApiResponse.Create(result));
         }
 
     }

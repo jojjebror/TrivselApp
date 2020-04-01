@@ -28,7 +28,7 @@ export class EventCreateComponent implements OnInit {
   eventForm: FormGroup;
   endDateMode = false;
   fileUpload: File = null;
-  imageUrl: string = 'assets/images/event-images/';
+  imageUrl: string;
 
   offices: string[] = [
     'Linköping',
@@ -71,7 +71,7 @@ export class EventCreateComponent implements OnInit {
         starttime: ['', Validators.required],
         enddate: [''],
         endtime: [''],
-        createdate: [new Date()],
+        createdate: [new Date()], //Bör göras när createEvent() körs
         creatorid: [this.userId],
         users: [null],
         offices: [['']]
@@ -80,7 +80,7 @@ export class EventCreateComponent implements OnInit {
     );
   }
 
-  handleFileInput(file: FileList) {
+  imagePreview(file: FileList) {
     this.fileUpload = file.item(0);
 
     var reader = new FileReader();
@@ -88,6 +88,7 @@ export class EventCreateComponent implements OnInit {
       this.imageUrl = event.target.result;
     };
     reader.readAsDataURL(this.fileUpload);
+    
   }
 
   createEvent() {
@@ -104,7 +105,7 @@ export class EventCreateComponent implements OnInit {
       this.event = Object.assign({}, this.eventForm.value);
       console.log(this.event);
 
-      this.store$.dispatch(new fromEvents.CreateEvent(this.event));
+      this.store$.dispatch(new fromEvents.CreateEvent(this.event, this.fileUpload));
 
       this.alertify.success('Evenemanget har skapats');
     }

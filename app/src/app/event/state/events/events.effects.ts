@@ -37,13 +37,26 @@ export class EventsEffects {
     )
   );
 
-  @Effect()
+  /* @Effect()
   createEvent$: Observable<Action> = this.actions$.pipe(
     ofType(eventsActions.ActionTypes.CREATE_EVENT),
     map((action: eventsActions.CreateEvent) => action.payload),
     switchMap((event: Event) =>
       this.eventResource.createEvent(event).pipe(
         map((newEvent: Event) => new eventsActions.CreateEventSuccess(newEvent)),
+        tap(() => this.router.navigate(['/event'])),
+        catchError(err => of(new eventsActions.CreateEventError(err)))
+      )
+    )
+  ); */
+
+  @Effect()
+  createEvent$: Observable<Action> = this.actions$.pipe(
+    ofType(eventsActions.ActionTypes.CREATE_EVENT),
+    switchMap((action: eventsActions.CreateEvent) =>
+      this.eventResource.createEvent(action.payload).pipe(
+        switchMap((newEvent: Event) => [new eventsActions.CreateEventSuccess(newEvent), 
+          new eventsActions.UploadImage(newEvent.id, action.image)]),
         tap(() => this.router.navigate(['/event'])),
         catchError(err => of(new eventsActions.CreateEventError(err)))
       )
@@ -90,6 +103,29 @@ export class EventsEffects {
       this.eventResource.acceptInvite(data).pipe(
         map(() => new eventsActions.AddUserEventSuccess(data)),
         catchError(err => of(new eventsActions.AddUserEventError(err)))
+      )
+    )
+  );
+
+  /*  @Effect()
+  uploadImage$: Observable<Action> = this.actions$.pipe(
+    ofType(eventsActions.ActionTypes.UPLOAD_IMAGE),
+    map((action: eventsActions.UploadImage) => action.payload),
+    switchMap((image: File) =>
+      this.eventResource.uploadImage(image).pipe(
+        map((data: boolean) => new eventsActions.UploadImageSuccess(data)),
+        catchError(err => of(new eventsActions.UploadImageError(err)))
+      )
+    )
+  ); */
+
+  @Effect()
+  uploadImage$: Observable<Action> = this.actions$.pipe(
+    ofType(eventsActions.ActionTypes.UPLOAD_IMAGE),
+    switchMap((action: eventsActions.UploadImage) =>
+      this.eventResource.uploadImage(action.id, action.payload).pipe(
+        map((data: boolean) => new eventsActions.UploadImageSuccess(data)),
+        catchError(err => of(new eventsActions.UploadImageError(err)))
       )
     )
   );

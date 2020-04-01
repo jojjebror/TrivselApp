@@ -26,7 +26,11 @@ export enum ActionTypes {
 
   ADD_USER_EVENT = '[Events view] Add User Event',
   ADD_USER_EVENT_SUCCESS = '[API: /Event] Add User Event success',
-  ADD_USER_EVENT_ERROR = '[API: /event] Add User Event error'
+  ADD_USER_EVENT_ERROR = '[API: /event] Add User Event error',
+
+  UPLOAD_IMAGE = '[Events view] Upload Image',
+  UPLOAD_IMAGE_SUCCESS = '[API: /Event] Upload Image success',
+  UPLOAD_IMAGE_ERROR = '[API: /event] Upload Image error'
 }
 
 /*--------------LoadAllEvents--------------*/
@@ -72,7 +76,7 @@ export class LoadEventError implements Action {
 export class CreateEvent implements Action {
   readonly type = ActionTypes.CREATE_EVENT;
 
-  constructor(public payload: Event) {}
+  constructor(public payload: Event, public image: File) {}
 }
 
 export class CreateEventSuccess implements Action {
@@ -146,6 +150,27 @@ export class AddUserEventError implements Action {
 
   constructor(public payload: string) {}
 }
+
+/*--------------UploadImage--------------*/
+
+export class UploadImage implements Action {
+  readonly type = ActionTypes.UPLOAD_IMAGE;
+
+  constructor(public id: number, public payload: File) {}
+}
+
+export class UploadImageSuccess implements Action {
+  readonly type = ActionTypes.UPLOAD_IMAGE_SUCCESS;
+
+  constructor(public payload: boolean) {}
+}
+
+export class UploadImageError implements Action {
+  readonly type = ActionTypes.UPLOAD_IMAGE_ERROR;
+
+  constructor(public payload: string) {}
+}
+
 export type Actions =
   | LoadEvents
   | LoadEventsSuccess
@@ -164,4 +189,7 @@ export type Actions =
   | DeleteEventError
   | AddUserEvent
   | AddUserEventSuccess
-  | AddUserEventError;
+  | AddUserEventError
+  | UploadImage
+  | UploadImageSuccess
+  | UploadImageError;
