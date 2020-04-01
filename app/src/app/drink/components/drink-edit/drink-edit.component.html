@@ -45,21 +45,28 @@
       </div>
     </div>
 
-    <div>
-      <a>Volym</a>
-      <input
-        type="number"
-        [ngClass]="{
-          'is-invalid':
-            drinkEditForm.get('volume').errors &&
-            drinkEditForm.get('volume').touched
-        }"
-        class="form-control"
-        placeholder="Volym i cl"
-        formControlName="volume"
-      />
-      <div class="invalid-feedback">
-        Du måste ange dryckens volym!
+    <div class="row">
+      <div class="col-sm-4">
+        <div>
+          <a>Volym</a>
+          <mat-select
+            [ngClass]="{
+              'is-invalid':
+                drinkEditForm.get('volume').errors &&
+                drinkEditForm.get('volume').touched
+            }"
+            class="form-control"
+            placeholder="Volym"
+            formControlName="volume"
+          >
+            <mat-option [value]="33">33cl</mat-option>
+            <mat-option [value]="50">50cl</mat-option>
+            <mat-option [value]="100">100cl</mat-option>
+          </mat-select>
+          <div class="invalid-feedback">
+            Du måste ange volym för drycken!
+          </div>
+        </div>
       </div>
     </div>
     <div class="row">
