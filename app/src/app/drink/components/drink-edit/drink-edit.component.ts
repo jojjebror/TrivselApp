@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { Drink } from 'src/app/shared/models';
 import * as fromDrink from '../../state/drinks';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AlertifyService } from 'src/app/core/services/alertify.service';
 
 @Component({
   selector: 'ex-event-edit',
@@ -19,7 +20,7 @@ export class DrinkEditComponent implements OnInit {
   drink: Drink;
   drinkEditForm: FormGroup;
 
-  constructor(private store$: Store<AppState>, private route: ActivatedRoute, private fb: FormBuilder, private router: Router) {}
+  constructor(private store$: Store<AppState>, private route: ActivatedRoute, private alertify: AlertifyService, private fb: FormBuilder, private router: Router) {}
 
   ngOnInit() {
     this.dr$ = this.store$.pipe(select(fromDrink.getCurrentDrink));
@@ -52,6 +53,7 @@ export class DrinkEditComponent implements OnInit {
       this.drink = Object.assign({}, this.drinkEditForm.value);
       console.log(this.drink);
       this.store$.dispatch(new fromDrink.UpdateDrink(this.drink));
+      this.alertify.success('Information om drycken har ändrats!');
       this.router.navigate(['/drink/' + this.drink.id]);
     }
   }

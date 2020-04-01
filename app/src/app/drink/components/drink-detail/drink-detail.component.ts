@@ -6,6 +6,7 @@ import { Store, select} from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Drink } from 'src/app/shared/models';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AlertifyService } from 'src/app/core/services/alertify.service';
 
 import * as fromDrink from '../../state/drinks';
 import * as drinksActions from '../../state/drinks';
@@ -25,7 +26,7 @@ export class DrinkDetailComponent implements OnInit {
   clickCounter: number = 1;
   totalSum: number = 0;
 
-  constructor(private store$: Store<AppState>, private route: ActivatedRoute, private router: Router) { }
+  constructor(private store$: Store<AppState>, private alertify: AlertifyService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.LoadDrink();
@@ -46,7 +47,9 @@ export class DrinkDetailComponent implements OnInit {
     console.log(id);
     if (confirm("Are You Sure You want to Delete the drink?")) {
       this.store$.dispatch(new drinksActions.DeleteDrink(id));
+      this.alertify.warning('Dryck pantad!');
       this.router.navigate(['/drink']);
+
     }
   }
 

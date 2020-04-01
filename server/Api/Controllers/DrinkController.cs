@@ -16,7 +16,7 @@ namespace Api.Controllers
         private readonly DrinkService _drinkService;
 
         public DrinkController(DrinkService drinkService)
-        {
+        { 
             _drinkService = drinkService;
         }
 

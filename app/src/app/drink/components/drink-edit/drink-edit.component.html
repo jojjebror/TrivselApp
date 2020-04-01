@@ -34,9 +34,9 @@
             placeholder="Pris"
             formControlName="price"
           >
-            <mat-option value="10">10kr</mat-option>
-            <mat-option value="20">20kr</mat-option>
-            <mat-option value="30">30kr</mat-option>
+            <mat-option [value]="10">10kr</mat-option>
+            <mat-option [value]="20">20kr</mat-option>
+            <mat-option [value]="30">30kr</mat-option>
           </mat-select>
           <div class="invalid-feedback">
             Du måste ange ett pris för drycken!
