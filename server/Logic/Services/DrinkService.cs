@@ -22,17 +22,8 @@ namespace Logic.Services
 
         public async Task<ICollection<DrinkForListDto>> GetDrinks()
         {
-            var filter = await _context.Drinks.Where(d => d.Category == "Öl").ToListAsync();
-            var filter2 = await _context.Drinks.Where(d => d.Category == "Vin").ToListAsync();
-            var filter3 = await _context.Drinks.Where(d => d.Category == "Cider").ToListAsync();
-           
-            if (filter != null)
-            {
-                return filter.Select(DrinkForListTranslator.ToModel).ToList();
-            }
-            
-
-            return null;
+            var dbDrinks = await _context.Drinks.ToListAsync();
+            return dbDrinks.Select(DrinkForListTranslator.ToModel).ToList();
         }
 
         //public async Task<ICollection<DrinkForListDto>> GetDrinks(string category)
@@ -54,19 +45,19 @@ namespace Logic.Services
 
         }
 
-        public async Task <ICollection<DrinkForListDto>> FilterDrinks()
-        {
+        //public async Task <ICollection<DrinkForListDto>> FilterDrinks()
+        //{
 
-            var filter = await _context.Drinks.Where(d => d.Category == "Vin").ToListAsync();
+        //    var filter = await _context.Drinks.Where(d => d.Category == "Vin").ToListAsync();
 
-            if (filter != null)
-            {
-                return filter.Select(DrinkForListTranslator.ToModel).ToList();
-            }
+        //    if (filter != null)
+        //    {
+        //        return filter.Select(DrinkForListTranslator.ToModel).ToList();
+        //    }
 
 
-            return null;
-        }
+        //    return null;
+        //}
 
         public async Task<DrinkForListDto> Create(DrinkForListDto drink)
         {
