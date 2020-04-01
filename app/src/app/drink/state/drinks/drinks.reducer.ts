@@ -77,6 +77,15 @@ export function reducer(state: DrinksState = initialState, action: drinksActions
           error: action.payload
         };
       }
+
+      case drinksActions.ActionTypes.FILTER_DRINK_SUCCESS: {
+        return adapter.addAll(action.payload, {
+          ...state,
+          loading: false,
+          loaded: true
+        });
+      }
+
   
       default: {
         return state;

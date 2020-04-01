@@ -21,6 +21,7 @@ export class DrinkListComponent implements OnInit {
 
   drs$: Observable<Drink[]>;
   dr$: Observable<Drink>;
+  filter$: string;
   
 
   constructor(private store$: Store<AppState>, private route: ActivatedRoute,  private router: Router) { }
@@ -32,6 +33,11 @@ export class DrinkListComponent implements OnInit {
   private initializeDrinks(): void {
    this.store$.dispatch(new drinksActions.LoadDrinks());
    this.drs$ = this.store$.select(fromDrink.getDrinks);
+  }
+
+  public instializeFilterBeer(): void {
+    this.store$.dispatch(new drinksActions.FilterDrink('Öl'));
+    this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
   }
 
  // ListDrink(text){
