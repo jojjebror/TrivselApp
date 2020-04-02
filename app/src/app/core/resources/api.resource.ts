@@ -23,6 +23,11 @@ export abstract class ApiResource {
            return this.http.get<T>(`${this.baseUrl}/${url}`, this.createOptions()).pipe(map(this.mapResponse), catchError(this.mapError));
          }
 
+         //Get for image
+         protected get2<T>(url: string): Observable<T> {
+           return this.http.get<T>(`${this.baseUrl}/${url}`, this.createOptions3()).pipe(map(this.mapResponse), catchError(this.mapError));
+         }
+
          protected put<T>(url: string, data: any): Observable<T> {
            return this.http.put<T>(`${this.baseUrl}/${url}`, JSON.stringify(data), this.createOptions()).pipe(map(this.mapResponse), catchError(this.mapError));
          }
@@ -33,10 +38,9 @@ export abstract class ApiResource {
              .pipe(map(this.mapResponse), catchError(this.mapError));
          }
 
+         //Post for image
          protected post2<T>(url: string, data: any): Observable<T> {
-           return this.http
-             .post<T>(`${this.baseUrl}/${url}`, data, this.createOptions2())
-             .pipe(map(this.mapResponse), catchError(this.mapError));
+           return this.http.post<T>(`${this.baseUrl}/${url}`, data, this.createOptions2()).pipe(map(this.mapResponse), catchError(this.mapError));
          }
 
          protected delete<T>(url: string): Observable<T> {
@@ -80,5 +84,15 @@ export abstract class ApiResource {
            headers = headers.set('Content-Disposition', 'multipart/form');
 
            return { headers: headers };
+         }
+
+         //Options for image
+         private createOptions3(): { headers: HttpHeaders, responseType: any } {
+           let headers = new HttpHeaders();
+
+           // Set content type
+           headers = headers.set('Content-Type', 'application/json');
+
+           return { headers: headers, responseType: 'blob' };
          }
        }

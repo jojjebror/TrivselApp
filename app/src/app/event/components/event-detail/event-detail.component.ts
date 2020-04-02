@@ -23,6 +23,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   ev$: Observable<Event>;
   eventUsers$: any;
   userId: number;
+  imageUrl: string;
 
   constructor(private store$: Store<AppState>, private alertify: AlertifyService, private activatedRoute: ActivatedRoute) {
     this.store$.select(fromSession.selectUser).subscribe(user => (this.userId = user.id));
@@ -44,6 +45,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     this.ev$ = this.store$.pipe(select(fromEvents.getCurrentEvent));
 
     this.eventUsers$ = this.store$.pipe(select(fromEvents.getCurrentUsers));
+
     console.log(this.ev$);
   }
 
