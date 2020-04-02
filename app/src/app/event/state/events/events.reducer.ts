@@ -17,7 +17,9 @@ export function reducer(state: EventsState = initialState, action: eventsActions
       return adapter.addAll(action.payload, {
         ...state,
         loading: false,
-        loaded: true
+        loaded: true,
+        selectedEventId: null,
+        users: []
       });
     }
 

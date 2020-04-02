@@ -90,7 +90,7 @@
           <mat-tab-group animationDuration="0ms">
             <mat-tab label="Om evenemang">
               <div id="description">
-                <mat-form-field appearance="outline" class="fieldDescription">
+                <mat-form-field appearance="outline">
                   <mat-label>Ändra beskrivning</mat-label>
                   <mat-error *ngIf="eventEditForm.invalid">{{ getErrorMessageDescription() }}</mat-error>
                   <textarea matInput formControlName="description" autocomplete="off"></textarea>
