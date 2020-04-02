@@ -34,10 +34,10 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
-        [HttpGet("{filter}")]
-        public async Task<ActionResult> FilterDrinks(string category)
+        [HttpGet("filter")]
+        public async Task<ActionResult> FilterDrinks(string filter)
         {
-            var result = await _drinkService.FilterDrink(category);
+            var result = await _drinkService.FilterDrink(filter);
             return new OkObjectResult(ApiResponse.Create(result));
         }
 

@@ -34,7 +34,7 @@ export class DrinkResource extends ApiResource {
 
     filterDrink(dr: string): Observable<Drink[]>
     {
-        return this.get('drink/' + dr + '?' +'category='+ dr);
+        return this.get('drink/' + 'filter?filter=' + dr);;
     }
     
 }
