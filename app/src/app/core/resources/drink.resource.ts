@@ -31,6 +31,10 @@ export class DrinkResource extends ApiResource {
     updateDrink(dr: Drink): Observable<Drink> {
         return this.put<Drink>('drink/'+ dr.id, dr);
       }
+
+    // category(text: string): Observable<Drink> {
+    //  return this.get('drink/' + text)
+    //  }
     
 }
 

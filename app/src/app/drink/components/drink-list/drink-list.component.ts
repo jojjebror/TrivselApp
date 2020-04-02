@@ -8,6 +8,7 @@ import { Drink } from 'src/app/shared/models';
 import * as drinksActions from '../../state/drinks';
 import * as fromDrink from '../../state/drinks/drinks.selectors';
 import { ActivatedRoute, Router } from '@angular/router';
+import { text } from '@angular/core/src/render3';
 
 
 @Component({
@@ -21,12 +22,15 @@ export class DrinkListComponent implements OnInit {
 
   drs$: Observable<Drink[]>;
   dr$: Observable<Drink>;
+  text: string;
+  
   
 
   constructor(private store$: Store<AppState>, private route: ActivatedRoute,  private router: Router) { }
 
   ngOnInit(): void {
     this.initializeDrinks();
+  
   }
 
   private initializeDrinks(): void {
@@ -34,10 +38,9 @@ export class DrinkListComponent implements OnInit {
    this.drs$ = this.store$.select(fromDrink.getDrinks);
   }
 
- // ListDrink(text){
-   // this.store$.dispatch(new drinksActions.LoadDrinks());
-   // this.drs$ =  this.store$.pipe(select(fromDrink.getDrinks(text)));
-   // this.router.navigate(['/drink/category']);
- // }
+//  ListDrink(){
+//  this.store$.dispatch(new fromDrink.getDrinks());
+ // this.drs$ = this.store$.pipe(select(fromDrink.getDrinks));
+// }
 
 }

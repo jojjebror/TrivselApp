@@ -43,12 +43,6 @@ export class DrinkEditComponent implements OnInit {
 
   updateDrink() {
     if (this.drinkEditForm.valid) {
-
-      //Fixar problem med UTC och lokal tid när datum skickas till servern
-
-      //this.fixDateTimeZone(this.eventEditForm.get('starttime').value);
-      //this.fixDateTimeZone(this.eventEditForm.get('endtime').value);
-
       this.drink = Object.assign({}, this.drinkEditForm.value);
       console.log(this.drink);
       this.store$.dispatch(new fromDrink.UpdateDrink(this.drink));
@@ -56,8 +50,4 @@ export class DrinkEditComponent implements OnInit {
     }
   }
 
-  fixDateTimeZone(d: Date): Date {
-    d.setHours(d.getHours() - d.getTimezoneOffset() / 60);
-    return d;
-  }
 }
