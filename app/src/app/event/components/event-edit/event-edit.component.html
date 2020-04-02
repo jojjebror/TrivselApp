@@ -54,7 +54,7 @@
               <div>
                 <mat-form-field appearance="outline">
                   <mat-label>Ändra startdatum</mat-label>
-                  <mat-error *ngIf="eventEditForm.invalid"></mat-error>
+                  <mat-error *ngIf="eventEditForm.invalid">{{ getErrorMessageStartdate() }}</mat-error>
                   <input
                     matInput
                     (focus)="pickerStartDate.open()"
@@ -69,6 +69,7 @@
               <div>
                 <mat-form-field appearance="outline">
                   <mat-label>Ändra slutdatum</mat-label>
+                  <mat-error *ngIf="eventEditForm.invalid">{{ getErrorMessageEndDate() }}</mat-error>
                   <input
                     matInput
                     (focus)="pickerEndDate.open()"
@@ -86,8 +87,8 @@
       </div>
       <div class="col-sm-8">
         <div class="tab-panel">
-          <tabset class="member-tabset">
-            <tab heading="Om evenemang">
+          <mat-tab-group animationDuration="0ms">
+            <mat-tab label="Om evenemang">
               <div id="description">
                 <mat-form-field appearance="outline" class="fieldDescription">
                   <mat-label>Ändra beskrivning</mat-label>
@@ -95,11 +96,17 @@
                   <textarea matInput formControlName="description" autocomplete="off"></textarea>
                 </mat-form-field>
               </div>
-            </tab>
-            <tab heading="Deltagare">
-              <h4 style="font-weight: bold;">Deltagare</h4>
-            </tab>
-          </tabset>
+            </mat-tab>
+            <mat-tab label="Deltagare">
+              <mat-list>
+                <mat-list-item>
+                  <p style="color: white;">
+                    Testanvändare
+                  </p>
+                </mat-list-item>
+              </mat-list>
+            </mat-tab>
+          </mat-tab-group>
         </div>
       </div>
     </div>

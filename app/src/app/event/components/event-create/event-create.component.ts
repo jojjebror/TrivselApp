@@ -30,8 +30,8 @@ export class EventCreateComponent implements OnInit {
   fileUpload: File = null;
   imageUrl: string = 'assets/images/event-images/';
 
-  mytime: Date;
-  mytime2: Date;
+  starttime: Date;
+  endtime: Date;
 
 
   offices: string[] = [
