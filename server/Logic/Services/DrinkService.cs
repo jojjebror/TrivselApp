@@ -81,6 +81,20 @@ namespace Logic.Services
 
         }
 
+        //public async Task <ICollection<DrinkForListDto>> FilterDrinks()
+        //{
+
+        //    var filter = await _context.Drinks.Where(d => d.Category == "Vin").ToListAsync();
+
+        //    if (filter != null)
+        //    {
+        //        return filter.Select(DrinkForListTranslator.ToModel).ToList();
+        //    }
+
+
+        //    return null;
+        //}
+
         public async Task<DrinkForListDto> Create(DrinkForListDto drink)
         {
             var dr = new Drink()
@@ -114,6 +128,8 @@ namespace Logic.Services
 
             return DrinkForListTranslator.ToModel(result);
         }
+
+        
 
         public async Task<DrinkForUpdateDto> Update(int id, DrinkForUpdateDto dr)
         {

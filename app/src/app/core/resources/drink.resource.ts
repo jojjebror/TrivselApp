@@ -32,9 +32,10 @@ export class DrinkResource extends ApiResource {
         return this.put<Drink>('drink/'+ dr.id, dr);
       }
 
-    // category(text: string): Observable<Drink> {
-    //  return this.get('drink/' + text)
-    //  }
+    filterDrink(dr: string): Observable<Drink[]>
+    {
+        return this.get('drink/' + 'filter?filter=' + dr);;
+    }
     
 }
 
