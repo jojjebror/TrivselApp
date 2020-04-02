@@ -181,15 +181,7 @@ export type Actions =
   | UpdateDrinkError
   | DeleteDrink
   | DeleteDrinkSuccess
-<<<<<<< HEAD
-  | DeleteDrinkError;
- // | LoadDrinkCategory
- // | LoadDrinkCategorySuccess
- // | LoadDrinkCategoryError;
-
-=======
   | DeleteDrinkError
   | FilterDrink
   | FilterDrinkError
   | FilterDrinkSuccess;
->>>>>>> 6732d7d6622651eb1046f27f151531f98e167715
