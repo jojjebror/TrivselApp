@@ -152,17 +152,19 @@ namespace Logic.Services
             return ep;
         }
 
-        public async Task<bool> UploadImage(int id, IFormFile image)
+        public async Task<bool> SaveImage(int id, IFormFile image)
         {
             var folderName = Path.Combine("Resources", "Images");
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-            var pathToSave2 = "C:\\Users\\andre\\TrivselAppV2\\server\\Logic\\Resources\\Images";
+            pathToSave = pathToSave.Replace("Api", "Logic");
+            //var pathToSave2 = "C:\\Users\\andre\\TrivselAppV2\\server\\Logic\\Resources\\Images";
 
             if (image.Length > 0)
             {
-                var fileName = id.ToString() + "." + ContentDispositionHeaderValue
-                    .Parse(image.ContentDisposition).FileName.Trim('"').Split('.').Last();
-                var fullPath = Path.Combine(pathToSave2, fileName);
+                //var fileName = id.ToString() + "." + ContentDispositionHeaderValue
+                //    .Parse(image.ContentDisposition).FileName.Trim('"').Split('.').Last();
+                var fileName = id.ToString() + Path.GetExtension(image.FileName);
+                var fullPath = Path.Combine(pathToSave, fileName);
                 var dbPath = Path.Combine(folderName, fileName);
 
                 using (var stream = new FileStream(fullPath, FileMode.Create))
@@ -170,12 +172,26 @@ namespace Logic.Services
                     image.CopyTo(stream);
                 }
 
+                _context.Events.Find(id).Image = dbPath;
+                await _context.SaveChangesAsync();
+
                 return true;
             }
             else
             {
                 return false;
             }
+        }
+
+        public async Task<FileStream> GetImage(int id)
+        {
+            var dbEvent = await _context.Events.FindAsync(id);
+            var imagePath = dbEvent.Image;
+            var fullPath = Path.GetFullPath(imagePath);
+            fullPath = fullPath.Replace("Api", "Logic");
+
+            FileStream fs = File.Open(fullPath, FileMode.Open);
+            return fs;
         }
     }
 }

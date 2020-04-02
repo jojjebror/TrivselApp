@@ -30,7 +30,11 @@ export class EventsEffects {
     ofType(eventsActions.ActionTypes.LOAD_EVENT),
     switchMap((action: eventsActions.LoadEvent) =>
       this.eventResource.loadEvent(action.payload).pipe(
-        map((event: Event) => new eventsActions.LoadEventSuccess(event)),
+        switchMap((event: Event) => 
+        [
+          new eventsActions.LoadEventSuccess(event), 
+          new eventsActions.LoadImage(event.id)
+        ]),
         tap(() => this.router.navigate(['/event/' + action.payload])),
         catchError(err => of(new eventsActions.LoadEventError(err)))
       )
@@ -55,8 +59,11 @@ export class EventsEffects {
     ofType(eventsActions.ActionTypes.CREATE_EVENT),
     switchMap((action: eventsActions.CreateEvent) =>
       this.eventResource.createEvent(action.payload).pipe(
-        switchMap((newEvent: Event) => [new eventsActions.CreateEventSuccess(newEvent), 
-          new eventsActions.UploadImage(newEvent.id, action.image)]),
+        switchMap((newEvent: Event) => 
+        [ 
+          new eventsActions.CreateEventSuccess(newEvent), 
+          new eventsActions.SaveImage(newEvent.id, action.image)
+        ]),
         tap(() => this.router.navigate(['/event'])),
         catchError(err => of(new eventsActions.CreateEventError(err)))
       )
@@ -120,12 +127,23 @@ export class EventsEffects {
   ); */
 
   @Effect()
-  uploadImage$: Observable<Action> = this.actions$.pipe(
-    ofType(eventsActions.ActionTypes.UPLOAD_IMAGE),
-    switchMap((action: eventsActions.UploadImage) =>
-      this.eventResource.uploadImage(action.id, action.payload).pipe(
-        map((data: boolean) => new eventsActions.UploadImageSuccess(data)),
-        catchError(err => of(new eventsActions.UploadImageError(err)))
+  saveImage$: Observable<Action> = this.actions$.pipe(
+    ofType(eventsActions.ActionTypes.SAVE_IMAGE),
+    switchMap((action: eventsActions.SaveImage) =>
+      this.eventResource.saveImage(action.id, action.payload).pipe(
+        map((data: boolean) => new eventsActions.SaveImageSuccess(data)),
+        catchError(err => of(new eventsActions.SaveImageError(err)))
+      )
+    )
+  );
+
+  @Effect()
+  loadImage$: Observable<Action> = this.actions$.pipe(
+    ofType(eventsActions.ActionTypes.LOAD_IMAGE),
+    switchMap((action: eventsActions.LoadImage) =>
+      this.eventResource.loadImage(action.payload).pipe(
+        map((image: Blob) => new eventsActions.LoadImageSuccess(image)),
+        catchError(err => of(new eventsActions.LoadImageError(err)))
       )
     )
   );
