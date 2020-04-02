@@ -22,8 +22,7 @@ export class DrinkListComponent implements OnInit {
 
   drs$: Observable<Drink[]>;
   dr$: Observable<Drink>;
-  text: string;
-  
+  filter$: string;
   
 
   constructor(private store$: Store<AppState>, private route: ActivatedRoute,  private router: Router) { }
@@ -38,9 +37,15 @@ export class DrinkListComponent implements OnInit {
    this.drs$ = this.store$.select(fromDrink.getDrinks);
   }
 
-//  ListDrink(){
-//  this.store$.dispatch(new fromDrink.getDrinks());
- // this.drs$ = this.store$.pipe(select(fromDrink.getDrinks));
-// }
+  //public instializeFilterBeer(): void {
+  //  this.store$.dispatch(new drinksActions.FilterDrink('Öl'));
+ //   this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
+ // }
+
+ // ListDrink(text){
+   // this.store$.dispatch(new drinksActions.LoadDrinks());
+   // this.drs$ =  this.store$.pipe(select(fromDrink.getDrinks(text)));
+   // this.router.navigate(['/drink/category']);
+ // }
 
 }

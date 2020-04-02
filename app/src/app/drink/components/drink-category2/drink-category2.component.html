@@ -13,7 +13,7 @@
   <div class="info">
     <ul *ngIf="drs$">
       <li *ngFor="let dr of drs$ | async" [routerLink]="['/drink', dr.id]">
-        <ng-template [ngIf]="dr.category == 'Vin'" [ngIfElse]="none">
+     
           <div class="m">
             <a class="title" [routerLink]="['/drink', dr.id]">
               {{ dr.productNameBold }}</a
@@ -29,7 +29,7 @@
               <a class="btnReadMore">Läs mer</a>
             </p>
           </div>
-        </ng-template>
+     
 
         <ng-template #none>
           <p></p>

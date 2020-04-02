@@ -20,8 +20,10 @@ export enum ActionTypes {
   DELETE_DRINK = '[Drinks view] Delete Drink',
   DELETE_DRINK_SUCCESS = '[API: /drink] Delete Drink success',
   DELETE_DRINK_ERROR = '[API: /drink] Delete Drink error',
- // LOAD_DRINK_Category = '[Drinks view] LOAD_DRINK_Category',
- // LOAD_DRINK_Category_SUCCESS = '[API: /drink]LOAD_DRINK_Category_SUCCESS'
+
+  FILTER_DRINK = '[Drinks view] Filter Drink',
+  FILTER_DRINK_SUCCESS = '[API: /drink] Filter Drink success',
+  FILTER_DRINK_ERROR = '[API: /drink] Filter Drink error'
 }
 
 /*--------------LoadAllEvents--------------*/
@@ -147,6 +149,23 @@ export class LoadDrinkCategoryError implements Action {
 -------*/
 
 
+
+export class FilterDrink implements Action {
+  readonly type = ActionTypes.FILTER_DRINK;
+
+  constructor(public payload: string) {}
+}
+
+export class FilterDrinkSuccess implements Action {
+  readonly type = ActionTypes.FILTER_DRINK_SUCCESS;
+  constructor(public payload: Drink[]) {}
+}
+
+export class FilterDrinkError implements Action {
+  readonly type = ActionTypes.FILTER_DRINK_ERROR;
+  constructor(public payload: string) {}
+}
+
 export type Actions =
   | LoadDrinks
   | LoadDrinksSuccess
@@ -162,8 +181,15 @@ export type Actions =
   | UpdateDrinkError
   | DeleteDrink
   | DeleteDrinkSuccess
+<<<<<<< HEAD
   | DeleteDrinkError;
  // | LoadDrinkCategory
  // | LoadDrinkCategorySuccess
  // | LoadDrinkCategoryError;
 
+=======
+  | DeleteDrinkError
+  | FilterDrink
+  | FilterDrinkError
+  | FilterDrinkSuccess;
+>>>>>>> 6732d7d6622651eb1046f27f151531f98e167715
