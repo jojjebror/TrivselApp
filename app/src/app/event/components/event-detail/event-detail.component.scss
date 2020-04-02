@@ -42,6 +42,11 @@ font-size: 18px;
 background-color: white !important;
 }
 
+::ng-deep .mat-tab-label .mat-tab-label-content {
+  color: white;
+  font-size: 18px;
+}
+
  :host /deep/ .mat-list .mat-list-item {
   height: 25px!important;
 } 

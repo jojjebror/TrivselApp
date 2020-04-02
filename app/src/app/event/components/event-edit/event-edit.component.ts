@@ -40,10 +40,10 @@ export class EventEditComponent implements OnInit, OnDestroy {
         description: [ev.description, Validators.required],
         image: [ev.image],
         location: [ev.location, Validators.required],
-        startdate: [new Date(ev.startDate)],
-        starttime: [new Date(ev.startDate)],
-        enddate: [new Date(ev.endDate)],
-        endtime: [new Date(ev.endDate)]
+        startdate: [new Date(ev.startDate), Validators.required],
+        starttime: [new Date(ev.startDate), Validators.required],
+        enddate: [new Date(ev.endDate), Validators.required],
+        endtime: [new Date(ev.endDate), Validators.required]
       });
       this.starttime = ev.startDate;
       this.endtime = ev.endDate;
@@ -52,8 +52,6 @@ export class EventEditComponent implements OnInit, OnDestroy {
 
   updateEvent() {
     if (this.eventEditForm.valid) {
-
-      console.log(this.eventEditForm)
       //Fixar problem med UTC och lokal tid när datum skickas till servern
       this.fixDateTimeZone(this.eventEditForm.get('starttime').value);
       this.fixDateTimeZone(this.eventEditForm.get('endtime').value);
@@ -89,6 +87,11 @@ export class EventEditComponent implements OnInit, OnDestroy {
   getErrorMessageStartdate() {
     if (this.eventEditForm.get('startdate').hasError('required')) {
       return 'Du måste ange ett startdatum';
+    }
+  }
+  getErrorMessageEndDate() {
+    if (this.eventEditForm.get('enddate').hasError('required')) {
+      return 'Du måste ange ett slutdatum';
     }
   }
 }
