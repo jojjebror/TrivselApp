@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { BsLocaleService } from 'ngx-bootstrap';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 
@@ -95,8 +94,6 @@ export class EventCreateComponent implements OnInit {
   createEvent() {
     if (this.eventForm.valid) {
       this.CheckEmptyEndDate(this.eventForm);
-
-      console.log(this.eventForm);
 
       //Fixar problem med UTC och lokal tid när datum skickas till servern
       this.fixDateTimeZone(this.eventForm.get('starttime').value);

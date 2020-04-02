@@ -5,7 +5,7 @@ import * as usersActions from './users.actions';
 
 let initialState = adapter.getInitialState({
   selectedUserId: null,
-  offices: [],
+  //offices: [],
   loading: false,
   loaded: false,
   error: ''
@@ -14,12 +14,12 @@ let initialState = adapter.getInitialState({
 export function reducer(state: UsersState = initialState, action: usersActions.Actions): UsersState {
   switch (action.type) {
 
-    case usersActions.ActionTypes.GET_USERS: {
+    /* case usersActions.ActionTypes.GET_USERS: {
       return {
         ...state,
         loading: true,
       };
-    }
+    } */
 
     case usersActions.ActionTypes.GET_USERS_SUCCESS: {
       return adapter.addAll(action.payload, {

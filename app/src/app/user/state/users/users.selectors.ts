@@ -15,13 +15,3 @@ export const getUsersLoaded = createSelector(selectState, state => state.loaded)
 
 export const getError = createSelector(selectState, state => state.error);
 
-export const getAllUsers = createSelector(selectState, state => state.entities);
-
-export const getAllOffices = createSelector(selectState, state => state.entities.offices);
-
-
-/* export const getCurrentUserId = createSelector(selectState, state => state.selectedUserId);
-
-export const getCurrentUser = createSelector(selectState, getCurrentUserId, state => state.entities[state.selectedUserId]);
-
-export const getCurrentUsers = createSelector(selectState, getCurrentUserId, state => state.); */
