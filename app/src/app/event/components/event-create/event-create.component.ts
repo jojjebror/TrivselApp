@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { BsLocaleService } from 'ngx-bootstrap';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 
@@ -28,11 +27,10 @@ export class EventCreateComponent implements OnInit {
   eventForm: FormGroup;
   endDateMode = false;
   fileUpload: File = null;
-  imageUrl: string = 'assets/images/event-images/';
+  imageUrl: string;
 
-  mytime: Date;
-  mytime2: Date;
-
+  starttime: Date;
+  endtime: Date;
 
   offices: string[] = [
     'Linköping',
@@ -51,16 +49,14 @@ export class EventCreateComponent implements OnInit {
     private store$: Store<AppState>,
     private fb: FormBuilder,
     private alertify: AlertifyService,
-    private localeService: BsLocaleService,
     private dateAdapter: DateAdapter<Date>
   ) {
-    localeService.use('sv');
     dateAdapter.setLocale('sv');
     this.store$.select(fromSession.selectUser).subscribe(user => (this.userId = user.id));
   }
 
   ngOnInit() {
-    this.loadOffices();
+    this.loadUsers();
     this.createEventForm();
   }
 
@@ -75,7 +71,7 @@ export class EventCreateComponent implements OnInit {
         starttime: ['', Validators.required],
         enddate: [''],
         endtime: [''],
-        createdate: [new Date()],
+        createdate: [new Date()], //Bör göras när createEvent() körs
         creatorid: [this.userId],
         users: [null],
         offices: [['']]
@@ -84,7 +80,24 @@ export class EventCreateComponent implements OnInit {
     );
   }
 
-  handleFileInput(file: FileList) {
+  createEvent() {
+    if (this.eventForm.valid) {
+      this.CheckEmptyEndDate(this.eventForm);
+
+      //Fixar problem med UTC och lokal tid när datum skickas till servern
+      this.fixDateTimeZone(this.eventForm.get('starttime').value);
+      this.fixDateTimeZone(this.eventForm.get('endtime').value);
+      this.fixDateTimeZone(this.eventForm.get('createdate').value);
+
+      this.event = Object.assign({}, this.eventForm.value);
+
+      this.store$.dispatch(new fromEvents.CreateEvent(this.event, this.fileUpload));
+
+      this.alertify.success('Evenemanget har skapats');
+    }
+  }
+
+  imagePreview(file: FileList) {
     this.fileUpload = file.item(0);
 
     var reader = new FileReader();
@@ -94,32 +107,7 @@ export class EventCreateComponent implements OnInit {
     reader.readAsDataURL(this.fileUpload);
   }
 
-  createEvent() {
-    if (this.eventForm.valid) {
-      this.CheckEmptyEndDate(this.eventForm);
-
-      console.log(this.eventForm);
-
-      //Fixar problem med UTC och lokal tid när datum skickas till servern
-      this.fixDateTimeZone(this.eventForm.get('starttime').value);
-      this.fixDateTimeZone(this.eventForm.get('endtime').value);
-      this.fixDateTimeZone(this.eventForm.get('createdate').value);
-
-      this.event = Object.assign({}, this.eventForm.value);
-      console.log(this.event);
-
-      this.store$.dispatch(new fromEvents.CreateEvent(this.event));
-
-      this.alertify.success('Evenemanget har skapats');
-    }
-  }
-
-  /*  private loadUsers(): void {
-    this.store$.dispatch(new fromUsers.GetUsers());
-    this.users$ = this.store$.pipe(select(fromUsers.getUsers));
-  } */
-
-  private loadOffices(): void {
+  private loadUsers(): void {
     this.store$.dispatch(new fromUsers.GetUsers());
     this.users$ = this.store$.pipe(select(fromUsers.getUsers));
   }
@@ -164,18 +152,6 @@ export class EventCreateComponent implements OnInit {
     d.setHours(d.getHours() - d.getTimezoneOffset() / 60);
     return d;
   }
-  /* 
-  timeChange(time1: string) {
-    var splitted = time1.split(':');
-    var hour = splitted[0];
-    var minute = splitted[1];
-    let dateString = '1967-11-16T' + hour +':' + minute + ':00';
-    var date = new Date(dateString);
-
-
-    this.eventForm.controls['starttime'].setValue(date);
-    console.log(this.eventForm);
-  }  */
 
   getErrorMessageTitle() {
     if (this.eventForm.get('title').hasError('required')) {

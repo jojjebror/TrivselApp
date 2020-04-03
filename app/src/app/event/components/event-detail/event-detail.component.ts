@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ViewEncapsulation} from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 
 import { AppState } from 'src/app/core/state';
 import { Store, select } from '@ngrx/store';
@@ -23,6 +23,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   ev$: Observable<Event>;
   eventUsers$: any;
   userId: number;
+  imageUrl: string;
 
   constructor(private store$: Store<AppState>, private alertify: AlertifyService, private activatedRoute: ActivatedRoute) {
     this.store$.select(fromSession.selectUser).subscribe(user => (this.userId = user.id));
@@ -44,7 +45,6 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     this.ev$ = this.store$.pipe(select(fromEvents.getCurrentEvent));
 
     this.eventUsers$ = this.store$.pipe(select(fromEvents.getCurrentUsers));
-    console.log(this.ev$);
   }
 
   deleteEvent(id: number) {
@@ -54,10 +54,8 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  acceptInvite(id: number) {
+  addCurrentUserToEvent(id: number) {
     var data = [id, this.userId];
-    this.store$.dispatch(new fromEvents.AddUserEvent(data));
-
-    this.loadEvent();
+    this.store$.dispatch(new fromEvents.AddEventParticipant(data));
   }
 }

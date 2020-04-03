@@ -9,6 +9,8 @@
       </button>
     </div>
 
+    <!-- ---------Kommande kod med sökantering------------ -->
+
     <!-- <div class="form-group searchbar inputWithIcon">
       <input
         type="text"
@@ -31,10 +33,11 @@
       <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
       <mat-card-content>
         <p>
-          <i class="material-icons">calendar_today</i>         
-          {{ ev.startDate | date: 'd MMM, y' }}</p>
+          <i class="material-icons iconMargin">calendar_today</i>
+          {{ ev.startDate | date: 'd MMM, y' }}
+        </p>
         <p>
-          <i class="material-icons">location_on</i>
+          <i class="material-icons iconMargin">location_on</i>
           {{ ev.location }}
         </p>
       </mat-card-content>
@@ -43,22 +46,9 @@
       </mat-card-actions>
     </mat-card>
   </div>
-
-  <!-- <ul *ngIf="evs$">
-    <li *ngFor="let ev of (evs$ | async)" [routerLink]="['/event', ev.id]">
-      <a class="title" [routerLink]="['/event', ev.id]"> {{ ev.title }}</a>
-
-      <p class="date">
-        <i class="material-icons iconMargin">&#xe916;</i>
-        {{ ev.startDate | date: 'd MMM, y' }}
-      </p>
-
-      <p class="location"><i class="material-icons iconMargin">&#xe55f;</i> {{ ev.location }}</p>
-
-      <a [routerLink]="['/event', ev.id]" class="btnReadMore">Läs mer</a>
-    </li>
-  </ul> -->
 </div>
+
+<!-- ------------Kommande kod med sidhantering------------ -->
 
 <!-- <div class="d-flex justify-content-center">
   <pagination

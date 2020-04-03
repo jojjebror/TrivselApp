@@ -17,7 +17,7 @@ namespace Logic.Translators
 
             return new EventForUpdateDto
             {
-                
+                Id = ev.Id,
                 Title = ev.Title,
                 Description = ev.Description, 
                 Location = ev.Location,

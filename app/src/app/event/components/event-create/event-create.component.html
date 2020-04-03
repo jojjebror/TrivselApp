@@ -30,23 +30,23 @@
     <div>
       <!-- <mat-form-field appearance="outline">
         <mat-label>Bild-url</mat-label> -->
-      <!-- <img [src]="imageUrl" style="width: auto; height: 150px; border: 1px solid white;">
+        <img [src]="imageUrl || ''" style="width: auto; height: 150px; border: 1px solid white; margin-bottom: 20px;">
         <input
           type="file"
           accept="image/*"
-          (change)="handleFileInput($event.target.files)"
+          (change)="imagePreview($event.target.files)"
           formControlName="image"
           autocomplete="off"
-        /> -->
+        />
       <!-- </mat-form-field> -->
 
-      <mat-form-field appearance="outline">
+      <!-- <mat-form-field appearance="outline">
         <mat-label>Bild-url</mat-label>
         <input type="text" matInput formControlName="image" autocomplete="off" />
-      </mat-form-field>
+      </mat-form-field> -->
     </div>
 
-    <div class="form-row">
+    <div class="form-row" style="margin-top: 15px;">
       <div>
         <mat-form-field appearance="outline">
           <mat-label>Startdatum</mat-label>
@@ -57,10 +57,10 @@
       </div>
 
       <ng-template #popTemplate>
-        <timepicker formControlName="starttime" [(ngModel)]="mytime" [showMeridian]="false"></timepicker>
+        <timepicker formControlName="starttime" [(ngModel)]="starttime" [showMeridian]="false"></timepicker>
       </ng-template>
       <div class="form-group col-md-4" style="margin-top: 6.5px;">
-      <input class="hoursTxt" value="{{ mytime | date: 'HH:mm' }}" placeholder="00:00" [popover]="popTemplate" [outsideClick]="true" placement="bottom" readonly />
+      <input class="hoursTxt" value="{{ starttime | date: 'HH:mm' }}" placeholder="00:00" [popover]="popTemplate" [outsideClick]="true" placement="bottom" readonly />
     </div>
 
       <div *ngIf="!endDateMode" class="form-group col-md-2 mt-3">
@@ -78,10 +78,10 @@
       </div>
 
        <ng-template #popTemplate>
-        <timepicker formControlName="endtime" [(ngModel)]="mytime2" [showMeridian]="false"></timepicker>
+        <timepicker formControlName="endtime" [(ngModel)]="endtime" [showMeridian]="false"></timepicker>
       </ng-template>
       <div class="form-group col-md-4" style="margin-top: 6.5px;">
-      <input class="hoursTxt" value="{{ mytime2 | date: 'HH:mm' }}" placeholder="00:00" [popover]="popTemplate" [outsideClick]="true" placement="bottom" readonly />
+      <input class="hoursTxt" value="{{ endtime | date: 'HH:mm' }}" placeholder="00:00" [popover]="popTemplate" [outsideClick]="true" placement="bottom" readonly />
       </div>
       <div class="form-group col-md-2" style="margin-top: 15px;">
         <a (click)="endDateToggle()">- Ångra</a>

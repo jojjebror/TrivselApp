@@ -6,28 +6,23 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { SharedModule } from '../shared';
 
-import { LoginRoutingModule } from './event-routing.module';
+import { EventRoutingModule } from './event-routing.module';
 
 import { reducers, effects } from './state';
 import { views } from './views';
 import { components } from './components';
 
-import { TabsModule, BsDatepickerModule, TimepickerModule, PopoverModule } from 'ngx-bootstrap';
-
-import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { TimepickerModule, PopoverModule } from 'ngx-bootstrap';
 
 
 @NgModule({
   imports: [
     SharedModule,
-    LoginRoutingModule,
+    EventRoutingModule,
     StoreModule.forFeature('event', reducers),
     EffectsModule.forFeature(effects),
     StoreDevtoolsModule.instrument(),
-    TabsModule,
     TimepickerModule,
-    BsDatepickerModule,
-    NgxMaterialTimepickerModule,
     PopoverModule.forRoot()
   ],
   exports: [],

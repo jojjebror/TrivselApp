@@ -1,105 +1,112 @@
-
 <div class="container mt-5 border border-light p-5">
-  
-  <form [formGroup]="eventEditForm" (ngSubmit)="updateEvent()"> 
-    <button [disabled]="!eventEditForm.dirty" type="submit" class="btn btn-success">
+  <form [formGroup]="eventEditForm" (ngSubmit)="updateEvent()">
+    <button [disabled]="!eventEditForm.dirty || !eventEditForm.valid" type="submit" class="btn btn-success">
       Spara ändringar
     </button>
     <div class="row">
-      <input
-        type="text"
-        [ngClass]="{
-          'is-invalid': eventEditForm.get('title').errors && eventEditForm.get('title').touched
-        }"
-        class="form-control title"
-        placeholder="Titel på evenemang"
-        formControlName="title"
-      />
-      <div class="invalid-feedback">Du måste ange en titel för evenemanget</div>
+      <div class="title">
+        <mat-form-field appearance="outline">
+          <mat-label>Ändra titel</mat-label>
+          <mat-error *ngIf="eventEditForm.invalid">{{ getErrorMessageTitle() }}</mat-error>
+          <input class="title" type="text" matInput formControlName="title" autocomplete="off" style="font-size:2.5rem;" />
+        </mat-form-field>
+      </div>
     </div>
     <div class="row">
       <div class="col-sm-4">
         <div class="card">
           <div class="card-body">
+            <mat-form-field appearance="outline" id="location">
+              <mat-label>Ändra plats</mat-label>
+              <mat-error *ngIf="eventEditForm.invalid">{{ getErrorMessageLocation() }}</mat-error>
+              <input type="text" matInput formControlName="location" autocomplete="off" />
+            </mat-form-field>
             <div>
-              <strong>Plats:</strong>
-              <input
-                type="text"
-                [ngClass]="{
-                  'is-invalid': eventEditForm.get('location').errors && eventEditForm.get('location').touched
-                }"
-                class="form-control"
-                placeholder="Plats"
-                formControlName="location"
-              />
-              <div class="invalid-feedback">
-                Du måste ange en plats för evenemanget
-              </div>
-            </div>
-            <div>
-              <strong>Tid:</strong>
-              <div class="form-group col-md-4 mt-2">
-                <timepicker formControlName="starttime" class="timepick" [showMeridian]="false" [showSpinners]="false"> </timepicker>
-              </div>
-              <div class="form-group col-md-4">
-                <timepicker formControlName="endtime" class="timepick" [showMeridian]="false" [showSpinners]="false"> </timepicker>
-              </div>
-            </div>
-            <div>
-              <strong>Datum:</strong>
-              <input
-                type="text"
-                bsDatepicker
-                [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
-                [ngClass]="{
-                  'is-invalid': eventEditForm.get('startdate').errors && eventEditForm.get('startdate').touched
-                }"
-                class="form-control"
-                placeholder="Startdatum"
-                formControlName="startdate"
-              />
-              <div class="invalid-feedback">
-                Du måste ange ett startdatum för evenemanget
+              <ng-template #popTemplate>
+                <timepicker formControlName="starttime" [(ngModel)]="starttime" [showMeridian]="false"></timepicker>
+              </ng-template>
+              <div class="form-group col-md-2" style="padding-left: 0;">
+                <input
+                  class="hoursTxt"
+                  value="Starttid: {{ starttime | date: 'HH:mm' }}"
+                  [popover]="popTemplate"
+                  [outsideClick]="true"
+                  placement="bottom"
+                  readonly
+                />
               </div>
 
-              <input
-                type="text"
-                bsDatepicker
-                [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
-                [ngClass]="{ 'is-invalid': eventEditForm.get('enddate').errors && eventEditForm.get('enddate').touched }"
-                class="form-control"
-                placeholder="Slutdatum"
-                formControlName="enddate"
-              />
+              <ng-template #popTemplate2>
+                <timepicker formControlName="endtime" [(ngModel)]="endtime" [showMeridian]="false"></timepicker>
+              </ng-template>
+              <div class="form-group col-md-2" style="padding-left: 0">
+                <input
+                  class="hoursTxt"
+                  value="Sluttid: {{ endtime | date: 'HH:mm' }}"
+                  [popover]="popTemplate2"
+                  [outsideClick]="true"
+                  placement="bottom"
+                  readonly
+                />
+              </div>
+            </div>
+            <div>
+              <div>
+                <mat-form-field appearance="outline">
+                  <mat-label>Ändra startdatum</mat-label>
+                  <mat-error *ngIf="eventEditForm.invalid">{{ getErrorMessageStartdate() }}</mat-error>
+                  <input
+                    matInput
+                    (focus)="pickerStartDate.open()"
+                    [matDatepicker]="pickerStartDate"
+                    formControlName="startdate"
+                    autocomplete="off"
+                  />
+                  <mat-datepicker #pickerStartDate></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div>
+                <mat-form-field appearance="outline">
+                  <mat-label>Ändra slutdatum</mat-label>
+                  <mat-error *ngIf="eventEditForm.invalid">{{ getErrorMessageEndDate() }}</mat-error>
+                  <input
+                    matInput
+                    (focus)="pickerEndDate.open()"
+                    [matDatepicker]="pickerEndDate"
+                    formControlName="enddate"
+                    autocomplete="off"
+                  />
+                  <mat-datepicker #pickerEndDate></mat-datepicker>
+                </mat-form-field>
+              </div>
             </div>
           </div>
-          <div class="card-footer">
-          </div>
+          <div class="card-footer"></div>
         </div>
       </div>
       <div class="col-sm-8">
         <div class="tab-panel">
-          <tabset class="member-tabset">
-            <tab heading="Om evenemang">
-              <h4 style="font-weight: bold;">Beskrivning</h4>
-              <textarea
-                id="description"
-                [ngClass]="{
-                  'is-invalid': eventEditForm.get('description').errors && eventEditForm.get('description').touched
-                }"
-                class="form-control"
-                placeholder="Beskrivning"
-                formControlName="description"
-              ></textarea>
-              <div class="invalid-feedback">
-                Du måste ange en beskrivning för evenemanget
+          <mat-tab-group animationDuration="0ms">
+            <mat-tab label="Om evenemang">
+              <div id="description">
+                <mat-form-field appearance="outline">
+                  <mat-label>Ändra beskrivning</mat-label>
+                  <mat-error *ngIf="eventEditForm.invalid">{{ getErrorMessageDescription() }}</mat-error>
+                  <textarea matInput formControlName="description" autocomplete="off"></textarea>
+                </mat-form-field>
               </div>
-            </tab>
-            <tab heading="Deltagare">
-              <h4 style="font-weight: bold;">Deltagare</h4>
-              <p>Jerker</p>
-            </tab>
-          </tabset>
+            </mat-tab>
+            <mat-tab label="Deltagare">
+              <mat-list>
+                <mat-list-item>
+                  <p style="color: white;">
+                    Testanvändare
+                  </p>
+                </mat-list-item>
+              </mat-list>
+            </mat-tab>
+          </mat-tab-group>
         </div>
       </div>
     </div>

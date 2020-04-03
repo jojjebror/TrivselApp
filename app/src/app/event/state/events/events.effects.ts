@@ -30,7 +30,11 @@ export class EventsEffects {
     ofType(eventsActions.ActionTypes.LOAD_EVENT),
     switchMap((action: eventsActions.LoadEvent) =>
       this.eventResource.loadEvent(action.payload).pipe(
-        map((event: Event) => new eventsActions.LoadEventSuccess(event)),
+        switchMap((event: Event) => 
+        [
+          new eventsActions.LoadEventSuccess(event), 
+          new eventsActions.LoadImage(event.id)
+        ]),
         tap(() => this.router.navigate(['/event/' + action.payload])),
         catchError(err => of(new eventsActions.LoadEventError(err)))
       )
@@ -40,10 +44,13 @@ export class EventsEffects {
   @Effect()
   createEvent$: Observable<Action> = this.actions$.pipe(
     ofType(eventsActions.ActionTypes.CREATE_EVENT),
-    map((action: eventsActions.CreateEvent) => action.payload),
-    switchMap((event: Event) =>
-      this.eventResource.createEvent(event).pipe(
-        map((newEvent: Event) => new eventsActions.CreateEventSuccess(newEvent)),
+    switchMap((action: eventsActions.CreateEvent) =>
+      this.eventResource.createEvent(action.payload).pipe(
+        switchMap((newEvent: Event) => 
+        [ 
+          new eventsActions.CreateEventSuccess(newEvent), 
+          new eventsActions.SaveImage(newEvent.id, action.image)
+        ]),
         tap(() => this.router.navigate(['/event'])),
         catchError(err => of(new eventsActions.CreateEventError(err)))
       )
@@ -83,13 +90,40 @@ export class EventsEffects {
   );
 
   @Effect()
-  addUserEvent$: Observable<Action> = this.actions$.pipe(
-    ofType(eventsActions.ActionTypes.ADD_USER_EVENT),
-    map((action: eventsActions.AddUserEvent) => action.payload),
-    switchMap((data: number[]) =>
-      this.eventResource.acceptInvite(data).pipe(
-        map(() => new eventsActions.AddUserEventSuccess(data)),
-        catchError(err => of(new eventsActions.AddUserEventError(err)))
+  addEventParticipant$: Observable<Action> = this.actions$.pipe(
+    ofType(eventsActions.ActionTypes.ADD_EVENT_PARTICIPANT),
+    switchMap((action: eventsActions.AddEventParticipant) =>
+      this.eventResource.addEventParticipant(action.payload).pipe(
+        switchMap(
+          (updatedEvent: Event) => [
+            new eventsActions.AddEventParticipantSuccess({
+              id: updatedEvent.id,
+              changes: updatedEvent
+            }), new eventsActions.LoadEvent(updatedEvent.id)
+          ]),
+        catchError(err => of(new eventsActions.AddEventParticipantError(err)))
+      )
+    )
+  );
+
+  @Effect()
+  saveImage$: Observable<Action> = this.actions$.pipe(
+    ofType(eventsActions.ActionTypes.SAVE_IMAGE),
+    switchMap((action: eventsActions.SaveImage) =>
+      this.eventResource.saveImage(action.id, action.payload).pipe(
+        map((data: boolean) => new eventsActions.SaveImageSuccess(data)),
+        catchError(err => of(new eventsActions.SaveImageError(err)))
+      )
+    )
+  );
+
+  @Effect()
+  loadImage$: Observable<Action> = this.actions$.pipe(
+    ofType(eventsActions.ActionTypes.LOAD_IMAGE),
+    switchMap((action: eventsActions.LoadImage) =>
+      this.eventResource.loadImage(action.payload).pipe(
+        map((image: Blob) => new eventsActions.LoadImageSuccess(image)),
+        catchError(err => of(new eventsActions.LoadImageError(err)))
       )
     )
   );

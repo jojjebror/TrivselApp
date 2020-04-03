@@ -41,3 +41,22 @@ font-size: 18px;
 ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary {
 background-color: white !important;
 }
+
+::ng-deep .mat-tab-label .mat-tab-label-content {
+  color: white;
+  font-size: 18px;
+}
+
+ :host /deep/ .mat-list .mat-list-item {
+  height: 25px!important;
+} 
+
+.mat-list {
+  //border: 1px solid white;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  min-height: 250px;
+  max-height: 250px;
+  width: 200px;
+  overflow: auto;
+}

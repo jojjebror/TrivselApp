@@ -36,9 +36,14 @@ a {
 .mat-list-option {
   color: white;
 }
-.mat-pseudo-checkbox {
-    color: white !important;
+
+.mat-list-option {
+  height: 30px;
 }
+:host /deep/ .mat-selection-list .mat-list-option {
+  height: 30px!important;
+} 
+
 
 ::ng-deep .mat-pseudo-checkbox {
     color: white;
@@ -121,13 +126,13 @@ textarea {
 }
 
 .userContainer {
-  width: 40%;
+  width: 50%;
   float: right;
   height: 180px;
 }
 
 .btnGroup {
-  margin-top: 100px;
+  margin-top: 140px;
 }
 
 .hoursTxt {
@@ -137,8 +142,7 @@ textarea {
   color: white;
   border-radius: 5px;
   border: 1px solid white;
-  padding: 16px; 
-  //height: 25px;  
+  padding: 16px;  
 }
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */

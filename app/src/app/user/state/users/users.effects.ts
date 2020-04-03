@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { mergeMap, map, catchError } from 'rxjs/operators';
+import { mergeMap, map, catchError, switchMap } from 'rxjs/operators';
 
 import { UserResource } from 'src/app/core/resources';
 
@@ -16,8 +16,8 @@ export class UsersEffects {
 
   @Effect()
   loadUsers$: Observable<Action> = this.actions$.pipe(
-    ofType<usersActions.GetUsers>(usersActions.ActionTypes.GET_USERS),
-    mergeMap((actions: usersActions.GetUsers) =>
+    ofType(usersActions.ActionTypes.GET_USERS),
+    switchMap((actions: usersActions.GetUsers) =>
       this.userResource.getUsers().pipe(
         map((users: User[]) => new usersActions.GetUsersSuccess(users)),
         catchError(err => of(new usersActions.GetUsersError(err)))
@@ -25,7 +25,7 @@ export class UsersEffects {
     )
   );
 
-  @Effect()
+  /* @Effect()
   loadOffices$: Observable<Action> = this.actions$.pipe(
     ofType<usersActions.GetOffices>(usersActions.ActionTypes.GET_OFFICES),
     mergeMap((actions: usersActions.GetOffices) =>
@@ -34,5 +34,16 @@ export class UsersEffects {
         catchError(err => of(new usersActions.GetOfficesError(err)))
       )
     )
-  );
+  ); */
+
+  /* @Effect()
+  loadUsers$: Observable<Action> = this.actions$.pipe(
+    ofType<usersActions.GetUsers>(usersActions.ActionTypes.GET_USERS),
+    mergeMap((actions: usersActions.GetUsers) =>
+      this.userResource.getUsers().pipe(
+        map((users: User[]) => new usersActions.GetUsersSuccess(users)),
+        catchError(err => of(new usersActions.GetUsersError(err)))
+      )
+    )
+  ); */
 }
