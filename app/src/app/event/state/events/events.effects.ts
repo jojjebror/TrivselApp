@@ -37,26 +37,15 @@ export class EventsEffects {
     )
   );
 
-  /* @Effect()
-  createEvent$: Observable<Action> = this.actions$.pipe(
-    ofType(eventsActions.ActionTypes.CREATE_EVENT),
-    map((action: eventsActions.CreateEvent) => action.payload),
-    switchMap((event: Event) =>
-      this.eventResource.createEvent(event).pipe(
-        map((newEvent: Event) => new eventsActions.CreateEventSuccess(newEvent)),
-        tap(() => this.router.navigate(['/event'])),
-        catchError(err => of(new eventsActions.CreateEventError(err)))
-      )
-    )
-  ); */
-
   @Effect()
   createEvent$: Observable<Action> = this.actions$.pipe(
     ofType(eventsActions.ActionTypes.CREATE_EVENT),
     switchMap((action: eventsActions.CreateEvent) =>
       this.eventResource.createEvent(action.payload).pipe(
-        switchMap((newEvent: Event) => [new eventsActions.CreateEventSuccess(newEvent), 
-          new eventsActions.UploadImage(newEvent.id, action.image)]),
+        switchMap((newEvent: Event) => [
+          new eventsActions.CreateEventSuccess(newEvent),
+          new eventsActions.UploadImage(newEvent.id, action.image)
+        ]),
         tap(() => this.router.navigate(['/event'])),
         catchError(err => of(new eventsActions.CreateEventError(err)))
       )
@@ -98,10 +87,15 @@ export class EventsEffects {
   @Effect()
   addUserEvent$: Observable<Action> = this.actions$.pipe(
     ofType(eventsActions.ActionTypes.ADD_USER_EVENT),
-    map((action: eventsActions.AddUserEvent) => action.payload),
-    switchMap((data: number[]) =>
-      this.eventResource.acceptInvite(data).pipe(
-        map(() => new eventsActions.AddUserEventSuccess(data)),
+    switchMap((action: eventsActions.AddUserEvent) =>
+      this.eventResource.addEventParticipant(action.payload).pipe(
+        switchMap(
+          (updatedEvent: Event) => [
+            new eventsActions.AddUserEventSuccess({
+              id: updatedEvent.id,
+              changes: updatedEvent
+            }), new eventsActions.LoadEvent(updatedEvent.id)
+          ]),
         catchError(err => of(new eventsActions.AddUserEventError(err)))
       )
     )

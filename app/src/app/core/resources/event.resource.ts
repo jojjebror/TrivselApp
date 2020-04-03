@@ -31,7 +31,7 @@ export class EventResource extends ApiResource {
     return this.put('event/'+ ev.id, ev);
   }
 
-  acceptInvite(data: number[]): Observable<Event[]> {
+  addEventParticipant(data: number[]): Observable<Event> {
     return this.post('event/' + data[0] + '/' + data[1], {});
   }
 

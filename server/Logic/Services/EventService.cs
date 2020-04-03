@@ -88,7 +88,7 @@ namespace Logic.Services
                         EventId = ev.Id,
                         UserId = user.Id
                     };
-                    //if (!usersToAdd1.Contains(newEventParticipant))
+
                     if (!CheckIfUserIsAddedInOffice.Exists(x => x.UserId == newEventParticipant.UserId))
                     {
                         _context.EventParticipants.Add(newEventParticipant);
@@ -131,13 +131,14 @@ namespace Logic.Services
         }
 
 
-        public async Task<EventParticipant> GetInvitation(int id, int userId)
+        public async Task<EventParticipant> CheckInvitation(int id, int userId)
         {
             return await _context.EventParticipants
                 .FirstOrDefaultAsync(ep => ep.EventId == id && ep.UserId == userId);
         }
 
-        public async Task<EventParticipant> CreateInvite(int id, int userId)
+
+        public async Task<EventForDetailedDto> AddEventParticipant(int id, int userId)
         {
             var ep = new EventParticipant
             {
@@ -149,8 +150,12 @@ namespace Logic.Services
             _context.EventParticipants.Add(ep);
             await _context.SaveChangesAsync();
 
-            return ep;
+            var dbEvent = await _context.Events.Include(e => e.EventParticipants
+               .Select(u => u.User)).FirstOrDefaultAsync(e => e.Id == id);
+
+            return EventForDetailedTranslator.ToModel(dbEvent);
         }
+
 
         public async Task<bool> UploadImage(int id, IFormFile image)
         {

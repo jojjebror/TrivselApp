@@ -135,14 +135,13 @@ export class DeleteEventError implements Action {
 
 export class AddUserEvent implements Action {
   readonly type = ActionTypes.ADD_USER_EVENT;
-
   constructor(public payload: number[]) {}
 }
 
 export class AddUserEventSuccess implements Action {
   readonly type = ActionTypes.ADD_USER_EVENT_SUCCESS;
 
-  constructor(public payload: number[]) {}
+  constructor(public payload: Update<Event>) {}
 }
 
 export class AddUserEventError implements Action {

@@ -79,6 +79,10 @@ export function reducer(state: EventsState = initialState, action: eventsActions
       };
     }
 
+     case eventsActions.ActionTypes.ADD_USER_EVENT_SUCCESS: {
+      return adapter.updateOne(action.payload, state)
+    } 
+
     default:
       return state;
   }

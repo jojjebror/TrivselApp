@@ -56,7 +56,6 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   acceptInvite(id: number) {
     var data = [id, this.userId];
     this.store$.dispatch(new fromEvents.AddUserEvent(data));
-
-    this.loadEvent();
+    //this.loadEvent();
   }
 }
