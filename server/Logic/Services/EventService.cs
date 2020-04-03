@@ -162,14 +162,12 @@ namespace Logic.Services
             var folderName = Path.Combine("Resources", "Images");
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
             pathToSave = pathToSave.Replace("Api", "Logic");
+
             var folderName2 = Path.Combine("images", "event-images");
             var pathToSave2 = "C:\\Users\\andre\\TrivselAppV2\\app\\src\\assets\\images\\event-images";
-            //var pathToSave2 = "C:\\Users\\andre\\TrivselAppV2\\server\\Logic\\Resources\\Images";
 
             if (image.Length > 0)
             {
-                //var fileName = id.ToString() + "." + ContentDispositionHeaderValue
-                //    .Parse(image.ContentDisposition).FileName.Trim('"').Split('.').Last();
                 var fileName = id.ToString() + Path.GetExtension(image.FileName);
                 var fullPath = Path.Combine(pathToSave2, fileName);
                 var dbPath = Path.Combine(folderName2, fileName);
@@ -195,9 +193,10 @@ namespace Logic.Services
             var dbEvent = await _context.Events.FindAsync(id);
             var imagePath = dbEvent.Image;
             var fullPath = Path.GetFullPath(imagePath);
-            var fullPath2 = Path.GetFullPath(imagePath);
             fullPath = fullPath.Replace("Api", "Logic");
 
+            var fullPath2 = Path.GetFullPath(imagePath);
+            
             return fullPath2;
         }
 

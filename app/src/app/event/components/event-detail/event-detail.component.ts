@@ -23,7 +23,6 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   ev$: Observable<Event>;
   eventUsers$: any;
   userId: number;
-  imageUrl: string;
 
   constructor(
     private store$: Store<AppState>,
