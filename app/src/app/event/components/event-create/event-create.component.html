@@ -57,10 +57,10 @@
       </div>
 
       <ng-template #popTemplate>
-        <timepicker formControlName="starttime" [(ngModel)]="mytime" [showMeridian]="false"></timepicker>
+        <timepicker formControlName="starttime" [(ngModel)]="starttime" [showMeridian]="false"></timepicker>
       </ng-template>
       <div class="form-group col-md-4" style="margin-top: 6.5px;">
-      <input class="hoursTxt" value="{{ mytime | date: 'HH:mm' }}" placeholder="00:00" [popover]="popTemplate" [outsideClick]="true" placement="bottom" readonly />
+      <input class="hoursTxt" value="{{ starttime | date: 'HH:mm' }}" placeholder="00:00" [popover]="popTemplate" [outsideClick]="true" placement="bottom" readonly />
     </div>
 
       <div *ngIf="!endDateMode" class="form-group col-md-2 mt-3">
@@ -78,10 +78,10 @@
       </div>
 
        <ng-template #popTemplate>
-        <timepicker formControlName="endtime" [(ngModel)]="mytime2" [showMeridian]="false"></timepicker>
+        <timepicker formControlName="endtime" [(ngModel)]="endtime" [showMeridian]="false"></timepicker>
       </ng-template>
       <div class="form-group col-md-4" style="margin-top: 6.5px;">
-      <input class="hoursTxt" value="{{ mytime2 | date: 'HH:mm' }}" placeholder="00:00" [popover]="popTemplate" [outsideClick]="true" placement="bottom" readonly />
+      <input class="hoursTxt" value="{{ endtime | date: 'HH:mm' }}" placeholder="00:00" [popover]="popTemplate" [outsideClick]="true" placement="bottom" readonly />
       </div>
       <div class="form-group col-md-2" style="margin-top: 15px;">
         <a (click)="endDateToggle()">- Ångra</a>

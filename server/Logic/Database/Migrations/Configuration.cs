@@ -26,7 +26,8 @@ namespace Logic.Database.Migrations
                 Id = 1,
                 Email = "test@test.se",
                 Name = "Test Persson",
-                Password = _passwordHasher.HashPassword("test")
+                Password = _passwordHasher.HashPassword("test"),
+                Office = "Linköping"
             };
 
             var testUser1 = new User()
@@ -34,8 +35,73 @@ namespace Logic.Database.Migrations
                 Id = 2,
                 Email = "jerker@test.se",
                 Name = "Jerker Persson",
-                Password = _passwordHasher.HashPassword("test")
+                Password = _passwordHasher.HashPassword("test"),
+                Office = "Stockholm"
             };
+
+            var testUser2 = new User()
+            {
+                Id = 3,
+                Email = "magnus@test.se",
+                Name = "Magnus Svensson",
+                Password = _passwordHasher.HashPassword("test"),
+                Office = "Uppsala"
+            };
+
+            var testUser3 = new User()
+            {
+                Id = 4,
+                Email = "zlatan@test.se",
+                Name = "Zlatan Ibrahimovic",
+                Password = _passwordHasher.HashPassword("test"),
+                Office = "Linköping"
+            };
+
+            var testUser4 = new User()
+            {
+                Id = 5,
+                Email = "hanna@test.se",
+                Name = "Hanna Fransson",
+                Password = _passwordHasher.HashPassword("test"),
+                Office = "Örebro"
+            };
+
+            var testUser5 = new User()
+            {
+                Id = 6,
+                Email = "philip@test.se",
+                Name = "Philip Haglund",
+                Password = _passwordHasher.HashPassword("test"),
+                Office = "Linköping"
+            };
+
+            var testUser6 = new User()
+            {
+                Id = 7,
+                Email = "sanna@test.se",
+                Name = "Sanna Kallur",
+                Password = _passwordHasher.HashPassword("test"),
+                Office = "Malmö"
+            };
+
+            var testUser7 = new User()
+            {
+                Id = 8,
+                Email = "martin@test.se",
+                Name = "Martin De La Hoya",
+                Password = _passwordHasher.HashPassword("test"),
+                Office = "Örebro"
+            };
+
+            var testUser8 = new User()
+            {
+                Id = 9,
+                Email = "hanna@test.se",
+                Name = "Hanna Gustafsson",
+                Password = _passwordHasher.HashPassword("test"),
+                Office = "Stockholm"
+            };
+
 
             var testEvent1 = new Event()
             {
@@ -111,9 +177,79 @@ namespace Logic.Database.Migrations
                 Accepted = true
             };
 
+            var testEp3 = new EventParticipant()
+            {
+                Id = 4,
+                UserId = 3,
+                EventId = 2,
+                Accepted = true
+            };
+
+            var testEp4 = new EventParticipant()
+            {
+                Id = 5,
+                UserId = 4,
+                EventId = 1,
+                Accepted = true
+            };
+
+            var testEp5 = new EventParticipant()
+            {
+                Id = 6,
+                UserId = 5,
+                EventId = 3,
+                Accepted = true
+            };
+
+            var testEp6 = new EventParticipant()
+            {
+                Id = 7,
+                UserId = 6,
+                EventId = 1,
+                Accepted = true
+            };
+
+            var testEp7 = new EventParticipant()
+            {
+                Id = 8,
+                UserId = 6,
+                EventId = 2,
+                Accepted = true
+            };
+
+            var testEp8 = new EventParticipant()
+            {
+                Id = 9,
+                UserId = 4,
+                EventId = 3,
+                Accepted = true
+            };
+
+            var testEp9 = new EventParticipant()
+            {
+                Id = 10,
+                UserId = 8,
+                EventId = 2,
+                Accepted = true
+            };
+
+            var testEp10 = new EventParticipant()
+            {
+                Id = 10,
+                UserId = 7,
+                EventId = 1,
+                Accepted = true
+            };
 
             context.Users.AddOrUpdate(testUser);
             context.Users.AddOrUpdate(testUser1);
+            context.Users.AddOrUpdate(testUser2);
+            context.Users.AddOrUpdate(testUser3);
+            context.Users.AddOrUpdate(testUser4);
+            context.Users.AddOrUpdate(testUser5);
+            context.Users.AddOrUpdate(testUser6);
+            context.Users.AddOrUpdate(testUser7);
+            context.Users.AddOrUpdate(testUser8);
 
             context.Events.AddOrUpdate(testEvent1);
             context.Events.AddOrUpdate(testEvent2);
@@ -122,8 +258,14 @@ namespace Logic.Database.Migrations
             context.EventParticipants.AddOrUpdate(testEp);
             context.EventParticipants.AddOrUpdate(testEp1);
             context.EventParticipants.AddOrUpdate(testEp2);
-
-
+            context.EventParticipants.AddOrUpdate(testEp3);
+            context.EventParticipants.AddOrUpdate(testEp4);
+            context.EventParticipants.AddOrUpdate(testEp5);
+            context.EventParticipants.AddOrUpdate(testEp6);
+            context.EventParticipants.AddOrUpdate(testEp7);
+            context.EventParticipants.AddOrUpdate(testEp8);
+            context.EventParticipants.AddOrUpdate(testEp9);
+            context.EventParticipants.AddOrUpdate(testEp10);
 
             context.Drinks.AddOrUpdate(testDrink);
 

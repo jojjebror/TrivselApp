@@ -44,7 +44,6 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     this.ev$ = this.store$.pipe(select(fromEvents.getCurrentEvent));
 
     this.eventUsers$ = this.store$.pipe(select(fromEvents.getCurrentUsers));
-    console.log(this.ev$);
   }
 
   deleteEvent(id: number) {
