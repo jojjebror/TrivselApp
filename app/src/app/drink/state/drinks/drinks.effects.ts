@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { switchMap, map, mergeMap, catchError } from 'rxjs/operators';
+import { switchMap, map, mergeMap, catchError, tap } from 'rxjs/operators';
 
 
+import { Router } from '@angular/router';
 
 import * as drinksActions from './drinks.actions';
 import { DrinkResource } from 'src/app/core/resources/drink.resource';
@@ -13,7 +14,7 @@ import { Drink } from 'src/app/shared/models';
 
 @Injectable()
 export class DrinksEffects {
-  constructor(private actions$: Actions, private drinkResource: DrinkResource) {}
+  constructor(private actions$: Actions, private drinkResource: DrinkResource, private router: Router) {}
 
   //load drinks
   @Effect()
@@ -60,6 +61,7 @@ export class DrinksEffects {
     mergeMap((drink: Drink) =>
       this.drinkResource.create(drink).pipe(
         map((newDrink: Drink) => new drinksActions.CreateDrinkSuccess(newDrink)),
+        tap(() => this.router.navigate(['/drink/category'])),
         catchError(err => of(new drinksActions.CreateDrinkError(err)))
       )
     )
@@ -76,6 +78,7 @@ export class DrinksEffects {
     mergeMap((id: number) =>
       this.drinkResource.deleteDrink(id).pipe(
         map(() => new drinksActions.DeleteDrinkSuccess(id)),
+        tap(() => this.router.navigate(['/drink'])),
         catchError(err => of(new drinksActions.DeleteDrinkError(err)))
       )
     )
@@ -95,6 +98,7 @@ export class DrinksEffects {
               changes: updatedDrink
             })
         ),
+        tap(() => this.router.navigate(['/drink/' + drink.id])),
         catchError(err => of(new drinksActions.UpdateDrinkError(err)))
       )
     )

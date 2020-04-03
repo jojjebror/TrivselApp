@@ -48,7 +48,7 @@ export class DrinkDetailComponent implements OnInit {
     if (confirm("Are You Sure You want to Delete the drink?")) {
       this.store$.dispatch(new drinksActions.DeleteDrink(id));
       this.alertify.warning('Dryck pantad!');
-      this.router.navigate(['/drink']);
+      //this.router.navigate(['/drink']);
 
     }
   }
