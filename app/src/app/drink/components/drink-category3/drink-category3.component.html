@@ -2,37 +2,41 @@
   <h2>
     Cider
   </h2>
-    <button  class="btn btn-primary" [routerLink]="['/drink/create']">
-      Lägg till ny dryck
-    </button>
-    <div class ="back">
-    <button class="btn btn-default" type="button" style="color: white;" [routerLink]="['/drink']">
+  <button class="btn btn-primary" [routerLink]="['/drink/create']">
+    Lägg till ny dryck
+  </button>
+  <div class="back">
+    <button
+      class="btn btn-default"
+      type="button"
+      style="color: white;"
+      [routerLink]="['/drink']"
+    >
       Gå tillbaka
     </button>
-    </div>
+  </div>
 
   <hr />
 
   <div class="info">
     <ul *ngIf="drs$">
       <li *ngFor="let dr of drs$ | async" [routerLink]="['/drink', dr.id]">
-        
-          <div class="m">
-            <a class="title" [routerLink]="['/drink', dr.id]">
-              {{ dr.productNameBold }}</a
-            >
+        <div class="m">
+          <a class="title" [routerLink]="['/drink', dr.id]">
+            {{ dr.productNameBold }}</a
+          >
 
-            <p class="location">Pris: {{ dr.price }}kr</p>
+          <p class="location">Pris: {{ dr.price }}kr</p>
 
-            <p class="location">Volym: {{ dr.volume }}cl</p>
+          <p class="location">Volym: {{ dr.volume }}cl</p>
 
-            <p class="location">
-              Typ: {{ dr.category }}
+          <p class="location">
+            Typ: {{ dr.category }}
 
-              <a class="btnReadMore">Läs mer</a>
-            </p>
-          </div>
-   
+            <a class="btnReadMore">Läs mer</a>
+          </p>
+        </div>
+
         <ng-template #none>
           <p></p>
         </ng-template>
