@@ -22,7 +22,7 @@ export class DrinkDetailComponent implements OnInit {
   dr$: Observable<Drink>;
   id: number;
   isShown: boolean = false ; // hidden by default
- 
+  photo: string = '../bilder/beer.jpg';
   clickCounter: number = 1;
   totalSum: number = 0;
 
@@ -77,4 +77,5 @@ export class DrinkDetailComponent implements OnInit {
    this.totalSum += this.clickCounter * drink.price;
     console.log(this.totalSum);
   }
+
 }
