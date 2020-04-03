@@ -19,7 +19,7 @@
         formControlName="productNameBold"
       />
       <div class="invalid-feedback">Du måste ange ett namn för drycken</div>
-    </div>
+    </div> 
 
     <div class="form-group inputWithIconTitleDescLoca" style="width: 50%;">
       <mat-select
@@ -55,18 +55,23 @@
       </div>
     </div>
 
-    <div class="form-group inputWithIconTitleDescLoca">
-      <input
+    <div class="form-group inputWithIconTitleDescLoca" style="width: 50%;">
+      <mat-select
         [ngClass]="{
           'is-invalid':
             drinkForm.get('volume').errors && drinkForm.get('volume').touched
         }"
-        type="number"
         class="form-control"
-        placeholder="Volym ex. 33cl"
+        placeholder="Volym"
         formControlName="volume"
-      />
-      <div class="invalid-feedback">Ange volym</div>
+      >
+        <mat-option value="33">33cl</mat-option>
+        <mat-option value="50">50cl</mat-option>
+        <mat-option value="100">100cl</mat-option>
+      </mat-select>
+      <div class="invalid-feedback">
+        Du måste ange ett pris
+      </div>
     </div>
 
     <div class="form-group inputWithIconTitleDescLoca">

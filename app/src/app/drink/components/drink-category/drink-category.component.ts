@@ -20,24 +20,25 @@ export class DrinkCategoryComponent implements OnInit {
 
   drs$: Observable<Drink[]>;
   categoryOne: boolean = false;
+
   
   
 
   constructor(private store$: Store<AppState>) { 
-    
+ 
 
   }
 
   
   ngOnInit(): void {
-    this.initializeDrinks();
+    this.instializeFilterBeer();
 
   }
 
-  private initializeDrinks(): void {
-    this.store$.dispatch(new drinksActions.LoadDrinks());
-    this.drs$ = this.store$.select(fromDrink.getDrinks);
-    
+  
+  public instializeFilterBeer(): void {
+    this.store$.dispatch(new drinksActions.FilterDrink('Öl'));
+    this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
   }
 
 }

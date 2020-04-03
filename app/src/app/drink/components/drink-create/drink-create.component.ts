@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BsLocaleService } from 'ngx-bootstrap';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
+import { AlertifyService } from 'src/app/core/services/alertify.service';
 
 import { Drink } from '../../../shared/models';
 import * as fromDrink from '../../state/drinks/drinks.actions';
@@ -23,6 +24,7 @@ export class DrinkCreateComponent implements OnInit {
 	constructor(private store$: Store<AppState>, 
 		private router: Router,
 		private fb: FormBuilder,
+		private alertify: AlertifyService,
 		private localeService: BsLocaleService)
 		{
 			localeService.use('sv');
@@ -51,8 +53,8 @@ export class DrinkCreateComponent implements OnInit {
 		{
 			this.drink = Object.assign({}, this.drinkForm.value);
 			this.store$.dispatch(new fromDrink.CreateDrink(this.drink));
-
-			this.router.navigate(['/drink']);
+			this.alertify.success('Drycken har lagts till!');
+			//this.router.navigate(['/drink']);
 		}
 	}
 }
