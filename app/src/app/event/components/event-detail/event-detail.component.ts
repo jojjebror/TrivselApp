@@ -21,11 +21,15 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   eventId: any;
   ev$: Observable<Event>;
-  eventUsers$: any;
+  participantsAccepted$: any;
+  invitedParticipants$: any;
   userId: number;
-  imageUrl: string;
 
-  constructor(private store$: Store<AppState>, private alertify: AlertifyService, private activatedRoute: ActivatedRoute) {
+  constructor(
+    private store$: Store<AppState>,
+    private alertify: AlertifyService,
+    private activatedRoute: ActivatedRoute
+  ) {
     this.store$.select(fromSession.selectUser).subscribe(user => (this.userId = user.id));
   }
 
@@ -44,7 +48,8 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     this.store$.dispatch(new fromEvents.LoadEvent(+this.eventId));
     this.ev$ = this.store$.pipe(select(fromEvents.getCurrentEvent));
 
-    this.eventUsers$ = this.store$.pipe(select(fromEvents.getCurrentUsers));
+    this.participantsAccepted$ = this.store$.pipe(select(fromEvents.getAcceptedUsers));
+    this.invitedParticipants$ = this.store$.pipe(select(fromEvents.getInvitedUsers));
   }
 
   deleteEvent(id: number) {
@@ -54,8 +59,8 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  addCurrentUserToEvent(id: number) {
-    var data = [id, this.userId];
+  UpdateParticpantsToEvent(id: number, answer: string) {
+    var data = [id, this.userId, answer];
     this.store$.dispatch(new fromEvents.AddEventParticipant(data));
   }
 }

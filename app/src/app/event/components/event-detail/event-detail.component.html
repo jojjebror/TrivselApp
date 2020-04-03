@@ -10,9 +10,11 @@
   </div>
   <div class="row">
     <div class="col-sm-4">
+      <div *ngIf="ev.image">
+      <img class="card-img-top img-thumbnail" src="../../assets/{{ ev.image }}" />
+      </div>
       <div class="card">
         <div class="card-body">
-          <img [src]="imageUrl || ''">
           <div>
             <strong>Plats:</strong>
             <p>{{ ev.location }}</p>
@@ -31,11 +33,17 @@
               {{ ev.endDate | date: 'dd/M/yyyy' }}
             </p>
           </div>
+<!--           <div>
+            <strong>Antal inbjudna:</strong>
+            <p *ngFor="let item of invitedParticipants$ | async let eventsParticipants">
+              {{ item.length }}
+            </p>
+          </div> -->
         </div>
         <div class="card-footer">
           <div class="btn-group d-flex">
-            <button class="btn btn-success w-100" id="accept" (click)="addCurrentUserToEvent(ev.id)">Delta</button>
-            <button class="btn btn-danger w-100" id="decline">Avböj</button>
+            <button class="btn btn-success w-100" id="accept" (click)="UpdateParticpantsToEvent(ev.id, 'true')">Delta</button>
+            <button class="btn btn-danger w-100" id="decline" (click)="UpdateParticpantsToEvent(ev.id, 'false')">Avböj</button>
           </div>
         </div>
       </div>
@@ -52,9 +60,18 @@
               </mat-list-item>
             </mat-list>
           </mat-tab>
-          <mat-tab label="Deltagare">
+          <mat-tab label="Kommer">
             <mat-list>
-              <mat-list-item *ngFor="let user of eventUsers$ | async">
+              <mat-list-item *ngFor="let user of participantsAccepted$ | async">
+                <p>
+                  {{ user.name }}
+                </p>
+              </mat-list-item>
+            </mat-list>
+          </mat-tab>
+          <mat-tab label="Se inbjudna">
+            <mat-list>
+              <mat-list-item *ngFor="let user of invitedParticipants$ | async">
                 <p>
                   {{ user.name }}
                 </p>

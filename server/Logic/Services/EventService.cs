@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
@@ -25,7 +26,7 @@ namespace Logic.Services
         public async Task<EventForDetailedDto> GetEvent(int id)
         {
             var dbEvent = await _context.Events.Include(e => e.EventParticipants
-                .Select(u => u.User)).FirstOrDefaultAsync(e => e.Id == id);
+                .Select(u => u.User).Select(u => u.EventParticipants)).FirstOrDefaultAsync(e => e.Id == id);
 
             return EventForDetailedTranslator.ToModel(dbEvent);
         }
@@ -55,6 +56,8 @@ namespace Logic.Services
             };
 
             _context.Events.Add(newEvent);
+
+            //bryta ut till två egna metoder nedan..
 
             var CheckIfUserIsAddedInOffice = new List<EventParticipant>();
 
@@ -130,24 +133,32 @@ namespace Logic.Services
             return id;
         }
 
-
-        public async Task<EventParticipant> CheckInvitation(int id, int userId)
+        public async Task<EventForDetailedDto> AddOrUpdateEventParticipant(int id, int userId, string answer)
         {
-            return await _context.EventParticipants
+            bool boolAnswer = answer == "true" ? true : false;
+
+            //Check if participant already has answered to the event
+            var participantExists = await _context.EventParticipants
                 .FirstOrDefaultAsync(ep => ep.EventId == id && ep.UserId == userId);
-        }
 
+            //Update participants answer if already answered
+            if (participantExists != null)
+            {
+                participantExists.Accepted = boolAnswer;
+            }
+            else {
 
-        public async Task<EventForDetailedDto> AddEventParticipant(int id, int userId)
-        {
-            var ep = new EventParticipant
+            //Add participants answer to db if not answered earlier
+                var ep = new EventParticipant
             {
                 EventId = id,
                 UserId = userId,
-                Accepted = true
+                Accepted = boolAnswer
             };
 
             _context.EventParticipants.Add(ep);
+            }
+
             await _context.SaveChangesAsync();
 
             var dbEvent = await _context.Events.Include(e => e.EventParticipants
@@ -161,15 +172,15 @@ namespace Logic.Services
             var folderName = Path.Combine("Resources", "Images");
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
             pathToSave = pathToSave.Replace("Api", "Logic");
-            //var pathToSave2 = "C:\\Users\\andre\\TrivselAppV2\\server\\Logic\\Resources\\Images";
+
+            var folderName2 = Path.Combine("images", "event-images");
+            var pathToSave2 = "C:\\Users\\andre\\TrivselAppV2\\app\\src\\assets\\images\\event-images";
 
             if (image.Length > 0)
             {
-                //var fileName = id.ToString() + "." + ContentDispositionHeaderValue
-                //    .Parse(image.ContentDisposition).FileName.Trim('"').Split('.').Last();
                 var fileName = id.ToString() + Path.GetExtension(image.FileName);
-                var fullPath = Path.Combine(pathToSave, fileName);
-                var dbPath = Path.Combine(folderName, fileName);
+                var fullPath = Path.Combine(pathToSave2, fileName);
+                var dbPath = Path.Combine(folderName2, fileName);
 
                 using (var stream = new FileStream(fullPath, FileMode.Create))
                 {
@@ -187,16 +198,33 @@ namespace Logic.Services
             }
         }
 
-        public async Task<FileStream> GetImage(int id)
+        public async Task<string> GetImage(int id)
         {
             var dbEvent = await _context.Events.FindAsync(id);
             var imagePath = dbEvent.Image;
             var fullPath = Path.GetFullPath(imagePath);
             fullPath = fullPath.Replace("Api", "Logic");
 
-            FileStream fs = File.Open(fullPath, FileMode.Open);
-            return fs;
+            var fullPath2 = Path.GetFullPath(imagePath);
+            
+            return fullPath2;
         }
+
+        //public async Task<HttpResponseMessage> GetImage(int id)
+        //{
+        //    var dbEvent = await _context.Events.FindAsync(id);
+        //    var imagePath = dbEvent.Image;
+        //    var fullPath = Path.GetFullPath(imagePath);
+        //    fullPath = fullPath.Replace("Api", "Logic");
+
+        //    using (var fs = new FileStream(fullPath, FileMode.Open))
+        //    {
+        //        HttpResponseMessage response = new HttpResponseMessage();
+        //        response.Content = new StreamContent(fs);
+        //        response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
+        //        return response;
+        //    }
+        //}
     }
 }
 
