@@ -272,6 +272,7 @@
     <Compile Include="Models\EventForDetailedDto.cs" />
     <Compile Include="Models\EventForListDto.cs" />
     <Compile Include="Models\EventForUpdateDto.cs" />
+    <Compile Include="Models\EventParticipantsDto.cs" />
     <Compile Include="Models\ExampleDto.cs" />
     <Compile Include="Models\UserDto.cs" />
     <Compile Include="Models\UserForListDto.cs" />

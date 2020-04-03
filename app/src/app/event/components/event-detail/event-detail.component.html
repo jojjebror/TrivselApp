@@ -31,6 +31,12 @@
               {{ ev.endDate | date: 'dd/M/yyyy' }}
             </p>
           </div>
+<!--           <div>
+            <strong>Antal inbjudna:</strong>
+            <p *ngFor="let item of invitedParticipants$ | async let eventsParticipants">
+              {{ item.length }}
+            </p>
+          </div> -->
         </div>
         <div class="card-footer">
           <div class="btn-group d-flex">
@@ -52,9 +58,18 @@
               </mat-list-item>
             </mat-list>
           </mat-tab>
-          <mat-tab label="Deltagare">
+          <mat-tab label="Kommer">
             <mat-list>
-              <mat-list-item *ngFor="let user of eventUsers$ | async">
+              <mat-list-item *ngFor="let user of participantsAccepted$ | async">
+                <p>
+                  {{ user.name }}
+                </p>
+              </mat-list-item>
+            </mat-list>
+          </mat-tab>
+          <mat-tab label="Se inbjudna">
+            <mat-list>
+              <mat-list-item *ngFor="let user of invitedParticipants$ | async">
                 <p>
                   {{ user.name }}
                 </p>

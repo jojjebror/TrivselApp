@@ -21,7 +21,8 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   eventId: any;
   ev$: Observable<Event>;
-  eventUsers$: any;
+  participantsAccepted$: any;
+  invitedParticipants$: any;
   userId: number;
   imageUrl: string;
 
@@ -44,7 +45,8 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     this.store$.dispatch(new fromEvents.LoadEvent(+this.eventId));
     this.ev$ = this.store$.pipe(select(fromEvents.getCurrentEvent));
 
-    this.eventUsers$ = this.store$.pipe(select(fromEvents.getCurrentUsers));
+    this.participantsAccepted$ = this.store$.pipe(select(fromEvents.getAcceptedUsers));
+    this.invitedParticipants$ = this.store$.pipe(select(fromEvents.getInvitedUsers));
   }
 
   deleteEvent(id: number) {
@@ -58,5 +60,4 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     var data = [id, this.userId, answer];
     this.store$.dispatch(new fromEvents.AddEventParticipant(data));
   }
-
 }
