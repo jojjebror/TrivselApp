@@ -28,9 +28,13 @@ export enum ActionTypes {
   ADD_USER_EVENT_SUCCESS = '[API: /Event] Add User Event success',
   ADD_USER_EVENT_ERROR = '[API: /event] Add User Event error',
 
-  UPLOAD_IMAGE = '[Events view] Upload Image',
-  UPLOAD_IMAGE_SUCCESS = '[API: /Event] Upload Image success',
-  UPLOAD_IMAGE_ERROR = '[API: /event] Upload Image error'
+  SAVE_IMAGE = '[Events view] Save Image',
+  SAVE_IMAGE_SUCCESS = '[API: /Event] Save Image success',
+  SAVE_IMAGE_ERROR = '[API: /event] Save Image error',
+
+  LOAD_IMAGE = '[Events view] Load Image',
+  LOAD_IMAGE_SUCCESS = '[API: /Event] Load Image success',
+  LOAD_IMAGE_ERROR = '[API: /event] Load Image error'
 }
 
 /*--------------LoadAllEvents--------------*/
@@ -150,22 +154,42 @@ export class AddUserEventError implements Action {
   constructor(public payload: string) {}
 }
 
-/*--------------UploadImage--------------*/
+/*--------------SaveImage--------------*/
 
-export class UploadImage implements Action {
-  readonly type = ActionTypes.UPLOAD_IMAGE;
+export class SaveImage implements Action {
+  readonly type = ActionTypes.SAVE_IMAGE;
 
   constructor(public id: number, public payload: File) {}
 }
 
-export class UploadImageSuccess implements Action {
-  readonly type = ActionTypes.UPLOAD_IMAGE_SUCCESS;
+export class SaveImageSuccess implements Action {
+  readonly type = ActionTypes.SAVE_IMAGE_SUCCESS;
 
   constructor(public payload: boolean) {}
 }
 
-export class UploadImageError implements Action {
-  readonly type = ActionTypes.UPLOAD_IMAGE_ERROR;
+export class SaveImageError implements Action {
+  readonly type = ActionTypes.SAVE_IMAGE_ERROR;
+
+  constructor(public payload: string) {}
+}
+
+/*--------------GetImage--------------*/
+
+export class LoadImage implements Action {
+  readonly type = ActionTypes.LOAD_IMAGE;
+
+  constructor(public payload: number) {}
+}
+
+export class LoadImageSuccess implements Action {
+  readonly type = ActionTypes.LOAD_IMAGE_SUCCESS;
+
+  constructor(public payload: Blob) {}
+}
+
+export class LoadImageError implements Action {
+  readonly type = ActionTypes.LOAD_IMAGE_ERROR;
 
   constructor(public payload: string) {}
 }
@@ -189,6 +213,9 @@ export type Actions =
   | AddUserEvent
   | AddUserEventSuccess
   | AddUserEventError
-  | UploadImage
-  | UploadImageSuccess
-  | UploadImageError;
+  | SaveImage
+  | SaveImageSuccess
+  | SaveImageError
+  | LoadImage
+  | LoadImageSuccess
+  | LoadImageError;
