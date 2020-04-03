@@ -31,10 +31,10 @@ export class EventResource extends ApiResource {
     return this.put('event/' + ev.id, ev);
   }
 
-  addEventParticipant(data: number[]): Observable<Event> {
-    return this.post('event/' + data[0] + '/' + data[1], {});
+  addOrUpdateEventParticipant(data: any[]): Observable<Event> {
+    return this.post('event/' + data[0] + '/' + data[1], data[2]);
   }
-
+  
   saveImage(id: number, image: File): Observable<any> {
     var formData = new FormData();
     formData.append('image', image, image.name);

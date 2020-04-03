@@ -34,17 +34,20 @@ export class EventEditComponent implements OnInit, OnDestroy {
 
   createEventEditForm() {
     this.ev$.subscribe(ev => {
-      this.eventEditForm = this.fb.group({
-        id: [ev.id],
-        title: [ev.title, Validators.required],
-        description: [ev.description, Validators.required],
-        image: [ev.image],
-        location: [ev.location, Validators.required],
-        startdate: [new Date(ev.startDate), Validators.required],
-        starttime: [new Date(ev.startDate), Validators.required],
-        enddate: [new Date(ev.endDate), Validators.required],
-        endtime: [new Date(ev.endDate), Validators.required]
-      });
+      this.eventEditForm = this.fb.group(
+        {
+          id: [ev.id],
+          title: [ev.title, Validators.required],
+          description: [ev.description, Validators.required],
+          image: [ev.image],
+          location: [ev.location, Validators.required],
+          startdate: [new Date(ev.startDate), Validators.required],
+          starttime: [new Date(ev.startDate), Validators.required],
+          enddate: [new Date(ev.endDate), Validators.required],
+          endtime: [new Date(ev.endDate), Validators.required]
+        },
+        { validator: this.DateValidation }
+      );
       this.starttime = ev.startDate;
       this.endtime = ev.endDate;
     });
@@ -65,6 +68,14 @@ export class EventEditComponent implements OnInit, OnDestroy {
     d.setHours(d.getHours() - d.getTimezoneOffset() / 60);
     return d;
   }
+
+   DateValidation(d: FormGroup) {
+    if (d.get('enddate').value !== '') {
+      return d.get('enddate').value >= d.get('startdate').value ? null : { mismatch: true };
+    } else {
+      return null;
+    }
+  } 
 
   getErrorMessageTitle() {
     if (this.eventEditForm.get('title').hasError('required')) {
@@ -93,5 +104,8 @@ export class EventEditComponent implements OnInit, OnDestroy {
     if (this.eventEditForm.get('enddate').hasError('required')) {
       return 'Du måste ange ett slutdatum';
     }
+/*     if (this.endtime < this.starttime) {
+      return 'Startdatum kan inte vara efter slutdatum';
+    } */
   }
 }

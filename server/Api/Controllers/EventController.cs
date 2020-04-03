@@ -52,14 +52,10 @@ namespace Api.Controllers
         }
 
         [HttpPost("{eventId}/{userId}")]
-        public async Task<IActionResult> AddEventParticipant(int eventId, int userId)
+        public async Task<IActionResult> AddOrUpdateEventParticipant(int eventId, int userId, [FromBody]string answer)
         {
-            var userExistInEvent = await _eventService.CheckInvitation(eventId, userId);
 
-            if (userExistInEvent != null)
-                return BadRequest("Already accepted");
-
-            var result = await _eventService.AddEventParticipant(eventId, userId);
+            var result = await _eventService.AddOrUpdateEventParticipant(eventId, userId, answer);
 
             return new OkObjectResult(ApiResponse.Create(result));
         }

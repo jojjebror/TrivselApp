@@ -56,6 +56,8 @@ namespace Logic.Services
 
             _context.Events.Add(newEvent);
 
+            //bryta ut till två egna metoder nedan..
+
             var CheckIfUserIsAddedInOffice = new List<EventParticipant>();
 
             if (ev.Offices != null)
@@ -130,24 +132,32 @@ namespace Logic.Services
             return id;
         }
 
-
-        public async Task<EventParticipant> CheckInvitation(int id, int userId)
+        public async Task<EventForDetailedDto> AddOrUpdateEventParticipant(int id, int userId, string answer)
         {
-            return await _context.EventParticipants
+            bool boolAnswer = answer == "true" ? true : false;
+
+            //Check if participant already has answered to the event
+            var participantExists = await _context.EventParticipants
                 .FirstOrDefaultAsync(ep => ep.EventId == id && ep.UserId == userId);
-        }
 
+            //Update participants answer if already answered
+            if (participantExists != null)
+            {
+                participantExists.Accepted = boolAnswer;
+            }
+            else {
 
-        public async Task<EventForDetailedDto> AddEventParticipant(int id, int userId)
-        {
-            var ep = new EventParticipant
+            //Add participants answer to db if not answered earlier
+                var ep = new EventParticipant
             {
                 EventId = id,
                 UserId = userId,
-                Accepted = true
+                Accepted = boolAnswer
             };
 
             _context.EventParticipants.Add(ep);
+            }
+
             await _context.SaveChangesAsync();
 
             var dbEvent = await _context.Events.Include(e => e.EventParticipants

@@ -19,6 +19,8 @@ export const getCurrentEventId = createSelector(selectState, state => state.sele
 
 export const getCurrentUsers = createSelector(selectState, getCurrentEventId, state => state.users);
 
+//export const getAcceptedUsers = createSelector(selectState, getCurrentUsers, state => state.users)
+
 const { selectIds, selectEntities } = adapter.getSelectors(selectState);
 
 export const getCurrentEvent = createSelector(selectEntities, getCurrentEventId, (entities, currentEventId) => {

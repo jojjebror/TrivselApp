@@ -30,11 +30,7 @@ export class EventsEffects {
     ofType(eventsActions.ActionTypes.LOAD_EVENT),
     switchMap((action: eventsActions.LoadEvent) =>
       this.eventResource.loadEvent(action.payload).pipe(
-        switchMap((event: Event) => 
-        [
-          new eventsActions.LoadEventSuccess(event), 
-          new eventsActions.LoadImage(event.id)
-        ]),
+        switchMap((event: Event) => [new eventsActions.LoadEventSuccess(event), new eventsActions.LoadImage(event.id)]),
         tap(() => this.router.navigate(['/event/' + action.payload])),
         catchError(err => of(new eventsActions.LoadEventError(err)))
       )
@@ -46,9 +42,8 @@ export class EventsEffects {
     ofType(eventsActions.ActionTypes.CREATE_EVENT),
     switchMap((action: eventsActions.CreateEvent) =>
       this.eventResource.createEvent(action.payload).pipe(
-        switchMap((newEvent: Event) => 
-        [ 
-          new eventsActions.CreateEventSuccess(newEvent), 
+        switchMap((newEvent: Event) => [
+          new eventsActions.CreateEventSuccess(newEvent),
           new eventsActions.SaveImage(newEvent.id, action.image)
         ]),
         tap(() => this.router.navigate(['/event'])),
@@ -90,17 +85,17 @@ export class EventsEffects {
   );
 
   @Effect()
-  addEventParticipant$: Observable<Action> = this.actions$.pipe(
+  addOrUpdateEventParticipant$: Observable<Action> = this.actions$.pipe(
     ofType(eventsActions.ActionTypes.ADD_EVENT_PARTICIPANT),
     switchMap((action: eventsActions.AddEventParticipant) =>
-      this.eventResource.addEventParticipant(action.payload).pipe(
-        switchMap(
-          (updatedEvent: Event) => [
-            new eventsActions.AddEventParticipantSuccess({
-              id: updatedEvent.id,
-              changes: updatedEvent
-            }), new eventsActions.LoadEvent(updatedEvent.id)
-          ]),
+      this.eventResource.addOrUpdateEventParticipant(action.payload).pipe(
+        switchMap((updatedEvent: Event) => [
+          new eventsActions.AddEventParticipantSuccess({
+            id: updatedEvent.id,
+            changes: updatedEvent
+          }),
+          new eventsActions.LoadEvent(updatedEvent.id)
+        ]),
         catchError(err => of(new eventsActions.AddEventParticipantError(err)))
       )
     )

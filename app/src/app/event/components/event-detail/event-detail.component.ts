@@ -54,8 +54,9 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  addCurrentUserToEvent(id: number) {
-    var data = [id, this.userId];
+  UpdateParticpantsToEvent(id: number, answer: string) {
+    var data = [id, this.userId, answer];
     this.store$.dispatch(new fromEvents.AddEventParticipant(data));
   }
+
 }

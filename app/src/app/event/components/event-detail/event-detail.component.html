@@ -34,8 +34,8 @@
         </div>
         <div class="card-footer">
           <div class="btn-group d-flex">
-            <button class="btn btn-success w-100" id="accept" (click)="addCurrentUserToEvent(ev.id)">Delta</button>
-            <button class="btn btn-danger w-100" id="decline">Avböj</button>
+            <button class="btn btn-success w-100" id="accept" (click)="UpdateParticpantsToEvent(ev.id, 'true')">Delta</button>
+            <button class="btn btn-danger w-100" id="decline" (click)="UpdateParticpantsToEvent(ev.id, 'false')">Avböj</button>
           </div>
         </div>
       </div>
