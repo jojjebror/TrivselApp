@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import { Injectable } from "@angular/core";
-import { Action } from "@ngrx/store";
-import { Effect, Actions, ofType } from "@ngrx/effects";
-import { Observable, of } from "rxjs";
-import { switchMap, map, mergeMap, catchError, tap } from "rxjs/operators";
-=======
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
@@ -17,24 +10,11 @@ import { Router } from '@angular/router';
 import * as drinksActions from './drinks.actions';
 import { DrinkResource } from 'src/app/core/resources/drink.resource';
 import { Drink } from 'src/app/shared/models';
->>>>>>> 5d6e705c7bcc6cba74e30ba7ac856db0a5a34129
-
-import * as drinksActions from "./drinks.actions";
-import { DrinkResource } from "src/app/core/resources/drink.resource";
-import { Drink } from "src/app/shared/models";
 import { text } from "@angular/core/src/render3";
 
 @Injectable()
 export class DrinksEffects {
-<<<<<<< HEAD
-  router: any;
-  constructor(
-    private actions$: Actions,
-    private drinkResource: DrinkResource
-  ) {}
-=======
   constructor(private actions$: Actions, private drinkResource: DrinkResource, private router: Router) {}
->>>>>>> 5d6e705c7bcc6cba74e30ba7ac856db0a5a34129
 
   //load drinks
   @Effect()
