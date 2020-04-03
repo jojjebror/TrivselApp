@@ -48,7 +48,7 @@ export class DrinkEditComponent implements OnInit {
       console.log(this.drink);
       this.store$.dispatch(new fromDrink.UpdateDrink(this.drink));
       this.alertify.success('Information om drycken har ändrats!');
-      this.router.navigate(['/drink/' + this.drink.id]);
+      //this.router.navigate(['/drink/' + this.drink.id]);
     }
   }
 

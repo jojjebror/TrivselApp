@@ -1,8 +1,23 @@
+<<<<<<< HEAD
 import { Injectable } from "@angular/core";
 import { Action } from "@ngrx/store";
 import { Effect, Actions, ofType } from "@ngrx/effects";
 import { Observable, of } from "rxjs";
 import { switchMap, map, mergeMap, catchError, tap } from "rxjs/operators";
+=======
+import { Injectable } from '@angular/core';
+import { Action } from '@ngrx/store';
+import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Observable, of } from 'rxjs';
+import { switchMap, map, mergeMap, catchError, tap } from 'rxjs/operators';
+
+
+import { Router } from '@angular/router';
+
+import * as drinksActions from './drinks.actions';
+import { DrinkResource } from 'src/app/core/resources/drink.resource';
+import { Drink } from 'src/app/shared/models';
+>>>>>>> 5d6e705c7bcc6cba74e30ba7ac856db0a5a34129
 
 import * as drinksActions from "./drinks.actions";
 import { DrinkResource } from "src/app/core/resources/drink.resource";
@@ -11,11 +26,15 @@ import { text } from "@angular/core/src/render3";
 
 @Injectable()
 export class DrinksEffects {
+<<<<<<< HEAD
   router: any;
   constructor(
     private actions$: Actions,
     private drinkResource: DrinkResource
   ) {}
+=======
+  constructor(private actions$: Actions, private drinkResource: DrinkResource, private router: Router) {}
+>>>>>>> 5d6e705c7bcc6cba74e30ba7ac856db0a5a34129
 
   //load drinks
   @Effect()
@@ -48,9 +67,8 @@ export class DrinksEffects {
     map((action: drinksActions.CreateDrink) => action.payload),
     mergeMap((drink: Drink) =>
       this.drinkResource.create(drink).pipe(
-        map(
-          (newDrink: Drink) => new drinksActions.CreateDrinkSuccess(newDrink)
-        ),
+        map((newDrink: Drink) => new drinksActions.CreateDrinkSuccess(newDrink)),
+        tap(() => this.router.navigate(['/drink/category'])),
         catchError(err => of(new drinksActions.CreateDrinkError(err)))
       )
     )
@@ -64,6 +82,7 @@ export class DrinksEffects {
     mergeMap((id: number) =>
       this.drinkResource.deleteDrink(id).pipe(
         map(() => new drinksActions.DeleteDrinkSuccess(id)),
+        tap(() => this.router.navigate(['/drink'])),
         catchError(err => of(new drinksActions.DeleteDrinkError(err)))
       )
     )
@@ -82,6 +101,7 @@ export class DrinksEffects {
               changes: updatedDrink
             })
         ),
+        tap(() => this.router.navigate(['/drink/' + drink.id])),
         catchError(err => of(new drinksActions.UpdateDrinkError(err)))
       )
     )
