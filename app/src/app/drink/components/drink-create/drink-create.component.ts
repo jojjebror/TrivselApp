@@ -54,7 +54,7 @@ export class DrinkCreateComponent implements OnInit {
 			this.drink = Object.assign({}, this.drinkForm.value);
 			this.store$.dispatch(new fromDrink.CreateDrink(this.drink));
 			this.alertify.success('Drycken har lagts till!');
-			this.router.navigate(['/drink']);
+			//this.router.navigate(['/drink']);
 		}
 	}
 }
