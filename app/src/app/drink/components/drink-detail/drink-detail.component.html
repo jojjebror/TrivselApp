@@ -1,38 +1,23 @@
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-/>
-<div
-  class="container mt-5 border border-light p-5"
-  style="width:35%;"
-  *ngIf="dr$ | async; let dr"
->
-  <button
-    (click)="toggleShow()"
-    type="checkbox"
-    style="float: right; margin-left:5px;"
-  >
-    <i class="fa fa-gear"></i>
-  </button>
-  <div *ngIf="isShown" class="row" id="divshow" style="float:right;">
-    <button
-      class="btn btn-danger btn-sm"
-      style="float:left; margin-right: 15px;"
-    >
-      <!-- <a (click)=editDrink(drink)>edit</a>  -->
-
-      <a (click)="deleteDrink(dr.id)">Panta</a>
-    </button>
-
-    <button
-      class="btn btn-primary btn-sm"
-      style="margin-right:20px;"
-      (click)="editDrink(dr)"
-      [routerLink]="['/drink/edit']"
-    >
-      Redigera dryck
-    </button>
-  </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="container"  *ngIf="dr$ | async; let dr">
+ 
+ <div class="settings">
+  <button (click)="toggleShow()" type="checkbox" style="float: right;"> <i class="fa fa-gear"></i></button>
+    <div class="dropContent">
+      <ol class="alt">
+        <li class="listan">
+        <button class="panta"> 
+          <a (click)="deleteDrink(dr.id)">Panta</a>
+        </button>
+        </li>
+        <li class="listan">
+        <button class="edit" (click)="editDrink(dr)" [routerLink] ="['/drink/edit']" >
+          Redigera dryck
+        </button>
+        </li>
+      </ol>
+    </div>
+</div>
 
   <div class="row">
     <ul class="lista">
@@ -41,58 +26,22 @@
      <li><h4 id="volym" style="color:white;">Volym: {{ dr.volume}}cl</h4></li> 
     </ul>
   </div>
-
-  <!-- <div class="row">
-    <div class="product-details">
-      <header>
-        <h4>Pris: {{ dr.price }}kr</h4>
-        <br />
-
-        <h4>Volym: {{ dr.volume }}cl</h4>
-        <br />
-
-        <h4>Kategori: {{ dr.category }}</h4>
-      </header>
-    </div>
-  </div> -->
-
-  <button
-    class="btn btn-back"
-    id="back"
-    type="button"
-    style="color: white;"
-    [routerLink]="['/drink']"
-  >
-    Gå tillbaka
-  </button>
-
-  <div class="row" style="padding-left: 200px;">
-    <!-- <button class="btn btn-success" (click)="GetToSwish(dr)">
+    
+  
+<div class="knappar">
+  <p class="antal">{{clickCounter}}</p>
+    <button class="plus" (click)="clickCount()">+</button>
+      <ng-template [ngIf]="clickCounter > 1">
+    <button class="minus" (click)="clickCountM()">-</button>
+      </ng-template>
+  </div>
+<div class="TaMigHem">
+    <button class="hem" id="back"  style="color: white;" [routerLink]="['/drink/category']">
+      Gå tillbaka
+    </button>
+    <button class="buy" (click)="GetToSwish(dr)">
       Köp dryck!
-    </button> -->
-
-    <ng-template [ngIf]="clickCounter > 1">
-      <button
-        class="btn btn-success"
-        style="margin-left: 10px;"
-        (click)="clickCountM()"
-      >
-        -
-      </button>
-    </ng-template>
-    <p class="btn btn-success" style="margin-left: 10px;">{{ clickCounter }}</p>
-    <button
-      class="btn btn-success"
-      style="margin-left: 10px;"
-      (click)="clickCount()"
-    >
-      +
     </button>
   </div>
-  <script>
-    document.getElementById("toggleBtn").onclick = function() {
-      var display = getComputedStyle(myDIV).display == "none" ? "" : "none";
-      myDIV.style.display = display;
-    };
-  </script>
+
 </div>
