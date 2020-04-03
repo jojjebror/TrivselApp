@@ -17,6 +17,7 @@
   .plus { display: none; }
   .minus { display: none; }
   .antal { display: none; }
+
   .settings:hover .dropContent{
     display: block;
   }
@@ -28,13 +29,20 @@
   }
   ol{
     display: inline-block;
+    text-align: center;
+    list-style-position: inside;
+    margin-left: 40%;
+    margin-top: 1%;
+  }
+  .panta{
+    margin-bottom: 10%;
   }
   
   .hem{
     background-color: black;
   }
   .TaMigHem{
-    position: relative;
+    position: absolute;
     width: 100%;
     bottom: 5%;
   }
@@ -58,8 +66,10 @@
   }
   
   .container {
-    width: 80%;
-    height: 1000px;
+    width: 70%;
+    height: 700px;
+    margin-top: 3%;
+    border: solid;
     background-image:url('../../../../assets/images/Beer-image.jpg');
     background-repeat: no-repeat;
     background-size: cover;
@@ -187,6 +197,9 @@
   }
   li{
     list-style: none;
+  }
+  #smak{
+    display: none;
   }
   .panta{
     margin-bottom: 10%;
