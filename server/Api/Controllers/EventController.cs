@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Api.Models;
 using Logic.Models;
 using Logic.Services;
@@ -55,26 +52,37 @@ namespace Api.Controllers
         }
 
         [HttpPost("{eventId}/{userId}")]
-        public async Task<IActionResult> AcceptInvitation(int eventId, int userId)
+        public async Task<IActionResult> AddEventParticipant(int eventId, int userId)
         {
-            var accepted = await _eventService.GetInvitation(eventId, userId);
+            var userExistInEvent = await _eventService.CheckInvitation(eventId, userId);
 
-            if (accepted != null)
+            if (userExistInEvent != null)
                 return BadRequest("Already accepted");
 
-            var result = await _eventService.CreateInvite(eventId, userId);
+            var result = await _eventService.AddEventParticipant(eventId, userId);
 
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
-        [HttpPost]
-        [Route("/uploadimage")]
-        public IActionResult UploadImage()
+        [HttpPost("{id}/saveimage")]
+        public async Task<IActionResult> SaveImage(int id)
         {
-            var httpRequest = HttpContext.Request;
-            var file = httpRequest.Form["image"];
-            return new OkObjectResult(ApiResponse.Create(file));
+            var httpRequest = Request.Form;
+            var image = httpRequest.Files["image"];
+
+            var result = await _eventService.SaveImage(id, image);
+
+            return new OkObjectResult(ApiResponse.Create(result));
         }
 
+        [HttpGet("{id}/getimage")]
+        public async Task<IActionResult> GetImage(int id)
+        {
+            var result = await _eventService.GetImage(id);
+
+            var image = File(result, "image");
+
+            return new OkObjectResult(ApiResponse.Create(image));
+        }
     }
 }

@@ -12,6 +12,7 @@
     <div class="col-sm-4">
       <div class="card">
         <div class="card-body">
+          <img [src]="imageUrl || ''">
           <div>
             <strong>Plats:</strong>
             <p>{{ ev.location }}</p>
@@ -33,7 +34,7 @@
         </div>
         <div class="card-footer">
           <div class="btn-group d-flex">
-            <button class="btn btn-success w-100" id="accept" (click)="acceptInvite(ev.id)">Delta</button>
+            <button class="btn btn-success w-100" id="accept" (click)="addCurrentUserToEvent(ev.id)">Delta</button>
             <button class="btn btn-danger w-100" id="decline">Avböj</button>
           </div>
         </div>

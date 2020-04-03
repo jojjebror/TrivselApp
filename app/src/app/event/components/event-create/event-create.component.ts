@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { BsLocaleService } from 'ngx-bootstrap';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 
@@ -28,11 +27,10 @@ export class EventCreateComponent implements OnInit {
   eventForm: FormGroup;
   endDateMode = false;
   fileUpload: File = null;
-  imageUrl: string = 'assets/images/event-images/';
+  imageUrl: string;
 
   starttime: Date;
   endtime: Date;
-
 
   offices: string[] = [
     'Linköping',
@@ -73,7 +71,7 @@ export class EventCreateComponent implements OnInit {
         starttime: ['', Validators.required],
         enddate: [''],
         endtime: [''],
-        createdate: [new Date()],
+        createdate: [new Date()], //Bör göras när createEvent() körs
         creatorid: [this.userId],
         users: [null],
         offices: [['']]
@@ -82,21 +80,9 @@ export class EventCreateComponent implements OnInit {
     );
   }
 
-  handleFileInput(file: FileList) {
-    this.fileUpload = file.item(0);
-
-    var reader = new FileReader();
-    reader.onload = (event: any) => {
-      this.imageUrl = event.target.result;
-    };
-    reader.readAsDataURL(this.fileUpload);
-  }
-
   createEvent() {
     if (this.eventForm.valid) {
       this.CheckEmptyEndDate(this.eventForm);
-
-      console.log(this.eventForm);
 
       //Fixar problem med UTC och lokal tid när datum skickas till servern
       this.fixDateTimeZone(this.eventForm.get('starttime').value);
@@ -104,12 +90,21 @@ export class EventCreateComponent implements OnInit {
       this.fixDateTimeZone(this.eventForm.get('createdate').value);
 
       this.event = Object.assign({}, this.eventForm.value);
-      console.log(this.event);
 
-      this.store$.dispatch(new fromEvents.CreateEvent(this.event));
+      this.store$.dispatch(new fromEvents.CreateEvent(this.event, this.fileUpload));
 
       this.alertify.success('Evenemanget har skapats');
     }
+  }
+
+  imagePreview(file: FileList) {
+    this.fileUpload = file.item(0);
+
+    var reader = new FileReader();
+    reader.onload = (event: any) => {
+      this.imageUrl = event.target.result;
+    };
+    reader.readAsDataURL(this.fileUpload);
   }
 
   private loadUsers(): void {

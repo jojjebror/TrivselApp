@@ -17,8 +17,6 @@ export const getError = createSelector(selectState, state => state.error);
 
 export const getCurrentEventId = createSelector(selectState, state => state.selectedEventId);
 
-/* export const getCurrentEvent = createSelector(selectState, getCurrentEventId, state => state.entities[state.selectedEventId]); */
-
 export const getCurrentUsers = createSelector(selectState, getCurrentEventId, state => state.users);
 
 const { selectIds, selectEntities } = adapter.getSelectors(selectState);
@@ -26,3 +24,4 @@ const { selectIds, selectEntities } = adapter.getSelectors(selectState);
 export const getCurrentEvent = createSelector(selectEntities, getCurrentEventId, (entities, currentEventId) => {
   return entities[currentEventId];
 });
+
