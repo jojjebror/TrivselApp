@@ -48,7 +48,7 @@ export class DrinksEffects {
     mergeMap((drink: Drink) =>
       this.drinkResource.create(drink).pipe(
         map((newDrink: Drink) => new drinksActions.CreateDrinkSuccess(newDrink)),
-        tap(() => this.router.navigate(['/drink/category'])),
+        tap(() => this.router.navigate(['/drink'])),
         catchError(err => of(new drinksActions.CreateDrinkError(err)))
       )
     )
