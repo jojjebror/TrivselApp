@@ -79,9 +79,16 @@ export function reducer(state: EventsState = initialState, action: eventsActions
       };
     }
 
-     case eventsActions.ActionTypes.ADD_USER_EVENT_SUCCESS: {
-      return adapter.updateOne(action.payload, state)
-    } 
+    case eventsActions.ActionTypes.ADD_EVENT_PARTICIPANT_SUCCESS: {
+      return adapter.updateOne(action.payload, state);
+    }
+
+    case eventsActions.ActionTypes.ADD_EVENT_PARTICIPANT_ERROR: {
+      return {
+        ...state,
+        error: action.payload
+      };
+    }
 
     default:
       return state;

@@ -24,9 +24,9 @@ export enum ActionTypes {
   DELETE_EVENT_SUCCESS = '[API: /event] Delete Event success',
   DELETE_EVENT_ERROR = '[API: /event] Delete Event error',
 
-  ADD_USER_EVENT = '[Events view] Add User Event',
-  ADD_USER_EVENT_SUCCESS = '[API: /Event] Add User Event success',
-  ADD_USER_EVENT_ERROR = '[API: /event] Add User Event error',
+  ADD_EVENT_PARTICIPANT = '[Events view] Add Event Participant',
+  ADD_EVENT_PARTICIPANT_SUCCESS = '[API: /Event] Add Event Participant success',
+  ADD_EVENT_PARTICIPANT_ERROR = '[API: /event] Add Event Participant error',
 
   SAVE_IMAGE = '[Events view] Save Image',
   SAVE_IMAGE_SUCCESS = '[API: /Event] Save Image success',
@@ -137,19 +137,19 @@ export class DeleteEventError implements Action {
 
 /*--------------AddUserToEvent--------------*/
 
-export class AddUserEvent implements Action {
-  readonly type = ActionTypes.ADD_USER_EVENT;
+export class AddEventParticipant implements Action {
+  readonly type = ActionTypes.ADD_EVENT_PARTICIPANT;
   constructor(public payload: number[]) {}
 }
 
-export class AddUserEventSuccess implements Action {
-  readonly type = ActionTypes.ADD_USER_EVENT_SUCCESS;
+export class AddEventParticipantSuccess implements Action {
+  readonly type = ActionTypes.ADD_EVENT_PARTICIPANT_SUCCESS;
 
   constructor(public payload: Update<Event>) {}
 }
 
-export class AddUserEventError implements Action {
-  readonly type = ActionTypes.ADD_USER_EVENT_ERROR;
+export class AddEventParticipantError implements Action {
+  readonly type = ActionTypes.ADD_EVENT_PARTICIPANT_ERROR;
 
   constructor(public payload: string) {}
 }
@@ -210,9 +210,9 @@ export type Actions =
   | DeleteEvent
   | DeleteEventSuccess
   | DeleteEventError
-  | AddUserEvent
-  | AddUserEventSuccess
-  | AddUserEventError
+  | AddEventParticipant
+  | AddEventParticipantSuccess
+  | AddEventParticipantError
   | SaveImage
   | SaveImageSuccess
   | SaveImageError

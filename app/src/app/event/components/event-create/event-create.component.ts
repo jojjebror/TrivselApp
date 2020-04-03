@@ -32,7 +32,6 @@ export class EventCreateComponent implements OnInit {
   starttime: Date;
   endtime: Date;
 
-
   offices: string[] = [
     'Linköping',
     'Stockholm',
@@ -81,17 +80,6 @@ export class EventCreateComponent implements OnInit {
     );
   }
 
-  imagePreview(file: FileList) {
-    this.fileUpload = file.item(0);
-
-    var reader = new FileReader();
-    reader.onload = (event: any) => {
-      this.imageUrl = event.target.result;
-    };
-    reader.readAsDataURL(this.fileUpload);
-    
-  }
-
   createEvent() {
     if (this.eventForm.valid) {
       this.CheckEmptyEndDate(this.eventForm);
@@ -102,12 +90,21 @@ export class EventCreateComponent implements OnInit {
       this.fixDateTimeZone(this.eventForm.get('createdate').value);
 
       this.event = Object.assign({}, this.eventForm.value);
-      console.log(this.event);
 
       this.store$.dispatch(new fromEvents.CreateEvent(this.event, this.fileUpload));
 
       this.alertify.success('Evenemanget har skapats');
     }
+  }
+
+  imagePreview(file: FileList) {
+    this.fileUpload = file.item(0);
+
+    var reader = new FileReader();
+    reader.onload = (event: any) => {
+      this.imageUrl = event.target.result;
+    };
+    reader.readAsDataURL(this.fileUpload);
   }
 
   private loadUsers(): void {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ViewEncapsulation} from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 
 import { AppState } from 'src/app/core/state';
 import { Store, select } from '@ngrx/store';
@@ -54,9 +54,8 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  acceptInvite(id: number) {
+  addCurrentUserToEvent(id: number) {
     var data = [id, this.userId];
-    this.store$.dispatch(new fromEvents.AddUserEvent(data));
-    //this.loadEvent();
+    this.store$.dispatch(new fromEvents.AddEventParticipant(data));
   }
 }

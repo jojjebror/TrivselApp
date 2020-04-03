@@ -30,23 +30,23 @@
     <div>
       <!-- <mat-form-field appearance="outline">
         <mat-label>Bild-url</mat-label> -->
-        <img [src]="imageUrl || ''" style="width: auto; height: 150px; border: 1px solid white;">
+        <img [src]="imageUrl || ''" style="width: auto; height: 150px; border: 1px solid white; margin-bottom: 20px;">
         <input
           type="file"
           accept="image/*"
           (change)="imagePreview($event.target.files)"
           formControlName="image"
           autocomplete="off"
-        /> -->
+        />
       <!-- </mat-form-field> -->
 
-      <mat-form-field appearance="outline">
+      <!-- <mat-form-field appearance="outline">
         <mat-label>Bild-url</mat-label>
         <input type="text" matInput formControlName="image" autocomplete="off" />
-      </mat-form-field>
+      </mat-form-field> -->
     </div>
 
-    <div class="form-row">
+    <div class="form-row" style="margin-top: 15px;">
       <div>
         <mat-form-field appearance="outline">
           <mat-label>Startdatum</mat-label>
