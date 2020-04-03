@@ -24,11 +24,8 @@ export class DrinkCreateComponent implements OnInit {
 	constructor(private store$: Store<AppState>, 
 		private router: Router,
 		private fb: FormBuilder,
-		private alertify: AlertifyService,
-		private localeService: BsLocaleService)
-		{
-			localeService.use('sv');
-		}
+		private alertify: AlertifyService)
+		{}
 
 	ngOnInit() {
 		this.createDrinkForm();
