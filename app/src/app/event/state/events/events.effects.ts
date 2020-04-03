@@ -30,7 +30,11 @@ export class EventsEffects {
     ofType(eventsActions.ActionTypes.LOAD_EVENT),
     switchMap((action: eventsActions.LoadEvent) =>
       this.eventResource.loadEvent(action.payload).pipe(
-        switchMap((event: Event) => [new eventsActions.LoadEventSuccess(event), new eventsActions.LoadImage(event.id)]),
+        switchMap((event: Event) => 
+        [
+          new eventsActions.LoadEventSuccess(event), 
+          //new eventsActions.LoadImage(event.id)
+        ]),
         tap(() => this.router.navigate(['/event/' + action.payload])),
         catchError(err => of(new eventsActions.LoadEventError(err)))
       )
@@ -117,7 +121,7 @@ export class EventsEffects {
     ofType(eventsActions.ActionTypes.LOAD_IMAGE),
     switchMap((action: eventsActions.LoadImage) =>
       this.eventResource.loadImage(action.payload).pipe(
-        map((image: Blob) => new eventsActions.LoadImageSuccess(image)),
+        map((imageUrl: string) => new eventsActions.LoadImageSuccess(imageUrl)),
         catchError(err => of(new eventsActions.LoadImageError(err)))
       )
     )

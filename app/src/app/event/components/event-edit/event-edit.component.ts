@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/
 
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
-import { Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 import { Event } from 'src/app/shared/models';
 import * as fromEvents from '../../state/events';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -77,35 +77,32 @@ export class EventEditComponent implements OnInit, OnDestroy {
     }
   } 
 
-  getErrorMessageTitle() {
-    if (this.eventEditForm.get('title').hasError('required')) {
-      return 'Du måste ange en titel';
-    }
-  }
+  getErrorMessage(property: string) {
+    switch (property) {
+      case 'title': {
+        this.eventEditForm.get('title').hasError('required');
+        return 'Du måste ange en titel';
+      }
 
-  getErrorMessageLocation() {
-    if (this.eventEditForm.get('location').hasError('required')) {
-      return 'Du måste ange en plats';
-    }
-  }
+      case 'location': {
+        this.eventEditForm.get('location').hasError('required');
+        return 'Du måste ange en plats';
+      }
 
-  getErrorMessageDescription() {
-    if (this.eventEditForm.get('description').hasError('required')) {
-      return 'Du måste ange en beskrivning';
-    }
-  }
+      case 'description': {
+        this.eventEditForm.get('description').hasError('required');
+        return 'Du måste ange en beskrivning';
+      }
 
-  getErrorMessageStartdate() {
-    if (this.eventEditForm.get('startdate').hasError('required')) {
-      return 'Du måste ange ett startdatum';
+      case 'startdate': {
+        this.eventEditForm.get('startdate').hasError('required');
+        return 'Du måste ange ett startdatum';
+      }
+
+      case 'enddate': {
+        this.eventEditForm.get('enddate').hasError('required');
+        return 'Du måste ange ett slutdatum';
+      }
     }
-  }
-  getErrorMessageEndDate() {
-    if (this.eventEditForm.get('enddate').hasError('required')) {
-      return 'Du måste ange ett slutdatum';
-    }
-/*     if (this.endtime < this.starttime) {
-      return 'Startdatum kan inte vara efter slutdatum';
-    } */
   }
 }

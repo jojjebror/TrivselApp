@@ -24,9 +24,12 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   participantsAccepted$: any;
   invitedParticipants$: any;
   userId: number;
-  imageUrl: string;
 
-  constructor(private store$: Store<AppState>, private alertify: AlertifyService, private activatedRoute: ActivatedRoute) {
+  constructor(
+    private store$: Store<AppState>,
+    private alertify: AlertifyService,
+    private activatedRoute: ActivatedRoute
+  ) {
     this.store$.select(fromSession.selectUser).subscribe(user => (this.userId = user.id));
   }
 

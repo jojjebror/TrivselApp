@@ -1,8 +1,6 @@
 ﻿using Api.Middlewares;
 using Api.Options;
 using Logic;
-using Logic.Database;
-using Logic.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
