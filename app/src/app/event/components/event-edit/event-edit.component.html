@@ -10,7 +10,7 @@
       <div class="title">
         <mat-form-field appearance="outline">
           <mat-label>Ändra titel</mat-label>
-          <mat-error *ngIf="eventEditForm.invalid">{{ getErrorMessageTitle() }}</mat-error>
+          <mat-error *ngIf="eventEditForm.invalid">{{ getErrorMessage("title") }}</mat-error>
           <input class="title" type="text" matInput formControlName="title" autocomplete="off" style="font-size:2.5rem;" />
         </mat-form-field>
       </div>
@@ -21,7 +21,7 @@
           <div class="card-body">
             <mat-form-field appearance="outline" id="location">
               <mat-label>Ändra plats</mat-label>
-              <mat-error *ngIf="eventEditForm.invalid">{{ getErrorMessageLocation() }}</mat-error>
+              <mat-error *ngIf="eventEditForm.invalid">{{ getErrorMessage("location") }}</mat-error>
               <input type="text" matInput formControlName="location" autocomplete="off" />
             </mat-form-field>
             <div>
@@ -57,7 +57,7 @@
               <div>
                 <mat-form-field appearance="outline">
                   <mat-label>Ändra startdatum</mat-label>
-                  <mat-error *ngIf="eventEditForm.invalid">{{ getErrorMessageStartdate() }}</mat-error>
+                  <mat-error *ngIf="eventEditForm.invalid">{{ getErrorMessage("startdate") }}</mat-error>
                   <input
                     matInput
                     (focus)="pickerStartDate.open()"
@@ -72,7 +72,7 @@
               <div>
                 <mat-form-field appearance="outline">
                   <mat-label>Ändra slutdatum</mat-label>
-                  <mat-error *ngIf="eventEditForm.invalid">{{ getErrorMessageEndDate() }}</mat-error>
+                  <mat-error *ngIf="eventEditForm.invalid">{{ getErrorMessage("enddate") }}</mat-error>
                   <input
                     matInput
                     (focus)="pickerEndDate.open()"
@@ -95,7 +95,7 @@
               <div id="description">
                 <mat-form-field appearance="outline">
                   <mat-label>Ändra beskrivning</mat-label>
-                  <mat-error *ngIf="eventEditForm.invalid">{{ getErrorMessageDescription() }}</mat-error>
+                  <mat-error *ngIf="eventEditForm.invalid">{{ getErrorMessage("description") }}</mat-error>
                   <textarea matInput formControlName="description" autocomplete="off"></textarea>
                 </mat-form-field>
               </div>

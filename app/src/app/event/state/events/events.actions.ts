@@ -213,7 +213,7 @@ export class LoadImage implements Action {
 export class LoadImageSuccess implements Action {
   readonly type = ActionTypes.LOAD_IMAGE_SUCCESS;
 
-  constructor(public payload: Blob) {}
+  constructor(public payload: string) {}
 }
 
 export class LoadImageError implements Action {

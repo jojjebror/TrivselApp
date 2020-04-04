@@ -10,9 +10,11 @@
   </div>
   <div class="row">
     <div class="col-sm-4">
+      <div *ngIf="ev.image">
+      <img class="card-img-top img-thumbnail" src="../../assets/{{ ev.image }}" />
+      </div>
       <div class="card">
         <div class="card-body">
-          <img [src]="imageUrl || ''">
           <div>
             <strong>Plats:</strong>
             <p>{{ ev.location }}</p>

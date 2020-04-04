@@ -1,202 +1,215 @@
 @media (min-width: 415px) {
 
-.img-thumbnail {
-    width: 85%;
-    height: 85%;
-}
-
-.dropContent{
-  display: none;
-  position: absolute;
-  background-color: rgba(133, 114, 114, 0.774);
-  width: 100%;
-  height: 33%;
-  left:0;
-}
-
-.plus { display: none; }
-.minus { display: none; }
-.antal { display: none; }
-.settings:hover .dropContent{
-  display: block;
-}
-.alt li:first-child {
-  list-style: none;
-}
-li{
-  list-style: none;
-}
-ol{
-  display: inline-block;
-}
-
-.hem{
-  background-color: black;
-}
-.TaMigHem{
-  position: relative;
-  width: 100%;
-  bottom: 5%;
-}
-.buy{
-  display: none;
- float: right;
- background-color: rgba(39, 223, 100, 0.877);
- color: white;
- background-color: black;
-}
-
-.card-body {
-    padding: 0 25px;
-    color: white;
-   
-}
-
-.card-footer {
-    padding: 10px 15px;
-    border-top: none;
-}
-
-.container {
-  width: 80%;
-  height: 1000px;
-  background-image:url('../../../../assets/images/Beer-image.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-
-}
-
-#back {
-  float: left;
-  bottom: 10%;
-}
-.card {
-
-  margin-left: auto;
-  margin-right: auto;
-
-}
-
-h4  {
-  margin-top: 10px;
-}
-
-
-
-}
-/*    Mobil            */
-
-@media (max-width: 414px) {
-.container{
-  position: relative;
-  background-image: url('../bilder/beer3.jpg');
+  .img-thumbnail {
+      width: 85%;
+      height: 85%;
+  }
   
-  width: 100%;
-  height: 600px;
-}
-.lista.li{
-  list-style-type: none;
-}
+  .dropContent{
+    display: none;
+    position: absolute;
+    background-color: rgba(133, 114, 114, 0.774);
+    width: 100%;
+    height: 33%;
+    left:0;
+  }
+  
+  .plus { display: none; }
+  .minus { display: none; }
+  .antal { display: none; }
 
-.knappar{
-  position: relative;
-  height: 60%;
-}
-
-.hem{
-  background-color: black;
-}
-.TaMigHem{
-  position: relative;
-  width: 100%;
-  bottom: 5%;
-}
-.buy{
- float: right;
- background-color: rgba(39, 223, 100, 0.877);
- color: white;
- background-color: black;
-}
-
-.plus{
-  float: right;
-  border-radius: 50%;
-  background-color:rgba(16, 19, 17, 0.87);
-  width: 23%;
-  height: 23%;
-  border:none;
-  color: green;
-  font-style: 50%;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-  text-decoration: none;
-  overflow: hidden;
-  cursor: pointer;
-}
-.plus:after{
-  content: "";
-  background: #90EE90;
-  display: block;
-  position: absolute;
-  padding-top: 50%;
-  padding-left: 50%;
-  margin-left: -20px!important;
-  margin-top: -80%;
-  opacity: 0;
-  transition: all 0.8s
-}
-.plus:active:after{
-  padding: 0;
-  margin: 0;
-  opacity: 1;
-  transition: 0s
-
-}
-.minus{
-  position: absolute;
-  float: left;
-  background-color:rgba(230, 43, 43, 0.849);
-  border: none;
-  border-radius: 50%;
-  width: 23%;
-  height: 23%;
-  font-style: 50%;
-
-}
-
-.antal{
-text-align: center;
-font-size: 600%;
-color: rgba(255, 255, 255, 0.884);
-font-family: 'Times New Roman', Times, serif;
-}
-
-.dropContent{
-  display: none;
-  position: absolute;
-  background-color: rgba(133, 114, 114, 0.774);
-  width: 100%;
-  height: 25%;
-  left:0;
-}
-.settings:hover .dropContent{
-  display: block;
-}
-.alt li:first-child {
-  list-style: none;
-}
-li{
-  list-style: none;
-}
-.panta{
-  margin-bottom: 10%;
-}
-ol{
-  display: inline-block;
+  .settings:hover .dropContent{
+    display: block;
+  }
+  .alt li:first-child {
+    list-style: none;
+  }
+  li{
+    list-style: none;
+  }
+  ol{
+    display: inline-block;
+    text-align: center;
+    list-style-position: inside;
+    margin-left: 40%;
+    margin-top: 1%;
+  }
+  .panta{
+    margin-bottom: 10%;
+  }
+  
+  .hem{
+    background-color: black;
+  }
+  .TaMigHem{
+    position: absolute;
+    width: 100%;
+    bottom: 5%;
+  }
+  .buy{
+    display: none;
+   float: right;
+   background-color: rgba(39, 223, 100, 0.877);
+   color: white;
+   background-color: black;
+  }
+  
+  .card-body {
+      padding: 0 25px;
+      color: white;
+     
+  }
+  
+  .card-footer {
+      padding: 10px 15px;
+      border-top: none;
+  }
+  
+  .container {
+    width: 70%;
+    height: 700px;
+    margin-top: 3%;
+    border: solid;
+    background-image:url('../../../../assets/images/Beer-image.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+  
+  }
+  
+  #back {
+    float: left;
+    bottom: 10%;
+  }
+  .card {
+  
+    margin-left: auto;
+    margin-right: auto;
+  
+  }
+  
+  h4  {
+    margin-top: 10px;
+  }
+  
+  
+  
+  }
+  /*    Mobil            */
+  
+  @media (max-width: 414px) {
+  .container{
+    position: relative;
+    background-image: url('../bilder/beer3.jpg');
+    
+    width: 100%;
+    height: 600px;
+  }
+  .lista.li{
+    list-style-type: none;
+  }
+  
+  .knappar{
+    position: relative;
+    height: 60%;
+  }
+  
+  .hem{
+    background-color: black;
+  }
+  .TaMigHem{
+    position: relative;
+    width: 100%;
+    bottom: 5%;
+  }
+  .buy{
+   float: right;
+   background-color: rgba(39, 223, 100, 0.877);
+   color: white;
+   background-color: black;
+  }
+  
+  .plus{
+    float: right;
+    border-radius: 50%;
+    background-color:rgba(16, 19, 17, 0.87);
+    width: 23%;
+    height: 23%;
+    border:none;
+    color: green;
+    font-style: 50%;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .plus:after{
+    content: "";
+    background: #90EE90;
+    display: block;
+    position: absolute;
+    padding-top: 50%;
+    padding-left: 50%;
+    margin-left: -20px!important;
+    margin-top: -80%;
+    opacity: 0;
+    transition: all 0.8s
+  }
+  .plus:active:after{
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s
+  
+  }
+  .minus{
+    position: absolute;
+    float: left;
+    background-color:rgba(230, 43, 43, 0.849);
+    border: none;
+    border-radius: 50%;
+    width: 23%;
+    height: 23%;
+    font-style: 50%;
+  
+  }
+  
+  .antal{
   text-align: center;
-  list-style-position: inside;
-  margin-left: 24%;
-  margin-top: 10%;
-}
-
-}
+  font-size: 600%;
+  color: rgba(255, 255, 255, 0.884);
+  font-family: 'Times New Roman', Times, serif;
+  }
+  
+  .dropContent{
+    display: none;
+    position: absolute;
+    background-color: rgba(133, 114, 114, 0.774);
+    width: 100%;
+    height: 25%;
+    left:0;
+  }
+  .settings:hover .dropContent{
+    display: block;
+  }
+  .alt li:first-child {
+    list-style: none;
+  }
+  li{
+    list-style: none;
+  }
+  #smak{
+    display: none;
+  }
+  .panta{
+    margin-bottom: 10%;
+  }
+  ol{
+    display: inline-block;
+    text-align: center;
+    list-style-position: inside;
+    margin-left: 24%;
+    margin-top: 10%;
+  }
+  
+  }

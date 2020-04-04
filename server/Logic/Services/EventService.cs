@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
@@ -171,15 +172,15 @@ namespace Logic.Services
             var folderName = Path.Combine("Resources", "Images");
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
             pathToSave = pathToSave.Replace("Api", "Logic");
-            //var pathToSave2 = "C:\\Users\\andre\\TrivselAppV2\\server\\Logic\\Resources\\Images";
+
+            var folderName2 = Path.Combine("images", "event-images");
+            var pathToSave2 = "C:\\Users\\andre\\TrivselAppV2\\app\\src\\assets\\images\\event-images";
 
             if (image.Length > 0)
             {
-                //var fileName = id.ToString() + "." + ContentDispositionHeaderValue
-                //    .Parse(image.ContentDisposition).FileName.Trim('"').Split('.').Last();
                 var fileName = id.ToString() + Path.GetExtension(image.FileName);
-                var fullPath = Path.Combine(pathToSave, fileName);
-                var dbPath = Path.Combine(folderName, fileName);
+                var fullPath = Path.Combine(pathToSave2, fileName);
+                var dbPath = Path.Combine(folderName2, fileName);
 
                 using (var stream = new FileStream(fullPath, FileMode.Create))
                 {
@@ -197,16 +198,33 @@ namespace Logic.Services
             }
         }
 
-        public async Task<FileStream> GetImage(int id)
+        public async Task<string> GetImage(int id)
         {
             var dbEvent = await _context.Events.FindAsync(id);
             var imagePath = dbEvent.Image;
             var fullPath = Path.GetFullPath(imagePath);
             fullPath = fullPath.Replace("Api", "Logic");
 
-            FileStream fs = File.Open(fullPath, FileMode.Open);
-            return fs;
+            var fullPath2 = Path.GetFullPath(imagePath);
+            
+            return fullPath2;
         }
+
+        //public async Task<HttpResponseMessage> GetImage(int id)
+        //{
+        //    var dbEvent = await _context.Events.FindAsync(id);
+        //    var imagePath = dbEvent.Image;
+        //    var fullPath = Path.GetFullPath(imagePath);
+        //    fullPath = fullPath.Replace("Api", "Logic");
+
+        //    using (var fs = new FileStream(fullPath, FileMode.Open))
+        //    {
+        //        HttpResponseMessage response = new HttpResponseMessage();
+        //        response.Content = new StreamContent(fs);
+        //        response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
+        //        return response;
+        //    }
+        //}
     }
 }
 

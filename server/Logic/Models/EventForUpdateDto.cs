@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace Logic.Models
 {
     public class EventForUpdateDto : BaseDto
-    {
-        
+    {      
         public string Title { get; set; }
         public string Description { get; set; }
         public string Location { get; set; }

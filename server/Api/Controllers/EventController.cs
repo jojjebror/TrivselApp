@@ -76,9 +76,15 @@ namespace Api.Controllers
         {
             var result = await _eventService.GetImage(id);
 
-            var image = File(result, "image");
-
-            return new OkObjectResult(ApiResponse.Create(image));
+            return new OkObjectResult(ApiResponse.Create(result));
         }
+
+        //[HttpGet("{id}/getimage")]
+        //public async Task<IActionResult> GetImage(int id)
+        //{
+        //    var result = await _eventService.GetImage(id);
+
+        //    return new OkObjectResult(ApiResponse.Create(result));
+        //}
     }
 }
