@@ -58,24 +58,33 @@
               </mat-list-item>
             </mat-list>
           </mat-tab>
-          <mat-tab label="Kommer">
-            <mat-list>
-              <mat-list-item *ngFor="let user of participantsAccepted$ | async">
-                <p>
-                  {{ user.name }}
-                </p>
-              </mat-list-item>
-            </mat-list>
-          </mat-tab>
-          <mat-tab label="Se inbjudna">
-            <mat-list>
+          <mat-tab label="Deltagare">
+            <mat-list style="float: left;">
+              <p class="pHeader">Inbjudna:</p>
               <mat-list-item *ngFor="let user of invitedParticipants$ | async">
                 <p>
                   {{ user.name }}
                 </p>
               </mat-list-item>
             </mat-list>
+            <mat-list style="float: left;">
+              <p class="pHeader">Accepterat:</p>
+              <mat-list-item *ngFor="let user of participantsAccepted$ | async">
+                <p>
+                  {{ user.name }}
+                </p>
+              </mat-list-item>
+            </mat-list>
+            <mat-list style="float: left;">
+              <p class="pHeader">Avböjt:</p>
+              <mat-list-item>
+                <p>
+                  Person 32
+                </p>
+              </mat-list-item>
+            </mat-list>
           </mat-tab>
+
         </mat-tab-group>
       </div>
     </div>

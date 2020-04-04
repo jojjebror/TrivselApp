@@ -31,15 +31,22 @@ h4 {
   margin-top: 10px;
 }
 
+.pHeader {
+  font-weight: bold;
+  font-size: 16px;
+}
+
 /* active tab */
 ::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
-color:white;
-font-size: 18px;
+  color: white;
+  font-size: 18px;
+  opacity: 1;
 }
 
 /* ink bar */
-::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary {
-background-color: white !important;
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary {
+  background-color: white !important;
 }
 
 ::ng-deep .mat-tab-label .mat-tab-label-content {
@@ -47,9 +54,18 @@ background-color: white !important;
   font-size: 18px;
 }
 
- :host /deep/ .mat-list .mat-list-item {
-  height: 25px!important;
-} 
+:host /deep/ .mat-list .mat-list-item {
+  height: 25px !important;
+}
+
+::ng-deep .mat-list .mat-list-item .mat-list-item-content,
+.mat-list .mat-list-option .mat-list-item-content,
+.mat-nav-list .mat-list-item .mat-list-item-content,
+.mat-nav-list .mat-list-option .mat-list-item-content,
+.mat-selection-list .mat-list-item .mat-list-item-content,
+.mat-selection-list .mat-list-option .mat-list-item-content {
+  padding: 0px!important;
+}
 
 .mat-list {
   //border: 1px solid white;
@@ -59,4 +75,5 @@ background-color: white !important;
   max-height: 250px;
   width: 200px;
   overflow: auto;
+  margin-right: 20px;
 }

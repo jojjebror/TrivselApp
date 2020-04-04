@@ -45,14 +45,14 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     this.store$.dispatch(new fromEvents.LoadEvent(+this.eventId));
     this.ev$ = this.store$.pipe(select(fromEvents.getCurrentEvent));
 
-    this.participantsAccepted$ = this.store$.pipe(select(fromEvents.getAcceptedUsers));
-    this.invitedParticipants$ = this.store$.pipe(select(fromEvents.getInvitedUsers));
+    this.participantsAccepted$ = this.store$.pipe(select(fromEvents.getAcceptedParticipants));
+    this.invitedParticipants$ = this.store$.pipe(select(fromEvents.getInvitedParticipants));
   }
 
   deleteEvent(id: number) {
     if (confirm('Vill du verkligen ta bort evenemanget?')) {
       this.store$.dispatch(new fromEvents.DeleteEvent(id));
-      this.alertify.message('Evenemanget togs bort');
+      this.alertify.success('Evenemang borttaget');
     }
   }
 

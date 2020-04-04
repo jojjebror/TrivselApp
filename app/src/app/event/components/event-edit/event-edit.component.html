@@ -1,7 +1,10 @@
 <div class="container mt-5 border border-light p-5">
-  <form [formGroup]="eventEditForm" (ngSubmit)="updateEvent()">
+  <form [formGroup]="eventEditForm" (ngSubmit)="updateEvent()" *ngIf="ev$">
     <button [disabled]="!eventEditForm.dirty || !eventEditForm.valid" type="submit" class="btn btn-success">
       Spara ändringar
+    </button>
+    <button class="btn btn-danger" style="margin-right: 10px;">
+      <a (click)="deleteEvent(eventId)">Ta bort</a>
     </button>
     <div class="row">
       <div class="title">

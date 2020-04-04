@@ -1,3 +1,7 @@
+.container {
+  margin-top: 60px;
+}
+
 i {
   margin-right: 5px;
 }
@@ -33,4 +37,25 @@ h3 {
 .btnReadMore {
   width: 100%;
   text-align: right;
+}
+
+#cell-cursor {
+  cursor:pointer;
+}
+
+/* active tab */
+::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+color:white;
+font-size: 18px;
+opacity: 1
+}
+
+/* ink bar */
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary {
+background-color: white !important;
+}
+
+::ng-deep .mat-tab-label .mat-tab-label-content {
+  color: white;
+  font-size: 18px;
 }

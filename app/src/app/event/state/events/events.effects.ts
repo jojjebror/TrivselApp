@@ -20,7 +20,7 @@ export class EventsEffects {
     switchMap((actions: eventsActions.LoadEvents) =>
       this.eventResource.loadEvents().pipe(
         map((events: Event[]) => new eventsActions.LoadEventsSuccess(events)),
-        catchError(err => of(new eventsActions.LoadEventsError(err)))
+        catchError((err) => of(new eventsActions.LoadEventsError(err)))
       )
     )
   );
@@ -32,7 +32,7 @@ export class EventsEffects {
       this.eventResource.loadEvent(action.payload).pipe(
         switchMap((event: Event) => [new eventsActions.LoadEventSuccess(event), new eventsActions.LoadImage(event.id)]),
         tap(() => this.router.navigate(['/event/' + action.payload])),
-        catchError(err => of(new eventsActions.LoadEventError(err)))
+        catchError((err) => of(new eventsActions.LoadEventError(err)))
       )
     )
   );
@@ -44,10 +44,22 @@ export class EventsEffects {
       this.eventResource.createEvent(action.payload).pipe(
         switchMap((newEvent: Event) => [
           new eventsActions.CreateEventSuccess(newEvent),
-          new eventsActions.SaveImage(newEvent.id, action.image)
+          new eventsActions.SaveImage(newEvent.id, action.image),
         ]),
         tap(() => this.router.navigate(['/event'])),
-        catchError(err => of(new eventsActions.CreateEventError(err)))
+        catchError((err) => of(new eventsActions.CreateEventError(err)))
+      )
+    )
+  );
+
+  @Effect()
+  loadEditEvent$: Observable<Action> = this.actions$.pipe(
+    ofType(eventsActions.ActionTypes.LOAD_EDIT_EVENT),
+    switchMap((action: eventsActions.LoadEditEvent) =>
+      this.eventResource.loadEvent(action.payload).pipe(
+        switchMap((event: Event) => [new eventsActions.LoadEditEventSuccess(event), new eventsActions.LoadImage(event.id)]),
+        tap(() => this.router.navigate(['/event/edit/' + action.payload])),
+        catchError((err) => of(new eventsActions.LoadEditEventError(err)))
       )
     )
   );
@@ -62,11 +74,11 @@ export class EventsEffects {
           (updatedEvent: Event) =>
             new eventsActions.UpdateEventSuccess({
               id: updatedEvent.id,
-              changes: updatedEvent
+              changes: updatedEvent,
             })
         ),
         tap(() => this.router.navigate(['/event/' + event.id])),
-        catchError(err => of(new eventsActions.UpdateEventError(err)))
+        catchError((err) => of(new eventsActions.UpdateEventError(err)))
       )
     )
   );
@@ -79,7 +91,7 @@ export class EventsEffects {
       this.eventResource.deleteEvent(id).pipe(
         map(() => new eventsActions.DeleteEventSuccess(id)),
         tap(() => this.router.navigate(['/event'])),
-        catchError(err => of(new eventsActions.DeleteEventError(err)))
+        catchError((err) => of(new eventsActions.DeleteEventError(err)))
       )
     )
   );
@@ -92,11 +104,11 @@ export class EventsEffects {
         switchMap((updatedEvent: Event) => [
           new eventsActions.AddEventParticipantSuccess({
             id: updatedEvent.id,
-            changes: updatedEvent
+            changes: updatedEvent,
           }),
-          new eventsActions.LoadEvent(updatedEvent.id)
+          new eventsActions.LoadEvent(updatedEvent.id),
         ]),
-        catchError(err => of(new eventsActions.AddEventParticipantError(err)))
+        catchError((err) => of(new eventsActions.AddEventParticipantError(err)))
       )
     )
   );
@@ -107,7 +119,7 @@ export class EventsEffects {
     switchMap((action: eventsActions.SaveImage) =>
       this.eventResource.saveImage(action.id, action.payload).pipe(
         map((data: boolean) => new eventsActions.SaveImageSuccess(data)),
-        catchError(err => of(new eventsActions.SaveImageError(err)))
+        catchError((err) => of(new eventsActions.SaveImageError(err)))
       )
     )
   );
@@ -118,7 +130,7 @@ export class EventsEffects {
     switchMap((action: eventsActions.LoadImage) =>
       this.eventResource.loadImage(action.payload).pipe(
         map((image: Blob) => new eventsActions.LoadImageSuccess(image)),
-        catchError(err => of(new eventsActions.LoadImageError(err)))
+        catchError((err) => of(new eventsActions.LoadImageError(err)))
       )
     )
   );

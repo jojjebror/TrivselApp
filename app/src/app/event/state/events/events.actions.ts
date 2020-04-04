@@ -12,6 +12,10 @@ export enum ActionTypes {
   LOAD_EVENT_SUCCESS = '[API: /event] Load Event success',
   LOAD_EVENT_ERROR = '[API: /event] Load Event error',
 
+  LOAD_EDIT_EVENT = '[Events view] Load Edit Event',
+  LOAD_EDIT_EVENT_SUCCESS = '[API: /event] Load Edit Event success',
+  LOAD_EDIT_EVENT_ERROR = '[API: /event] Load Edit Event error',
+
   CREATE_EVENT = '[Events view] Create Event',
   CREATE_EVENT_SUCCESS = '[API: /event] Create Event success',
   CREATE_EVENT_ERROR = '[API: /event] Create Event error',
@@ -38,7 +42,7 @@ export enum ActionTypes {
 
   LOAD_IMAGE = '[Events view] Load Image',
   LOAD_IMAGE_SUCCESS = '[API: /Event] Load Image success',
-  LOAD_IMAGE_ERROR = '[API: /event] Load Image error'
+  LOAD_IMAGE_ERROR = '[API: /event] Load Image error',
 }
 
 /*--------------LoadAllEvents--------------*/
@@ -75,6 +79,26 @@ export class LoadEventSuccess implements Action {
 
 export class LoadEventError implements Action {
   readonly type = ActionTypes.LOAD_EVENT_ERROR;
+
+  constructor(public payload: string) {}
+}
+
+/*--------------LoadEvent--------------*/
+
+export class LoadEditEvent implements Action {
+  readonly type = ActionTypes.LOAD_EDIT_EVENT;
+
+  constructor(public payload: number) {}
+}
+
+export class LoadEditEventSuccess implements Action {
+  readonly type = ActionTypes.LOAD_EDIT_EVENT_SUCCESS;
+
+  constructor(public payload: Event) {}
+}
+
+export class LoadEditEventError implements Action {
+  readonly type = ActionTypes.LOAD_EDIT_EVENT_ERROR;
 
   constructor(public payload: string) {}
 }
@@ -206,6 +230,10 @@ export type Actions =
   | LoadEvent
   | LoadEventSuccess
   | LoadEventError
+
+  | LoadEditEvent
+  | LoadEditEventSuccess
+  | LoadEditEventError
 
   | CreateEvent
   | CreateEventSuccess
