@@ -3,9 +3,6 @@
     <button [disabled]="!eventEditForm.dirty || !eventEditForm.valid" type="submit" class="btn btn-success">
       Spara ändringar
     </button>
-    <button class="btn btn-danger" style="margin-right: 10px;">
-      <a (click)="deleteEvent(eventId)">Ta bort</a>
-    </button>
     <div class="row">
       <div class="title">
         <mat-form-field appearance="outline">

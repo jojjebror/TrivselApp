@@ -1,7 +1,4 @@
 <div class="container justify-content-center">
-  <!--   <h3>
-  Evenemang
-  </h3> -->
   <div class="btn-create-event">
     <div>
       <button class="btn btn-primary" [routerLink]="['/event/create']">
@@ -24,16 +21,17 @@
     </div> -->
   </div>
 
+      <!-- -------------------------------Tab 1----------------------------------------------- -->
+                  <!-- ---------------Incoming events---------------- -->
+
   <div class="tab-panel">
-    <mat-tab-group animationDuration="0ms">
-      <mat-tab label="Alla evenemang">
+    <mat-tab-group animationDuration="0ms" dynamicHeight>
+      <mat-tab label="Kommande evenemang">
         <div class="mat-card-div">
           <mat-card *ngFor="let ev of evs$ | async" [routerLink]="['/event', ev.id]">
             <mat-card-header>
               <mat-card-title>{{ ev.title }}</mat-card-title>
-              <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
             </mat-card-header>
-            <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
             <mat-card-content>
               <p>
                 <i class="material-icons iconMargin">calendar_today</i>
@@ -50,39 +48,156 @@
           </mat-card>
         </div>
       </mat-tab>
-      <mat-tab label="Inbjudningar & mina evenemang"> </mat-tab>
 
-      <mat-tab label="Hantera skapade evenemang">
-        <mat-table style="margin-top: 30px;" class="lessons-table mat-elevation-z8" [dataSource]="events">
-          <ng-container matColumnDef="title">
-            <mat-header-cell *matHeaderCellDef>Titel</mat-header-cell>
-            <mat-cell id="cell-cursor" [routerLink]="['/event', ev.id]" *matCellDef="let ev">{{ ev.title }}</mat-cell>
-          </ng-container>
+      <!-- -------------------------------Tab 2----------------------------------------------- -->
+            <!-- -----------------Invited events table----------------- -->
+       <mat-tab label="Hantera inbjudningar">
+        <div class="table-holder">
+          <mat-toolbar>Inbjudningar till evenemang</mat-toolbar>
+          <div>
+            <mat-table class="lessons-table mat-elevation-z8" [dataSource]="invitedEvents" *ngIf="invitedEvents.length > 0">
+              <ng-container matColumnDef="title2">
+                <mat-header-cell *matHeaderCellDef>Titel</mat-header-cell>
+                <mat-cell id="cell-cursor" [routerLink]="['/event', element.id]" *matCellDef="let element">{{ element.title }}</mat-cell>
+              </ng-container>
 
-          <ng-container matColumnDef="location">
-            <mat-header-cell *matHeaderCellDef>Plats</mat-header-cell>
-            <mat-cell class="duration-cell" *matCellDef="let ev">{{ ev.location }}</mat-cell>
-          </ng-container>
+              <ng-container matColumnDef="location2">
+                <mat-header-cell *matHeaderCellDef>Plats</mat-header-cell>
+                <mat-cell class="duration-cell" *matCellDef="let element">{{ element.location }}</mat-cell>
+              </ng-container>
 
-          <ng-container matColumnDef="date">
-            <mat-header-cell *matHeaderCellDef>Datum</mat-header-cell>
-            <mat-cell class="description-cell" *matCellDef="let ev"
-              >{{ ev.startDate | date: 'dd/M' }} - {{ ev.endDate | date: 'dd/M/yyyy' }}</mat-cell
-            >
-          </ng-container>
+              <ng-container matColumnDef="date2">
+                <mat-header-cell *matHeaderCellDef>Datum</mat-header-cell>
+                <mat-cell class="description-cell" *matCellDef="let element"
+                  >{{ element.startDate | date: 'dd/M' }} - {{ element.endDate | date: 'dd/M/yyyy' }}</mat-cell
+                >
+              </ng-container>
 
-          <ng-container matColumnDef="actions">
-            <mat-header-cell *matHeaderCellDef>Hantera evenemang</mat-header-cell>
-            <mat-cell *matCellDef="let ev">
-              <button mat-button (click)="editEvent(ev.id)">Redigera</button>
-              <button mat-button (click)="deleteEvent(ev.id)">X</button>
-            </mat-cell>
-          </ng-container>
+              <ng-container matColumnDef="invited2">
+                <mat-header-cell *matHeaderCellDef>Skapare</mat-header-cell>
+                <mat-cell class="duration-cell" *matCellDef="let element">{{ element.name }}</mat-cell>
+              </ng-container>
 
-          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <ng-container matColumnDef="actions2">
+                <mat-header-cell *matHeaderCellDef>Besvara</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  <button mat-icon-button id="acceptIcon" (click)="UpdateParticpantsToEvent(element.id, 'true')">
+                    <span class="material-icons">
+                      check_box
+                    </span>
+                  </button>
 
-          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-        </mat-table>
+                  <button mat-icon-button (click)="UpdateParticpantsToEvent(element.id, 'false')">
+                    <span class="material-icons" id="declineIcon">
+                      indeterminate_check_box
+                    </span>
+                  </button>
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="displayedColumnsInvited"></mat-header-row>
+
+              <mat-row *matRowDef="let row; columns: displayedColumnsInvited"></mat-row>
+            </mat-table>
+             <div class="noDataTable" *ngIf="invitedEvents.length === 0">Du har för tillfället inga inbjudningar</div>
+          </div>
+        </div>
+
+            <!-- ---------------------Attended events table------------------- -->
+        <div class="table-holder">
+          <mat-toolbar>Dina kommande evenemang</mat-toolbar>
+          <div>
+            <mat-table class="lessons-table mat-elevation-z8" [dataSource]="attendedEvents" *ngIf="attendedEvents.length > 0">
+              <ng-container matColumnDef="title3">
+                <mat-header-cell *matHeaderCellDef>Titel</mat-header-cell>
+                <mat-cell id="cell-cursor" [routerLink]="['/event', element.id]" *matCellDef="let element">{{ element.title }}
+                </mat-cell>
+              </ng-container>
+        
+              <ng-container matColumnDef="location3">
+                <mat-header-cell *matHeaderCellDef>Plats</mat-header-cell>
+                <mat-cell class="duration-cell" *matCellDef="let element">{{ element.location }}</mat-cell>
+              </ng-container>
+        
+              <ng-container matColumnDef="date3">
+                <mat-header-cell *matHeaderCellDef>Datum</mat-header-cell>
+                <mat-cell class="description-cell" *matCellDef="let element">{{ element.startDate | date: 'dd/M' }} -
+                  {{ element.endDate | date: 'dd/M/yyyy' }}</mat-cell>
+              </ng-container>
+        
+              <ng-container matColumnDef="invited3">
+                <mat-header-cell *matHeaderCellDef>Inbjuden av</mat-header-cell>
+                <mat-cell class="duration-cell" *matCellDef="let element">{{ element.name }}</mat-cell>
+              </ng-container>
+        
+              <ng-container matColumnDef="actions3">
+                <mat-header-cell *matHeaderCellDef>Avböj</mat-header-cell>
+                <mat-cell *matCellDef="let element">       
+                  <button mat-icon-button (click)="UpdateParticpantsToEvent(element.id, 'false')">
+                    <span class="material-icons" id="declineIcon">
+                      indeterminate_check_box
+                    </span>
+                  </button>
+                </mat-cell>
+              </ng-container>
+        
+              <mat-header-row *matHeaderRowDef="displayedColumnsAttended"></mat-header-row>
+        
+              <mat-row *matRowDef="let row; columns: displayedColumnsAttended"></mat-row>
+            </mat-table>
+            <div class="noDataTable" *ngIf="attendedEvents.length === 0">Du har inga kommande evenemang</div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- -------------------------------Tab 3----------------------------------------------- -->
+                  <!-- -------------Created events table---------------- -->
+      <mat-tab label="Hantera evenemang">
+        <div class="table-holder">
+          <mat-toolbar>Dina skapade evenemang</mat-toolbar>
+
+          <mat-table class="lessons-table mat-elevation-z8" [dataSource]="createdEvents" *ngIf="createdEvents.length > 0">
+            <ng-container matColumnDef="title">
+              <mat-header-cell *matHeaderCellDef>Titel</mat-header-cell>
+              <mat-cell id="cell-cursor" [routerLink]="['/event', ev.id]" *matCellDef="let ev">{{ ev.title }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="location">
+              <mat-header-cell *matHeaderCellDef>Plats</mat-header-cell>
+              <mat-cell class="duration-cell" *matCellDef="let ev">{{ ev.location }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="date">
+              <mat-header-cell *matHeaderCellDef>Datum</mat-header-cell>
+              <mat-cell class="description-cell" *matCellDef="let ev"
+                >{{ ev.startDate | date: 'dd/M' }} - {{ ev.endDate | date: 'dd/M/yyyy' }}</mat-cell
+              >
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <mat-header-cell *matHeaderCellDef>Hantera</mat-header-cell>
+              <mat-cell *matCellDef="let ev">
+                <button mat-icon-button (click)="editEvent(ev.id)">
+                  <span class="material-icons" id="editIcon">
+                    edit
+                  </span>
+                </button>
+
+                <button mat-icon-button (click)="deleteEvent(ev.id)">
+                  <span class="material-icons" id="declineIcon">
+                    delete_outline
+                  </span>
+                </button>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumnsCreated"></mat-header-row>
+
+            <mat-row *matRowDef="let row; columns: displayedColumnsCreated"></mat-row>
+          </mat-table>
+          <div class="noDataTable" *ngIf="createdEvents.length === 0">Du har ännu inga skapade evenemang</div>
+          <hr />
+        </div>
       </mat-tab>
     </mat-tab-group>
   </div>

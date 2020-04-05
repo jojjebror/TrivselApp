@@ -22,7 +22,7 @@ h3 {
 
 .mat-card {
   width: 32%;
-  margin-top: 20px;
+  margin-top: 30px;
   margin-right: 1%;
   float: left;
   color: white;
@@ -41,6 +41,48 @@ h3 {
 
 #cell-cursor {
   cursor:pointer;
+}
+
+.titleList {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.mat-toolbar {
+  background-color: rgb(37, 2, 48);
+  color: white;
+  margin-top: 30px;
+}
+
+.mat-row {
+  background-color: rgb(37, 2, 48);
+}
+
+.mat-cell {
+  color: white;
+}
+
+.mat-header-cell {
+  background-color: rgb(37, 2, 48);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.noDataTable {
+  margin-top: 10px;
+}
+
+#acceptIcon {
+  color: green;
+}
+
+#declineIcon {
+  color: red;
+}
+
+#editIcon {
+  color: white;
 }
 
 /* active tab */

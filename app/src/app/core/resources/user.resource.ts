@@ -8,17 +8,19 @@ import { User } from '../../shared/models';
 
 @Injectable()
 export class UserResource extends ApiResource {
+  constructor(http: HttpClient) {
+    super(http);
+  }
 
-	constructor(http: HttpClient) {
-		super(http);
-	}
+  getAuthenticated(): Observable<User> {
+    return this.get('user/authenticated');
+  }
 
-	getAuthenticated(): Observable<User> {
-		return this.get('user/authenticated');
-	}
+  getUsers(): Observable<User[]> {
+    return this.get('user');
+  }
 
-	getUsers(): Observable<User[]> {
-		return this.get('user');
-	}
-
+  getCurrentUser(id: number): Observable<User> {
+    return this.get('user/' + id);
+  }
 }

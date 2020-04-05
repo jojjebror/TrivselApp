@@ -14,4 +14,6 @@ export class Event extends Base {
          public creatorId: number;
          public users?: User[];
          public offices?: string[];
+         public accepted: boolean;
+         public name: string;
        }

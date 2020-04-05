@@ -85,13 +85,6 @@ export class EventEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  deleteEvent(id: number) {
-    if (confirm('Vill du verkligen ta bort evenemanget?')) {
-      this.store$.dispatch(new fromEvents.DeleteEvent(id));
-      this.alertify.success('Evenemanget borttaget');
-    }
-  }
-
   fixDateTimeZone(d: Date): Date {
     d.setHours(d.getHours() - d.getTimezoneOffset() / 60);
     return d;

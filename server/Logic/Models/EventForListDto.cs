@@ -14,7 +14,8 @@ namespace Logic.Models
         public string Location { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-
         public int CreatorId { get; set; }
+        public bool Accepted { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -12,5 +12,7 @@ namespace Logic.Models
 
         public bool Accepted { get; set; }
 
+        public int EventId { get; set; } //bort?
+
     }
 }

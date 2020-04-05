@@ -1,10 +1,4 @@
 <div class="container mt-5 border border-light p-5" *ngIf="ev$ | async; let ev">
-  <button class="btn btn-primary" [routerLink]="['/event/edit', ev.id]">
-    Redigera evenemang
-  </button>
-  <button class="btn btn-danger" style="margin-right: 10px;">
-    <a (click)="deleteEvent(ev.id)">Ta bort</a>
-  </button>
   <div class="row">
     <h1 class="mb-4">{{ ev.title }}</h1>
   </div>
@@ -33,12 +27,6 @@
               {{ ev.endDate | date: 'dd/M/yyyy' }}
             </p>
           </div>
-<!--           <div>
-            <strong>Antal inbjudna:</strong>
-            <p *ngFor="let item of invitedParticipants$ | async let eventsParticipants">
-              {{ item.length }}
-            </p>
-          </div> -->
         </div>
         <div class="card-footer">
           <div class="btn-group d-flex">
@@ -71,7 +59,7 @@
             </mat-list>
             <mat-list style="float: left;">
               <p class="pHeader">Accepterat:</p>
-              <mat-list-item *ngFor="let user of participantsAccepted$ | async">
+              <mat-list-item *ngFor="let user of attendedParticipants$ | async">
                 <p>
                   {{ user.name }}
                 </p>
@@ -79,9 +67,9 @@
             </mat-list>
             <mat-list style="float: left;">
               <p class="pHeader">Avböjt:</p>
-              <mat-list-item>
+              <mat-list-item *ngFor="let user of declinedParticipants$ | async">
                 <p>
-                  Person 32
+                  {{ user.name }}
                 </p>
               </mat-list-item>
             </mat-list>

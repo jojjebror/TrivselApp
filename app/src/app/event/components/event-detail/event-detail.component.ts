@@ -21,20 +21,17 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   eventId: any;
   ev$: Observable<Event>;
-  participantsAccepted$: any;
+  attendedParticipants$: any;
   invitedParticipants$: any;
+  declinedParticipants$: any
   userId: number;
 
-  constructor(
-    private store$: Store<AppState>,
-    private alertify: AlertifyService,
-    private activatedRoute: ActivatedRoute
-  ) {
-    this.store$.select(fromSession.selectUser).subscribe(user => (this.userId = user.id));
+  constructor(private store$: Store<AppState>, private alertify: AlertifyService, private activatedRoute: ActivatedRoute) {
+    this.store$.select(fromSession.selectUser).subscribe((user) => (this.userId = user.id));
   }
 
   ngOnInit() {
-    this.subscription = this.activatedRoute.params.subscribe(params => {
+    this.subscription = this.activatedRoute.params.subscribe((params) => {
       this.eventId = params['id'];
     });
     this.loadEvent();
@@ -48,19 +45,17 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     this.store$.dispatch(new fromEvents.LoadEvent(+this.eventId));
     this.ev$ = this.store$.pipe(select(fromEvents.getCurrentEvent));
 
-    this.participantsAccepted$ = this.store$.pipe(select(fromEvents.getAcceptedParticipants));
+    this.attendedParticipants$ = this.store$.pipe(select(fromEvents.getAttendedParticipants));
     this.invitedParticipants$ = this.store$.pipe(select(fromEvents.getInvitedParticipants));
-  }
-
-  deleteEvent(id: number) {
-    if (confirm('Vill du verkligen ta bort evenemanget?')) {
-      this.store$.dispatch(new fromEvents.DeleteEvent(id));
-      this.alertify.success('Evenemang borttaget');
-    }
+    this.declinedParticipants$ = this.store$.pipe(select(fromEvents.getDeclinedParticipants))
   }
 
   UpdateParticpantsToEvent(id: number, answer: string) {
     var data = [id, this.userId, answer];
     this.store$.dispatch(new fromEvents.AddEventParticipant(data));
+
+    if (answer == 'true') {
+      this.alertify.success('Ditt svar är registrerat');
+    }
   }
 }

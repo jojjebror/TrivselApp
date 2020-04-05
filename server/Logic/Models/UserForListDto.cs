@@ -13,6 +13,11 @@ namespace Logic.Models
         public string Name { get; set; }
 
         public string Office { get; set; }
+
+        public bool Accepted { get; set; }
+
+        public ICollection<EventForListDto> Events { get; set; }
+
     }
 }
 
