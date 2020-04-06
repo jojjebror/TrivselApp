@@ -22,7 +22,7 @@ export class DrinkDetailComponent implements OnInit {
   dr$: Observable<Drink>;
   id: number;
   isShown: boolean = false ; // hidden by default
-  photo: string = '../bilder/beer.jpg';
+  photo: string = '/beer.jpg';
   clickCounter: number = 1;
   totalSum: number = 0;
 
@@ -35,6 +35,7 @@ export class DrinkDetailComponent implements OnInit {
   private LoadDrink(): void {
     this.store$.dispatch(new drinksActions.LoadDrink(this.getClickedId()));
     this.dr$ = this.store$.pipe(select(fromDrink.getCurrentDrink));
+
   }
 
   private getClickedId() {
@@ -77,5 +78,18 @@ export class DrinkDetailComponent implements OnInit {
    this.totalSum += this.clickCounter * drink.price;
     console.log(this.totalSum);
   }
-
+  
+  changeImage(drink: Drink){
+    if(drink.category == 'cider'){
+      this.photo = '/beer3.jpg'
+      console.log(this.photo);
+    }
+    else if(drink.category == 'vin'){
+      this.photo = '/beer2.jpg';
+      console.log(this.photo);
+    }
+    else{
+      return this.photo; 
+    }
+  }
 }
