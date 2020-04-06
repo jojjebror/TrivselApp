@@ -16,8 +16,19 @@
     color: white;
   }
 
-  .info {
-    position: relative;
+  li {
+    float: left;
+    background-color:  rgb(37, 2, 48);
+    padding: 1em;
+    margin-right: 10px;
+    margin-left: 10px;
+    width: 30%;
+    height: 150px;
+    margin-bottom: 1em;
+    flex-direction: column;
+    border-radius: 10px;
+    text-align: center;
+    
   }
 
   ul {
