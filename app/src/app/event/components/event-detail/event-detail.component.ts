@@ -53,7 +53,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   }
 
   deleteEvent(id: number) {
-    if (confirm('Vill du verkligen ta bort evenemanget?')) {
+    if (confirm('Vill du verkligen ta bort evenemanget?')) { 
       this.store$.dispatch(new fromEvents.DeleteEvent(id));
       this.alertify.message('Evenemanget togs bort');
     }

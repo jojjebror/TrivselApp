@@ -81,7 +81,7 @@ export class EventCreateComponent implements OnInit {
     }
   }
 
-  imagePreview(file: FileList) {
+  /* imagePreview(file: FileList) {
     this.fileUpload = file.item(0);
 
     var reader = new FileReader();
@@ -89,6 +89,22 @@ export class EventCreateComponent implements OnInit {
       this.imageUrl = event.target.result;
     };
     reader.readAsDataURL(this.fileUpload);
+  } */
+
+  loadImage(file: FileList) {
+    this.fileUpload = file.item(0);
+  }
+
+  imageValidator() {
+    console.log(this.fileUpload);
+    if (this.fileUpload) {
+      const allowedInput = '/image-*/';
+      const fileExtension = this.fileUpload.name.split('.').pop().toLowerCase();
+      if (!fileExtension.match(allowedInput)) {
+        return true;
+      }
+      return false;
+    }
   }
 
   private loadUsers(): void {
