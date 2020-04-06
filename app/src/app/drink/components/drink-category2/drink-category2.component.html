@@ -13,12 +13,13 @@
   <button class="btn btn-primary" [routerLink]="['/drink/create']">
     Lägg till ny dryck
   </button>
+
   <hr />
 
   <div class="info">
     <ul *ngIf="drs$">
       <li *ngFor="let dr of drs$ | async" [routerLink]="['/drink', dr.id]">
-        <div class="m">
+       
           <a class="title" [routerLink]="['/drink', dr.id]">
             {{ dr.productNameBold }}</a
           >
@@ -32,7 +33,7 @@
 
             <a class="btnReadMore">Läs mer</a>
           </p>
-        </div>
+        
 
         <ng-template #none>
           <p></p>
