@@ -1,29 +1,28 @@
-import { Action } from '@ngrx/store';
+import { Action } from "@ngrx/store";
 
-import { Update } from '@ngrx/entity';
-import { Drink } from '../../../shared/models';
-
+import { Update } from "@ngrx/entity";
+import { Drink } from "../../../shared/models";
 
 export enum ActionTypes {
-  LOAD_DRINKS = '[Drinks view] Load Drinks',
-  LOAD_DRINKS_SUCCESS = '[API: /drink] Load Drinks success',
-  LOAD_DRINKS_ERROR = '[API: /drink] Load Drinks error',
-  LOAD_DRINK = '[Drinks view] Load Drink',
-  LOAD_DRINK_SUCCESS = '[API: /drink] Load Drink success',
-  LOAD_DRINK_ERROR = '[API: /drink] Load Drink error',
-  CREATE_DRINK = '[Drinks view] Create Drink',
-  CREATE_DRINK_SUCCESS = '[API: /drink] Create Drink success',
-  CREATE_DRINK_ERROR = '[API: /drink] Create Drink error',
-  UPDATE_DRINK = '[Drinks view] Update Drink',
-  UPDATE_DRINK_SUCCESS = '[API: /drink] Update Drink success',
-  UPDATE_DRINK_ERROR = '[API: /drink] Update Drink error',
-  DELETE_DRINK = '[Drinks view] Delete Drink',
-  DELETE_DRINK_SUCCESS = '[API: /drink] Delete Drink success',
-  DELETE_DRINK_ERROR = '[API: /drink] Delete Drink error',
+  LOAD_DRINKS = "[Drinks view] Load Drinks",
+  LOAD_DRINKS_SUCCESS = "[API: /drink] Load Drinks success",
+  LOAD_DRINKS_ERROR = "[API: /drink] Load Drinks error",
+  LOAD_DRINK = "[Drinks view] Load Drink",
+  LOAD_DRINK_SUCCESS = "[API: /drink] Load Drink success",
+  LOAD_DRINK_ERROR = "[API: /drink] Load Drink error",
+  CREATE_DRINK = "[Drinks view] Create Drink",
+  CREATE_DRINK_SUCCESS = "[API: /drink] Create Drink success",
+  CREATE_DRINK_ERROR = "[API: /drink] Create Drink error",
+  UPDATE_DRINK = "[Drinks view] Update Drink",
+  UPDATE_DRINK_SUCCESS = "[API: /drink] Update Drink success",
+  UPDATE_DRINK_ERROR = "[API: /drink] Update Drink error",
+  DELETE_DRINK = "[Drinks view] Delete Drink",
+  DELETE_DRINK_SUCCESS = "[API: /drink] Delete Drink success",
+  DELETE_DRINK_ERROR = "[API: /drink] Delete Drink error",
 
-  FILTER_DRINK = '[Drinks view] Filter Drink',
-  FILTER_DRINK_SUCCESS = '[API: /drink] Filter Drink success',
-  FILTER_DRINK_ERROR = '[API: /drink] Filter Drink error'
+  FILTER_DRINK = "[Drinks view] Filter Drink",
+  FILTER_DRINK_SUCCESS = "[API: /drink] Filter Drink success",
+  FILTER_DRINK_ERROR = "[API: /drink] Filter Drink error",
 }
 
 /*--------------LoadAllEvents--------------*/
@@ -64,15 +63,13 @@ export class LoadDrinkError implements Action {
   constructor(public payload: string) {}
 }
 
-
 /*--------------CreateDrink--------------*/
 
 export class CreateDrink implements Action {
   readonly type = ActionTypes.CREATE_DRINK;
 
-  constructor(public payload: Drink) {
-  }
-} 
+  constructor(public payload: Drink) {}
+}
 
 export class CreateDrinkSuccess implements Action {
   readonly type = ActionTypes.CREATE_DRINK_SUCCESS;
@@ -85,7 +82,6 @@ export class CreateDrinkError implements Action {
 
   constructor(public payload: string) {}
 }
-
 
 /*--------------UpdateDrink--------------*/
 
@@ -126,29 +122,6 @@ export class DeleteDrinkError implements Action {
 
   constructor(public payload: string) {}
 }
-
-/*--------------LoadDrinkCategory-------
-
-export class LoadDrinkCategory implements Action {
-  readonly type = ActionTypes.LOAD_DRINK_Category;
-
-  constructor(public payload: string) {}
-}
-
-export class LoadDrinkCategorySuccess implements Action {
-  readonly type = ActionTypes.LOAD_DRINK_Category_SUCCESS;
-
-  constructor(public payload: string) {}
-}
-
-export class LoadDrinkCategoryError implements Action {
-  readonly type = ActionTypes.LOAD_DRINK_Category_SUCCESS;
-
-  constructor(public payload: string) {}
-}
--------*/
-
-
 
 export class FilterDrink implements Action {
   readonly type = ActionTypes.FILTER_DRINK;

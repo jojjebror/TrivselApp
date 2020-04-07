@@ -16,7 +16,7 @@
   
   .plus { display: none; }
   .minus { display: none; }
-  .antal { display: none; }
+  .quantity { display: none; }
 
   .settings:hover .dropContent{
     display: block;
@@ -34,16 +34,16 @@
     margin-left: 40%;
     margin-top: 1%;
   }
-  .panta{
+  .delete{
     margin-bottom: 10%;
   }
   
-  .hem{
+  .home{
     background-color: black;
   }
-  .TaMigHem{
+  .getHome{
     position: absolute;
-    width: 100%;
+    
     bottom: 5%;
   }
   .buy{
@@ -67,10 +67,9 @@
   
   .container {
     width: 70%;
-    height: 700px;
+    height: 600px;
     margin-top: 3%;
     border: solid;
-    background-image:url('../../../../assets/images/Beer-image.jpg');
     background-repeat: no-repeat;
     background-size: cover;
   
@@ -99,24 +98,22 @@
   @media (max-width: 414px) {
   .container{
     position: relative;
-    background-image: url('../bilder/beer3.jpg');
-    
-    width: 100%;
+    width: 90%;
     height: 600px;
   }
-  .lista.li{
+  .list.li{
     list-style-type: none;
   }
   
-  .knappar{
+  .buttons{
     position: relative;
     height: 60%;
   }
   
-  .hem{
+  .home{
     background-color: black;
   }
-  .TaMigHem{
+  .getHome{
     position: relative;
     width: 100%;
     bottom: 5%;
@@ -137,31 +134,8 @@
     border:none;
     color: green;
     font-style: 50%;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-    text-decoration: none;
-    overflow: hidden;
-    cursor: pointer;
   }
-  .plus:after{
-    content: "";
-    background: #90EE90;
-    display: block;
-    position: absolute;
-    padding-top: 50%;
-    padding-left: 50%;
-    margin-left: -20px!important;
-    margin-top: -80%;
-    opacity: 0;
-    transition: all 0.8s
-  }
-  .plus:active:after{
-    padding: 0;
-    margin: 0;
-    opacity: 1;
-    transition: 0s
-  
-  }
+
   .minus{
     position: absolute;
     float: left;
@@ -174,7 +148,7 @@
   
   }
   
-  .antal{
+  .quantity{
   text-align: center;
   font-size: 600%;
   color: rgba(255, 255, 255, 0.884);
@@ -198,10 +172,10 @@
   li{
     list-style: none;
   }
-  #smak{
+  #taste{
     display: none;
   }
-  .panta{
+  .delete{
     margin-bottom: 10%;
   }
   ol{

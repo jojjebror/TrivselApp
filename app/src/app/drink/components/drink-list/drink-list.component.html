@@ -1,59 +1,21 @@
-<!-- <div *ngFor="let dr of drs">
-    <div class ="drinkItems">
-   <h4>{{ dr.productNameBold }}</h4> 
-   <p>{{dr.taste}}</p> 
-   <p>{{ dr.beverageDescriptionShort}}</p>
-   <p>{{ dr.price }}, {{dr.alcoholPercentage}}, {{dr.volume}} </p>
-   <p>{{dr.id}}</p>
-   <button>Delete</button>
-   <hr>
-   <th>
-    <br>
-    <a (click)=deleteDrink(drink)>delete</a>
-  </th>
-    </div>
-  </div> -->
-
 <div class="container justify-content-center">
-  <h3>Välj en kategori!</h3>
+  <h3 class="rubrik">Välj en kategori!</h3>
   <hr />
-  <!----<a class ="title" (click)="ListDrink('öl')">Öl</a>-->
-  <ul>
+  <ul class="list-category">
     <li [routerLink]="['/drink/category']">
       <a class="title">Öl</a>
       <hr />
       <img src="assets/images/Beer-icon.png" />
-      <hr />
-      <h6>Öl är ju oerhört trevligt!</h6>
     </li>
-
-  <li [routerLink]="['/drink/category2']">
-    <a class ="title">Vin</a>
-    <hr/>
-    <img src="assets/images/Wine-icon.png">
-    <hr/>
-    <h6>Ett glas rött är gött!
-      </h6>
-  </li>
-
+    <li [routerLink]="['/drink/category2']">
+      <a class="title">Vin</a>
+      <hr />
+      <img src="assets/images/Wine-icon.png" />
+    </li>
     <li [routerLink]="['/drink/category3']">
       <a class="title">Cider</a>
       <hr />
-      <h6>Lider gör man inte när man dricker cider!</h6>
+      <img src="assets/images/cider-icon.png" />
     </li>
   </ul>
 </div>
-
-<!-- <ul *ngIf="drs$">
-    <li *ngFor="let dr of (drs$ | async)" [routerLink]="['/drink', dr.id]">
-      <a class="title" [routerLink]="['/drink', dr.id]"> {{ dr.productNameBold }}</a>
-
-      <p class="location"> Pris:  {{ dr.price}}</p>
-
-      <p class="location"> Volym:  {{dr.volume}}</p>
-
-      <p class ="location"> Typ:  {{dr.category}}
-
-     <a class="btnReadMore">Läs mer</a>
-    </li>
-  </ul>  -->
