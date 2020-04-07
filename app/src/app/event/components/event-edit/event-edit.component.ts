@@ -11,7 +11,7 @@ import { DateAdapter } from '@angular/material';
 @Component({
   selector: 'ex-event-edit',
   templateUrl: './event-edit.component.html',
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./event-edit.component.scss']
 })
 export class EventEditComponent implements OnInit, OnDestroy {
@@ -20,6 +20,8 @@ export class EventEditComponent implements OnInit, OnDestroy {
 
   starttime: Date;
   endtime: Date;
+  fileUpload: File = null;
+  imageUrl: string;
 
   constructor(private store$: Store<AppState>, private fb: FormBuilder, private dateAdapter: DateAdapter<Date>) {
     dateAdapter.setLocale('sv');
@@ -39,7 +41,7 @@ export class EventEditComponent implements OnInit, OnDestroy {
           id: [ev.id],
           title: [ev.title, Validators.required],
           description: [ev.description, Validators.required],
-          image: [ev.image],
+          image: [null],
           location: [ev.location, Validators.required],
           startdate: [new Date(ev.startDate), Validators.required],
           starttime: [new Date(ev.startDate), Validators.required],
@@ -50,6 +52,7 @@ export class EventEditComponent implements OnInit, OnDestroy {
       );
       this.starttime = ev.startDate;
       this.endtime = ev.endDate;
+      this.imageUrl = ev.image;
     });
   }
 
@@ -60,8 +63,12 @@ export class EventEditComponent implements OnInit, OnDestroy {
       this.fixDateTimeZone(this.eventEditForm.get('endtime').value);
 
       const ev = Object.assign({}, this.eventEditForm.value);
-      this.store$.dispatch(new fromEvents.UpdateEvent(ev));
+      this.store$.dispatch(new fromEvents.UpdateEvent(ev, this.fileUpload));
     }
+  }
+
+  loadImage(file: FileList) {
+    this.fileUpload = file.item(0);
   }
 
   fixDateTimeZone(d: Date): Date {
@@ -69,13 +76,13 @@ export class EventEditComponent implements OnInit, OnDestroy {
     return d;
   }
 
-   DateValidation(d: FormGroup) {
+  DateValidation(d: FormGroup) {
     if (d.get('enddate').value !== '') {
       return d.get('enddate').value >= d.get('startdate').value ? null : { mismatch: true };
     } else {
       return null;
     }
-  } 
+  }
 
   getErrorMessage(property: string) {
     switch (property) {

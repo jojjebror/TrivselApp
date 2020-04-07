@@ -30,12 +30,10 @@ export class EventsEffects {
     ofType(eventsActions.ActionTypes.LOAD_EVENT),
     switchMap((action: eventsActions.LoadEvent) =>
       this.eventResource.loadEvent(action.payload).pipe(
-        switchMap((event: Event) => 
-        [
-          new eventsActions.LoadEventSuccess(event), 
-          //new eventsActions.LoadImage(event.id)
+        switchMap((event: Event) => [
+          new eventsActions.LoadEventSuccess(event)
         ]),
-        tap(() => this.router.navigate(['/event/' + action.payload])),
+        //tap(() => this.router.navigate(['/event/' + action.payload])),
         catchError(err => of(new eventsActions.LoadEventError(err)))
       )
     )
@@ -46,8 +44,9 @@ export class EventsEffects {
     ofType(eventsActions.ActionTypes.CREATE_EVENT),
     switchMap((action: eventsActions.CreateEvent) =>
       this.eventResource.createEvent(action.payload).pipe(
-        switchMap((newEvent: Event) => [
-          new eventsActions.CreateEventSuccess(newEvent),
+        switchMap((newEvent: Event) => 
+        [
+          new eventsActions.CreateEventSuccess(newEvent), 
           new eventsActions.SaveImage(newEvent.id, action.image)
         ]),
         tap(() => this.router.navigate(['/event'])),
@@ -57,6 +56,24 @@ export class EventsEffects {
   );
 
   @Effect()
+  updateEvent$: Observable<Action> = this.actions$.pipe(
+    ofType(eventsActions.ActionTypes.UPDATE_EVENT),
+    switchMap((action: eventsActions.UpdateEvent) =>
+      this.eventResource.updateEvent(action.payload).pipe(
+        switchMap((updatedEvent: Event) => [
+          new eventsActions.UpdateEventSuccess({
+            id: updatedEvent.id,
+            changes: updatedEvent
+          }),
+          new eventsActions.SaveImage(updatedEvent.id, action.image)
+        ]),
+        tap(() => this.router.navigate(['/event/' + action.payload.id])),
+        catchError(err => of(new eventsActions.UpdateEventError(err)))
+      )
+    )
+  );
+
+  /* @Effect()
   updateEvent$: Observable<Action> = this.actions$.pipe(
     ofType<eventsActions.UpdateEvent>(eventsActions.ActionTypes.UPDATE_EVENT),
     map((action: eventsActions.UpdateEvent) => action.payload),
@@ -73,7 +90,7 @@ export class EventsEffects {
         catchError(err => of(new eventsActions.UpdateEventError(err)))
       )
     )
-  );
+  ); */
 
   @Effect()
   deleteEvent$: Observable<Action> = this.actions$.pipe(

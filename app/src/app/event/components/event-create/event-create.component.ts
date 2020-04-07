@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 
@@ -55,7 +55,7 @@ export class EventCreateComponent implements OnInit {
         starttime: ['', Validators.required],
         enddate: [''],
         endtime: [''],
-        createdate: [new Date()], //Bör göras när createEvent() körs
+        createdate: [''],
         creatorid: [this.userId],
         users: [null],
         offices: [['']]
@@ -67,6 +67,8 @@ export class EventCreateComponent implements OnInit {
   createEvent() {
     if (this.eventForm.valid) {
       this.CheckEmptyEndDate(this.eventForm);
+
+      this.eventForm.get('createdate').setValue(new Date());
 
       //Fixar problem med UTC och lokal tid när datum skickas till servern
       this.fixDateTimeZone(this.eventForm.get('starttime').value);
@@ -95,15 +97,18 @@ export class EventCreateComponent implements OnInit {
     this.fileUpload = file.item(0);
   }
 
-  imageValidator() {
-    console.log(this.fileUpload);
-    if (this.fileUpload) {
-      const allowedInput = '/image-*/';
-      const fileExtension = this.fileUpload.name.split('.').pop().toLowerCase();
-      if (!fileExtension.match(allowedInput)) {
-        return true;
+  imageValidator(control: FormControl) { //Får inte att fungera med formbuilder
+    if (control.value) {
+      if (this.fileUpload) {
+        const allowedInput = '/image-*/';
+        //const fileExtension = this.fileUpload.name.split('.').pop().toLowerCase();
+        const fileExtension = this.fileUpload.type;
+        console.log(fileExtension);
+        if (fileExtension.match(allowedInput)) {
+          return true;
+        }
+        return false;
       }
-      return false;
     }
   }
 

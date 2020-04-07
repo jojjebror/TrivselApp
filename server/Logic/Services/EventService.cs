@@ -173,6 +173,7 @@ namespace Logic.Services
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
             pathToSave = pathToSave.Replace("Api", "Logic");
 
+            //Tillfällig lösning, går inte att använda Path till app
             var folderName2 = Path.Combine("images", "event-images");
             var pathToSave2 = "C:\\Users\\andre\\TrivselAppV2\\app\\src\\assets\\images\\event-images";
 
@@ -181,6 +182,15 @@ namespace Logic.Services
                 var fileName = id.ToString() + Path.GetExtension(image.FileName);
                 var fullPath = Path.Combine(pathToSave2, fileName);
                 var dbPath = Path.Combine(folderName2, fileName);
+
+                var files = Directory.GetFiles(pathToSave2, id.ToString() + ".*");
+                if (files.Length > 0)
+                {
+                    foreach (var file in files)
+                    {
+                        File.Delete(file);
+                    }
+                }
 
                 using (var stream = new FileStream(fullPath, FileMode.Create))
                 {

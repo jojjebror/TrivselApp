@@ -104,7 +104,7 @@ export class CreateEventError implements Action {
 export class UpdateEvent implements Action {
   readonly type = ActionTypes.UPDATE_EVENT;
 
-  constructor(public payload: Event) {}
+  constructor(public payload: Event, public image: File) {}
 }
 
 export class UpdateEventSuccess implements Action {
