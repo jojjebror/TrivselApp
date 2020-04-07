@@ -13,7 +13,7 @@ import { ActivatedRoute, Router } from "@angular/router";
   selector: "ex-drink",
   templateUrl: "./drink-list.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ["./drink-list.component.scss"]
+  styleUrls: ["./drink-list.component.scss"],
 })
 export class DrinkListComponent implements OnInit {
   drs$: Observable<Drink[]>;
