@@ -20,7 +20,7 @@ export class DrinkCategory2Component implements OnInit {
   constructor(private store$: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.instializeFilterBeer();
+    this.initializeFilterBeer();
   }
 
   private initializeDrinks(): void {
@@ -28,7 +28,7 @@ export class DrinkCategory2Component implements OnInit {
     this.drs$ = this.store$.select(fromDrink.getDrinks);
   }
 
-  public instializeFilterBeer(): void {
+  public initializeFilterBeer(): void {
     this.store$.dispatch(new drinksActions.FilterDrink("Vin"));
     this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
   }

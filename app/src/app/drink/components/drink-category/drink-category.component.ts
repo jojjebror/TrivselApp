@@ -21,10 +21,10 @@ export class DrinkCategoryComponent implements OnInit {
   constructor(private store$: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.instializeFilterBeer();
+    this.initializeFilterBeer();
   }
 
-  public instializeFilterBeer(): void {
+  public initializeFilterBeer(): void {
     this.store$.dispatch(new drinksActions.FilterDrink("Öl"));
     this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
   }
