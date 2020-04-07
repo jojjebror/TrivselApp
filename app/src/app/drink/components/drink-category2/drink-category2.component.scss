@@ -16,6 +16,13 @@ h2 {
   color: white;
 }
 
+.title {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: white;
+  margin-bottom: 8px;
+}
+
 li {
   float: left;
   background-color:  rgb(37, 2, 48);
@@ -51,35 +58,6 @@ a {
   color: white;
 }
 
-.title {
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: white;
-  margin-bottom: 8px;
-}
-
-.iconMargin {
-  vertical-align: middle;
-  margin-right: 5px;
-}
-
-.date {
-  margin-bottom: 5px;
-}
-
-.btnReadMore {
-  width: 100%;
-  text-align: right;
-  margin-top: 55px;
-}
-
-.text {
-  display: block;
-  width: 270px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
 
 .btnCreateDrink {
   float: right;
@@ -88,44 +66,6 @@ a {
   width: 200px;
 }
 
-.searchbar {
-  float: left;
-  width: 200px;
-  margin: 10px;
-  margin-left: 60px;
-}
-
-input[type="text"] {
-  width: 100%;
-  border: 2px solid #aaa;
-  border-radius: 4px;
-  margin: 8px 0;
-  outline: none;
-  padding: 8px;
-  box-sizing: border-box;
-  transition: 0.3s;
-}
-
-.inputWithIcon input[type="text"] {
-  padding-left: 40px;
-}
-
-.inputWithIcon {
-  position: relative;
-}
-
-.inputWithIcon i {
-  position: absolute;
-  left: 0;
-  top: 8px;
-  padding: 8px 9px;
-  color: #aaa;
-  transition: 0.3s;
-}
-
-.inputWithIcon input[type="text"] {
-  padding-left: 40px;
-}
 
 li {
   cursor: pointer;
@@ -162,7 +102,5 @@ li {
   text-align: center;
   
 }
-
-
 
 }

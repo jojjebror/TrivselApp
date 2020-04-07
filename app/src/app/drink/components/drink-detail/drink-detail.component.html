@@ -1,17 +1,17 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="base" *ngIf="dr$ | async; let dr">
-<div class="container" [ngStyle]="{'background-image':'url('+photo+')'}">
+<div class="container mt-5 border border-light p-5" [ngStyle]="{'background-image':'url('+photo+')'}">
  
  <div class="settings">
   <button (click)="toggleShow()" type="checkbox" style="float: right;"> <i class="fa fa-gear"></i></button>
     <div class="dropContent">
-      <ol class="alt">
-        <li class="listan">
-        <button class="panta"> 
+      <ol>
+        <li>
+        <button class="delete"> 
           <a (click)="deleteDrink(dr.id)">Panta</a>
         </button>
         </li>
-        <li class="listan">
+        <li>
         <button class="edit" (click)="editDrink(dr)" [routerLink] ="['/drink/edit']" >
           Redigera dryck
         </button>
@@ -21,24 +21,24 @@
 </div>
 
   <div class="row">
-    <ul class="lista">
+    <ul class="list">
      <li ><h1 class="mb-4" >{{ dr.productNameBold }}</h1></li>
-      <li><h4 id="pris" style="color: white;">Pris: {{ dr.price }}kr</h4></li> 
-     <li><h4 id="volym" style="color:white;">Volym: {{ dr.volume}}cl</h4></li>
-     <li><h4 id="smak" style="color: white;">Smak: {{ dr.taste }}</h4></li> 
+      <li><h4 id="price" style="color: white;">Pris: {{ dr.price }}kr</h4></li> 
+     <li><h4 id="volume" style="color:white;">Volym: {{ dr.volume}}cl</h4></li>
+     <li><h4 id="taste" style="color: white;">Smak: {{ dr.taste }}</h4></li> 
     </ul>
   </div>
     
   
-<div class="knappar">
-  <p class="antal">{{clickCounter}}</p>
+<div class="buttons">
+  <p class="quantity">{{clickCounter}}</p>
     <button class="plus" (click)="clickCount()">+</button>
       <ng-template [ngIf]="clickCounter > 1">
     <button class="minus" (click)="clickCountM()">-</button>
       </ng-template>
   </div>
-<div class="TaMigHem">
-    <button class="hem" id="back"  style="color: white;" [routerLink]="['/drink/category']">
+<div class="getHome">
+    <button class="home" id="back"  style="color: white;" [routerLink]="['/drink/category']">
       Gå tillbaka
     </button>
     <button class="buy" (click)="GetToSwish(dr)">

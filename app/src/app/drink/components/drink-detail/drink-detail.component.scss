@@ -16,7 +16,7 @@
   
   .plus { display: none; }
   .minus { display: none; }
-  .antal { display: none; }
+  .quantity { display: none; }
 
   .settings:hover .dropContent{
     display: block;
@@ -34,16 +34,16 @@
     margin-left: 40%;
     margin-top: 1%;
   }
-  .panta{
+  .delete{
     margin-bottom: 10%;
   }
   
-  .hem{
+  .home{
     background-color: black;
   }
-  .TaMigHem{
+  .getHome{
     position: absolute;
-    width: 100%;
+    
     bottom: 5%;
   }
   .buy{
@@ -98,22 +98,22 @@
   @media (max-width: 414px) {
   .container{
     position: relative;
-    width: 100%;
+    width: 90%;
     height: 600px;
   }
-  .lista.li{
+  .list.li{
     list-style-type: none;
   }
   
-  .knappar{
+  .buttons{
     position: relative;
     height: 60%;
   }
   
-  .hem{
+  .home{
     background-color: black;
   }
-  .TaMigHem{
+  .getHome{
     position: relative;
     width: 100%;
     bottom: 5%;
@@ -148,7 +148,7 @@
   
   }
   
-  .antal{
+  .quantity{
   text-align: center;
   font-size: 600%;
   color: rgba(255, 255, 255, 0.884);
@@ -172,10 +172,10 @@
   li{
     list-style: none;
   }
-  #smak{
+  #taste{
     display: none;
   }
-  .panta{
+  .delete{
     margin-bottom: 10%;
   }
   ol{

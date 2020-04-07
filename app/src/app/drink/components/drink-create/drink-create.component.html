@@ -1,4 +1,4 @@
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <div class="createDrinkMain">
   <form
     [formGroup]="drinkForm"
@@ -8,7 +8,7 @@
     <h3 class="text-center">Information angående dryck</h3>
     <hr />
 
-    <div class="form-group inputWithIconTitleDescLoca">
+    <div class="form-group">
       <input
         [ngClass]="{
           'is-invalid':
@@ -20,9 +20,9 @@
         formControlName="productNameBold"
       />
       <div class="invalid-feedback">Du måste ange ett namn för drycken</div>
-    </div> 
+    </div>
 
-    <div class="form-group inputWithIconTitleDescLoca" style="width: 50%;">
+    <div class="form-group" style="width: 50%;">
       <mat-select
         [ngClass]="{
           'is-invalid':
@@ -41,7 +41,7 @@
       </div>
     </div>
 
-    <div class="form-group inputWithIconTitleDescLoca">
+    <div class="form-group">
       <input
         [ngClass]="{
           'is-invalid':
@@ -56,7 +56,7 @@
       </div>
     </div>
 
-    <div class="form-group inputWithIconTitleDescLoca" style="width: 50%;">
+    <div class="form-group" id="volume">
       <mat-select
         [ngClass]="{
           'is-invalid':
@@ -75,7 +75,7 @@
       </div>
     </div>
 
-    <div class="form-group inputWithIconTitleDescLoca">
+    <div class="form-group">
       <mat-select
         [ngClass]="{
           'is-invalid':
@@ -126,20 +126,3 @@
     </div>
   </form>
 </div>
-
-<!--
-<div class="ex-drink-create">
-	<form [formGroup]="form" (submit)="onSubmit()">
-		
-    <mat-form-field> <input type="text" matInput placeholder="Namn" formControlName="productNameBold" productNameBold="Namn"></mat-form-field>
-    <mat-form-field> <input type="text" matInput placeholder="Kategori" formControlName="category" category="Namn"></mat-form-field>
-    <mat-form-field> <input type="text" matInput placeholder="Volym" formControlName="volume" volume="Namn"></mat-form-field>
-    <mat-form-field> <input type="text" matInput placeholder="Pris" formControlName="price" price="Namn"></mat-form-field>
-    <mat-form-field> <input type="text" matInput placeholder="Smak" formControlName="taste" taste="Namn"></mat-form-field>
-    <mat-form-field> <input type="text" matInput placeholder="Användning" formControlName="usage" usage="Namn"></mat-form-field>
-    <mat-form-field> <input type="text" matInput placeholder="Alkoholprocent" formControlName="alcoholPercentage" alcoholPercentage="Namn"></mat-form-field>
-    <mat-form-field> <input type="text" matInput placeholder="Beskrivning" formControlName="beverageDescriptionShort" beverageDescriptionShort="Namn"></mat-form-field>
-		
-		<button mat-button color="primary">Skapa</button>
-  </form>
-</div> -->
