@@ -21,7 +21,7 @@ export class DrinkDetailComponent implements OnInit {
   dr$: Observable<Drink>;
   id: number;
   isShown: boolean = false; // hidden by default
-  photo: string = "/beer.jpg";
+  photo: string = '/bilder/beer.jpg';
   clickCounter: number = 1;
   totalSum: number = 0;
 

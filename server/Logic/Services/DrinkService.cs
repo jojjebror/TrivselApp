@@ -27,43 +27,35 @@ namespace Logic.Services
             return dbDrinks.Select(DrinkForListTranslator.ToModel).ToList();
         }
 
-        //public async Task<ICollection<DrinkForListDto>> GetDrinks(string category)
-        //{
-        //    var filter = await _context.Drinks.Where(d => d.Category == category || d.Category == category || d.Category == category).ToListAsync();
-
-        //    var add = filter.Select(DrinkForListTranslator.ToModel).ToList();
-
-        //    return add;
-        //}
 
         public async Task<ICollection<DrinkForListDto>> FilterDrink(string category)
         {
 
-            if(category == "Öl")
+            if (category == "Öl")
             {
-               
+
                 var filter = await _context.Drinks.Where(d => d.Category == "Öl").ToListAsync();
                 var add = filter.Select(DrinkForListTranslator.ToModel).ToList();
                 return add;
-               
+
             }
-            if(category == "Vin")
+            if (category == "Vin")
             {
-                 var filter = await _context.Drinks.Where(d => d.Category == "Vin").ToListAsync();
-                 var add = filter.Select(DrinkForListTranslator.ToModel).ToList();
-                 return add;
-            }  
-                 
-            if(category == "Cider")
+                var filter = await _context.Drinks.Where(d => d.Category == "Vin").ToListAsync();
+                var add = filter.Select(DrinkForListTranslator.ToModel).ToList();
+                return add;
+            }
+
+            if (category == "Cider")
             {
-                 var filter = await _context.Drinks.Where(d => d.Category == "Cider").ToListAsync();
-                 var add = filter.Select(DrinkForListTranslator.ToModel).ToList();
-                 return add;
-                 
+                var filter = await _context.Drinks.Where(d => d.Category == "Cider").ToListAsync();
+                var add = filter.Select(DrinkForListTranslator.ToModel).ToList();
+                return add;
+
             }
 
             return httpBadRequest();
-        
+
         }
 
         private ICollection<DrinkForListDto> httpBadRequest()
