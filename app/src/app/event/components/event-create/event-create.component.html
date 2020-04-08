@@ -29,16 +29,16 @@
 
     <div>
       <!-- <mat-form-field appearance="outline">
-        <mat-label>Bild-url</mat-label> -->
-        <img [src]="imageUrl || ''" style="width: 50px;">
+        <mat-label>Bild-url</mat-label>
+        <img [src]="imageUrl || ''" style="width: 50px;"> -->
         <input
           type="file"
           accept="image/*"
-          formControlName="image"
           autocomplete="off"
-          (change)="imagePreview($event.target.files)"
+          formControlName="image"
+          (change)="loadImage($event.target.files)"
         />
-      
+        <!-- <mat-error *ngIf="eventForm.invalid">Fel filtyp</mat-error> -->
       <!-- </mat-form-field> -->
     </div>
 

@@ -13,8 +13,8 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'ex-event-edit',
   templateUrl: './event-edit.component.html',
-  changeDetection: ChangeDetectionStrategy.Default,
-  styleUrls: ['./event-edit.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./event-edit.component.scss']
 })
 export class EventEditComponent implements OnInit, OnDestroy {
   ev$: Observable<Event>;
@@ -24,6 +24,8 @@ export class EventEditComponent implements OnInit, OnDestroy {
   eventId: any;
   starttime: Date;
   endtime: Date;
+  fileUpload: File = null;
+  imageUrl: string;
 
   constructor(
     private store$: Store<AppState>,
@@ -58,7 +60,7 @@ export class EventEditComponent implements OnInit, OnDestroy {
           id: [ev.id],
           title: [ev.title, Validators.required],
           description: [ev.description, Validators.required],
-          image: [ev.image],
+          image: [null],
           location: [ev.location, Validators.required],
           startdate: [new Date(ev.startDate), Validators.required],
           starttime: [new Date(ev.startDate), Validators.required],
@@ -70,6 +72,7 @@ export class EventEditComponent implements OnInit, OnDestroy {
       this.starttime = ev.startDate;
       this.endtime = ev.endDate;
       this.eventId = ev.id;
+      this.imageUrl = ev.image;
     });
   }
 
@@ -80,9 +83,13 @@ export class EventEditComponent implements OnInit, OnDestroy {
       this.fixDateTimeZone(this.eventEditForm.get('endtime').value);
 
       const ev = Object.assign({}, this.eventEditForm.value);
-      this.store$.dispatch(new fromEvents.UpdateEvent(ev));
+      this.store$.dispatch(new fromEvents.UpdateEvent(ev, this.fileUpload));
       this.alertify.success('Evenemanget uppdaterat');
     }
+  }
+
+  loadImage(file: FileList) {
+    this.fileUpload = file.item(0);
   }
 
   fixDateTimeZone(d: Date): Date {
