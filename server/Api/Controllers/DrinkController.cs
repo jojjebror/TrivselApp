@@ -21,9 +21,9 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetDrinks()
+        public async Task<IActionResult> GetDrinks(string text)
         {
-            var result = await _drinkService.GetDrinks();
+            var result = await _drinkService.GetDrinks(text);
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
@@ -42,9 +42,9 @@ namespace Api.Controllers
         }
 
         [HttpGet("filter")]
-        public async Task<ActionResult> FilterDrinks(string filter)
+        public async Task<ActionResult> FilterDrinks(string filter, string text)
         {
-            var result = await _drinkService.FilterDrink(filter);
+            var result = await _drinkService.FilterDrink(filter, text);
             return new OkObjectResult(ApiResponse.Create(result));
         }
 

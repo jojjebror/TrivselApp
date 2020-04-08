@@ -30,6 +30,7 @@ export enum ActionTypes {
 
 export class LoadDrinks implements Action {
   readonly type = ActionTypes.LOAD_DRINKS;
+  constructor(public payload: string) {}
 }
 
 export class LoadDrinksSuccess implements Action {
@@ -126,28 +127,6 @@ export class DeleteDrinkError implements Action {
 
   constructor(public payload: string) {}
 }
-
-/*--------------LoadDrinkCategory-------
-
-export class LoadDrinkCategory implements Action {
-  readonly type = ActionTypes.LOAD_DRINK_Category;
-
-  constructor(public payload: string) {}
-}
-
-export class LoadDrinkCategorySuccess implements Action {
-  readonly type = ActionTypes.LOAD_DRINK_Category_SUCCESS;
-
-  constructor(public payload: string) {}
-}
-
-export class LoadDrinkCategoryError implements Action {
-  readonly type = ActionTypes.LOAD_DRINK_Category_SUCCESS;
-
-  constructor(public payload: string) {}
-}
--------*/
-
 
 
 export class FilterDrink implements Action {

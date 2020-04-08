@@ -21,25 +21,25 @@ namespace Logic.Services
         }
 
 
-        public async Task<ICollection<DrinkForListDto>> GetDrinks()
+        public async Task<ICollection<DrinkForListDto>> GetDrinks(string text)
         {
-            var dbDrinks = await _context.Drinks.ToListAsync();
-            return dbDrinks.Select(DrinkForListTranslator.ToModel).ToList();
+            if(string.IsNullOrEmpty(text))
+            {
+                var dbDrinks = await _context.Drinks.ToListAsync();
+                return dbDrinks.Select(DrinkForListTranslator.ToModel).ToList();
+            }
+            else
+            {
+                var dbDrinks = await _context.Drinks.Where(d => d.ProductNameBold.Contains(text)).ToListAsync();
+                return dbDrinks.Select(DrinkForListTranslator.ToModel).ToList();
+            }
         }
 
-        //public async Task<ICollection<DrinkForListDto>> GetDrinks(string category)
-        //{
-        //    var filter = await _context.Drinks.Where(d => d.Category == category || d.Category == category || d.Category == category).ToListAsync();
 
-        //    var add = filter.Select(DrinkForListTranslator.ToModel).ToList();
-
-        //    return add;
-        //}
-
-        public async Task<ICollection<DrinkForListDto>> FilterDrink(string category)
+        public async Task<ICollection<DrinkForListDto>> FilterDrink(string category, string text)
         {
 
-            if(category == "Öl")
+            if(category == "Öl" && string.IsNullOrEmpty(text))
             {
                
                 var filter = await _context.Drinks.Where(d => d.Category == "Öl").ToListAsync();
@@ -47,23 +47,39 @@ namespace Logic.Services
                 return add;
                
             }
-            if(category == "Vin")
+            if(category == "Vin" && string.IsNullOrEmpty(text))
             {
                  var filter = await _context.Drinks.Where(d => d.Category == "Vin").ToListAsync();
                  var add = filter.Select(DrinkForListTranslator.ToModel).ToList();
                  return add;
             }  
                  
-            if(category == "Cider")
+            if(category == "Cider" && string.IsNullOrEmpty(text))
             {
                  var filter = await _context.Drinks.Where(d => d.Category == "Cider").ToListAsync();
                  var add = filter.Select(DrinkForListTranslator.ToModel).ToList();
                  return add;
                  
             }
-
+            else if(category == "Öl")
+            {
+                var filter = await _context.Drinks.Where(d => d.ProductNameBold.Contains(text) && d.Category == "Öl").ToListAsync();
+                var add = filter.Select(DrinkForListTranslator.ToModel).ToList();
+                return add;
+            }
+            else if (category == "Vin")
+            {
+                var filter = await _context.Drinks.Where(d => d.ProductNameBold.Contains(text) && d.Category == "Vin").ToListAsync();
+                var add = filter.Select(DrinkForListTranslator.ToModel).ToList();
+                return add;
+            }
+            else if (category == "Cider")
+            {
+                var filter = await _context.Drinks.Where(d => d.ProductNameBold.Contains(text) && d.Category == "Cider").ToListAsync();
+                var add = filter.Select(DrinkForListTranslator.ToModel).ToList();
+                return add;
+            }
             return httpBadRequest();
-        
         }
 
         private ICollection<DrinkForListDto> httpBadRequest()

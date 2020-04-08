@@ -7,6 +7,7 @@ import { Drink } from 'src/app/shared/models';
 
 import * as drinksActions from '../../state/drinks';
 import * as fromDrink from '../../state/drinks/drinks.selectors';
+import { text } from '@angular/core/src/render3';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class DrinkCategoryComponent implements OnInit {
 
   drs$: Observable<Drink[]>;
   categoryOne: boolean = false;
-
+  text: string;
   
   
 
@@ -38,7 +39,7 @@ export class DrinkCategoryComponent implements OnInit {
   
   public instializeFilterBeer(): void {
     this.store$.dispatch(new drinksActions.FilterDrink('Öl'));
-    this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
+    this.drs$ = this.store$.select(fromDrink.getDrinks);
   }
 
 }

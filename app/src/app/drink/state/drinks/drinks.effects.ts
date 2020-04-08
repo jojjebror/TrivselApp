@@ -21,7 +21,7 @@ export class DrinksEffects {
   loadDrinks$: Observable<Action> = this.actions$.pipe(
     ofType<drinksActions.LoadDrinks>(drinksActions.ActionTypes.LOAD_DRINKS),
     mergeMap((actions: drinksActions.LoadDrinks) =>
-      this.drinkResource.loadDrinks().pipe(
+      this.drinkResource.loadDrinks('').pipe(
         map((drinks: Drink[]) => new drinksActions.LoadDrinksSuccess(drinks)),
         catchError(err => of(new drinksActions.LoadDrinkError(err)))
       )
@@ -91,8 +91,8 @@ export class DrinksEffects {
   filterDrink$: Observable<Action> = this.actions$.pipe(
     ofType<drinksActions.FilterDrink>(drinksActions.ActionTypes.FILTER_DRINK),
     map((action: drinksActions.FilterDrink) => action.payload),
-    mergeMap((drink: string) =>
-      this.drinkResource.filterDrink(drink).pipe(
+    mergeMap((text: string) =>
+      this.drinkResource.filterDrink(text, text).pipe(
         map(
           (FilterDrink: Drink[]) =>
             new drinksActions.FilterDrinkSuccess(FilterDrink)
