@@ -133,27 +133,25 @@ namespace Logic.Services
             return id;
         }
 
-        public async Task<EventForDetailedDto> AddOrUpdateEventParticipant(int id, int userId, string answer)
+        public async Task<EventForDetailedDto> AddEventParticipantStatus(int eventId, int userId, string answer)
         {
-            bool boolAnswer = answer == "true" ? true : false;
-
             //Check if participant already has answered to the event
             var participantExists = await _context.EventParticipants
-                .FirstOrDefaultAsync(ep => ep.EventId == id && ep.UserId == userId);
+                .FirstOrDefaultAsync(ep => ep.EventId == eventId && ep.UserId == userId);
 
             //Update participants answer if already answered
             if (participantExists != null)
             {
-                participantExists.Accepted = boolAnswer;
+                participantExists.Status = answer;
             }
             else {
 
             //Add participants answer to db if not answered earlier
                 var ep = new EventParticipant
             {
-                EventId = id,
+                EventId = eventId,
                 UserId = userId,
-                Accepted = boolAnswer
+                Status = answer
             };
 
             _context.EventParticipants.Add(ep);
@@ -162,9 +160,24 @@ namespace Logic.Services
             await _context.SaveChangesAsync();
 
             var dbEvent = await _context.Events.Include(e => e.EventParticipants
-               .Select(u => u.User)).FirstOrDefaultAsync(e => e.Id == id);
+               .Select(u => u.User)).FirstOrDefaultAsync(e => e.Id == eventId);
 
             return EventForDetailedTranslator.ToModel(dbEvent);
+        }
+
+        public async Task<ICollection<EventForUserListDto>> UpdateParticipantStatus(int eventId, int userId, string answer)
+        {
+            var participant = await _context.EventParticipants
+                .FirstOrDefaultAsync(ep => ep.EventId == eventId && ep.UserId == userId);
+
+            participant.Status = answer;
+
+            await _context.SaveChangesAsync();
+
+            var dbEvent = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId).ToListAsync();
+
+            return dbEvent.Select(EventForUserListTranslator.ToModel).ToList();
+
         }
 
         public async Task<bool> SaveImage(int id, IFormFile image)
@@ -173,6 +186,7 @@ namespace Logic.Services
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
             pathToSave = pathToSave.Replace("Api", "Logic");
 
+            //Tillfällig lösning, går inte att använda Path till app
             var folderName2 = Path.Combine("images", "event-images");
             var pathToSave2 = "C:\\Users\\andre\\TrivselAppV2\\app\\src\\assets\\images\\event-images";
 
@@ -181,6 +195,15 @@ namespace Logic.Services
                 var fileName = id.ToString() + Path.GetExtension(image.FileName);
                 var fullPath = Path.Combine(pathToSave2, fileName);
                 var dbPath = Path.Combine(folderName2, fileName);
+
+                var files = Directory.GetFiles(pathToSave2, id.ToString() + ".*");
+                if (files.Length > 0)
+                {
+                    foreach (var file in files)
+                    {
+                        File.Delete(file);
+                    }
+                }
 
                 using (var stream = new FileStream(fullPath, FileMode.Create))
                 {
@@ -225,6 +248,14 @@ namespace Logic.Services
         //        return response;
         //    }
         //}
+
+        public async Task<ICollection<EventForUserListDto>> GetCurrentUserEvents(int userId)
+        {
+            var dbEvent = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId).ToListAsync();
+
+            return dbEvent.Select(EventForUserListTranslator.ToModel).ToList();
+        }
+
     }
 }
 

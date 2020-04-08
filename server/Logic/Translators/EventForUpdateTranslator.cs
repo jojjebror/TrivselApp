@@ -24,7 +24,6 @@ namespace Logic.Translators
                 Image = ev.Image,
                 StartDate = ev.StartDate,
                 EndDate = ev.EndDate,
-                //Id = ev.Id,
                 //CreatorId = ev.CreatorId
             };
         }

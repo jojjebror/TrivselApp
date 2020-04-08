@@ -3,7 +3,7 @@ namespace Logic.Database.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class MergeMigration : DbMigration
+    public partial class MergeInitStatus : DbMigration
     {
         public override void Up()
         {
@@ -30,7 +30,7 @@ namespace Logic.Database.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         UserId = c.Int(nullable: false),
                         EventId = c.Int(nullable: false),
-                        Accepted = c.Boolean(nullable: false),
+                        Status = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
