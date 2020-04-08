@@ -27,11 +27,16 @@
               {{ ev.endDate | date: 'dd/M/yyyy' }}
             </p>
           </div>
+          <div>
+            <strong>Status:</strong>
+            <p style="color: rgb(27, 196, 27);" *ngIf="checkAttendedUsers()">Deltar</p>
+            <p style="color: rgb(243, 2, 2);" *ngIf="checkDeclinedUsers()">Avböjt</p>
+          </div>
         </div>
         <div class="card-footer">
           <div class="btn-group d-flex">
-            <button class="btn btn-success w-100" id="accept" (click)="UpdateParticpantsToEvent(ev.id, 'Accepted')">Delta</button>
-            <button class="btn btn-danger w-100" id="decline" (click)="UpdateParticpantsToEvent(ev.id, 'Declined')">Avböj</button>
+            <button class="btn btn-success w-100" *ngIf="!checkAttendedUsers()" id="accept" (click)="updateParticpantsToEvent(ev.id, 'Accepted')">Delta</button>
+            <button class="btn btn-danger w-100" *ngIf="!checkDeclinedUsers()" id="decline" (click)="updateParticpantsToEvent(ev.id, 'Declined')">Avböj</button>
           </div>
         </div>
       </div>
@@ -42,8 +47,23 @@
           <mat-tab label="Om evenemang">
             <mat-list>
               <mat-list-item>
-                <p>
+                <h5 style="color: white;">
+                  <u>Beskrivning</u>
+                </h5>
+              </mat-list-item>
+              <mat-list-item>
+                <p style="margin-top: 20px;">
                   {{ ev.description }}
+                </p>
+              </mat-list-item>
+              <mat-list-item>
+                <h5 style="color: white; margin-top: 40px;">
+                  <u>Kommentarer</u>
+                </h5>
+              </mat-list-item>
+              <mat-list-item>
+                <p style="margin-top: 70px;">
+                  Anna Persson: Jäklar!!
                 </p>
               </mat-list-item>
             </mat-list>

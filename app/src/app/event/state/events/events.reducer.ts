@@ -35,7 +35,6 @@ export function reducer(state: EventsState = initialState, action: eventsActions
     }
 
      case eventsActions.ActionTypes.LOAD_EVENT_SUCCESS: {
-      console.log('Event reducer success: ' + action.payload);
       return adapter.addOne(action.payload, {
         ...state,
         selectedEventId: action.payload.id,

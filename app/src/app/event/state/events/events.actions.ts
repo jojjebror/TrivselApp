@@ -79,20 +79,14 @@ export class LoadEventsError implements Action {
 export class LoadEvent implements Action {
   readonly type = ActionTypes.LOAD_EVENT;
 
-  constructor(public payload: number) 
-  {
-    console.log("LoadEvent - " + payload);
-  }
+  constructor(public payload: number) {}
   
 }
 
 export class LoadEventSuccess implements Action {
   readonly type = ActionTypes.LOAD_EVENT_SUCCESS;
 
-  constructor(public payload: Event) 
-  {
-    console.log('LoadEventSuccess - ' + payload);
-  }
+  constructor(public payload: Event) {}
 }
 
 export class LoadEventError implements Action {

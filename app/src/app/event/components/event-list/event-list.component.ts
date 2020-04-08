@@ -98,7 +98,6 @@ export class EventListComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.store$.pipe(select(fromEvents.getEventsCreatedByUser(this.userId))).subscribe((data: Event[]) => {
         this.createdEvents.data = data;
-        console.log('UpdateMethodCreatedEvents' + this.createdEvents.data);
       })
     );
 
@@ -106,7 +105,6 @@ export class EventListComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.store$.pipe(select(fromEvents.getInvitedEvents)).subscribe((data: Event[]) => {
         this.invitedEvents.data = data;
-        console.log('UpdateMethodInvitedEvents' + this.invitedEvents.data);
       })
     );
 
@@ -114,7 +112,6 @@ export class EventListComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.store$.pipe(select(fromEvents.getAttendedEvents)).subscribe((data: Event[]) => {
         this.attendedEvents.data = data;
-        console.log('UpdateMethodAttendedEvents' + this.attendedEvents.data);
       })
     );
   }
