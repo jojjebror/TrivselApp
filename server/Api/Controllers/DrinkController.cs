@@ -21,18 +21,12 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetDrinks(string text)
+        public async Task<IActionResult> GetDrinks()
         {
-            var result = await _drinkService.GetDrinks(text);
+            var result = await _drinkService.GetDrinks();
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetDrinks(string category)
-        //{
-        //    var result = await _drinkService.GetDrinks(category);
-        //    return new OkObjectResult(ApiResponse.Create(result));
-        //}
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDrink(int id)
@@ -42,9 +36,9 @@ namespace Api.Controllers
         }
 
         [HttpGet("filter")]
-        public async Task<ActionResult> FilterDrinks(string filter, string text)
+        public async Task<ActionResult> FilterDrinks(string filter)
         {
-            var result = await _drinkService.FilterDrink(filter, text);
+            var result = await _drinkService.FilterDrink(filter);
             return new OkObjectResult(ApiResponse.Create(result));
         }
 

@@ -24,7 +24,7 @@ export class DrinkCategory3Component implements OnInit {
   }
 
   private initializeDrinks(): void {
-    this.store$.dispatch(new drinksActions.LoadDrinks(''));
+    this.store$.dispatch(new drinksActions.LoadDrinks());
     this.drs$ = this.store$.select(fromDrink.getDrinks);
   }
 

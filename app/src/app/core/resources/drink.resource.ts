@@ -14,8 +14,8 @@ export class DrinkResource extends ApiResource {
         
     }
 
-    loadDrinks(text: string): Observable<Drink[]> {
-        return this.get('drink/'+ '?text=' + text);
+    loadDrinks(): Observable<Drink[]> {
+        return this.get('drink/');
     }
 
     loadDrink(id: number): Observable<Drink> {
@@ -33,9 +33,9 @@ export class DrinkResource extends ApiResource {
         return this.put<Drink>('drink/'+ dr.id, dr);
       }
 
-    filterDrink(dr: string, text: string): Observable<Drink[]>
+    filterDrink(dr: string): Observable<Drink[]>
     {
-        return this.get('drink/' + 'filter?filter=' + dr + '&text=' + text);
+        return this.get('drink/' + 'filter?filter=' + dr);
     }
     
 }
