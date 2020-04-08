@@ -32,25 +32,9 @@ export class EventCreateComponent implements OnInit {
   starttime: Date;
   endtime: Date;
 
-  offices: string[] = [
-    'Linköping',
-    'Stockholm',
-    'Göteborg',
-    'Malmö',
-    'Uppsala',
-    'Örebro',
-    'Söderhamn',
-    'Borlänge',
-    'Helsingborg',
-    'Karlstad'
-  ];
+  offices: string[] = ['Linköping', 'Stockholm', 'Göteborg', 'Malmö', 'Uppsala', 'Örebro', 'Söderhamn', 'Borlänge', 'Helsingborg', 'Karlstad'];
 
-  constructor(
-    private store$: Store<AppState>,
-    private fb: FormBuilder,
-    private alertify: AlertifyService,
-    private dateAdapter: DateAdapter<Date>
-  ) {
+  constructor(private store$: Store<AppState>, private fb: FormBuilder, private alertify: AlertifyService, private dateAdapter: DateAdapter<Date>) {
     dateAdapter.setLocale('sv');
     this.store$.select(fromSession.selectUser).subscribe(user => (this.userId = user.id));
   }
@@ -153,27 +137,27 @@ export class EventCreateComponent implements OnInit {
     return d;
   }
 
-  getErrorMessageTitle() {
-    if (this.eventForm.get('title').hasError('required')) {
-      return 'Du måste ange en titel';
-    }
-  }
+  getErrorMessage(property: string) {
+    switch (property) {
+      case 'title': {
+        this.eventForm.get('title').hasError('required');
+        return 'Du måste ange en titel';
+      }
 
-  getErrorMessageLocation() {
-    if (this.eventForm.get('location').hasError('required')) {
-      return 'Du måste ange en plats';
-    }
-  }
+      case 'location': {
+        this.eventForm.get('location').hasError('required');
+        return 'Du måste ange en plats';
+      }
 
-  getErrorMessageDescription() {
-    if (this.eventForm.get('description').hasError('required')) {
-      return 'Du måste ange en beskrivning';
-    }
-  }
+      case 'description': {
+        this.eventForm.get('description').hasError('required');
+        return 'Du måste ange en beskrivning';
+      }
 
-  getErrorMessageStartdate() {
-    if (this.eventForm.get('startdate').hasError('required')) {
-      return 'Du måste ange ett startdatum';
+      case 'startdate': {
+        this.eventForm.get('startdate').hasError('required');
+        return 'Du måste ange ett startdatum';
+      }
     }
   }
 }
