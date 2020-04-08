@@ -19,20 +19,32 @@ export const getError = createSelector(selectState, (state) => state.error);
 export const getCurrentEventId = createSelector(selectState, (state) => state.selectedEventId);
 
 export const getEventsCreatedByUser = (userId: number) =>
-  createSelector(getEvents, (events) => events.filter((event) => event.creatorId === userId)); 
+  createSelector(getEvents, (events) => events.filter((event) => event.creatorId === userId));
 
 export const getInvitedParticipants = createSelector(selectState, getCurrentEventId, (state) => state.users);
 
 export const getAttendedParticipants = createSelector(selectState, getInvitedParticipants, (state) =>
-  state.users.filter((val) => val.accepted == true)
+  state.users.filter((val) => val.status === 'Accepted')
 );
 
 export const getDeclinedParticipants = createSelector(selectState, getInvitedParticipants, (state) =>
-  state.users.filter((val) => val.accepted == false)
-  ); 
+  state.users.filter((val) => val.status === 'Declined')
+);
+
+export const getUserEvents = createSelector(selectState, (state) => state.userEvents);
+
+export const getInvitedEvents = createSelector(selectState, getUserEvents, (state) =>
+  state.userEvents.filter((val) => val.status === 'N/A')
+);
+
+export const getAttendedEvents = createSelector(selectState, getUserEvents, (state) =>
+  state.userEvents.filter((val) => val.status === 'Accepted')
+);
 
 const { selectIds, selectEntities } = adapter.getSelectors(selectState);
 
 export const getCurrentEvent = createSelector(selectEntities, getCurrentEventId, (entities, currentEventId) => {
   return entities[currentEventId];
 });
+
+//export const getCurrentEvent = createSelector(selectState, getCurrentEventId, state => state.entities[state.selectedEventId]);

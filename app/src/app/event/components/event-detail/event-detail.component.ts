@@ -4,7 +4,7 @@ import { AppState } from 'src/app/core/state';
 import { Store, select } from '@ngrx/store';
 import * as fromEvents from '../../state/events';
 import { Observable, Subscription } from 'rxjs';
-import { Event } from 'src/app/shared/models';
+import { Event, User } from 'src/app/shared/models';
 
 import { ActivatedRoute } from '@angular/router';
 import { AlertifyService } from 'src/app/core/services/alertify.service';
@@ -18,22 +18,24 @@ import * as fromSession from '../../../core/state/session';
   styleUrls: ['./event-detail.component.scss']
 })
 export class EventDetailComponent implements OnInit, OnDestroy {
-  subscription: Subscription;
+  subscription = new Subscription();
   eventId: any;
   ev$: Observable<Event>;
-  attendedParticipants$: any;
-  invitedParticipants$: any;
-  declinedParticipants$: any
+  attendedParticipants$: Observable<User[]>;
+  invitedParticipants$: Observable<User[]>;
+  declinedParticipants$: Observable<User[]>;
   userId: number;
 
   constructor(private store$: Store<AppState>, private alertify: AlertifyService, private activatedRoute: ActivatedRoute) {
-    this.store$.select(fromSession.selectUser).subscribe((user) => (this.userId = user.id));
+    this.subscription.add(this.store$.select(fromSession.selectUser).subscribe((user) => (this.userId = user.id)));
   }
 
   ngOnInit() {
-    this.subscription = this.activatedRoute.params.subscribe((params) => {
-      this.eventId = params['id'];
-    });
+    this.subscription.add(
+      this.activatedRoute.params.subscribe((params) => {
+        this.eventId = params['id'];
+      })
+    );
     this.loadEvent();
   }
 
@@ -47,7 +49,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
 
     this.attendedParticipants$ = this.store$.pipe(select(fromEvents.getAttendedParticipants));
     this.invitedParticipants$ = this.store$.pipe(select(fromEvents.getInvitedParticipants));
-    this.declinedParticipants$ = this.store$.pipe(select(fromEvents.getDeclinedParticipants))
+    this.declinedParticipants$ = this.store$.pipe(select(fromEvents.getDeclinedParticipants));
   }
 
   UpdateParticpantsToEvent(id: number, answer: string) {

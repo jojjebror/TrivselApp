@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Logic.Models
 {
-    public class EventForDetailedDto : BaseDto
+    public class UserEventsDto : BaseDto
     {
         public string Title { get; set; }
         public string Description { get; set; }
@@ -14,9 +14,8 @@ namespace Logic.Models
         public string Location { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public DateTime CreateDate { get; set; }
         public int CreatorId { get; set; }
-        public ICollection<EventParticipantsDto> Users { get; set; }
-
+        public string Status { get; set; }
+        public string Name { get; set; }
     }
 }

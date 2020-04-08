@@ -22,7 +22,7 @@ namespace Logic.Translators
                 Email = user.Email,
                 Office = user.Office,
                 Events = user.EventParticipants.Select(e =>
-                    new EventForListDto
+                    new UserEventsDto
                     {
                         Id = e.Event.Id,
                         Title = e.Event.Title,
@@ -32,7 +32,7 @@ namespace Logic.Translators
                         EndDate = e.Event.EndDate,
                         Image = e.Event.Image,
                         CreatorId = e.Event.CreatorId,
-                        Accepted = e.Accepted,
+                        Status = e.Status,
                         Name = e.User.Name
                     }).ToList()
             };

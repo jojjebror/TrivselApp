@@ -14,9 +14,9 @@ namespace Logic.Models
 
         public string Office { get; set; }
 
-        public bool Accepted { get; set; }
+        public string Status { get; set; }
 
-        public ICollection<EventForListDto> Events { get; set; }
+        public ICollection<UserEventsDto> Events { get; set; }
 
     }
 }

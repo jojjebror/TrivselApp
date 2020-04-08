@@ -1,6 +1,5 @@
 ﻿
 import { Base } from './BaseDto';
-import { Event } from './EventDto';
 
 
 /** 
@@ -13,9 +12,9 @@ export class User extends Base {
 
          //public office: string;
 
-         public accepted: boolean;
+         public status: string;
          
-         public events?: Event[];
+         //public events?: Event[];
        }
 
 

@@ -19,8 +19,9 @@ export class UserResource extends ApiResource {
   getUsers(): Observable<User[]> {
     return this.get('user');
   }
-
-  getCurrentUser(id: number): Observable<User> {
-    return this.get('user/' + id);
-  }
+ 
+  /* updateParticipantStatus(data: any[]): Observable<User> {
+    return this.post('user/' + data[0] + '/' + data[1], data[2]);
+  } */
 }
+

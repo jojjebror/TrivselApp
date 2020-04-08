@@ -5,20 +5,6 @@
         Skapa evenemang
       </button>
     </div>
-
-    <!-- ---------Kommande kod med sökantering------------ -->
-
-    <!-- <div class="form-group searchbar inputWithIcon">
-      <input
-        type="text"
-        class="form-control"
-        (keyup)="loadEvents()"
-        [(ngModel)]="eventParams.searchString"
-        name="searchString"
-        placeholder=""
-      />
-      <i class="material-icons">search</i>
-    </div> -->
   </div>
 
       <!-- -------------------------------Tab 1----------------------------------------------- -->
@@ -55,7 +41,7 @@
         <div class="table-holder">
           <mat-toolbar>Inbjudningar till evenemang</mat-toolbar>
           <div>
-            <mat-table class="lessons-table mat-elevation-z8" [dataSource]="invitedEvents" *ngIf="invitedEvents.length > 0">
+            <mat-table class="lessons-table mat-elevation-z8" [dataSource]="invitedEvents" *ngIf="invitedEvents.data.length > 0">
               <ng-container matColumnDef="title2">
                 <mat-header-cell *matHeaderCellDef>Titel</mat-header-cell>
                 <mat-cell id="cell-cursor" [routerLink]="['/event', element.id]" *matCellDef="let element">{{ element.title }}</mat-cell>
@@ -81,13 +67,13 @@
               <ng-container matColumnDef="actions2">
                 <mat-header-cell *matHeaderCellDef>Besvara</mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                  <button mat-icon-button id="acceptIcon" (click)="UpdateParticpantsToEvent(element.id, 'true')">
+                  <button mat-icon-button id="acceptIcon" (click)="updateParticpantsToEvent(element.id, 'Accepted')">
                     <span class="material-icons">
                       check_box
                     </span>
                   </button>
 
-                  <button mat-icon-button (click)="UpdateParticpantsToEvent(element.id, 'false')">
+                  <button mat-icon-button (click)="updateParticpantsToEvent(element.id, 'Declined')">
                     <span class="material-icons" id="declineIcon">
                       indeterminate_check_box
                     </span>
@@ -99,7 +85,7 @@
 
               <mat-row *matRowDef="let row; columns: displayedColumnsInvited"></mat-row>
             </mat-table>
-             <div class="noDataTable" *ngIf="invitedEvents.length === 0">Du har för tillfället inga inbjudningar</div>
+              <div class="noDataTable" *ngIf="invitedEvents.data.length === 0">Du har inga nya inbjudningar</div>
           </div>
         </div>
 
@@ -107,7 +93,7 @@
         <div class="table-holder">
           <mat-toolbar>Dina kommande evenemang</mat-toolbar>
           <div>
-            <mat-table class="lessons-table mat-elevation-z8" [dataSource]="attendedEvents" *ngIf="attendedEvents.length > 0">
+            <mat-table class="lessons-table mat-elevation-z8" [dataSource]="attendedEvents" *ngIf="attendedEvents.data.length > 0">
               <ng-container matColumnDef="title3">
                 <mat-header-cell *matHeaderCellDef>Titel</mat-header-cell>
                 <mat-cell id="cell-cursor" [routerLink]="['/event', element.id]" *matCellDef="let element">{{ element.title }}
@@ -133,7 +119,7 @@
               <ng-container matColumnDef="actions3">
                 <mat-header-cell *matHeaderCellDef>Avböj</mat-header-cell>
                 <mat-cell *matCellDef="let element">       
-                  <button mat-icon-button (click)="UpdateParticpantsToEvent(element.id, 'false')">
+                  <button mat-icon-button (click)="updateParticpantsToEvent(element.id, 'Declined')">
                     <span class="material-icons" id="declineIcon">
                       indeterminate_check_box
                     </span>
@@ -145,7 +131,7 @@
         
               <mat-row *matRowDef="let row; columns: displayedColumnsAttended"></mat-row>
             </mat-table>
-            <div class="noDataTable" *ngIf="attendedEvents.length === 0">Du har inga kommande evenemang</div>
+             <div class="noDataTable" *ngIf="attendedEvents.data.length === 0">Du har inga kommande evenemang</div>
           </div>
         </div>
       </mat-tab>
@@ -156,7 +142,7 @@
         <div class="table-holder">
           <mat-toolbar>Dina skapade evenemang</mat-toolbar>
 
-          <mat-table class="lessons-table mat-elevation-z8" [dataSource]="createdEvents" *ngIf="createdEvents.length > 0">
+          <mat-table class="lessons-table mat-elevation-z8" [dataSource]="createdEvents" *ngIf="createdEvents.data.length > 0">
             <ng-container matColumnDef="title">
               <mat-header-cell *matHeaderCellDef>Titel</mat-header-cell>
               <mat-cell id="cell-cursor" [routerLink]="['/event', ev.id]" *matCellDef="let ev">{{ ev.title }}</mat-cell>
@@ -195,27 +181,10 @@
 
             <mat-row *matRowDef="let row; columns: displayedColumnsCreated"></mat-row>
           </mat-table>
-          <div class="noDataTable" *ngIf="createdEvents.length === 0">Du har ännu inga skapade evenemang</div>
+          <div class="noDataTable" *ngIf="createdEvents.data.length === 0">Du har ännu inga skapade evenemang</div>
           <hr />
         </div>
       </mat-tab>
     </mat-tab-group>
   </div>
 </div>
-
-<!-- ------------Kommande kod med sidhantering------------ -->
-
-<!-- <div class="d-flex justify-content-center">
-  <pagination
-    [boundaryLinks]="true"
-    [totalItems]="pagination.totalItems"
-    [itemsPerPage]="pagination.itemsPerPage"
-    [(ngModel)]="pagination.currentPage"
-    (pageChanged)="pageChanged($event)"
-    previousText="&lsaquo;"
-    nextText="&rsaquo;"
-    firstText="&laquo;"
-    lastText="&raquo;"
-  >
-  </pagination>
-</div> -->

@@ -30,16 +30,9 @@ namespace Logic.Translators
                     {
                         Id = u.User.Id,
                         Name = u.User.Name,
-                        Accepted = u.Accepted
+                        Status = u.Status
                     }).ToList()              
             };
         }
     }
 }
-
-                //new UserDto
-                //{
-                //    Id = u.User.Id,
-                //    Email = u.User.Email,
-                //    Name = u.User.Name
-                //}).ToList()

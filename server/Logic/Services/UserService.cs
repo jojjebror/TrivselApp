@@ -51,16 +51,6 @@ namespace Logic.Services
             return user;
         }
 
-        public async Task<UserForListDto> GetCurrentUser(int id)
-        {
-            var dbUser = await _context.Users.Include(e => e.EventParticipants.Select(ev => ev.Event).Select(u => u.EventParticipants))
-                .FirstOrDefaultAsync(x => x.Id == id);
-
-            var user = UserForListTranslator.ToModel(dbUser);
-
-            return user;
-        }
-
         public async Task<ICollection<UserForListDto>> GetUsers()
         {
             var dbUsers = await _context.Users.ToListAsync();

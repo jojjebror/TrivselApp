@@ -159,14 +159,15 @@ namespace Logic.Database.Migrations
                 Id = 1,
                 UserId = 1,
                 EventId = 3,
-                Accepted = true
+                Status = "Accepted"
             };
 
             var testEp1 = new EventParticipant()
             {
                 Id = 2,
                 UserId = 2,
-                EventId = 3
+                EventId = 3,
+                Status = "Accepted"
             };
 
             var testEp2 = new EventParticipant()
@@ -174,7 +175,7 @@ namespace Logic.Database.Migrations
                 Id = 3,
                 UserId = 1,
                 EventId = 1,
-                Accepted = true
+                Status = "Accepted"
             };
 
             var testEp3 = new EventParticipant()
@@ -182,7 +183,7 @@ namespace Logic.Database.Migrations
                 Id = 4,
                 UserId = 3,
                 EventId = 2,
-                Accepted = true
+                Status = "Accepted"
             };
 
             var testEp4 = new EventParticipant()
@@ -190,7 +191,7 @@ namespace Logic.Database.Migrations
                 Id = 5,
                 UserId = 4,
                 EventId = 1,
-                Accepted = true
+                Status = "Accepted"
             };
 
             var testEp5 = new EventParticipant()
@@ -198,7 +199,7 @@ namespace Logic.Database.Migrations
                 Id = 6,
                 UserId = 5,
                 EventId = 3,
-                Accepted = true
+                Status = "Accepted"
             };
 
             var testEp6 = new EventParticipant()
@@ -206,7 +207,7 @@ namespace Logic.Database.Migrations
                 Id = 7,
                 UserId = 6,
                 EventId = 1,
-                Accepted = true
+                Status = "Accepted"
             };
 
             var testEp7 = new EventParticipant()
@@ -214,7 +215,7 @@ namespace Logic.Database.Migrations
                 Id = 8,
                 UserId = 6,
                 EventId = 2,
-                Accepted = true
+                Status = "Accepted"
             };
 
             var testEp8 = new EventParticipant()
@@ -222,7 +223,7 @@ namespace Logic.Database.Migrations
                 Id = 9,
                 UserId = 4,
                 EventId = 3,
-                Accepted = true
+                Status = "Accepted"
             };
 
             var testEp9 = new EventParticipant()
@@ -230,7 +231,7 @@ namespace Logic.Database.Migrations
                 Id = 10,
                 UserId = 8,
                 EventId = 2,
-                Accepted = true
+                Status = "Accepted"
             };
 
             var testEp10 = new EventParticipant()
@@ -238,7 +239,7 @@ namespace Logic.Database.Migrations
                 Id = 10,
                 UserId = 7,
                 EventId = 1,
-                Accepted = true
+                Status = "Accepted"
             };
 
             context.Users.AddOrUpdate(testUser);

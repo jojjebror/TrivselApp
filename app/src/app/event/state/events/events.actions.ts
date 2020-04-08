@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
-
-import { Event } from '../../../shared/models';
+import { Event, User } from '../../../shared/models';
 import { Update } from '@ngrx/entity';
 
 export enum ActionTypes {
@@ -43,6 +42,14 @@ export enum ActionTypes {
   LOAD_IMAGE = '[Events view] Load Image',
   LOAD_IMAGE_SUCCESS = '[API: /Event] Load Image success',
   LOAD_IMAGE_ERROR = '[API: /event] Load Image error',
+
+  GET_USER_EVENT = '[Events view] Get User Event',
+  GET_USER_EVENT_SUCCESS = '[API: /event] Get User Event Success',
+  GET_USER_EVENT_ERROR = '[API: /event] Get User Event Error',
+
+  UPDATE_USER_PARTICIPANT = '[Events view] Add User In Event',
+  UPDATE_USER_PARTICIPANT_SUCCESS = '[API: /event] Add User In Event Success',
+  UPDATE_USER_PARTICIPANT_ERROR = '[API: /event] Add User In Event Error',
 }
 
 /*--------------LoadAllEvents--------------*/
@@ -68,13 +75,20 @@ export class LoadEventsError implements Action {
 export class LoadEvent implements Action {
   readonly type = ActionTypes.LOAD_EVENT;
 
-  constructor(public payload: number) {}
+  constructor(public payload: number) 
+  {
+    console.log("LoadEvent - " + payload);
+  }
+  
 }
 
 export class LoadEventSuccess implements Action {
   readonly type = ActionTypes.LOAD_EVENT_SUCCESS;
 
-  constructor(public payload: Event) {}
+  constructor(public payload: Event) 
+  {
+    console.log('LoadEventSuccess - ' + payload);
+  }
 }
 
 export class LoadEventError implements Action {
@@ -222,6 +236,46 @@ export class LoadImageError implements Action {
   constructor(public payload: string) {}
 }
 
+/*--------------GetCurrentUserEventsParticipant--------------*/
+
+export class GetCurrentUserEvent implements Action {
+  readonly type = ActionTypes.GET_USER_EVENT;
+
+  constructor(public payload: number) {}
+}
+
+export class GetCurrentUserEventSuccess implements Action {
+  readonly type = ActionTypes.GET_USER_EVENT_SUCCESS;
+
+  constructor(public payload: Event[]) {}
+}
+
+export class GetCurrentUserEventError implements Action {
+  readonly type = ActionTypes.GET_USER_EVENT_ERROR;
+
+  constructor(public payload: string) {}
+} 
+
+/*--------------UpdateParticipantStatusInEvent--------------*/
+
+export class UpdateUserParticipant implements Action {
+  readonly type = ActionTypes.UPDATE_USER_PARTICIPANT;
+
+  constructor(public payload: any[]) {}
+}
+
+export class UpdateUserParticipantSuccess implements Action {
+  readonly type = ActionTypes.UPDATE_USER_PARTICIPANT_SUCCESS;
+
+  constructor(public payload: Update<User>) {}
+}
+
+export class UpdateUserParticipantError implements Action {
+  readonly type = ActionTypes.UPDATE_USER_PARTICIPANT_ERROR;
+
+  constructor(public payload: string) {}
+}
+
 export type Actions =
   | LoadEvents
   | LoadEventsSuccess
@@ -257,4 +311,12 @@ export type Actions =
 
   | LoadImage
   | LoadImageSuccess
-  | LoadImageError;
+  | LoadImageError
+
+  | GetCurrentUserEvent
+  | GetCurrentUserEventSuccess
+  | GetCurrentUserEventError
+
+  | UpdateUserParticipant
+  | UpdateUserParticipantSuccess
+  | UpdateUserParticipantError;

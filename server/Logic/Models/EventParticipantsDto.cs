@@ -9,10 +9,7 @@ namespace Logic.Models
     public class EventParticipantsDto : BaseDto
     {
         public string Name { get; set; }
-
-        public bool Accepted { get; set; }
-
-        public int EventId { get; set; } //bort?
+        public string Status { get; set; }
 
     }
 }

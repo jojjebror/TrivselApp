@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { map, catchError, switchMap, tap, exhaustMap } from 'rxjs/operators';
+import { map, catchError, switchMap, tap } from 'rxjs/operators';
 
 import { EventResource } from '../../../core/resources';
 
 import * as eventsActions from './events.actions';
+
 import { Event } from 'src/app/shared/models';
 import { Router } from '@angular/router';
 
@@ -30,9 +31,8 @@ export class EventsEffects {
     ofType(eventsActions.ActionTypes.LOAD_EVENT),
     switchMap((action: eventsActions.LoadEvent) =>
       this.eventResource.loadEvent(action.payload).pipe(
-        switchMap((event: Event) => 
-        [
-          new eventsActions.LoadEventSuccess(event), 
+        switchMap((event: Event) => [
+          new eventsActions.LoadEventSuccess(event)
           //new eventsActions.LoadImage(event.id)
         ]),
         tap(() => this.router.navigate(['/event/' + action.payload])),
@@ -101,10 +101,10 @@ export class EventsEffects {
   );
 
   @Effect()
-  addOrUpdateEventParticipant$: Observable<Action> = this.actions$.pipe(
+  addEventParticipant$: Observable<Action> = this.actions$.pipe(
     ofType(eventsActions.ActionTypes.ADD_EVENT_PARTICIPANT),
     switchMap((action: eventsActions.AddEventParticipant) =>
-      this.eventResource.addOrUpdateEventParticipant(action.payload).pipe(
+      this.eventResource.addEventParticipantStatus(action.payload).pipe(
         switchMap((updatedEvent: Event) => [
           new eventsActions.AddEventParticipantSuccess({
             id: updatedEvent.id,
@@ -134,7 +134,36 @@ export class EventsEffects {
     switchMap((action: eventsActions.LoadImage) =>
       this.eventResource.loadImage(action.payload).pipe(
         map((imageUrl: string) => new eventsActions.LoadImageSuccess(imageUrl)),
-        catchError(err => of(new eventsActions.LoadImageError(err)))
+        catchError((err) => of(new eventsActions.LoadImageError(err)))
+      )
+    )
+  );
+
+  @Effect()
+  loadUserEvents$: Observable<Action> = this.actions$.pipe(
+    ofType(eventsActions.ActionTypes.GET_USER_EVENT),
+    switchMap((actions: eventsActions.GetCurrentUserEvent) =>
+      this.eventResource.loadUsersEvents(actions.payload).pipe(
+        map((event: Event[]) => new eventsActions.GetCurrentUserEventSuccess(event)),
+        catchError((err) => of(new eventsActions.GetCurrentUserEventError(err)))
+      )
+    )
+  );
+
+  @Effect()
+  updateParticipantStatus$: Observable<Action> = this.actions$.pipe(
+    ofType(eventsActions.ActionTypes.UPDATE_USER_PARTICIPANT),
+    switchMap((action: eventsActions.UpdateUserParticipant) =>
+      this.eventResource.updateParticipantStatus(action.payload).pipe(
+        switchMap((updatedEvent: Event) => [
+          new eventsActions.UpdateUserParticipantSuccess({
+            id: updatedEvent.id,
+            changes: updatedEvent,
+          }),
+          new eventsActions.GetCurrentUserEvent(action.payload[1]),
+        ]),
+        tap(() => this.router.navigate(['/event'])),
+        catchError((err) => of(new eventsActions.UpdateUserParticipantError(err)))
       )
     )
   );
