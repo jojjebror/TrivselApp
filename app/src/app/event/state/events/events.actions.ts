@@ -25,19 +25,23 @@ export enum ActionTypes {
   DELETE_EVENT_ERROR = '[API: /event] Delete Event error',
 
   ADD_EVENT_PARTICIPANT = '[Events view] Add Event Participant',
-  ADD_EVENT_PARTICIPANT_SUCCESS = '[API: /Event] Add Event Participant success',
+  ADD_EVENT_PARTICIPANT_SUCCESS = '[API: /event] Add Event Participant success',
   ADD_EVENT_PARTICIPANT_ERROR = '[API: /event] Add Event Participant error',
 
   REMOVE_EVENT_PARTICIPANT = '[Events view] Remove Event Participant',
-  REMOVE_EVENT_PARTICIPANT_SUCCESS = '[API: /Event] Remove Event Participant success',
+  REMOVE_EVENT_PARTICIPANT_SUCCESS = '[API: /event] Remove Event Participant success',
   REMOVE_EVENT_PARTICIPANT_ERROR = '[API: /event] Remove Event Participant error',
 
   SAVE_IMAGE = '[Events view] Save Image',
-  SAVE_IMAGE_SUCCESS = '[API: /Event] Save Image success',
+  SAVE_IMAGE_SUCCESS = '[API: /event] Save Image success',
   SAVE_IMAGE_ERROR = '[API: /event] Save Image error',
 
+  UPDATE_IMAGE = '[Events view] Update Image',
+  UPDATE_IMAGE_SUCCESS = '[API: /event] Update Image success',
+  UPDATE_IMAGE_ERROR = '[API: /event] Update Image error',
+
   LOAD_IMAGE = '[Events view] Load Image',
-  LOAD_IMAGE_SUCCESS = '[API: /Event] Load Image success',
+  LOAD_IMAGE_SUCCESS = '[API: /event] Load Image success',
   LOAD_IMAGE_ERROR = '[API: /event] Load Image error'
 }
 
@@ -178,6 +182,26 @@ export class SaveImageError implements Action {
   constructor(public payload: string) {}
 }
 
+/*--------------UpdateImage--------------*/
+
+export class UpdateImage implements Action {
+  readonly type = ActionTypes.UPDATE_IMAGE;
+
+  constructor(public id: number, public payload: File) {}
+}
+
+export class UpdateImageSuccess implements Action {
+  readonly type = ActionTypes.UPDATE_IMAGE_SUCCESS;
+
+  constructor(public payload: boolean) {}
+}
+
+export class UpdateImageError implements Action {
+  readonly type = ActionTypes.UPDATE_IMAGE_ERROR;
+
+  constructor(public payload: string) {}
+}
+
 /*--------------GetImage--------------*/
 
 export class LoadImage implements Action {
@@ -202,31 +226,29 @@ export type Actions =
   | LoadEvents
   | LoadEventsSuccess
   | LoadEventsError
-
   | LoadEvent
   | LoadEventSuccess
   | LoadEventError
-
   | CreateEvent
   | CreateEventSuccess
   | CreateEventError
-
   | UpdateEvent
   | UpdateEventSuccess
   | UpdateEventError
-
   | DeleteEvent
   | DeleteEventSuccess
   | DeleteEventError
-
   | AddEventParticipant
   | AddEventParticipantSuccess
   | AddEventParticipantError
-
   | SaveImage
   | SaveImageSuccess
   | SaveImageError
 
+  | UpdateImage
+  | UpdateImageSuccess
+  | UpdateImageError
+  
   | LoadImage
   | LoadImageSuccess
   | LoadImageError;
