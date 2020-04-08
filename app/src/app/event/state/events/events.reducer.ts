@@ -19,7 +19,7 @@ export function reducer(state: EventsState = initialState, action: eventsActions
         ...state,
         loading: false,
         loaded: true,
-        //selectedEventId: null,
+        selectedEventId: null,
         users: [],
       });
     }
