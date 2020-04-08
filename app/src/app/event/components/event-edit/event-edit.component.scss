@@ -32,3 +32,113 @@ h4  {
 a {
   color: white !important;
 }
+
+#location {
+  margin-top: 15px;
+}
+
+.title {
+  color: #fff;
+  margin-bottom: 5px;
+  width: 400px;
+}
+
+.timepick {
+  background-color: transparent;
+}
+
+#description {
+  background-color: transparent;
+  color: #fff;
+  margin-top: 15px;
+  width: 600px;
+  height: 250px;
+}
+
+input[type="text"] {
+  background-color: transparent;
+  color: #fff;
+}
+
+
+// mat-icon-stepper selected color change 
+::ng-deep .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
+    background-color: red!important;
+}
+
+//input outline color
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: white!important;
+}
+
+//mat-input focused color
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    color: white!important;
+}
+
+// mat-input error outline color
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick{
+    color: white!important;
+    opacity: 0.8!important;
+}
+
+// mat-input carent color
+::ng-deep .mat-input-element {
+    caret-color: white!important;
+}
+
+// mat-input error carent color
+::ng-deep .mat-form-field-invalid .mat-input-element, .mat-warn .mat-input-element {
+    caret-color: white!important;
+}
+
+// mat-label normal state style
+::ng-deep .mat-form-field-label {
+    color: white!important;
+    // color: $mainColor!important;
+}
+
+// mat-label focused style
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+    color: white!important;
+}
+
+// mat-label error style
+::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label {
+    color: white!important;
+}
+
+// mat-error color
+::ng-deep .mat-error {
+    color: rgb(163, 27, 27);
+}
+
+/* ::ng-deep .mat-form-field-infix {
+  width: 400px!important;
+} */
+
+::ng-deep .mat-form-field {
+width: 100%!important;
+}
+
+.hoursTxt {
+  background-color:transparent;
+  color: white;
+  border-radius: 5px;
+  border: 1px solid white;
+  padding: 6px; 
+  //height: 25px;  
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: white;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: white;
+}

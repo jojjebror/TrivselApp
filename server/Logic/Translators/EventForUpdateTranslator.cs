@@ -17,15 +17,14 @@ namespace Logic.Translators
 
             return new EventForUpdateDto
             {
-                
+                Id = ev.Id,
                 Title = ev.Title,
-                Description = ev.Description,
-                
+                Description = ev.Description, 
                 Location = ev.Location,
+                Image = ev.Image,
+                StartDate = ev.StartDate,
+                EndDate = ev.EndDate,
                 //Id = ev.Id,
-                //Image = ev.Image,
-                //StartDate = ev.StartDate,
-                //EndDate = ev.EndDate,
                 //CreatorId = ev.CreatorId
             };
         }

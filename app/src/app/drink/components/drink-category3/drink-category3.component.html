@@ -1,38 +1,38 @@
-
 <div class="container justify-content-center">
-  <h3>
+  <h2>
     Cider
-  </h3>
-  <div>
-    <div class="btnCreateEvent">
-      <button class="btn btn-primary" [routerLink]="['/drink/create']">
-        Lägg till ny dryck
-      </button>
-    </div>
-  </div>
+  </h2>
+  <button
+    class="btn btn-default"
+    type="button"
+    style="color: white;"
+    [routerLink]="['/drink']"
+  >
+    Gå tillbaka
+  </button>
+  <button class="btn btn-primary" [routerLink]="['/drink/create']">
+    Lägg till ny dryck
+  </button>
+
   <hr />
 
+  <div class="info">
+    <ul *ngIf="drs$">
+      <li *ngFor="let dr of drs$ | async" [routerLink]="['/drink', dr.id]">
+        <a class="title" [routerLink]="['/drink', dr.id]">
+          {{ dr.productNameBold }}</a
+        >
 
-  <ul *ngIf="drs$">
-    <li *ngFor="let dr of (drs$ | async)" [routerLink]="['/drink', dr.id]">
-      <ng-template [ngIf]="dr.category == 'Cider'" [ngIfElse]="none">
-        <div class="m">
-      <a class="title" [routerLink]="['/drink', dr.id]"> {{ dr.productNameBold }}</a>
-  
-      <p class="location"> Pris:  {{ dr.price}}kr</p>
-  
-      <p class="location"> Volym:  {{dr.volume}}cl</p>
-  
-      <p class ="location"> Typ:  {{dr.category}}
-  
-     <a class="btnReadMore">Läs mer</a>
-    </div>
-      </ng-template>
+        <p class="location">Pris: {{ dr.price }}kr</p>
 
-      <ng-template #none>
-  <p></p>
-      </ng-template>
-    
-    </li>
-  </ul>
+        <p class="location">Volym: {{ dr.volume }}cl</p>
+
+        <p class="location">Kategori: {{ dr.category }}</p>
+
+        <ng-template #none>
+          <p></p>
+        </ng-template>
+      </li>
+    </ul>
   </div>
+</div>

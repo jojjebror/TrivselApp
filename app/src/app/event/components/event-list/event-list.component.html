@@ -1,14 +1,15 @@
-
 <div class="container justify-content-center">
   <h3>
     Kommande evenemang
   </h3>
-  <div>
-    <div class="btnCreateEvent">
+  <div class="btn-create-event">
+    <div>
       <button class="btn btn-primary" [routerLink]="['/event/create']">
         Skapa evenemang
       </button>
     </div>
+
+    <!-- ---------Kommande kod med sökantering------------ -->
 
     <!-- <div class="form-group searchbar inputWithIcon">
       <input
@@ -21,23 +22,33 @@
       />
       <i class="material-icons">search</i>
     </div> -->
-
   </div>
-  <ul *ngIf="evs$">
-    <li *ngFor="let ev of (evs$ | async)" [routerLink]="['/event', ev.id]">
-      <a class="title" [routerLink]="['/event', ev.id]"> {{ ev.title }}</a>
 
-      <p class="date">
-        <i class="material-icons iconMargin">&#xe916;</i>
-        {{ ev.startDate | date: 'd MMM, y' }}
-      </p>
-
-      <p class="location"><i class="material-icons iconMargin">&#xe55f;</i> {{ ev.location }}</p>
-
-      <a [routerLink]="['/event', ev.id]" class="btnReadMore">Läs mer</a>
-    </li>
-  </ul>
+  <div class="mat-card-div">
+    <mat-card *ngFor="let ev of evs$ | async" [routerLink]="['/event', ev.id]">
+      <mat-card-header>
+        <mat-card-title>{{ ev.title }}</mat-card-title>
+        <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+      </mat-card-header>
+      <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+      <mat-card-content>
+        <p>
+          <i class="material-icons iconMargin">calendar_today</i>
+          {{ ev.startDate | date: 'd MMM, y' }}
+        </p>
+        <p>
+          <i class="material-icons iconMargin">location_on</i>
+          {{ ev.location }}
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button [routerLink]="['/event', ev.id]" class="btnReadMore">Läs mer</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </div>
+
+<!-- ------------Kommande kod med sidhantering------------ -->
 
 <!-- <div class="d-flex justify-content-center">
   <pagination

@@ -38,4 +38,4 @@ export const routes: Routes = [
   declarations: [],
   providers: []
 })
-export class LoginRoutingModule {}
+export class EventRoutingModule {}

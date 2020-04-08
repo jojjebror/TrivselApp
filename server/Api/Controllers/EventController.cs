@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Api.Models;
 using Logic.Models;
 using Logic.Services;
@@ -34,19 +31,58 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]EventForCreateDto ev)
+        public async Task<IActionResult> CreateEvent([FromBody]EventForCreateDto ev)
         {
-            var result = await _eventService.Create(ev);
+            var result = await _eventService.CreateEvent(ev);
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateEvent(int id, EventForUpdateDto ev)
+        public async Task<IActionResult> UpdateEvent(int id, [FromBody]EventForUpdateDto ev)
         {
-            var result = await _eventService.Update(id , ev);
+            var result = await _eventService.UpdateEvent(id , ev);
+            return new OkObjectResult(ApiResponse.Create(result));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteEvent(int id)
+        {
+            var result = await _eventService.DeleteEvent(id);
+            return new OkObjectResult(ApiResponse.Delete(result));
+        }
+
+        [HttpPost("{eventId}/{userId}")]
+        public async Task<IActionResult> AddEventParticipant(int eventId, int userId)
+        {
+            var userExistInEvent = await _eventService.CheckInvitation(eventId, userId);
+
+            if (userExistInEvent != null)
+                return BadRequest("Already accepted");
+
+            var result = await _eventService.AddEventParticipant(eventId, userId);
 
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
+        [HttpPost("{id}/saveimage")]
+        public async Task<IActionResult> SaveImage(int id)
+        {
+            var httpRequest = Request.Form;
+            var image = httpRequest.Files["image"];
+
+            var result = await _eventService.SaveImage(id, image);
+
+            return new OkObjectResult(ApiResponse.Create(result));
+        }
+
+        [HttpGet("{id}/getimage")]
+        public async Task<IActionResult> GetImage(int id)
+        {
+            var result = await _eventService.GetImage(id);
+
+            var image = File(result, "image");
+
+            return new OkObjectResult(ApiResponse.Create(image));
+        }
     }
 }

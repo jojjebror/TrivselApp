@@ -1,19 +1,21 @@
- .img-thumbnail {
-    margin: 25px;
-    width: 85%;
-    height: 85%;
+.img-thumbnail {
+  margin: 25px;
+  width: 85%;
+  height: 85%;
 }
 
 .card-body {
-    padding: 0 25px;
+  padding: 0 25px;
 }
 
 .card-footer {
-    padding: 10px 15px;
-    border-top: none;
+  padding: 10px 15px;
+  border-top: none;
 }
 
-.container {
+.container,
+a,
+p {
   color: white;
 }
 
@@ -25,10 +27,36 @@ button {
   float: right;
 }
 
-h4  {
+h4 {
   margin-top: 10px;
 }
 
-a {
-  color: white !important;
+/* active tab */
+::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+color:white;
+font-size: 18px;
+}
+
+/* ink bar */
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary {
+background-color: white !important;
+}
+
+::ng-deep .mat-tab-label .mat-tab-label-content {
+  color: white;
+  font-size: 18px;
+}
+
+ :host /deep/ .mat-list .mat-list-item {
+  height: 25px!important;
+} 
+
+.mat-list {
+  //border: 1px solid white;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  min-height: 250px;
+  max-height: 250px;
+  width: 200px;
+  overflow: auto;
 }

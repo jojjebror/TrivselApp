@@ -16,7 +16,7 @@ namespace Api.Controllers
         private readonly DrinkService _drinkService;
 
         public DrinkController(DrinkService drinkService)
-        {
+        { 
             _drinkService = drinkService;
         }
 
@@ -27,10 +27,24 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
+        //[HttpGet]
+        //public async Task<IActionResult> GetDrinks(string category)
+        //{
+        //    var result = await _drinkService.GetDrinks(category);
+        //    return new OkObjectResult(ApiResponse.Create(result));
+        //}
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDrink(int id)
         {
             var result = await _drinkService.GetDrink(id);
+            return new OkObjectResult(ApiResponse.Create(result));
+        }
+
+        [HttpGet("filter")]
+        public async Task<ActionResult> FilterDrinks(string filter)
+        {
+            var result = await _drinkService.FilterDrink(filter);
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
@@ -55,5 +69,7 @@ namespace Api.Controllers
 
             return new OkObjectResult(ApiResponse.Create(result));
         }
-    }
+
+    } 
+
 }

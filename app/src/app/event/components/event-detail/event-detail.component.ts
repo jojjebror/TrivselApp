@@ -1,13 +1,15 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 
 import { AppState } from 'src/app/core/state';
 import { Store, select } from '@ngrx/store';
-import * as fromEvent from '../../state/events';
-import { Observable } from 'rxjs';
+import * as fromEvents from '../../state/events';
+import { Observable, Subscription } from 'rxjs';
 import { Event } from 'src/app/shared/models';
 
-import * as eventActions from '../../state/events';
 import { ActivatedRoute } from '@angular/router';
+import { AlertifyService } from 'src/app/core/services/alertify.service';
+
+import * as fromSession from '../../../core/state/session';
 
 @Component({
   selector: 'ex-event-detail',
@@ -15,22 +17,45 @@ import { ActivatedRoute } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./event-detail.component.scss']
 })
-export class EventDetailComponent implements OnInit {
+export class EventDetailComponent implements OnInit, OnDestroy {
+  subscription: Subscription;
+  eventId: any;
   ev$: Observable<Event>;
+  eventUsers$: any;
+  userId: number;
+  imageUrl: string;
 
-  constructor(private store$: Store<AppState>, private route: ActivatedRoute) {}
+  constructor(private store$: Store<AppState>, private alertify: AlertifyService, private activatedRoute: ActivatedRoute) {
+    this.store$.select(fromSession.selectUser).subscribe(user => (this.userId = user.id));
+  }
 
   ngOnInit() {
-    this.LoadEvent();
+    this.subscription = this.activatedRoute.params.subscribe(params => {
+      this.eventId = params['id'];
+    });
+    this.loadEvent();
   }
 
-  private LoadEvent(): void {
-    this.store$.dispatch(new eventActions.LoadEvent(this.getClickedId()));
-    this.ev$ = this.store$.pipe(select(fromEvent.getCurrentEvent));
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
-  private getClickedId() {
-    var id = Number(this.route.snapshot.paramMap.get('id'));
-    return id;
+  loadEvent() {
+    this.store$.dispatch(new fromEvents.LoadEvent(+this.eventId));
+    this.ev$ = this.store$.pipe(select(fromEvents.getCurrentEvent));
+
+    this.eventUsers$ = this.store$.pipe(select(fromEvents.getCurrentUsers));
+  }
+
+  deleteEvent(id: number) {
+    if (confirm('Vill du verkligen ta bort evenemanget?')) {
+      this.store$.dispatch(new fromEvents.DeleteEvent(id));
+      this.alertify.message('Evenemanget togs bort');
+    }
+  }
+
+  addCurrentUserToEvent(id: number) {
+    var data = [id, this.userId];
+    this.store$.dispatch(new fromEvents.AddEventParticipant(data));
   }
 }

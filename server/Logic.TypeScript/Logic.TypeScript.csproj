@@ -47,12 +47,6 @@
     <None Include="Models.tst" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Logic\Logic.csproj">
-      <Project>{65a6c547-dc77-4bb4-8389-36f8c3eaa305}</Project>
-      <Name>Logic</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <TypeScriptCompile Include="BaseDto.ts">
       <DependentUpon>Models.tst</DependentUpon>
       <CustomToolNamespace>..\Logic\Models\BaseDto.cs</CustomToolNamespace>

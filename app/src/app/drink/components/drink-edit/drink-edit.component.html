@@ -20,43 +20,53 @@
         Du måste ange ett namn för drycken!
       </div>
     </div>
-
-    <div>
-      <a>Pris</a>
-      <mat-select
-        [ngClass]="{
-          'is-invalid':
-            drinkEditForm.get('price').errors &&
-            drinkEditForm.get('price').touched
-        }"
-        class="form-control"
-        placeholder="Pris"
-        formControlName="price"
-      >
-        <mat-option value="10">10kr</mat-option>
-        <mat-option value="20">20kr</mat-option>
-        <mat-option value="30">30kr</mat-option>
-      </mat-select>
-      <div class="invalid-feedback">
-        Du måste ange ett pris för drycken!
+    <div class="row">
+      <div class="col-sm-4">
+        <div>
+          <a>Pris</a>
+          <mat-select
+            [ngClass]="{
+              'is-invalid':
+                drinkEditForm.get('price').errors &&
+                drinkEditForm.get('price').touched
+            }"
+            class="form-control"
+            placeholder="Pris"
+            formControlName="price"
+          >
+            <mat-option [value]="10">10kr</mat-option>
+            <mat-option [value]="20">20kr</mat-option>
+            <mat-option [value]="30">30kr</mat-option>
+          </mat-select>
+          <div class="invalid-feedback">
+            Du måste ange ett pris för drycken!
+          </div>
+        </div>
       </div>
     </div>
 
-    <div>
-      <a>Volym</a>
-      <input
-        type="number"
-        [ngClass]="{
-          'is-invalid':
-            drinkEditForm.get('volume').errors &&
-            drinkEditForm.get('volume').touched
-        }"
-        class="form-control"
-        placeholder="Volym i cl"
-        formControlName="volume"
-      />
-      <div class="invalid-feedback">
-        Du måste ange dryckens volym!
+    <div class="row">
+      <div class="col-sm-4">
+        <div>
+          <a>Volym</a>
+          <mat-select
+            [ngClass]="{
+              'is-invalid':
+                drinkEditForm.get('volume').errors &&
+                drinkEditForm.get('volume').touched
+            }"
+            class="form-control"
+            placeholder="Volym"
+            formControlName="volume"
+          >
+            <mat-option [value]="33">33cl</mat-option>
+            <mat-option [value]="50">50cl</mat-option>
+            <mat-option [value]="100">100cl</mat-option>
+          </mat-select>
+          <div class="invalid-feedback">
+            Du måste ange volym för drycken!
+          </div>
+        </div>
       </div>
     </div>
     <div class="row">
@@ -82,19 +92,24 @@
           </div>
         </div>
       </div>
-      <hr />
-      <div class="form-group text-center">
-        <button
-          [disabled]="!drinkEditForm.dirty"
-          type="submit"
-          class="btn btn-success"
-        >
-          Spara ändringar
-        </button>
-        <button class="btn btn-default" type="button" style="color: white;" [routerLink]="['/drink']">
-          Gå tillbaka
-        </button>
-      </div>
+    </div>
+    <hr />
+    <div class="form-group text-center">
+      <button
+        [disabled]="!drinkEditForm.dirty"
+        type="submit"
+        class="btn btn-success"
+      >
+        Spara ändringar
+      </button>
+      <button
+        class="btn btn-default"
+        type="button"
+        style="color: white;"
+        [routerLink]="['/drink']"
+      >
+        Gå tillbaka
+      </button>
     </div>
   </form>
 </div>

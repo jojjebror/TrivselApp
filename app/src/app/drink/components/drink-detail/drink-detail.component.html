@@ -1,51 +1,51 @@
-<div class="container mt-5 border border-light p-5" *ngIf="dr$ | async; let dr">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="base" *ngIf="dr$ | async; let dr">
+<div class="container mt-5 border border-light p-5" [ngStyle]="{'background-image':'url('+photo+')'}">
  
-  <button class="btn btn-primary">
-    <!-- <a (click)=editDrink(drink)>edit</a>  --> 
-     
-     <a (click)="deleteDrink(dr.id)">Panta</a>
-  </button>
- 
-  <button class="btn btn-primary" (click)="editDrink(dr)" [routerLink] ="['/drink/edit']" >
-    Redigera dryck
-  </button>
-  <button class="btn btn-primary" type="button" style="color: white;" [routerLink]="['/drink']">
-    Gå tillbaka
-  </button>
-
-  
-  <div class="row">
-    <h1 class="mb-4">{{ dr.productNameBold }}</h1>
-  </div>
-  <div class="row">
-    <div class="col-sm-4">
-      <div class="card">
-
-        <div class="card-body">
-          <div>
-            <strong>Pris:</strong>
-              <p>{{ dr.price }}kr</p> 
-           </div>
-          <div>
-            <strong>Smak:</strong>
-            <p>
-              {{ dr.taste}} 
-            </p>
-          </div>
-          <div>
-            <strong>Volym:</strong>
-            <p>
-              {{ dr.volume }}cl 
-            </p>
-          </div>
-          <div>
-            <strong>Kategori:</strong>
-            <p>
-              {{ dr.category}} 
-            </p>
-          </div>
-        </div>
-      </div>
+ <div class="settings">
+  <button (click)="toggleShow()" type="checkbox" style="float: right;"> <i class="fa fa-gear"></i></button>
+    <div class="dropContent">
+      <ol>
+        <li>
+        <button class="delete"> 
+          <a (click)="deleteDrink(dr.id)">Panta</a>
+        </button>
+        </li>
+        <li>
+        <button class="edit" (click)="editDrink(dr)" [routerLink] ="['/drink/edit']" >
+          Redigera dryck
+        </button>
+        </li>
+      </ol>
     </div>
+</div>
+
+  <div class="row">
+    <ul class="list">
+     <li ><h1 class="mb-4" >{{ dr.productNameBold }}</h1></li>
+      <li><h4 id="price" style="color: white;">Pris: {{ dr.price }}kr</h4></li> 
+     <li><h4 id="volume" style="color:white;">Volym: {{ dr.volume}}cl</h4></li>
+     <li><h4 id="taste" style="color: white;">Smak: {{ dr.taste }}</h4></li> 
+    </ul>
   </div>
+    
+  
+<div class="buttons">
+  <p class="quantity">{{clickCounter}}</p>
+    <button class="plus" (click)="clickCount()">+</button>
+      <ng-template [ngIf]="clickCounter > 1">
+    <button class="minus" (click)="clickCountM()">-</button>
+      </ng-template>
+  </div>
+<div class="getHome">
+    <button class="home" id="back"  style="color: white;" [routerLink]="['/drink/category']">
+      Gå tillbaka
+    </button>
+    <button class="buy" (click)="GetToSwish(dr)">
+      Köp dryck!
+    </button>
+  </div>
+
+ </div>
+
 </div>

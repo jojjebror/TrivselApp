@@ -26,5 +26,12 @@ namespace Api.Controllers
             var result = await _userService.GetAuthenticated();
             return new OkObjectResult(ApiResponse.Create(result));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUsers()
+        {
+            var result = await _userService.GetUsers();
+            return new OkObjectResult(ApiResponse.Create(result));
+        }
     }
 }
