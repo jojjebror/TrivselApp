@@ -26,6 +26,9 @@
               {{ ev.startDate | date: 'dd/M' }} -
               {{ ev.endDate | date: 'dd/M/yyyy' }}
             </p>
+<!--             <p *ngIf="!checkDates(ev.startDate, ev.endDate)">
+              {{ ev.endDate | date: 'dd/M/yyyy' }}
+            </p> -->
           </div>
           <div>
             <strong>Status:</strong>
@@ -48,8 +51,8 @@
           <mat-tab label="Om evenemang">
             <mat-list>
               <mat-list-item>
-                <h5 style="color: white;">
-                  <u>Beskrivning</u>
+                <h5 style="color: white; font-weight: bold;">
+                  Beskrivning
                 </h5>
               </mat-list-item>
               <mat-list-item>
@@ -58,8 +61,8 @@
                 </p>
               </mat-list-item>
               <mat-list-item>
-                <h5 style="color: white; margin-top: 40px;">
-                  <u>Kommentarer</u>
+                <h5 style="color: white; margin-top: 40px; font-weight: bold">
+                  Kommentarer
                 </h5>
               </mat-list-item>
               <mat-list-item>

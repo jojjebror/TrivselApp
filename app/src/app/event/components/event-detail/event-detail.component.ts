@@ -90,4 +90,13 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     return countParticipants.length
 
   }
+
+  /* checkDates(startdate: Date, enddate: Date) {
+    if(startdate.getUTCDate != enddate.getUTCDate) {
+      return true;
+    }
+    else{
+      return false;
+    }
+  } */
 }
