@@ -28,6 +28,10 @@ export enum ActionTypes {
   ADD_EVENT_PARTICIPANT_SUCCESS = '[API: /Event] Add Event Participant success',
   ADD_EVENT_PARTICIPANT_ERROR = '[API: /event] Add Event Participant error',
 
+  REMOVE_EVENT_PARTICIPANT = '[Events view] Remove Event Participant',
+  REMOVE_EVENT_PARTICIPANT_SUCCESS = '[API: /Event] Remove Event Participant success',
+  REMOVE_EVENT_PARTICIPANT_ERROR = '[API: /event] Remove Event Participant error',
+
   SAVE_IMAGE = '[Events view] Save Image',
   SAVE_IMAGE_SUCCESS = '[API: /Event] Save Image success',
   SAVE_IMAGE_ERROR = '[API: /event] Save Image error',
@@ -135,11 +139,11 @@ export class DeleteEventError implements Action {
   constructor(public payload: string) {}
 }
 
-/*--------------AddUserToEvent--------------*/
+/*--------------AddParticipantToEvent--------------*/
 
 export class AddEventParticipant implements Action {
   readonly type = ActionTypes.ADD_EVENT_PARTICIPANT;
-  constructor(public payload: number[]) {}
+  constructor(public payload: any[]) {}
 }
 
 export class AddEventParticipantSuccess implements Action {
@@ -185,7 +189,7 @@ export class LoadImage implements Action {
 export class LoadImageSuccess implements Action {
   readonly type = ActionTypes.LOAD_IMAGE_SUCCESS;
 
-  constructor(public payload: Blob) {}
+  constructor(public payload: string) {}
 }
 
 export class LoadImageError implements Action {
@@ -198,24 +202,31 @@ export type Actions =
   | LoadEvents
   | LoadEventsSuccess
   | LoadEventsError
+
   | LoadEvent
   | LoadEventSuccess
   | LoadEventError
+
   | CreateEvent
   | CreateEventSuccess
   | CreateEventError
+
   | UpdateEvent
   | UpdateEventSuccess
   | UpdateEventError
+
   | DeleteEvent
   | DeleteEventSuccess
   | DeleteEventError
+
   | AddEventParticipant
   | AddEventParticipantSuccess
   | AddEventParticipantError
+
   | SaveImage
   | SaveImageSuccess
   | SaveImageError
+
   | LoadImage
   | LoadImageSuccess
   | LoadImageError;

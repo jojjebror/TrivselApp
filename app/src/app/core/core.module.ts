@@ -16,9 +16,6 @@ import { reducers, effects } from './state';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule, TimepickerModule } from 'ngx-bootstrap';
-import { defineLocale } from 'ngx-bootstrap/chronos';
-import { svLocale } from 'ngx-bootstrap/locale';
-        defineLocale('sv', svLocale);
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 /**
@@ -37,7 +34,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
     TimepickerModule.forRoot(),
-    
   ],
   exports: [],
   declarations: [...views, ...components],
