@@ -5,27 +5,21 @@ import * as usersActions from './users.actions';
 
 let initialState = adapter.getInitialState({
   selectedUserId: null,
-  //offices: [],
   loading: false,
   loaded: false,
-  error: ''
+  error: '',
+  user: null,
+  //event: []
 });
 
 export function reducer(state: UsersState = initialState, action: usersActions.Actions): UsersState {
   switch (action.type) {
 
-    /* case usersActions.ActionTypes.GET_USERS: {
-      return {
-        ...state,
-        loading: true,
-      };
-    } */
-
     case usersActions.ActionTypes.GET_USERS_SUCCESS: {
       return adapter.addAll(action.payload, {
         ...state,
         loading: false,
-        loaded: true
+        loaded: true,
       });
     }
 
@@ -35,7 +29,7 @@ export function reducer(state: UsersState = initialState, action: usersActions.A
         entities: {},
         loading: false,
         loaded: false,
-        error: action.payload
+        error: action.payload,
       };
     }
 

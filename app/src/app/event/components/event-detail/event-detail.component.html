@@ -1,10 +1,4 @@
 <div class="container mt-5 border border-light p-5" *ngIf="ev$ | async; let ev">
-  <button class="btn btn-primary" [routerLink]="['/event/edit', ev.id]">
-    Redigera evenemang
-  </button>
-  <button class="btn btn-danger" style="margin-right: 10px;">
-    <a (click)="deleteEvent(ev.id)">Ta bort</a>
-  </button>
   <div class="row">
     <h1 class="mb-4">{{ ev.title }}</h1>
   </div>
@@ -33,17 +27,16 @@
               {{ ev.endDate | date: 'dd/M/yyyy' }}
             </p>
           </div>
-<!--           <div>
-            <strong>Antal inbjudna:</strong>
-            <p *ngFor="let item of invitedParticipants$ | async let eventsParticipants">
-              {{ item.length }}
-            </p>
-          </div> -->
+          <div>
+            <strong>Status:</strong>
+            <p style="color: rgb(27, 196, 27);" *ngIf="checkAttendedUsers()">Deltar</p>
+            <p style="color: rgb(243, 2, 2);" *ngIf="checkDeclinedUsers()">Avböjt</p>
+          </div>
         </div>
         <div class="card-footer">
           <div class="btn-group d-flex">
-            <button class="btn btn-success w-100" id="accept" (click)="UpdateParticpantsToEvent(ev.id, 'true')">Delta</button>
-            <button class="btn btn-danger w-100" id="decline" (click)="UpdateParticpantsToEvent(ev.id, 'false')">Avböj</button>
+            <button class="btn btn-success w-100" *ngIf="!checkAttendedUsers()" id="accept" (click)="updateParticpantsToEvent(ev.id, 'Accepted')">Delta</button>
+            <button class="btn btn-danger w-100" *ngIf="!checkDeclinedUsers()" id="decline" (click)="updateParticpantsToEvent(ev.id, 'Declined')">Avböj</button>
           </div>
         </div>
       </div>
@@ -54,30 +47,54 @@
           <mat-tab label="Om evenemang">
             <mat-list>
               <mat-list-item>
-                <p>
+                <h5 style="color: white;">
+                  <u>Beskrivning</u>
+                </h5>
+              </mat-list-item>
+              <mat-list-item>
+                <p style="margin-top: 20px;">
                   {{ ev.description }}
                 </p>
               </mat-list-item>
-            </mat-list>
-          </mat-tab>
-          <mat-tab label="Kommer">
-            <mat-list>
-              <mat-list-item *ngFor="let user of participantsAccepted$ | async">
-                <p>
-                  {{ user.name }}
+              <mat-list-item>
+                <h5 style="color: white; margin-top: 40px;">
+                  <u>Kommentarer</u>
+                </h5>
+              </mat-list-item>
+              <mat-list-item>
+                <p style="margin-top: 70px;">
+                  Anna Persson: Jäklar!!
                 </p>
               </mat-list-item>
             </mat-list>
           </mat-tab>
-          <mat-tab label="Se inbjudna">
-            <mat-list>
+          <mat-tab label="Deltagare">
+            <mat-list style="float: left;">
+              <p class="pHeader">Inbjudna:</p>
               <mat-list-item *ngFor="let user of invitedParticipants$ | async">
                 <p>
                   {{ user.name }}
                 </p>
               </mat-list-item>
             </mat-list>
+            <mat-list style="float: left;">
+              <p class="pHeader">Accepterat:</p>
+              <mat-list-item *ngFor="let user of attendedParticipants$ | async">
+                <p>
+                  {{ user.name }}
+                </p>
+              </mat-list-item>
+            </mat-list>
+            <mat-list style="float: left;">
+              <p class="pHeader">Avböjt:</p>
+              <mat-list-item *ngFor="let user of declinedParticipants$ | async">
+                <p>
+                  {{ user.name }}
+                </p>
+              </mat-list-item>
+            </mat-list>
           </mat-tab>
+
         </mat-tab-group>
       </div>
     </div>

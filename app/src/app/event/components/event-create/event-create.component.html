@@ -29,25 +29,25 @@
 
     <div>
       <!-- <mat-form-field appearance="outline">
-        <mat-label>Bild-url</mat-label> -->
-        <img [src]="imageUrl || ''" style="width: 50px;">
+        <mat-label>Bild-url</mat-label>
+        <img [src]="imageUrl || ''" style="width: 50px;"> -->
         <input
           type="file"
           accept="image/*"
-          formControlName="image"
           autocomplete="off"
-          (change)="imagePreview($event.target.files)"
+          formControlName="image"
+          (change)="loadImage($event.target.files)"
         />
-      
+        <!-- <mat-error *ngIf="eventForm.invalid">Fel filtyp</mat-error> -->
       <!-- </mat-form-field> -->
     </div>
 
-    <div class="form-row" style="margin-top: 15px;">
+    <div class="form-row">
       <div>
         <mat-form-field appearance="outline">
           <mat-label>Startdatum</mat-label>
           <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage("startdate") }}</mat-error>
-          <input matInput (focus)="picker.open()" [matDatepicker]="picker" formControlName="startdate" autocomplete="off" />
+          <input matInput (focus)="picker.open()" [matDatepicker]="picker" formControlName="startdate" autocomplete="off" readonly />
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>

@@ -8,6 +8,10 @@ form {
   height: 1050px;
 }
 
+.form-row {
+  margin-top: 15px;
+}
+
 /* Diven runt formen */
 .registerEventMain {
   width: 600px;
@@ -116,6 +120,7 @@ textarea {
 }
 
 .inviteContainer {
+  margin-top: 12px;
   margin-bottom: 20px;
   height: 280px;
 }

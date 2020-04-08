@@ -52,10 +52,19 @@ namespace Api.Controllers
         }
 
         [HttpPost("{eventId}/{userId}")]
-        public async Task<IActionResult> AddOrUpdateEventParticipant(int eventId, int userId, [FromBody]string answer)
+        public async Task<IActionResult> AddEventParticipantStatus(int eventId, int userId, [FromBody]string answer)
         {
 
-            var result = await _eventService.AddOrUpdateEventParticipant(eventId, userId, answer);
+            var result = await _eventService.AddEventParticipantStatus(eventId, userId, answer);
+
+            return new OkObjectResult(ApiResponse.Create(result));
+        }
+
+        [HttpPost("{eventId}/{userId}/update")]
+        public async Task<IActionResult> UpdateParticipantStatus(int eventId, int userId, [FromBody]string answer)
+        {
+
+            var result = await _eventService.UpdateParticipantStatus(eventId, userId, answer);
 
             return new OkObjectResult(ApiResponse.Create(result));
         }
@@ -76,15 +85,16 @@ namespace Api.Controllers
         {
             var result = await _eventService.GetImage(id);
 
-            return new OkObjectResult(ApiResponse.Create(result));
+            var image = File(result, "image");
+
+            return new OkObjectResult(ApiResponse.Create(image));
         }
 
-        //[HttpGet("{id}/getimage")]
-        //public async Task<IActionResult> GetImage(int id)
-        //{
-        //    var result = await _eventService.GetImage(id);
-
-        //    return new OkObjectResult(ApiResponse.Create(result));
-        //}
+        [HttpGet("{id}/getUserEvents")]
+        public async Task<IActionResult> GetCurrentUserEvents(int id)
+        {
+            var result = await _eventService.GetCurrentUserEvents(id);
+            return new OkObjectResult(ApiResponse.Create(result));
+        }
     }
 }

@@ -77,6 +77,7 @@ export abstract class ApiResource {
            return { headers: headers };
          }
 
+         //To save image
          private createOptions2(): { headers: HttpHeaders } {
            let headers = new HttpHeaders();
 
