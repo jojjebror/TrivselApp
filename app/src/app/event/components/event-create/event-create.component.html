@@ -6,7 +6,7 @@
     <div>
       <mat-form-field appearance="outline" style="width: 100%">
         <mat-label>Titel</mat-label>
-        <mat-error *ngIf="eventForm.invalid">{{ getErrorMessageTitle() }}</mat-error>
+        <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage("title") }}</mat-error>
         <input type="text" matInput formControlName="title" autocomplete="off" />
       </mat-form-field>
     </div>
@@ -14,7 +14,7 @@
     <div>
       <mat-form-field appearance="outline">
         <mat-label>Plats</mat-label>
-        <mat-error *ngIf="eventForm.invalid">{{ getErrorMessageLocation() }}</mat-error>
+        <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage("location") }}</mat-error>
         <input type="text" matInput formControlName="location" autocomplete="off" />
       </mat-form-field>
     </div>
@@ -22,7 +22,7 @@
     <div>
       <mat-form-field appearance="outline" class="fieldDescription">
         <mat-label>Beskrivning</mat-label>
-        <mat-error *ngIf="eventForm.invalid">{{ getErrorMessageDescription() }}</mat-error>
+        <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage("description") }}</mat-error>
         <textarea matInput formControlName="description" autocomplete="off"></textarea>
       </mat-form-field>
     </div>
@@ -30,27 +30,23 @@
     <div>
       <!-- <mat-form-field appearance="outline">
         <mat-label>Bild-url</mat-label> -->
-        <img [src]="imageUrl || ''" style="width: auto; height: 150px; border: 1px solid white; margin-bottom: 20px;">
+        <img [src]="imageUrl || ''" style="width: 50px;">
         <input
           type="file"
           accept="image/*"
-          (change)="imagePreview($event.target.files)"
           formControlName="image"
           autocomplete="off"
+          (change)="imagePreview($event.target.files)"
         />
+      
       <!-- </mat-form-field> -->
-
-      <!-- <mat-form-field appearance="outline">
-        <mat-label>Bild-url</mat-label>
-        <input type="text" matInput formControlName="image" autocomplete="off" />
-      </mat-form-field> -->
     </div>
 
     <div class="form-row" style="margin-top: 15px;">
       <div>
         <mat-form-field appearance="outline">
           <mat-label>Startdatum</mat-label>
-          <mat-error *ngIf="eventForm.invalid">{{ getErrorMessageStartdate() }}</mat-error>
+          <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage("startdate") }}</mat-error>
           <input matInput (focus)="picker.open()" [matDatepicker]="picker" formControlName="startdate" autocomplete="off" />
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>

@@ -1,7 +1,10 @@
 .img-thumbnail {
-  margin: 25px;
-  width: 85%;
-  height: 85%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 15px;
+  width: 50%;
+  height: auto;
 }
 
 .card-body {
@@ -60,3 +63,5 @@ background-color: white !important;
   width: 200px;
   overflow: auto;
 }
+
+

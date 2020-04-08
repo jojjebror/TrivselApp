@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/
 
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
-import { Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 import { Event } from 'src/app/shared/models';
 import * as fromEvents from '../../state/events';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -34,17 +34,20 @@ export class EventEditComponent implements OnInit, OnDestroy {
 
   createEventEditForm() {
     this.ev$.subscribe(ev => {
-      this.eventEditForm = this.fb.group({
-        id: [ev.id],
-        title: [ev.title, Validators.required],
-        description: [ev.description, Validators.required],
-        image: [ev.image],
-        location: [ev.location, Validators.required],
-        startdate: [new Date(ev.startDate), Validators.required],
-        starttime: [new Date(ev.startDate), Validators.required],
-        enddate: [new Date(ev.endDate), Validators.required],
-        endtime: [new Date(ev.endDate), Validators.required]
-      });
+      this.eventEditForm = this.fb.group(
+        {
+          id: [ev.id],
+          title: [ev.title, Validators.required],
+          description: [ev.description, Validators.required],
+          image: [ev.image],
+          location: [ev.location, Validators.required],
+          startdate: [new Date(ev.startDate), Validators.required],
+          starttime: [new Date(ev.startDate), Validators.required],
+          enddate: [new Date(ev.endDate), Validators.required],
+          endtime: [new Date(ev.endDate), Validators.required]
+        },
+        { validator: this.DateValidation }
+      );
       this.starttime = ev.startDate;
       this.endtime = ev.endDate;
     });
@@ -66,32 +69,40 @@ export class EventEditComponent implements OnInit, OnDestroy {
     return d;
   }
 
-  getErrorMessageTitle() {
-    if (this.eventEditForm.get('title').hasError('required')) {
-      return 'Du måste ange en titel';
+   DateValidation(d: FormGroup) {
+    if (d.get('enddate').value !== '') {
+      return d.get('enddate').value >= d.get('startdate').value ? null : { mismatch: true };
+    } else {
+      return null;
     }
-  }
+  } 
 
-  getErrorMessageLocation() {
-    if (this.eventEditForm.get('location').hasError('required')) {
-      return 'Du måste ange en plats';
-    }
-  }
+  getErrorMessage(property: string) {
+    switch (property) {
+      case 'title': {
+        this.eventEditForm.get('title').hasError('required');
+        return 'Du måste ange en titel';
+      }
 
-  getErrorMessageDescription() {
-    if (this.eventEditForm.get('description').hasError('required')) {
-      return 'Du måste ange en beskrivning';
-    }
-  }
+      case 'location': {
+        this.eventEditForm.get('location').hasError('required');
+        return 'Du måste ange en plats';
+      }
 
-  getErrorMessageStartdate() {
-    if (this.eventEditForm.get('startdate').hasError('required')) {
-      return 'Du måste ange ett startdatum';
-    }
-  }
-  getErrorMessageEndDate() {
-    if (this.eventEditForm.get('enddate').hasError('required')) {
-      return 'Du måste ange ett slutdatum';
+      case 'description': {
+        this.eventEditForm.get('description').hasError('required');
+        return 'Du måste ange en beskrivning';
+      }
+
+      case 'startdate': {
+        this.eventEditForm.get('startdate').hasError('required');
+        return 'Du måste ange ett startdatum';
+      }
+
+      case 'enddate': {
+        this.eventEditForm.get('enddate').hasError('required');
+        return 'Du måste ange ett slutdatum';
+      }
     }
   }
 }

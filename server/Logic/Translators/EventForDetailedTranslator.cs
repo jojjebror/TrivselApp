@@ -26,13 +26,20 @@ namespace Logic.Translators
                 EndDate = ev.EndDate,
                 CreatorId = ev.CreatorId,
                 Users = ev.EventParticipants.Select(u =>
-                    new UserDto
+                    new EventParticipantsDto
                     {
                         Id = u.User.Id,
-                        Email = u.User.Email,
-                        Name = u.User.Name
+                        Name = u.User.Name,
+                        Accepted = u.Accepted
                     }).ToList()              
             };
         }
     }
 }
+
+                //new UserDto
+                //{
+                //    Id = u.User.Id,
+                //    Email = u.User.Email,
+                //    Name = u.User.Name
+                //}).ToList()
