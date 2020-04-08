@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="base" *ngIf="dr$ | async; let dr">
-<div class="container mt-5 border border-light p-5" [ngStyle]="{'background-image':'url('+photo+')'}">
+<div class="container" [ngStyle]="{'background-image':'url('+photo+')'}">
  
  <div class="settings">
   <button (click)="toggleShow()" type="checkbox" style="float: right;"> <i class="fa fa-gear"></i></button>
