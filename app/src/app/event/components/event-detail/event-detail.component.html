@@ -31,6 +31,7 @@
             <strong>Status:</strong>
             <p style="color: rgb(27, 196, 27);" *ngIf="checkAttendedUsers()">Deltar</p>
             <p style="color: rgb(243, 2, 2);" *ngIf="checkDeclinedUsers()">Avböjt</p>
+            <p *ngIf="!checkDeclinedUsers() && !checkAttendedUsers()">Obsesvarad</p>
           </div>
         </div>
         <div class="card-footer">
@@ -70,7 +71,7 @@
           </mat-tab>
           <mat-tab label="Deltagare">
             <mat-list style="float: left;">
-              <p class="pHeader">Inbjudna:</p>
+              <p class="pHeader">Inbjudna: ({{countParticipants(invitedParticipants$)}}st)</p>
               <mat-list-item *ngFor="let user of invitedParticipants$ | async">
                 <p>
                   {{ user.name }}
@@ -78,7 +79,7 @@
               </mat-list-item>
             </mat-list>
             <mat-list style="float: left;">
-              <p class="pHeader">Accepterat:</p>
+              <p class="pHeader">Accepterat: ({{countParticipants(attendedParticipants$)}}st)</p>
               <mat-list-item *ngFor="let user of attendedParticipants$ | async">
                 <p>
                   {{ user.name }}
@@ -86,7 +87,7 @@
               </mat-list-item>
             </mat-list>
             <mat-list style="float: left;">
-              <p class="pHeader">Avböjt:</p>
+              <p class="pHeader">Avböjt: ({{countParticipants(declinedParticipants$)}}st)</p>
               <mat-list-item *ngFor="let user of declinedParticipants$ | async">
                 <p>
                   {{ user.name }}

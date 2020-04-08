@@ -26,6 +26,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   declinedParticipants$: Observable<User[]>;
   userId: number;
 
+
   constructor(private store$: Store<AppState>, private alertify: AlertifyService, private activatedRoute: ActivatedRoute) {
     this.subscription.add(this.store$.select(fromSession.selectUser).subscribe((user) => (this.userId = user.id)));
   }
@@ -81,5 +82,12 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     } else {
       return false;
     }
+  }
+
+  countParticipants(users: Observable<User[]>) {
+    let countParticipants: User[];
+    users.subscribe((data) => (countParticipants = data));
+    return countParticipants.length
+
   }
 }
