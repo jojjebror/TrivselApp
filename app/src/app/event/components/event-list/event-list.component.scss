@@ -40,7 +40,7 @@ h3 {
 }
 
 #cell-cursor {
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .titleList {
@@ -87,14 +87,15 @@ h3 {
 
 /* active tab */
 ::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
-color:white;
-font-size: 18px;
-opacity: 1
+  color: white;
+  font-size: 18px;
+  opacity: 1;
 }
 
 /* ink bar */
-::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary {
-background-color: white !important;
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary {
+  background-color: white !important;
 }
 
 ::ng-deep .mat-tab-label .mat-tab-label-content {
@@ -103,6 +104,51 @@ background-color: white !important;
 }
 
 ::ng-deep .mat-badge-content {
-    background: white;
-    color: black;
+  background: white;
+  color: black;
+}
+
+:host ::ng-deep.mat-paginator .mat-paginator-container {
+  background-color: rgb(37, 2, 48);
+  color: white;
+}
+
+::ng-deep .mat-select-arrow {
+  color: white;
+}
+
+::ng-deep .mat-select-value {
+  color: white;
+}
+::ng-deep .mat-option {
+  color: grey;
+}
+::ng-deep .mat-paginator-icon {
+  color: white;
+}
+
+::ng-deep .mat-paginator-navigation-previous {
+  color: white !important;
+}
+
+::ng-deep .mat-paginator-navigation-next {
+  color: white !important;
+}
+
+::ng-deep .mat-paginator-range-label {
+  color: white;
+}
+
+::ng-deep .mat-toolbar-row, .mat-toolbar-single-row {
+    height: 80px;
+}
+
+#searchbar {
+  font-size: 14px;
+  width: 180px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+  text-align: right;
 }

@@ -19,7 +19,9 @@ import {
 	MatNativeDateModule,
 	MatTableModule,
 	MatTooltipModule,
-	MatBadgeModule
+	MatBadgeModule,
+	MatPaginatorModule,
+	MatSortModule
 
 } from '@angular/material';
 
@@ -42,7 +44,9 @@ const modules = [
   MatNativeDateModule,
   MatTableModule,
   MatTooltipModule,
-  MatBadgeModule
+  MatBadgeModule,
+  MatPaginatorModule,
+  MatSortModule
 ];
 
 @NgModule({

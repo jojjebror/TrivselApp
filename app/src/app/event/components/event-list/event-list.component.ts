@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ViewChild } from '@angular/core';
 import { Event } from '../../../shared/models';
 import { Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
@@ -6,7 +6,8 @@ import { AppState } from 'src/app/core/state';
 import * as fromEvents from '../../state/events';
 import { AlertifyService } from 'src/app/core/services/alertify.service';
 import * as fromSession from '../../../core/state/session';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+
 
 @Component({
   selector: 'ex-event-list',
@@ -31,8 +32,13 @@ export class EventListComponent implements OnInit, OnDestroy {
     this.subscription.add(this.store$.select(fromSession.selectUserId).subscribe((response) => (this.userId = response)));
   }
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   ngOnInit() {
     this.loadEvents();
+    this.createdEvents.paginator = this.paginator;
+    this.createdEvents.sort = this.sort;
   }
 
   ngOnDestroy() {
@@ -48,7 +54,8 @@ export class EventListComponent implements OnInit, OnDestroy {
     //All events
     this.evs$ = this.store$.pipe(select(fromEvents.getEvents));
 
-    this.subscription.add(
+    //Events that the user have created
+     this.subscription.add(
       this.store$.pipe(select(fromEvents.getEventsCreatedByUser(this.userId))).subscribe((data: Event[]) => {
         this.createdEvents.data = data;
       })
@@ -114,5 +121,9 @@ export class EventListComponent implements OnInit, OnDestroy {
         this.attendedEvents.data = data;
       })
     );
+  }
+
+  doFilter(filterValue: string) {
+    this.createdEvents.filter = filterValue.trim().toLocaleLowerCase();
   }
 }

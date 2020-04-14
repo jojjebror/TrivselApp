@@ -103,6 +103,8 @@
 
               <mat-row *matRowDef="let row; columns: displayedColumnsInvited"></mat-row>
             </mat-table>
+            <!--             <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+ -->
             <div class="noDataTable" *ngIf="invitedEvents.data.length === 0">Du har inga nya inbjudningar</div>
           </div>
         </div>
@@ -164,9 +166,16 @@
       <!-- -------------Created events table---------------- -->
       <mat-tab label="Hantera evenemang">
         <div class="table-holder">
-          <mat-toolbar>Dina skapade evenemang</mat-toolbar>
-
-          <mat-table class="lessons-table mat-elevation-z8" [dataSource]="createdEvents" *ngIf="createdEvents.data.length > 0">
+          <mat-toolbar>
+            <div>Dina skapade evenemang</div>
+            <div class="spacer">
+              <mat-form-field appearance="legacy" id="searchbar">
+                <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Sök evenemang" autocomplete="off" />
+              <mat-icon matSuffix>search</mat-icon>
+              </mat-form-field>
+            </div>
+          </mat-toolbar>
+          <mat-table class="lessons-table mat-elevation-z8" [dataSource]="createdEvents" matSort *ngIf="createdEvents.data.length > 0">
             <ng-container matColumnDef="title">
               <mat-header-cell *matHeaderCellDef>Titel</mat-header-cell>
               <mat-cell id="cell-cursor" [routerLink]="['/event', ev.id]" *matCellDef="let ev">{{ ev.title }}</mat-cell>
@@ -217,6 +226,12 @@
 
             <mat-row *matRowDef="let row; columns: displayedColumnsCreated"></mat-row>
           </mat-table>
+          <mat-paginator
+            [pageSizeOptions]="[5, 20, 50]"
+            [length]="createdEvents.data.length"
+            *ngIf="createdEvents.data.length > 0"
+            showFirstLastButtons
+          ></mat-paginator>
           <div class="noDataTable" *ngIf="createdEvents.data.length === 0">Du har ännu inga skapade evenemang</div>
           <hr />
         </div>
