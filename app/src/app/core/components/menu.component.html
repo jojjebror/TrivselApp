@@ -27,7 +27,7 @@
       </a>
 
       <div class="dropdown-menu mt-3" *dropdownMenu>
-        <a class="dropdown-item"><i class="fa fa-user"></i> Ändra profil</a>
+        <a class="dropdown-item" [routerLink]="['/drink/credit']"><i class="fa fa-user"></i> Lägg till saldo</a>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" (click)="$event.preventDefault(); logout.emit()"><i class="fa fa-sign-out"></i> Logga ut</a>
       </div>
