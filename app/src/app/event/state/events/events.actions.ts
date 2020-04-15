@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Event, User } from '../../../shared/models';
+import { Event, User, Post } from '../../../shared/models';
 import { Update } from '@ngrx/entity';
 
 export enum ActionTypes {
@@ -54,6 +54,11 @@ export enum ActionTypes {
   UPDATE_USER_PARTICIPANT = '[Events view] Add User In Event',
   UPDATE_USER_PARTICIPANT_SUCCESS = '[API: /event] Add User In Event Success',
   UPDATE_USER_PARTICIPANT_ERROR = '[API: /event] Add User In Event Error',
+
+  ADD_POST_EVENT = '[Events view] Add Post In Event',
+  ADD_POST_EVENT_SUCCESS = '[API: /post] Add Post In Event Success',
+  ADD_POST_EVENT_ERROR = '[API: /post] Add Post In Event Error'
+
 }
 
 /*--------------LoadAllEvents--------------*/
@@ -294,6 +299,26 @@ export class UpdateUserParticipantError implements Action {
   constructor(public payload: string) {}
 }
 
+/*--------------AddPostToEvent--------------*/
+
+export class AddPostToEvent implements Action {
+  readonly type = ActionTypes.ADD_POST_EVENT;
+
+  constructor(public payload: Post) {}
+}
+
+export class AddPostToEventSuccess implements Action {
+  readonly type = ActionTypes.ADD_POST_EVENT_SUCCESS;
+
+  constructor(public payload: Update<Post>) {}
+}
+
+export class AddPostToEventError implements Action {
+  readonly type = ActionTypes.ADD_POST_EVENT_ERROR;
+
+  constructor(public payload: string) {}
+}
+
 export type Actions =
   | LoadEvents
   | LoadEventsSuccess
@@ -341,4 +366,8 @@ export type Actions =
 
   | UpdateUserParticipant
   | UpdateUserParticipantSuccess
-  | UpdateUserParticipantError;
+  | UpdateUserParticipantError
+
+  | AddPostToEvent
+  | AddPostToEventSuccess
+  | AddPostToEventError;

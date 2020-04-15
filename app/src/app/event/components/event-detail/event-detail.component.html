@@ -71,31 +71,37 @@
           <mat-tab label="Om evenemang">
             <mat-list>
               <mat-list-item>
-                <h5 style="color: white; font-weight: bold;">
+                <h6 style="color: white; font-weight: bold;">
                   Beskrivning
-                </h5>
+                </h6>
               </mat-list-item>
               <mat-list-item>
                 <p style="margin-top: 20px;">
                   {{ ev.description }}
                 </p>
               </mat-list-item>
-              <mat-list-item>
-                <h5 style="color: white; margin-top: 40px; font-weight: bold;">
-                  Kommentarer
-                </h5>
-              </mat-list-item>
-              <mat-list-item>
-                <p style="margin-top: 70px;">
-                  Anna Persson: Jäklar!!
+
+              <form [formGroup]="postForm" (ngSubmit)="createPost()">
+                <div class="postBox">
+                  <textarea id="commentBox" placeholder=" Kommentera..." formControlName="content" cols="30" rows="3"
+                    autocomplete="off"></textarea>
+                  <button mat-button class="postBtn" type="submit">Posta</button>
+                </div>
+              </form>
+              <div></div>
+              <mat-list-item *ngFor="let post of posts$ | async">
+                <div style="margin-top: 20px" *ngIf="posts$ | async">
+                <p style="border: 1px; border-color: white; border-style: groove; margin-top: 10px;">
+                  {{ post.creatorName }} - {{ post.created | date: 'dd/M/yyyy-HH:mm' }} - {{ post.content }}
                 </p>
+                </div>
               </mat-list-item>
             </mat-list>
           </mat-tab>
-          <mat-tab label="Inbjudningar ({{countParticipants(invitedParticipants$)}})">
+          <mat-tab label="Inbjudningar ({{ countParticipants(invitedParticipants$) }})">
             <mat-list style="float: left;">
               <p class="pHeader">Inbjudna: ({{ countParticipants(invitedParticipants$) }})</p>
-              <mat-list-item *ngFor="let user of invitedParticipants$ | async">
+              <mat-list-item class="participants" *ngFor="let user of invitedParticipants$ | async">
                 <p>
                   {{ user.name }}
                 </p>
@@ -103,7 +109,7 @@
             </mat-list>
             <mat-list style="float: left;">
               <p class="pHeader">Accepterat: ({{ countParticipants(attendedParticipants$) }})</p>
-              <mat-list-item *ngFor="let user of attendedParticipants$ | async">
+              <mat-list-item class="participants" *ngFor="let user of attendedParticipants$ | async">
                 <p>
                   {{ user.name }}
                 </p>
@@ -111,7 +117,7 @@
             </mat-list>
             <mat-list style="float: left;">
               <p class="pHeader">Avböjt: ({{ countParticipants(declinedParticipants$) }})</p>
-              <mat-list-item *ngFor="let user of declinedParticipants$ | async">
+              <mat-list-item class="participants" *ngFor="let user of declinedParticipants$ | async">
                 <p>
                   {{ user.name }}
                 </p>

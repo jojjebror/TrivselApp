@@ -61,9 +61,9 @@ h4 {
   font-size: 18px;
 }
 
-:host /deep/ .mat-list .mat-list-item {
+ :host /deep/ .mat-list .mat-list-item {
   height: 25px !important;
-}
+}   
 
 ::ng-deep .mat-list .mat-list-item .mat-list-item-content,
 .mat-list .mat-list-option .mat-list-item-content,
@@ -80,10 +80,60 @@ h4 {
   margin-bottom: 20px;
   min-height: 250px;
   max-height: 250px;
-  width: 200px;
+  //width: 200px;
   overflow: auto;
   margin-right: 20px;
 }
 
+textarea {
+  width: 400px;
+  margin-top: 20px;
+}
 
+textarea::placeholder {
+  color: #fff;  
+}
 
+#commentBox {
+background-color: transparent;
+color: white;
+}
+
+.postBox {
+  display:inline-block;
+  position:relative;
+}
+
+.postBtn {
+ position:absolute;
+ bottom:10px;
+ right: 0px;
+}
+
+/*  .comments {
+  border-style: groove;
+  border:1px;
+  border-color:white;
+  padding: 1em;
+} 
+ */
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #888;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #f1f1f1;
+  //rgb(62, 62, 100);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #e0e0e0;
+}

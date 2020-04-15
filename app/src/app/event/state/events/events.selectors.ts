@@ -31,6 +31,8 @@ export const getDeclinedParticipants = createSelector(selectState, getInvitedPar
   state.users.filter((val) => val.status === 'Declined')
 );
 
+export const getEventPosts = createSelector(selectState, (state) => state.posts)
+
 export const getUserEvents = createSelector(selectState, (state) => state.userEvents);
 
 export const getInvitedEvents = createSelector(selectState, getUserEvents, (state) =>

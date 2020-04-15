@@ -126,7 +126,7 @@ namespace Logic.Database.Migrations
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now,
                 CreateDate = DateTime.Now,
-                CreatorId = 1
+                CreatorId = 2
             };
 
             var testEvent3 = new Event()
@@ -242,6 +242,33 @@ namespace Logic.Database.Migrations
                 Status = "Accepted"
             };
 
+            //var post1 = new Post()
+            //{
+            //    Id = 1,
+            //    Content = "Detta blir jättekul!!",
+            //    Created = DateTime.Now,
+            //    CreatorId = 1,
+            //    EventId = 1
+            //};
+
+            //var post2 = new Post()
+            //{
+            //    Id = 2,
+            //    Content = "Jäklar vad ösigt!!",
+            //    Created = DateTime.Now,
+            //    CreatorId = 3,
+            //    EventId = 2
+            //};
+
+            //var post3 = new Post()
+            //{
+            //    Id = 3,
+            //    Content = "Jag har köpt nya dojor ;)",
+            //    Created = DateTime.Now,
+            //    CreatorId = 2,
+            //    EventId = 3
+            //};
+
             context.Users.AddOrUpdate(testUser);
             context.Users.AddOrUpdate(testUser1);
             context.Users.AddOrUpdate(testUser2);
@@ -267,6 +294,11 @@ namespace Logic.Database.Migrations
             context.EventParticipants.AddOrUpdate(testEp8);
             context.EventParticipants.AddOrUpdate(testEp9);
             context.EventParticipants.AddOrUpdate(testEp10);
+
+            //context.Posts.AddOrUpdate(post1);
+            //context.Posts.AddOrUpdate(post2);
+            //context.Posts.AddOrUpdate(post3);
+
 
             context.Drinks.AddOrUpdate(testDrink);
 

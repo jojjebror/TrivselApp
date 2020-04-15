@@ -25,8 +25,8 @@ namespace Logic.Services
 
         public async Task<EventForDetailedDto> GetEvent(int id)
         {
-            var dbEvent = await _context.Events.Include(e => e.EventParticipants
-                .Select(u => u.User).Select(u => u.EventParticipants)).FirstOrDefaultAsync(e => e.Id == id);
+            var dbEvent = await _context.Events.Include(e => e.EventParticipants.Select(u => u.User))
+                .Include(p => p.Posts.Select(po => po.Creator)).Include(e => e.Creator).FirstOrDefaultAsync(e => e.Id == id);
 
             return EventForDetailedTranslator.ToModel(dbEvent);
         }
@@ -159,8 +159,8 @@ namespace Logic.Services
 
             await _context.SaveChangesAsync();
 
-            var dbEvent = await _context.Events.Include(e => e.EventParticipants
-               .Select(u => u.User)).FirstOrDefaultAsync(e => e.Id == eventId);
+            var dbEvent = await _context.Events.Include(e => e.EventParticipants.Select(u => u.User))
+            .Include(p => p.Posts.Select(po => po.Creator)).Include(e => e.Creator).FirstOrDefaultAsync(e => e.Id == eventId);
 
             return EventForDetailedTranslator.ToModel(dbEvent);
         }
@@ -174,7 +174,8 @@ namespace Logic.Services
 
             await _context.SaveChangesAsync();
 
-            var dbEvent = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId).ToListAsync();
+            var dbEvent = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId)
+                .Include(us => us.Event.Creator).ToListAsync();
 
             return dbEvent.Select(EventForUserListTranslator.ToModel).ToList();
 
@@ -251,7 +252,9 @@ namespace Logic.Services
 
         public async Task<ICollection<EventForUserListDto>> GetCurrentUserEvents(int userId)
         {
-            var dbEvent = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId).ToListAsync();
+            // old one, keep.... var dbEvent = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId).ToListAsync();
+            var dbEvent = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId)
+                .Include(us => us.Event.Creator).ToListAsync();
 
             return dbEvent.Select(EventForUserListTranslator.ToModel).ToList();
         }

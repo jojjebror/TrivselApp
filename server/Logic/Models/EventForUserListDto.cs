@@ -16,7 +16,7 @@ namespace Logic.Models
         public DateTime EndDate { get; set; }
         public int CreatorId { get; set; }
         public string Status { get; set; }
-
+        public string CreatorName { get; set; }
 
     }
 }

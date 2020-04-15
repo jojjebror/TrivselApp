@@ -6,6 +6,7 @@ import * as eventsActions from './events.actions';
 let initialState = adapter.getInitialState({
   selectedEventId: null,
   users: [],
+  posts: [],
   userEvents: [],
   loading: false,
   loaded: false,
@@ -34,13 +35,14 @@ export function reducer(state: EventsState = initialState, action: eventsActions
       };
     }
 
-     case eventsActions.ActionTypes.LOAD_EVENT_SUCCESS: {
+    case eventsActions.ActionTypes.LOAD_EVENT_SUCCESS: {
       return adapter.addOne(action.payload, {
         ...state,
         selectedEventId: action.payload.id,
         users: action.payload.users,
+        posts: action.payload.posts
       });
-    } 
+    }
 
     case eventsActions.ActionTypes.LOAD_EVENT_ERROR: {
       return {
@@ -126,6 +128,17 @@ export function reducer(state: EventsState = initialState, action: eventsActions
     }
 
     case eventsActions.ActionTypes.UPDATE_USER_PARTICIPANT_ERROR: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+
+    case eventsActions.ActionTypes.ADD_POST_EVENT_SUCCESS: {
+      return adapter.updateOne(action.payload, state);
+    }
+
+    case eventsActions.ActionTypes.ADD_POST_EVENT_ERROR: {
       return {
         ...state,
         error: action.payload,

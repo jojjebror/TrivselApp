@@ -246,6 +246,7 @@
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Database\DatabaseContextFactory.cs" />
     <Compile Include="Database\Entities\BaseEntity.cs" />
+    <Compile Include="Database\Entities\Post.cs" />
     <Compile Include="Database\Entities\Drink.cs" />
     <Compile Include="Database\Entities\Event.cs" />
     <Compile Include="Database\Entities\EventParticipant.cs" />
@@ -256,9 +257,9 @@
     <Compile Include="Database\Migrations\201802051252482_Init.Designer.cs">
       <DependentUpon>201802051252482_Init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\Migrations\202004060658016_MergeInitStatus.cs" />
-    <Compile Include="Database\Migrations\202004060658016_MergeInitStatus.Designer.cs">
-      <DependentUpon>202004060658016_MergeInitStatus.cs</DependentUpon>
+    <Compile Include="Database\Migrations\202004141225353_AddedPostEntity.cs" />
+    <Compile Include="Database\Migrations\202004141225353_AddedPostEntity.Designer.cs">
+      <DependentUpon>202004141225353_AddedPostEntity.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Helpers\PagedList.cs" />
@@ -275,6 +276,7 @@
     <Compile Include="Models\EventForUserListDto.cs" />
     <Compile Include="Models\EventParticipantsDto.cs" />
     <Compile Include="Models\ExampleDto.cs" />
+    <Compile Include="Models\PostDto.cs" />
     <Compile Include="Models\UserDto.cs" />
     <Compile Include="Models\UserEventsDto.cs" />
     <Compile Include="Models\UserForListDto.cs" />
@@ -282,6 +284,7 @@
     <Compile Include="Services\DrinkService.cs" />
     <Compile Include="Services\EventService.cs" />
     <Compile Include="Services\ExampleService.cs" />
+    <Compile Include="Services\PostService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Translators\DrinkForDetailedTranslator.cs" />
     <Compile Include="Translators\DrinkForListTranslator.cs" />
@@ -292,6 +295,7 @@
     <Compile Include="Translators\EventForUpdateTranslator.cs" />
     <Compile Include="Translators\EventForUserListTranslator.cs" />
     <Compile Include="Translators\ExampleTranslator.cs" />
+    <Compile Include="Translators\PostForCreateTranslator.cs" />
     <Compile Include="Translators\UserForListTranslator.cs" />
     <Compile Include="Translators\UserTranslator.cs" />
   </ItemGroup>
@@ -308,8 +312,8 @@
     <EmbeddedResource Include="Database\Migrations\201802051252482_Init.resx">
       <DependentUpon>201802051252482_Init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Database\Migrations\202004060658016_MergeInitStatus.resx">
-      <DependentUpon>202004060658016_MergeInitStatus.cs</DependentUpon>
+    <EmbeddedResource Include="Database\Migrations\202004141225353_AddedPostEntity.resx">
+      <DependentUpon>202004141225353_AddedPostEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

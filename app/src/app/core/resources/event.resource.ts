@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Event } from '../../shared/models';
+import { Event, Post } from '../../shared/models';
 
 @Injectable()
 export class EventResource extends ApiResource {
@@ -51,5 +51,9 @@ export class EventResource extends ApiResource {
 
   loadImage(id: number): Observable<string> {
     return this.get('event/' + id + '/getImage');
+  }
+
+  createPost(data: Post): Observable<Post> {
+    return this.post('post', data);
   }
 }

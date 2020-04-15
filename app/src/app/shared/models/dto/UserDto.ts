@@ -10,11 +10,8 @@ export class User extends Base {
 
          public name: string;
 
-         //public office: string;
-
          public status: string;
-         
-         //public events?: Event[];
+
        }
 
 
