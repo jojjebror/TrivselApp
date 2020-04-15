@@ -1,60 +1,10 @@
 @import '../../../assets/stylesheets/variables';
+@media (min-width: 414px) {
 
-/* .ex-menu {
-	background: $ex-menu-background;
-	width: $ex-menu-width;
-	height: 100%;
-	box-shadow: inset -20px 0 20px -20px rgba(black, 0.2);
 
-	.user {
-		padding: 30px 10px;
-		display: flex;
-
-		mat-icon {
-			font-size: 50px;
-			width: 60px;
-			height: 60px;
-			line-height: 60px;
-			text-align: center;
-			color: $ex-primary;
-		}
-
-		.user-information {
-			flex: 1;
-			padding: 10px;
-
-			.username {
-				font-size: 1.2rem;
-				font-weight: bold;
-			}
-
-			.actions {
-				a {
-					font-size: 0.8rem;
-				}
-			}
-		}
-	}
-
-	.menu {
-		a {
-			display: block;
-
-			mat-icon {
-				margin-right: 20px;
-			}
-
-			&.active {
-				font-weight: bold;
-				
-				mat-icon {
-					color: $ex-primary;
-				}
-			}
-		}
-	}
-} */
-
+#mobile{
+	display: none;
+}
 	.user {
 		padding: 30px 10px;
 		display: flex;
@@ -97,4 +47,37 @@
 	width: 150px;
 	margin: 5px;
 	margin-right: 40px;
+}
+
+.dropdownMobile{
+	display: none;
+}
+
+.dropdownM{
+	display: none;
+}
+
+}
+@media (max-width: 414px) {
+	@import '../../../assets/stylesheets/variables';
+ul{
+	display: none;
+}
+.dropdownM{
+	display: inline;
+}
+.dropdown-menu{
+	margin-top: 0px;
+	width: 100%;
+	text-align: center;
+}
+
+.bar1, .bar2, .bar3 {
+	width: 20px;
+	height: 4px;
+	background-color:white;
+	margin: 2.5px 0;
+	transition: 0.4s;
+  }
+
 }

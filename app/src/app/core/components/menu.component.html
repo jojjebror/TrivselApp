@@ -27,14 +27,31 @@
       </a>
 
       <div class="dropdown-menu mt-3" *dropdownMenu>
-        <a class="dropdown-item" [routerLink]="['/drink/credit']"><i class="fa fa-user"></i> Lägg till saldo</a>
+        <a class="dropdown-item" [routerLink]="['/drink/credit']"><i class="fa fa-user"></i>Hantera saldo</a>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" (click)="$event.preventDefault(); logout.emit()"><i class="fa fa-sign-out"></i> Logga ut</a>
       </div>
     </div>
+
+    <div class="dropdownM" dropdown>
+      <a class="dropdown-toggle1 text-light" dropdownToggle>
+        <div class="container1">
+          <div class="bar1"></div>
+          <div class="bar2"></div>
+          <div class="bar3"></div>
+        </div>
+      </a>
+
+      <div class="dropdown-menu mt-3" *dropdownMenu>
+        <a class="dropdown-item" [routerLink]="['/start']"><i class="fa fa-user"></i> Hem</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item"  [routerLink]="['/event']"><i class="fa fa-sign-out"></i> Evenemang</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item"   [routerLink]="['/drink']"><i class="fa fa-sign-out"></i> Drycker</a>
+      </div>
+    </div>
   </div>
 </nav>
-
 
 
 <!----------------------------------Starter menyn------------------------------->

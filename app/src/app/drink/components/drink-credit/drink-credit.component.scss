@@ -7,30 +7,57 @@
   color: white;
   height: 800px;
   }
+  
+
+  /* active tab */
+::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+  color:white;
+  font-size: 18px;
+  opacity: 1
+  }
+
+  /* ink bar */
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary {
+  background-color: white !important;
+  }
+  
+  ::ng-deep .mat-tab-label .mat-tab-label-content {
+    color: white;
+    font-size: 18px;
+  }
 
 mat-form-field {
   width: 100%;
-  height: 300px;
+  
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
 }
 
 .btn{
   float: right;
 }
 
-
+p {
+  font-size: small;
+  text-align: center;
+ 
+}
 
 //input outline color
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+::ng-deep .mat-form-field-appearance-standard .mat-form-field-standard {
   color: white!important;
 }
 
 //mat-input focused color
-::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+::ng-deep .mat-form-field-appearance-standard.mat-focused .mat-form-field-standard-thick {
   color: white!important;
 }
 
 // mat-input error outline color
-::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick{
+::ng-deep .mat-form-field-appearance-standard.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-standard-thick{
   color: white!important;
   opacity: 0.8!important;
 }
@@ -61,14 +88,6 @@ mat-form-field {
   color: white!important;
 }
 
-// mat-error color
-::ng-deep .mat-error {
-  color: rgb(163, 27, 27);
-}
-
-::ng-deep .mat-pseudo-checkbox {
-  color: white;
-}
 
 .not-empty-select.mat-selected {
   color: green !important;
@@ -77,6 +96,9 @@ mat-form-field {
 :host /deep/ .mat-select-value-text {
   color: rgb(11, 187, 11) !important;
 }
+
+
+
 @media (max-width: 414px) {
 
 .addCreditForm{
