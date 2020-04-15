@@ -16,6 +16,14 @@ namespace Api.Controllers
             _eventService = eventService;
         }
 
+        [HttpPost("createcalendar")]
+        public async Task<IActionResult> CreateCalendar([FromBody]EventForCreateDto ev)
+        {
+            _eventService.CreateGoogleCalendarService(ev);
+
+            return new OkObjectResult(ApiResponse.Create(ev));
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetEvents()
         {

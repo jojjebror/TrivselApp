@@ -1,4 +1,9 @@
-﻿using Logic.Database;
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Apis.Calendar.v3;
+using Google.Apis.Calendar.v3.Data;
+using Google.Apis.Services;
+using Google.Apis.Util.Store;
+using Logic.Database;
 using Logic.Database.Entities;
 using Logic.Models;
 using Logic.Translators;
@@ -8,8 +13,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Logic.Services
@@ -17,10 +21,82 @@ namespace Logic.Services
     public class EventService
     {
         private readonly DatabaseContext _context;
+        private readonly CalendarService _calendarService;
 
         public EventService(DatabaseContext context)
         {
             _context = context;
+            _calendarService = CreateCalendarService();
+        }
+
+        public CalendarService CreateCalendarService()
+        {
+            //trivselapp@gmail.com exsitec123
+
+            // If modifying these scopes, delete your previously saved credentials
+            // at ~/.credentials/calendar-dotnet-quickstart.json
+            string[] Scopes = { CalendarService.Scope.Calendar };
+            string ApplicationName = "Exsitec TrivselApp Google Calendar";
+
+            UserCredential credential;
+
+            using (var stream =
+                new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+            {
+                // The file token.json stores the user's access and refresh tokens, and is created
+                // automatically when the authorization flow completes for the first time.
+                string credPath = "token.json";
+                credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+                    GoogleClientSecrets.Load(stream).Secrets,
+                    Scopes,
+                    "user",
+                    CancellationToken.None,
+                    new FileDataStore(credPath, true)).Result;
+            }
+
+            // Create Google Calendar API service.
+            var calendarService = new CalendarService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = ApplicationName,
+            });
+
+            return calendarService;
+        }
+
+        public void CreateGoogleCalendarService(EventForCreateDto ev)
+        {
+            //Create google event
+            var googleEv = new Google.Apis.Calendar.v3.Data.Event() 
+            {
+                Summary = ev.Title,
+                Description = ev.Description,
+                Location = ev.Location,
+                Start = new EventDateTime()
+                {
+                    DateTime = new DateTime(ev.StartDate.Year, ev.StartDate.Month, ev.StartDate.Day, 
+                        ev.StartTime.Hour, ev.StartTime.Minute, 0),
+                    TimeZone = "Europe/Stockholm"
+                },
+                End = new EventDateTime()
+                {
+                    DateTime = new DateTime(ev.EndDate.Year, ev.EndDate.Month, ev.EndDate.Day,
+                        ev.EndTime.Hour, ev.EndTime.Minute, 0),
+                    TimeZone = "Europe/Stockholm"
+                },
+                Attendees = ev.Users.Select(u => 
+                    new EventAttendee() { DisplayName = u.Name, Email = u.Email }).ToList(),                
+                Created = ev.CreateDate             
+            };
+            //googleEv.Attendees.Add(new EventAttendee() { Email = "obarthelsson@gmail.com" });
+            //googleEv.Attendees.Add(new EventAttendee() { Email = "martinloord@live.com" });
+            //googleEv.Attendees.Add(new EventAttendee() { Email = "daniel.goransson@exsitec.se" });
+
+            //Insert in primary(default) calendar for account and send email notification
+            var calendarId = "primary";
+            EventsResource.InsertRequest insertRequest = _calendarService.Events.Insert(googleEv, calendarId);
+            insertRequest.SendUpdates = 0;
+            insertRequest.Execute();
         }
 
         public async Task<EventForDetailedDto> GetEvent(int id)
@@ -41,7 +117,7 @@ namespace Logic.Services
         public async Task<EventForCreateDto> CreateEvent(EventForCreateDto ev)
         {
 
-            var newEvent = new Event()
+            var newEvent = new Database.Entities.Event()
             {
                 Title = ev.Title,
                 Description = ev.Description,
