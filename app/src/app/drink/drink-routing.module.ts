@@ -10,6 +10,7 @@ import { DrinkEditComponent } from './components/drink-edit/drink-edit.component
 import { DrinkCategoryComponent } from './components/drink-category/drink-category.component';
 import { DrinkCategory3Component } from './components/drink-category3/drink-category3.component';
 import { DrinkCategory2Component } from './components/drink-category2/drink-category2.component';
+import { DrinkCreditComponent } from './components/drink-credit/drink-credit.component';
 
 
 
@@ -43,9 +44,14 @@ export const routes: Routes = [
         component: DrinkCategory3Component
       },
       {
+        path: 'credit',
+        component: DrinkCreditComponent
+      },
+      {
         path: ':id',
         component: DrinkDetailComponent
-      }
+      },
+      
     ]
   }
 ];
