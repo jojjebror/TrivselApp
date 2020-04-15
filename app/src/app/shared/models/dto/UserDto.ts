@@ -13,6 +13,8 @@ export class User extends Base {
          //public office: string;
 
          public status: string;
+
+         public credit: number;
          
          //public events?: Event[];
        }

@@ -51,11 +51,11 @@ namespace Logic.Services
             return user;
         }
 
-        public async Task<ICollection<UserForListDto>> GetCredit()
+        public async Task<ICollection<UserDto>> GetCredit()
         {
             var fetch = await _context.Users.ToListAsync();
 
-            return fetch.Select(UserForListTranslator.ToModel).ToList();
+            return fetch.Select(UserTranslator.ToModel).ToList();
         }
 
         public async Task<ICollection<UserForListDto>> GetUsers()
