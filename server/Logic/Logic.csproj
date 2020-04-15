@@ -260,6 +260,10 @@
     <Compile Include="Database\Migrations\202004060658016_MergeInitStatus.Designer.cs">
       <DependentUpon>202004060658016_MergeInitStatus.cs</DependentUpon>
     </Compile>
+    <Compile Include="Database\Migrations\202004151238581_AddCredit.cs" />
+    <Compile Include="Database\Migrations\202004151238581_AddCredit.Designer.cs">
+      <DependentUpon>202004151238581_AddCredit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Helpers\PagedList.cs" />
     <Compile Include="Init.cs" />
@@ -310,6 +314,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\Migrations\202004060658016_MergeInitStatus.resx">
       <DependentUpon>202004060658016_MergeInitStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202004151238581_AddCredit.resx">
+      <DependentUpon>202004151238581_AddCredit.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

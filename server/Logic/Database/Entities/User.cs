@@ -12,6 +12,8 @@ namespace Logic.Database.Entities
 
         public string Name { get; set; }
 
+        public int Credit { get; set; }
+
         public string Office { get; set; }
 
         public string GoogleId { get; set; }

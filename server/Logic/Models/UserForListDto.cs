@@ -16,6 +16,8 @@ namespace Logic.Models
 
         public string Status { get; set; }
 
+        public int Credit { get; set; }
+
         public ICollection<UserEventsDto> Events { get; set; }
 
     }
