@@ -250,6 +250,7 @@
     <Compile Include="Database\Entities\Event.cs" />
     <Compile Include="Database\Entities\EventParticipant.cs" />
     <Compile Include="Database\Entities\Example.cs" />
+    <Compile Include="Database\Entities\PriceClass.cs" />
     <Compile Include="Database\Entities\User.cs" />
     <Compile Include="Database\Migrations\201802011317393_Google.cs" />
     <Compile Include="Database\Migrations\201802051252482_Init.cs" />
@@ -259,6 +260,10 @@
     <Compile Include="Database\Migrations\202004060658016_MergeInitStatus.cs" />
     <Compile Include="Database\Migrations\202004060658016_MergeInitStatus.Designer.cs">
       <DependentUpon>202004060658016_MergeInitStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Migrations\202004151148185_PriceClass.cs" />
+    <Compile Include="Database\Migrations\202004151148185_PriceClass.Designer.cs">
+      <DependentUpon>202004151148185_PriceClass.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Helpers\PagedList.cs" />
@@ -275,6 +280,7 @@
     <Compile Include="Models\EventForUserListDto.cs" />
     <Compile Include="Models\EventParticipantsDto.cs" />
     <Compile Include="Models\ExampleDto.cs" />
+    <Compile Include="Models\PriceClassDto.cs" />
     <Compile Include="Models\UserDto.cs" />
     <Compile Include="Models\UserEventsDto.cs" />
     <Compile Include="Models\UserForListDto.cs" />
@@ -310,6 +316,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\Migrations\202004060658016_MergeInitStatus.resx">
       <DependentUpon>202004060658016_MergeInitStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202004151148185_PriceClass.resx">
+      <DependentUpon>202004151148185_PriceClass.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

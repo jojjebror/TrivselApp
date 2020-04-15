@@ -1,36 +1,59 @@
-<div class="container justify-content-center">
-  <h2>
-    Öl
-  </h2>
-  <button
-    class="btn btn-default"
-    style="color: white;"
-    [routerLink]="['/drink']"
-  >
-    Gå tillbaka
-  </button>
-  <button class="btn btn-primary" [routerLink]="['/drink/create']">
-    Lägg till ny dryck
-  </button>
-  <hr />
+<br/>
+<br/>
+<div style="padding-left: 600px;">
+<mat-tab-group >
+  
+ <!-- -------------------------------Tab 1----------------------------------------------- -->
+                  <!-- --------------- Buy Beer depending on class ---------------- -->
 
-  <div class="info">
-    <ul *ngIf="drs$">
-      <li *ngFor="let dr of drs$ | async" [routerLink]="['/drink', dr.id]">
-        <a class="title" [routerLink]="['/drink', dr.id]">
-          {{ dr.productNameBold }}</a
-        >
 
-        <p class="location">Pris: {{ dr.price }}kr</p>
+  <mat-tab label="Köp dryck"> Content 2 </mat-tab>
 
-        <p class="location">Volym: {{ dr.volume }}cl</p>
 
-        <p class="location">Kategori: {{ dr.category }}</p>
 
-        <ng-template #none>
-          <p></p>
-        </ng-template>
-      </li>
-    </ul>
+ <!-- -------------------------------Tab 2----------------------------------------------- -->
+                  <!-- --------------- Beer Supply ---------------- -->
+
+
+
+  <mat-tab label="Sortiment"> <div class="container justify-content-center" style="margin-right: 0; margin-left: 0;">
+    <h2>
+      Öl
+    </h2>
+    <button
+      class="btn btn-default"
+      style="color: white;"
+      [routerLink]="['/drink']"
+    >
+      Gå tillbaka
+    </button>
+    <button class="btn btn-primary" [routerLink]="['/drink/create']">
+      Lägg till ny dryck
+    </button>
+    <hr />
+  
+    <div class="info">
+      <ul *ngIf="drs$">
+        <li *ngFor="let dr of drs$ | async" [routerLink]="['/drink', dr.id]">
+          <a class="title" [routerLink]="['/drink', dr.id]">
+            {{ dr.productNameBold }}</a
+          >
+  
+          <p class="location">Pris: {{ dr.price }}kr</p>
+  
+          <p class="location">Volym: {{ dr.volume }}cl</p>
+  
+          <p class="location">Kategori: {{ dr.category }}</p>
+  
+          <ng-template #none>
+            <p></p>
+          </ng-template>
+        </li>
+      </ul>
+    </div>
   </div>
+ </mat-tab>
+</mat-tab-group>
+
 </div>
+
