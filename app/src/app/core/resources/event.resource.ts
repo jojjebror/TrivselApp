@@ -19,6 +19,10 @@ export class EventResource extends ApiResource {
     return this.get('event/' + id);
   }
 
+  loadUsersEvents(id: number): Observable<Event[]> {
+    return this.get('event/' + id + '/getuserevents');
+  }
+
   createEvent(ev: Event): Observable<Event> {
     return this.post('event', ev);
   }
@@ -31,13 +35,17 @@ export class EventResource extends ApiResource {
     return this.put('event/' + ev.id, ev);
   }
 
-  addOrUpdateEventParticipant(data: any[]): Observable<Event> {
+  addEventParticipantStatus(data: any[]): Observable<Event> {
     return this.post('event/' + data[0] + '/' + data[1], data[2]);
   }
-  
+
+  updateParticipantStatus(data: any[]): Observable<Event> {
+    return this.post('event/' + data[0] + '/' + data[1] + '/update', data[2]);
+  }
+
   saveImage(id: number, image: File): Observable<any> {
     var formData = new FormData();
-    formData.append('image', image, image.name);   
+    formData.append('image', image, image.name);
     return this.post2('event/' + id + '/saveimage', formData);
   }
 

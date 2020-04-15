@@ -1,3 +1,7 @@
+.container {
+  margin-top: 60px;
+}
+
 i {
   margin-right: 5px;
 }
@@ -18,7 +22,7 @@ h3 {
 
 .mat-card {
   width: 32%;
-  margin-top: 20px;
+  margin-top: 30px;
   margin-right: 1%;
   float: left;
   color: white;
@@ -33,4 +37,67 @@ h3 {
 .btnReadMore {
   width: 100%;
   text-align: right;
+}
+
+#cell-cursor {
+  cursor:pointer;
+}
+
+.titleList {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.mat-toolbar {
+  background-color: rgb(37, 2, 48);
+  color: white;
+  margin-top: 30px;
+}
+
+.mat-row {
+  background-color: rgb(37, 2, 48);
+}
+
+.mat-cell {
+  color: white;
+}
+
+.mat-header-cell {
+  background-color: rgb(37, 2, 48);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.noDataTable {
+  margin-top: 10px;
+}
+
+#acceptIcon {
+  color: green;
+}
+
+#declineIcon {
+  color: red;
+}
+
+#editIcon {
+  color: white;
+}
+
+/* active tab */
+::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+color:white;
+font-size: 18px;
+opacity: 1
+}
+
+/* ink bar */
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary {
+background-color: white !important;
+}
+
+::ng-deep .mat-tab-label .mat-tab-label-content {
+  color: white;
+  font-size: 18px;
 }

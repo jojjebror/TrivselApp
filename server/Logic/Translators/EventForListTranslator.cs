@@ -23,7 +23,8 @@ namespace Logic.Translators
                 Image = ev.Image,
                 Location = ev.Location,
                 StartDate = ev.StartDate,
-                EndDate = ev.EndDate
+                EndDate = ev.EndDate,
+                CreatorId = ev.CreatorId
             };
         }
     }

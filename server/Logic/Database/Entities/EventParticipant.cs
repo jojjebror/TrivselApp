@@ -14,8 +14,7 @@ namespace Logic.Database.Entities
         public int EventId { get; set; }
         public virtual User User { get; set; }
         public virtual Event Event { get; set; }
-        public bool Accepted { get; set; } = false;
-
+        public string Status { get; set; } = "N/A";
 
     }
 }

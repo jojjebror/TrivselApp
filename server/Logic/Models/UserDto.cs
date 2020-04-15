@@ -1,4 +1,5 @@
-﻿namespace Logic.Models
+﻿
+namespace Logic.Models
 {
     public class UserDto : BaseDto
     {

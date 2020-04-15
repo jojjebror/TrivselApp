@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
-
-import { Event } from '../../../shared/models';
+import { Event, User } from '../../../shared/models';
 import { Update } from '@ngrx/entity';
 
 export enum ActionTypes {
@@ -11,6 +10,10 @@ export enum ActionTypes {
   LOAD_EVENT = '[Events view] Load Event',
   LOAD_EVENT_SUCCESS = '[API: /event] Load Event success',
   LOAD_EVENT_ERROR = '[API: /event] Load Event error',
+
+  LOAD_EDIT_EVENT = '[Events view] Load Edit Event',
+  LOAD_EDIT_EVENT_SUCCESS = '[API: /event] Load Edit Event success',
+  LOAD_EDIT_EVENT_ERROR = '[API: /event] Load Edit Event error',
 
   CREATE_EVENT = '[Events view] Create Event',
   CREATE_EVENT_SUCCESS = '[API: /event] Create Event success',
@@ -25,20 +28,32 @@ export enum ActionTypes {
   DELETE_EVENT_ERROR = '[API: /event] Delete Event error',
 
   ADD_EVENT_PARTICIPANT = '[Events view] Add Event Participant',
-  ADD_EVENT_PARTICIPANT_SUCCESS = '[API: /Event] Add Event Participant success',
+  ADD_EVENT_PARTICIPANT_SUCCESS = '[API: /event] Add Event Participant success',
   ADD_EVENT_PARTICIPANT_ERROR = '[API: /event] Add Event Participant error',
 
   REMOVE_EVENT_PARTICIPANT = '[Events view] Remove Event Participant',
-  REMOVE_EVENT_PARTICIPANT_SUCCESS = '[API: /Event] Remove Event Participant success',
+  REMOVE_EVENT_PARTICIPANT_SUCCESS = '[API: /event] Remove Event Participant success',
   REMOVE_EVENT_PARTICIPANT_ERROR = '[API: /event] Remove Event Participant error',
 
   SAVE_IMAGE = '[Events view] Save Image',
-  SAVE_IMAGE_SUCCESS = '[API: /Event] Save Image success',
+  SAVE_IMAGE_SUCCESS = '[API: /event] Save Image success',
   SAVE_IMAGE_ERROR = '[API: /event] Save Image error',
 
+  UPDATE_IMAGE = '[Events view] Update Image',
+  UPDATE_IMAGE_SUCCESS = '[API: /event] Update Image success',
+  UPDATE_IMAGE_ERROR = '[API: /event] Update Image error',
+
   LOAD_IMAGE = '[Events view] Load Image',
-  LOAD_IMAGE_SUCCESS = '[API: /Event] Load Image success',
-  LOAD_IMAGE_ERROR = '[API: /event] Load Image error'
+  LOAD_IMAGE_SUCCESS = '[API: /event] Load Image success',
+  LOAD_IMAGE_ERROR = '[API: /event] Load Image error',
+
+  GET_USER_EVENT = '[Events view] Get User Event',
+  GET_USER_EVENT_SUCCESS = '[API: /event] Get User Event Success',
+  GET_USER_EVENT_ERROR = '[API: /event] Get User Event Error',
+
+  UPDATE_USER_PARTICIPANT = '[Events view] Add User In Event',
+  UPDATE_USER_PARTICIPANT_SUCCESS = '[API: /event] Add User In Event Success',
+  UPDATE_USER_PARTICIPANT_ERROR = '[API: /event] Add User In Event Error',
 }
 
 /*--------------LoadAllEvents--------------*/
@@ -65,6 +80,7 @@ export class LoadEvent implements Action {
   readonly type = ActionTypes.LOAD_EVENT;
 
   constructor(public payload: number) {}
+  
 }
 
 export class LoadEventSuccess implements Action {
@@ -75,6 +91,26 @@ export class LoadEventSuccess implements Action {
 
 export class LoadEventError implements Action {
   readonly type = ActionTypes.LOAD_EVENT_ERROR;
+
+  constructor(public payload: string) {}
+}
+
+/*--------------LoadEvent--------------*/
+
+export class LoadEditEvent implements Action {
+  readonly type = ActionTypes.LOAD_EDIT_EVENT;
+
+  constructor(public payload: number) {}
+}
+
+export class LoadEditEventSuccess implements Action {
+  readonly type = ActionTypes.LOAD_EDIT_EVENT_SUCCESS;
+
+  constructor(public payload: Event) {}
+}
+
+export class LoadEditEventError implements Action {
+  readonly type = ActionTypes.LOAD_EDIT_EVENT_ERROR;
 
   constructor(public payload: string) {}
 }
@@ -104,7 +140,7 @@ export class CreateEventError implements Action {
 export class UpdateEvent implements Action {
   readonly type = ActionTypes.UPDATE_EVENT;
 
-  constructor(public payload: Event) {}
+  constructor(public payload: Event, public image: File) {}
 }
 
 export class UpdateEventSuccess implements Action {
@@ -178,6 +214,26 @@ export class SaveImageError implements Action {
   constructor(public payload: string) {}
 }
 
+/*--------------UpdateImage--------------*/
+
+export class UpdateImage implements Action {
+  readonly type = ActionTypes.UPDATE_IMAGE;
+
+  constructor(public id: number, public payload: File) {}
+}
+
+export class UpdateImageSuccess implements Action {
+  readonly type = ActionTypes.UPDATE_IMAGE_SUCCESS;
+
+  constructor(public payload: boolean) {}
+}
+
+export class UpdateImageError implements Action {
+  readonly type = ActionTypes.UPDATE_IMAGE_ERROR;
+
+  constructor(public payload: string) {}
+}
+
 /*--------------GetImage--------------*/
 
 export class LoadImage implements Action {
@@ -198,6 +254,46 @@ export class LoadImageError implements Action {
   constructor(public payload: string) {}
 }
 
+/*--------------GetCurrentUserEventsParticipant--------------*/
+
+export class GetCurrentUserEvent implements Action {
+  readonly type = ActionTypes.GET_USER_EVENT;
+
+  constructor(public payload: number) {}
+}
+
+export class GetCurrentUserEventSuccess implements Action {
+  readonly type = ActionTypes.GET_USER_EVENT_SUCCESS;
+
+  constructor(public payload: Event[]) {}
+}
+
+export class GetCurrentUserEventError implements Action {
+  readonly type = ActionTypes.GET_USER_EVENT_ERROR;
+
+  constructor(public payload: string) {}
+} 
+
+/*--------------UpdateParticipantStatusInEvent--------------*/
+
+export class UpdateUserParticipant implements Action {
+  readonly type = ActionTypes.UPDATE_USER_PARTICIPANT;
+
+  constructor(public payload: any[]) {}
+}
+
+export class UpdateUserParticipantSuccess implements Action {
+  readonly type = ActionTypes.UPDATE_USER_PARTICIPANT_SUCCESS;
+
+  constructor(public payload: Update<User>) {}
+}
+
+export class UpdateUserParticipantError implements Action {
+  readonly type = ActionTypes.UPDATE_USER_PARTICIPANT_ERROR;
+
+  constructor(public payload: string) {}
+}
+
 export type Actions =
   | LoadEvents
   | LoadEventsSuccess
@@ -206,6 +302,10 @@ export type Actions =
   | LoadEvent
   | LoadEventSuccess
   | LoadEventError
+
+  | LoadEditEvent
+  | LoadEditEventSuccess
+  | LoadEditEventError
 
   | CreateEvent
   | CreateEventSuccess
@@ -222,11 +322,23 @@ export type Actions =
   | AddEventParticipant
   | AddEventParticipantSuccess
   | AddEventParticipantError
-
+  
   | SaveImage
   | SaveImageSuccess
   | SaveImageError
 
+  | UpdateImage
+  | UpdateImageSuccess
+  | UpdateImageError
+  
   | LoadImage
   | LoadImageSuccess
-  | LoadImageError;
+  | LoadImageError
+
+  | GetCurrentUserEvent
+  | GetCurrentUserEventSuccess
+  | GetCurrentUserEventError
+
+  | UpdateUserParticipant
+  | UpdateUserParticipantSuccess
+  | UpdateUserParticipantError;

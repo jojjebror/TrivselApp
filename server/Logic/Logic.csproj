@@ -256,9 +256,9 @@
     <Compile Include="Database\Migrations\201802051252482_Init.Designer.cs">
       <DependentUpon>201802051252482_Init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\Migrations\202003311451509_MergeMigration.cs" />
-    <Compile Include="Database\Migrations\202003311451509_MergeMigration.Designer.cs">
-      <DependentUpon>202003311451509_MergeMigration.cs</DependentUpon>
+    <Compile Include="Database\Migrations\202004060658016_MergeInitStatus.cs" />
+    <Compile Include="Database\Migrations\202004060658016_MergeInitStatus.Designer.cs">
+      <DependentUpon>202004060658016_MergeInitStatus.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Helpers\PagedList.cs" />
@@ -272,9 +272,11 @@
     <Compile Include="Models\EventForDetailedDto.cs" />
     <Compile Include="Models\EventForListDto.cs" />
     <Compile Include="Models\EventForUpdateDto.cs" />
+    <Compile Include="Models\EventForUserListDto.cs" />
     <Compile Include="Models\EventParticipantsDto.cs" />
     <Compile Include="Models\ExampleDto.cs" />
     <Compile Include="Models\UserDto.cs" />
+    <Compile Include="Models\UserEventsDto.cs" />
     <Compile Include="Models\UserForListDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DrinkService.cs" />
@@ -288,6 +290,7 @@
     <Compile Include="Translators\EventForDetailedTranslator.cs" />
     <Compile Include="Translators\EventForListTranslator.cs" />
     <Compile Include="Translators\EventForUpdateTranslator.cs" />
+    <Compile Include="Translators\EventForUserListTranslator.cs" />
     <Compile Include="Translators\ExampleTranslator.cs" />
     <Compile Include="Translators\UserForListTranslator.cs" />
     <Compile Include="Translators\UserTranslator.cs" />
@@ -305,8 +308,8 @@
     <EmbeddedResource Include="Database\Migrations\201802051252482_Init.resx">
       <DependentUpon>201802051252482_Init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Database\Migrations\202003311451509_MergeMigration.resx">
-      <DependentUpon>202003311451509_MergeMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Database\Migrations\202004060658016_MergeInitStatus.resx">
+      <DependentUpon>202004060658016_MergeInitStatus.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

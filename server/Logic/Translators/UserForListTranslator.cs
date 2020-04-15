@@ -20,7 +20,21 @@ namespace Logic.Translators
                 Id = user.Id,
                 Name = user.Name,
                 Email = user.Email,
-                Office = user.Office
+                Office = user.Office,
+                Events = user.EventParticipants.Select(e =>
+                    new UserEventsDto
+                    {
+                        Id = e.Event.Id,
+                        Title = e.Event.Title,
+                        Location = e.Event.Location,
+                        Description = e.Event.Description,
+                        StartDate = e.Event.StartDate,
+                        EndDate = e.Event.EndDate,
+                        Image = e.Event.Image,
+                        CreatorId = e.Event.CreatorId,
+                        Status = e.Status,
+                        Name = e.User.Name
+                    }).ToList()
             };
         }
     }
