@@ -32,6 +32,20 @@
         <a class="dropdown-item" (click)="$event.preventDefault(); logout.emit()"><i class="fa fa-sign-out"></i> Logga ut</a>
       </div>
     </div>
+
+    <div class="dropdownM" dropdown>
+      <a class="dropdown-toggle text-light" dropdownToggle>
+        Menu
+      </a>
+
+      <div class="dropdown-menu mt-3" *dropdownMenu>
+        <a class="dropdown-item" [routerLink]="['/start']"><i class="fa fa-user"></i> Hem</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item"  [routerLink]="['/event']"><i class="fa fa-sign-out"></i> Evenemang</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item"   [routerLink]="['/drink']"><i class="fa fa-sign-out"></i> Drycker</a>
+      </div>
+    </div>
   </div>
 </nav>
 
