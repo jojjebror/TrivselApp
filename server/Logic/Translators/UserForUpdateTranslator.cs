@@ -18,7 +18,6 @@ namespace Logic.Translators
             return new UserForUpdateDto
             {
                 
-                
                 Credit = user.Credit,
                 
             };
