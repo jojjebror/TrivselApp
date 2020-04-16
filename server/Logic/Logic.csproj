@@ -282,6 +282,7 @@
     <Compile Include="Models\UserDto.cs" />
     <Compile Include="Models\UserEventsDto.cs" />
     <Compile Include="Models\UserForListDto.cs" />
+    <Compile Include="Models\UserForUpdateDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DrinkService.cs" />
     <Compile Include="Services\EventService.cs" />
@@ -297,6 +298,7 @@
     <Compile Include="Translators\EventForUserListTranslator.cs" />
     <Compile Include="Translators\ExampleTranslator.cs" />
     <Compile Include="Translators\UserForListTranslator.cs" />
+    <Compile Include="Translators\UserForUpdateTranslator.cs" />
     <Compile Include="Translators\UserTranslator.cs" />
   </ItemGroup>
   <ItemGroup>
