@@ -25,6 +25,7 @@ namespace Logic.Translators
                 StartDate = ev.StartDate,
                 EndDate = ev.EndDate,
                 CreatorId = ev.CreatorId,
+                CreatorName = ev.Creator.Name,
                 Users = ev.EventParticipants.Select(u =>
                     new EventParticipantsDto
                     {

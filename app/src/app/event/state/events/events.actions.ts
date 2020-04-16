@@ -57,8 +57,11 @@ export enum ActionTypes {
 
   ADD_POST_EVENT = '[Events view] Add Post In Event',
   ADD_POST_EVENT_SUCCESS = '[API: /post] Add Post In Event Success',
-  ADD_POST_EVENT_ERROR = '[API: /post] Add Post In Event Error'
+  ADD_POST_EVENT_ERROR = '[API: /post] Add Post In Event Error',
 
+  REMOVE_POST_EVENT = '[Events view] Remove Post In Event',
+  REMOVE_POST_EVENT_SUCCESS = '[API: /post] Remove Post In Event Success',
+  REMOVE_POST_EVENT_ERROR = '[API: /post] Remove Post In Event Error',
 }
 
 /*--------------LoadAllEvents--------------*/
@@ -319,6 +322,26 @@ export class AddPostToEventError implements Action {
   constructor(public payload: string) {}
 }
 
+/*--------------DeletePostInEvent--------------*/
+
+export class DeletePost implements Action {
+  readonly type = ActionTypes.REMOVE_POST_EVENT;
+
+  constructor(public payload: number[]) {}
+}
+
+export class DeletePostSuccess implements Action {
+  readonly type = ActionTypes.REMOVE_POST_EVENT_SUCCESS;
+
+  constructor(public payload: number) {}
+}
+
+export class DeletePostError implements Action {
+  readonly type = ActionTypes.REMOVE_POST_EVENT_ERROR;
+
+  constructor(public payload: string) {}
+}
+
 export type Actions =
   | LoadEvents
   | LoadEventsSuccess
@@ -370,4 +393,8 @@ export type Actions =
 
   | AddPostToEvent
   | AddPostToEventSuccess
-  | AddPostToEventError;
+  | AddPostToEventError
+
+  | DeletePost
+  | DeletePostSuccess
+  | DeletePostError;

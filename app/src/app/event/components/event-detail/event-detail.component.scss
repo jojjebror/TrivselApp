@@ -50,6 +50,11 @@ h4 {
   opacity: 1;
 }
 
+.tab-panel {
+  height: 600px;
+  margin-left: 100px;
+}
+
 /* ink bar */
 ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,
 .mat-tab-nav-bar.mat-primary {
@@ -79,7 +84,7 @@ h4 {
   margin-top: 10px;
   margin-bottom: 20px;
   min-height: 250px;
-  max-height: 250px;
+  max-height: 560px;
   //width: 200px;
   overflow: auto;
   margin-right: 20px;
@@ -91,12 +96,16 @@ textarea {
 }
 
 textarea::placeholder {
-  color: #fff;  
+  color: black;  
 }
 
 #commentBox {
-background-color: transparent;
-color: white;
+background-color: white;
+color: black;
+border-radius: 10px;
+resize: none;
+outline: none;
+
 }
 
 .postBox {
@@ -108,15 +117,9 @@ color: white;
  position:absolute;
  bottom:10px;
  right: 0px;
+ color: black;
 }
 
-/*  .comments {
-  border-style: groove;
-  border:1px;
-  border-color:white;
-  padding: 1em;
-} 
- */
 /* width */
 ::-webkit-scrollbar {
   width: 5px;
@@ -130,10 +133,41 @@ color: white;
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #f1f1f1;
-  //rgb(62, 62, 100);
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #e0e0e0;
+}
+
+.comment-wrapper .panel-body {
+    max-height:650px;
+    width: 400px;
+    //overflow:auto;
+}
+
+.comment-wrapper .media-list .media {
+    border-bottom:1px solid #efefef;
+    margin-bottom: 10px;
+}
+
+ul {
+  padding-left: 0;
+}
+
+#postContent {
+  word-wrap: break-word;
+  width: 400px;
+  margin: 5px;
+}
+
+#removeComment {
+  vertical-align: middle;
+  float: right;
+  color: red;
+  cursor: pointer;
+}
+
+#userIcon {
+  vertical-align: middle;
 }

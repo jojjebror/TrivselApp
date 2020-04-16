@@ -145,6 +145,16 @@ export function reducer(state: EventsState = initialState, action: eventsActions
       };
     }
 
+    case eventsActions.ActionTypes.REMOVE_POST_EVENT_SUCCESS: {
+      return adapter.removeOne(action.payload, state);
+    }
+    case eventsActions.ActionTypes.REMOVE_POST_EVENT_ERROR: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+
     default:
       return state;
   }

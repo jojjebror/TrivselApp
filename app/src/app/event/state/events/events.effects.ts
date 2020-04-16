@@ -198,8 +198,21 @@ export class EventsEffects {
           }),
           new eventsActions.LoadEvent(post.eventId),
         ]),
-        catchError((err) => of(new eventsActions.UpdateUserParticipantError(err)))
+        catchError((err) => of(new eventsActions.AddPostToEventError(err)))
       )
     )
+  );
+
+  @Effect()
+  deletePost$: Observable<Action> = this.actions$.pipe(
+    ofType(eventsActions.ActionTypes.REMOVE_POST_EVENT),
+    map((action: eventsActions.DeletePost) => action.payload),
+    switchMap((post: number[]) =>
+      this.eventResource.deletePost(post).pipe(
+        map(() => new eventsActions.DeletePostSuccess(post[0])),
+        map(() => new eventsActions.LoadEvent(post[1])),
+        catchError((err) => of(new eventsActions.DeletePostError(err)))
+      )
+    ) 
   );
 }

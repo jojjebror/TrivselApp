@@ -121,6 +121,12 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+  deletePost(id: number, postId: number) {
+      var data = [id, postId]; 
+      this.store$.dispatch(new fromEvents.DeletePost(data));
+      this.alertify.success('Kommentaren borttagen');
+  }
+
   /* checkDates(startdate: Date, enddate: Date) {
     if(startdate.getUTCDate != enddate.getUTCDate) {
       return true;

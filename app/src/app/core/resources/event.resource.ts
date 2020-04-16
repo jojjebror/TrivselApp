@@ -56,4 +56,8 @@ export class EventResource extends ApiResource {
   createPost(data: Post): Observable<Post> {
     return this.post('post', data);
   }
+
+  deletePost(data: any[]): Observable<Event> {
+    return this.delete('post/' + data[0] + '/' + data[1]);
+  }
 }

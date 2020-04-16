@@ -7,8 +7,15 @@
       <div *ngIf="ev.image">
         <img class="card-img-top img-thumbnail" src="../../assets/{{ ev.image }}" />
       </div>
+      <!-- <div *ngIf="ev.image.length == 0">
+        <p style="margin-top: 25px;"></p>
+      </div> -->
       <div class="card">
         <div class="card-body">
+          <div>
+            <strong>Information:</strong>
+            <p>{{ ev.description }}</p>
+          </div>
           <div>
             <strong>Plats:</strong>
             <p>{{ ev.location }}</p>
@@ -26,6 +33,10 @@
               {{ ev.startDate | date: 'dd/M' }} -
               {{ ev.endDate | date: 'dd/M/yyyy' }}
             </p>
+            <div>
+              <strong>Skapad av:</strong>
+              <p>{{ ev.creatorName }}</p>
+            </div>
             <!--             <p *ngIf="!checkDates(ev.startDate, ev.endDate)">
               {{ ev.endDate | date: 'dd/M/yyyy' }}
             </p> -->
@@ -70,32 +81,58 @@
         <mat-tab-group animationDuration="0ms">
           <mat-tab label="Om evenemang">
             <mat-list>
-              <mat-list-item>
-                <h6 style="color: white; font-weight: bold;">
-                  Beskrivning
-                </h6>
-              </mat-list-item>
-              <mat-list-item>
-                <p style="margin-top: 20px;">
-                  {{ ev.description }}
-                </p>
-              </mat-list-item>
-
               <form [formGroup]="postForm" (ngSubmit)="createPost()">
                 <div class="postBox">
-                  <textarea id="commentBox" placeholder=" Kommentera..." formControlName="content" cols="30" rows="3"
-                    autocomplete="off"></textarea>
+                  <textarea
+                    id="commentBox"
+                    placeholder="  Kommentera..."
+                    formControlName="content"
+                    cols="30"
+                    rows="3"
+                    autocomplete="off"
+                  ></textarea>
                   <button mat-button class="postBtn" type="submit">Posta</button>
                 </div>
               </form>
-              <div></div>
-              <mat-list-item *ngFor="let post of posts$ | async">
-                <div style="margin-top: 20px" *ngIf="posts$ | async">
-                <p style="border: 1px; border-color: white; border-style: groove; margin-top: 10px;">
-                  {{ post.creatorName }} - {{ post.created | date: 'dd/M/yyyy-HH:mm' }} - {{ post.content }}
-                </p>
+
+              <div class="bootstrap snippets">
+                <div class="">
+                  <div class="comment-wrapper">
+                    <div class="panel panel-info">
+                      <div class="panel-body">
+                        <div class="clearfix"></div>
+                        <hr />
+                        <ul class="media-list" *ngFor="let post of posts$ | async">
+                          <li class="media">
+                            <div>
+                              <strong><span class="material-icons" id="userIcon"> account_box </span> {{ post.creatorName }}</strong>
+                              <span class="text-muted pull-right">
+                                <small class="text-muted"> - {{ post.created | date: 'dd/M/yyyy-HH:mm' }}</small>
+                              </span>
+
+                              <button
+                                mat-icon-button
+                                #tooltip="matTooltip"
+                                matTooltip="Ta bort kommentar"
+                                matTooltipPosition="right"
+                                (click)="deletePost(post.id, post.eventId)"
+                              >
+                                <span class="material-icons" id="removeComment">
+                                  clear
+                                </span>
+                              </button>
+
+                              <p id="postContent">
+                                {{ post.content }}
+                              </p>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </mat-list-item>
+              </div>
             </mat-list>
           </mat-tab>
           <mat-tab label="Inbjudningar ({{ countParticipants(invitedParticipants$) }})">

@@ -17,6 +17,7 @@ namespace Logic.Models
         public DateTime EndDate { get; set; }
         public DateTime CreateDate { get; set; }
         public int CreatorId { get; set; }
+        public string CreatorName { get; set; }
         public ICollection<EventParticipantsDto> Users { get; set; }
         public ICollection<PostDto> Posts { get; set; }
 
