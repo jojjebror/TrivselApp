@@ -56,7 +56,7 @@ namespace Logic.Services
             var dbUser = await _context.Users
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            dbUser.Credit = user.Credit;
+            dbUser.Credit =  dbUser.Credit + user.Credit;
 
             await _context.SaveChangesAsync();
 

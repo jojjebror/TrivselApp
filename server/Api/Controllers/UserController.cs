@@ -41,7 +41,13 @@ namespace Api.Controllers
             var fetch = await _userService.GetCredit();
             return new OkObjectResult(ApiResponse.Create(fetch));
         }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> AddCredit(int id, [FromBody] UserForUpdateDto user)
+        {
+            var fetch = await _userService.AddCredit(id, user);
+            return new OkObjectResult(ApiResponse.Create(fetch));
+        }
+    
 
-
-    }
+}
 }
