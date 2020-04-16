@@ -1,7 +1,22 @@
 import { DrinksState } from "./drinks.model";
 
-import { adapter } from "./drinks.adapter";
+import { adapter, adapterPrice } from "./drinks.adapter";
 import * as drinksActions from "./drinks.actions";
+
+let initialStatePrice = adapterPrice.getInitialState({
+  selectedDrinkId: null,
+  loading: false,
+  loaded: false,
+  error: "",
+});
+
+case drinksActions.ActionTypes.LOAD_PRICES_SUCCESS: {
+  return adapterPrice.addAll(action.payload, {
+    ...state,
+    loading: false,
+    loaded: true,
+  });
+}
 
 let initialState = adapter.getInitialState({
   selectedDrinkId: null,
@@ -32,6 +47,8 @@ export function reducer(
         error: action.payload,
       };
     }
+
+
 
     case drinksActions.ActionTypes.LOAD_DRINK_SUCCESS: {
       return adapter.addOne(action.payload, {

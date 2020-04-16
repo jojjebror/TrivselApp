@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 
 import { Drink } from '../../shared/models';
 import { text } from "@angular/core/src/render3";
+import { PriceClass } from "src/app/shared/models/dto/PriceClassDto";
 
 @Injectable()
 export class DrinkResource extends ApiResource {
@@ -36,6 +37,10 @@ export class DrinkResource extends ApiResource {
     filterDrink(dr: string): Observable<Drink[]>
     {
         return this.get('drink/' + 'filter?filter=' + dr);
+    }
+
+    loadPrices(): Observable<PriceClass[]> {
+        return this.get('drink/prices');
     }
     
 }

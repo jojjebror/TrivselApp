@@ -2,6 +2,7 @@ import { Action } from "@ngrx/store";
 
 import { Update } from "@ngrx/entity";
 import { Drink } from "../../../shared/models";
+import { PriceClass } from "src/app/shared/models";
 
 export enum ActionTypes {
   LOAD_DRINKS = "[Drinks view] Load Drinks",
@@ -23,6 +24,10 @@ export enum ActionTypes {
   FILTER_DRINK = "[Drinks view] Filter Drink",
   FILTER_DRINK_SUCCESS = "[API: /drink] Filter Drink success",
   FILTER_DRINK_ERROR = "[API: /drink] Filter Drink error",
+
+  LOAD_PRICES = "[Drinks view] Load Prices",
+  LOAD_PRICES_SUCCESS = "[API: /drink/prices] Load Prices success",
+  LOAD_PRICES_ERROR = "[API: /drink/prices] Load Prices error",
 }
 
 /*--------------LoadAllEvents--------------*/
@@ -39,6 +44,23 @@ export class LoadDrinksSuccess implements Action {
 
 export class LoadDrinksError implements Action {
   readonly type = ActionTypes.LOAD_DRINKS_ERROR;
+
+  constructor(public payload: string) {}
+}
+
+/*--------------LoadPrices-------------*/
+export class LoadPrices implements Action {
+  readonly type = ActionTypes.LOAD_PRICES;
+}
+
+export class LoadPricesSuccess implements Action {
+  readonly type = ActionTypes.LOAD_PRICES_SUCCESS;
+
+  constructor(public payload: PriceClass[]) {}
+}
+
+export class LoadPricesError implements Action {
+  readonly type = ActionTypes.LOAD_PRICES_ERROR;
 
   constructor(public payload: string) {}
 }
@@ -157,4 +179,7 @@ export type Actions =
   | DeleteDrinkError
   | FilterDrink
   | FilterDrinkError
-  | FilterDrinkSuccess;
+  | FilterDrinkSuccess
+  | LoadPrices
+  | LoadPricesSuccess
+  | LoadPricesError;
