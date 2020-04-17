@@ -8,8 +8,9 @@ namespace Logic.Models
 {
     public class UserForUpdateDto : BaseDto
     {
-       
 
+        public string Email { get; set; }
+        public string Name { get; set; }
         public int Credit { get; set; }
 
     }

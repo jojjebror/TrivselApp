@@ -20,8 +20,12 @@ export class UserResource extends ApiResource {
     return this.get('user');
   }
 
-  addCredit(u: User): Observable<User> {
+ /*  addCredit(u: User): Observable<User> {
     return this.put('user/' + u.id, u );
+  } */
+
+  addCredit(data: number[]): Observable<User> {
+    return this.put('user/' + data[0] + '/' + data[1], {});
   }
 
   removeCredit(u: User): Observable<User> {

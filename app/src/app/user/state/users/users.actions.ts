@@ -40,7 +40,7 @@ export class GetUsersError implements Action {
 export class UpdateCredit implements Action {
   readonly type = ActionTypes.UPDATE_CREDIT;
 
-  constructor(public payload: User) {}
+  constructor(public payload: any[]) {}
 }
 
 export class UpdateCreditSuccess implements Action {

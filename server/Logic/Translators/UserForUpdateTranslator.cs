@@ -17,9 +17,11 @@ namespace Logic.Translators
 
             return new UserForUpdateDto
             {
-                
+                Id = user.Id,
+                Name = user.Name,
                 Credit = user.Credit,
-                
+                Email = user.Email
+
             };
         }
     }

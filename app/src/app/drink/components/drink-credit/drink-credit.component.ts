@@ -18,7 +18,7 @@ import * as fromSession from '../../../core/state/session'
 export class DrinkCreditComponent implements OnInit {
 
   usr$: Observable<User>;
-  userCredit: number;
+  userId: number;
   userCreditForm: FormGroup;
   user: User;
 
@@ -34,26 +34,30 @@ export class DrinkCreditComponent implements OnInit {
 
 
   ngOnInit() {
-  //  this.usr$ = this.store$.pipe(select(fromSession.selectUser));
- //  this.createCreditForm();
+    this.store$.select(fromSession.selectUser).subscribe((currentuser ) => (this.userId = currentuser.id));
+    console.log(this.userId);
+     this.createCreditForm();
   }
 
   createCreditForm() {
    // this.usr$.subscribe((user) => {
       this.userCreditForm = this.fb.group({
+        id: [this.userId],
         credit: ['', Validators.required],
       });
     
   }
   addCredit() {
-   this.store$.select(fromSession.selectUser).subscribe((user)=> (this.userCredit = user.credit));
-    var newSaldo = this.userCreditForm.value + this.userCredit;
-      this.user = Object.assign({}, this.userCreditForm.value + this.userCredit);
-      console.log(newSaldo);
-      this.store$.dispatch(new fromUser.UpdateCredit(this.user));
-      this.alertify.success("Ditt saldo är ändrat!");
-      console.log(this.userCreditForm.get('credit'));
+
+    this.user = Object.assign({}, this.userCreditForm.value);
+    console.log(this.user);
+
+    var data = [this.userId, this.userCreditForm.get('credit').value]
+
+    this.store$.dispatch(new fromUser.UpdateCredit(data));
+    this.alertify.success("Information om drycken har ändrats!");
     
   }
+
 
 }
