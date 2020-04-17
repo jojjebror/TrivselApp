@@ -19,6 +19,14 @@ export class UserResource extends ApiResource {
   getUsers(): Observable<User[]> {
     return this.get('user');
   }
+
+  addCredit(u: User): Observable<User> {
+    return this.put('user/' + u.id, u );
+  }
+
+  removeCredit(u: User): Observable<User> {
+    return this.put('user/' + u.id, u)
+  }
  
   /* updateParticipantStatus(data: any[]): Observable<User> {
     return this.post('user/' + data[0] + '/' + data[1], data[2]);

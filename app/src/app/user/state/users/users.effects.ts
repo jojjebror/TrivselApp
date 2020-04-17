@@ -26,4 +26,46 @@ export class UsersEffects {
       )
     )
   );
+ 
+    // update Credit
+    @Effect()
+    updateCredit$: Observable<Action> = this.actions$.pipe(
+      ofType<usersActions.UpdateCredit>(usersActions.ActionTypes.UPDATE_CREDIT),
+      map((action: usersActions.UpdateCredit) => action.payload),
+      mergeMap((user: User) =>
+        this.userResource.addCredit(user).pipe(
+          map(
+            (addedCredit: User) =>
+              new usersActions.UpdateCreditSuccess({
+                id: addedCredit.id,
+                changes: addedCredit,
+              })
+          ),
+       //   tap(() => this.router.navigate(["/drink/" + drink.id])),
+          catchError((err) => of(new usersActions.UpdateCreditError(err)))
+        )
+      )
+    );
+
+        // remove Credit
+        @Effect()
+        removeCredit$: Observable<Action> = this.actions$.pipe(
+          ofType<usersActions.removeCredit>(usersActions.ActionTypes.REMOVE_CREDIT),
+          map((action: usersActions.removeCredit) => action.payload),
+          mergeMap((user: User) =>
+            this.userResource.removeCredit(user).pipe(
+              map(
+                (removeedCredit: User) =>
+                  new usersActions.UpdateCreditSuccess({
+                    id: removeedCredit.id,
+                    changes: removeedCredit,
+                  })
+              ),
+           //   tap(() => this.router.navigate(["/drink/" + drink.id])),
+              catchError((err) => of(new usersActions.UpdateCreditError(err)))
+            )
+          )
+        );
+
+
 }
