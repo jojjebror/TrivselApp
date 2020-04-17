@@ -1,4 +1,9 @@
-﻿using Logic.Database;
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Apis.Calendar.v3;
+using Google.Apis.Calendar.v3.Data;
+using Google.Apis.Services;
+using Google.Apis.Util.Store;
+using Logic.Database;
 using Logic.Database.Entities;
 using Logic.Models;
 using Logic.Translators;
@@ -8,8 +13,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Logic.Services
@@ -40,8 +44,7 @@ namespace Logic.Services
 
         public async Task<EventForCreateDto> CreateEvent(EventForCreateDto ev)
         {
-
-            var newEvent = new Event()
+            var newEvent = new Database.Entities.Event()
             {
                 Title = ev.Title,
                 Description = ev.Description,
@@ -57,28 +60,16 @@ namespace Logic.Services
 
             _context.Events.Add(newEvent);
 
-            //bryta ut till två egna metoder nedan..
+            var eventParticipants = new List<EventParticipant>();
+            eventParticipants.Add(new EventParticipant { EventId = ev.Id, UserId = ev.CreatorId, Status = "Accepted" });
 
-            var CheckIfUserIsAddedInOffice = new List<EventParticipant>();
-
-            if (ev.Offices != null)
+            if (ev.Offices.Length > 0)
             {
                 foreach (var office in ev.Offices)
                 {
-                    var usersToAdd = await _context.Users.Where(o => o.Office == office).ToListAsync();
-
-                    foreach (var user in usersToAdd)
-                    {
-
-                        var newEventParticipant = new EventParticipant()
-                        {
-                            EventId = ev.Id,
-                            UserId = user.Id
-                        };
-
-                        CheckIfUserIsAddedInOffice.Add(newEventParticipant);
-                        _context.EventParticipants.Add(newEventParticipant);
-                    }
+                    var usersToAdd = await _context.Users.Where(o => (o.Office == office && o.Id != ev.CreatorId)).ToListAsync();
+                    eventParticipants.AddRange(usersToAdd.Select(u => 
+                        new EventParticipant { EventId = ev.Id, UserId = u.Id }).ToList());
                 }
             }
 
@@ -86,28 +77,25 @@ namespace Logic.Services
             {
                 foreach (var user in ev.Users)
                 {
-                    var newEventParticipant = new EventParticipant()
+                    if (!eventParticipants.Exists(ep => (ep.EventId == ev.Id && ep.UserId == user.Id))) 
                     {
-                        EventId = ev.Id,
-                        UserId = user.Id
-                    };
-
-                    if (!CheckIfUserIsAddedInOffice.Exists(x => x.UserId == newEventParticipant.UserId))
-                    {
-                        _context.EventParticipants.Add(newEventParticipant);
+                        eventParticipants.Add(new EventParticipant { EventId = ev.Id, UserId = user.Id });                 
                     }
                 }
             }
 
+            _context.EventParticipants.AddRange(eventParticipants);
             await _context.SaveChangesAsync();
+
+            //Create a google calendar event
+            CreateGoogleCalendarEvent(ev, eventParticipants);
 
             return EventForCreateTranslator.ToModel(newEvent);
         }
 
         public async Task<EventForUpdateDto> UpdateEvent(int id, EventForUpdateDto ev)
         {
-            var dbEvent = await _context.Events
-                .FirstOrDefaultAsync(e => e.Id == id);
+            var dbEvent = await _context.Events.FindAsync(id);
 
             dbEvent.Title = ev.Title;
             dbEvent.Location = ev.Location;
@@ -125,7 +113,7 @@ namespace Logic.Services
 
         public async Task<int> DeleteEvent(int id)
         {
-            var dbEvent = await _context.Events.FirstOrDefaultAsync(e => e.Id == id);
+            var dbEvent = await _context.Events.FindAsync(id);
 
             _context.Events.Remove(dbEvent);
             await _context.SaveChangesAsync();
@@ -143,18 +131,17 @@ namespace Logic.Services
             if (participantExists != null)
             {
                 participantExists.Status = answer;
-            }
-            else {
-
-            //Add participants answer to db if not answered earlier
-                var ep = new EventParticipant
+            } else
             {
-                EventId = eventId,
-                UserId = userId,
-                Status = answer
-            };
+                //Add participants answer to db if not answered earlier
+                var ep = new EventParticipant
+                {
+                    EventId = eventId,
+                    UserId = userId,
+                    Status = answer
+                };
 
-            _context.EventParticipants.Add(ep);
+                _context.EventParticipants.Add(ep);
             }
 
             await _context.SaveChangesAsync();
@@ -177,27 +164,25 @@ namespace Logic.Services
             var dbEvent = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId)
                 .Include(us => us.Event.Creator).ToListAsync();
 
-            return dbEvent.Select(EventForUserListTranslator.ToModel).ToList();
+            return dbEvents.Select(EventForUserListTranslator.ToModel).ToList();
 
         }
 
-        public async Task<bool> SaveImage(int id, IFormFile image)
+        public async Task<EventForCreateDto> SaveImage(int id, IFormFile image)
         {
-            var folderName = Path.Combine("Resources", "Images");
-            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-            pathToSave = pathToSave.Replace("Api", "Logic");
-
-            //Tillfällig lösning, går inte att använda Path till app
-            var folderName2 = Path.Combine("images", "event-images");
-            var pathToSave2 = "C:\\Users\\andre\\TrivselAppV2\\app\\src\\assets\\images\\event-images";
+            var dbEvent = await _context.Events.FindAsync(id);
 
             if (image.Length > 0)
             {
-                var fileName = id.ToString() + Path.GetExtension(image.FileName);
-                var fullPath = Path.Combine(pathToSave2, fileName);
-                var dbPath = Path.Combine(folderName2, fileName);
+                var folderName = Path.Combine("assets", "images", "event-images");
+                var pathToSave = Path.GetFullPath(folderName);
+                pathToSave = pathToSave.Replace("server\\Api", "app\\src");
 
-                var files = Directory.GetFiles(pathToSave2, id.ToString() + ".*");
+                var fileName = id.ToString() + Path.GetExtension(image.FileName);
+                var fullPath = Path.Combine(pathToSave, fileName);
+                var dbPath = Path.Combine(folderName, fileName);
+
+                var files = Directory.GetFiles(pathToSave, id.ToString() + ".*");
                 if (files.Length > 0)
                 {
                     foreach (var file in files)
@@ -210,45 +195,14 @@ namespace Logic.Services
                 {
                     image.CopyTo(stream);
                 }
+             
+                dbEvent.Image = dbPath;
 
-                _context.Events.Find(id).Image = dbPath;
                 await _context.SaveChangesAsync();
+            } 
 
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return EventForCreateTranslator.ToModel(dbEvent);
         }
-
-        public async Task<string> GetImage(int id)
-        {
-            var dbEvent = await _context.Events.FindAsync(id);
-            var imagePath = dbEvent.Image;
-            var fullPath = Path.GetFullPath(imagePath);
-            fullPath = fullPath.Replace("Api", "Logic");
-
-            var fullPath2 = Path.GetFullPath(imagePath);
-            
-            return fullPath2;
-        }
-
-        //public async Task<HttpResponseMessage> GetImage(int id)
-        //{
-        //    var dbEvent = await _context.Events.FindAsync(id);
-        //    var imagePath = dbEvent.Image;
-        //    var fullPath = Path.GetFullPath(imagePath);
-        //    fullPath = fullPath.Replace("Api", "Logic");
-
-        //    using (var fs = new FileStream(fullPath, FileMode.Open))
-        //    {
-        //        HttpResponseMessage response = new HttpResponseMessage();
-        //        response.Content = new StreamContent(fs);
-        //        response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
-        //        return response;
-        //    }
-        //}
 
         public async Task<ICollection<EventForUserListDto>> GetCurrentUserEvents(int userId)
         {
@@ -256,9 +210,83 @@ namespace Logic.Services
             var dbEvent = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId)
                 .Include(us => us.Event.Creator).ToListAsync();
 
-            return dbEvent.Select(EventForUserListTranslator.ToModel).ToList();
+            return dbEvents.Select(EventForUserListTranslator.ToModel).ToList();
         }
 
+        public void CreateGoogleCalendarEvent(EventForCreateDto ev, List<EventParticipant> eps)
+        {
+            // trivselapp@gmail.com exsitec123
+            // If modifying these scopes, delete your previously saved credentials
+            // at ~/.credentials/calendar-dotnet-quickstart.json
+            string[] Scopes = { CalendarService.Scope.Calendar };
+            string ApplicationName = "Google Calendar API .NET Quickstart";
+
+            UserCredential credential;
+
+            using (var stream =
+                new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+            {
+                // The file token.json stores the user's access and refresh tokens, and is created
+                // automatically when the authorization flow completes for the first time.
+                string credPath = "token.json";
+                credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+                    GoogleClientSecrets.Load(stream).Secrets,
+                    Scopes,
+                    "user",
+                    CancellationToken.None,
+                    new FileDataStore(credPath, true)).Result;
+            }
+
+            // Create Google Calendar API service.
+            var calendarService = new CalendarService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = ApplicationName,
+            });
+
+            //Get all users details that is participating
+            var users = new List<User>();
+            foreach(var ep in eps)
+            {
+                users.Add(_context.Users.Find(ep.UserId));
+            }
+            var organizer = users.Find(u => u.Id == ev.CreatorId);
+
+            //Create google event
+            var googleEv = new Google.Apis.Calendar.v3.Data.Event()
+            {
+                Summary = ev.Title,
+                Description = ev.Description,
+                Location = ev.Location,
+                Start = new EventDateTime()
+                {
+                    DateTime = new DateTime(ev.StartDate.Year, ev.StartDate.Month, ev.StartDate.Day,
+                        ev.StartTime.Hour, ev.StartTime.Minute, 0),
+                    TimeZone = "Europe/Stockholm"
+                },
+                End = new EventDateTime()
+                {
+                    DateTime = new DateTime(ev.EndDate.Year, ev.EndDate.Month, ev.EndDate.Day,
+                        ev.EndTime.Hour, ev.EndTime.Minute, 0),
+                    TimeZone = "Europe/Stockholm"
+                },
+                Attendees = new List<EventAttendee>(),
+                Created = ev.CreateDate,
+            };
+
+            foreach(var user in users)
+            {
+                googleEv.Attendees.Add(new EventAttendee() {  DisplayName = user.Name, Email = user.Email });
+            }
+            var creator = googleEv.Attendees.FirstOrDefault(a => a.Email == organizer.Email).ResponseStatus = "accepted";
+
+            //Insert in primary(default) calendar for account and send email notification to all attendees
+            var calendarId = "primary";
+            EventsResource.InsertRequest insertRequest = calendarService.Events.Insert(googleEv, calendarId);
+
+            insertRequest.SendUpdates = 0;
+            insertRequest.Execute();
+        }
     }
 }
 
