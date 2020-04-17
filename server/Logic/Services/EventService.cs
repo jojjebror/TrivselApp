@@ -21,22 +21,202 @@ namespace Logic.Services
     public class EventService
     {
         private readonly DatabaseContext _context;
-        private readonly CalendarService _calendarService;
 
         public EventService(DatabaseContext context)
         {
             _context = context;
-            _calendarService = CreateCalendarService();
         }
 
-        public CalendarService CreateCalendarService()
+        public async Task<EventForDetailedDto> GetEvent(int id)
         {
-            //trivselapp@gmail.com exsitec123
+            var dbEvent = await _context.Events.Include(e => e.EventParticipants
+                .Select(u => u.User).Select(u => u.EventParticipants)).FirstOrDefaultAsync(e => e.Id == id);
 
+            return EventForDetailedTranslator.ToModel(dbEvent);
+        }
+
+        public async Task<ICollection<EventForListDto>> GetEvents()
+        {
+            var dbEvents = await _context.Events.ToListAsync();
+
+            return dbEvents.Select(EventForListTranslator.ToModel).ToList();
+        }
+
+        public async Task<EventForCreateDto> CreateEvent(EventForCreateDto ev)
+        {
+            var newEvent = new Database.Entities.Event()
+            {
+                Title = ev.Title,
+                Description = ev.Description,
+                Location = ev.Location,
+                Image = ev.Image,
+                StartDate = new DateTime(ev.StartDate.Year, ev.StartDate.Month,
+                    ev.StartDate.Day, ev.StartTime.Hour, ev.StartTime.Minute, 0),
+                EndDate = new DateTime(ev.EndDate.Year, ev.EndDate.Month,
+                    ev.EndDate.Day, ev.EndTime.Hour, ev.EndTime.Minute, 0),
+                CreateDate = ev.CreateDate,
+                CreatorId = ev.CreatorId
+            };
+
+            _context.Events.Add(newEvent);
+
+            var eventParticipants = new List<EventParticipant>();
+            eventParticipants.Add(new EventParticipant { EventId = ev.Id, UserId = ev.CreatorId, Status = "Accepted" });
+
+            if (ev.Offices.Length > 0)
+            {
+                foreach (var office in ev.Offices)
+                {
+                    var usersToAdd = await _context.Users.Where(o => (o.Office == office && o.Id != ev.CreatorId)).ToListAsync();
+                    eventParticipants.AddRange(usersToAdd.Select(u => 
+                        new EventParticipant { EventId = ev.Id, UserId = u.Id }).ToList());
+                }
+            }
+
+            if (ev.Users != null)
+            {
+                foreach (var user in ev.Users)
+                {
+                    if (!eventParticipants.Exists(ep => (ep.EventId == ev.Id && ep.UserId == user.Id))) 
+                    {
+                        eventParticipants.Add(new EventParticipant { EventId = ev.Id, UserId = user.Id });                 
+                    }
+                }
+            }
+
+            _context.EventParticipants.AddRange(eventParticipants);
+            await _context.SaveChangesAsync();
+
+            //Create a google calendar event
+            CreateGoogleCalendarEvent(ev, eventParticipants);
+
+            return EventForCreateTranslator.ToModel(newEvent);
+        }
+
+        public async Task<EventForUpdateDto> UpdateEvent(int id, EventForUpdateDto ev)
+        {
+            var dbEvent = await _context.Events.FindAsync(id);
+
+            dbEvent.Title = ev.Title;
+            dbEvent.Location = ev.Location;
+            dbEvent.Description = ev.Description;
+            dbEvent.Image = ev.Image;
+            dbEvent.StartDate = new DateTime(ev.StartDate.Year, ev.StartDate.Month,
+                ev.StartDate.Day, ev.StartTime.Hour, ev.StartTime.Minute, 0);
+            dbEvent.EndDate = new DateTime(ev.EndDate.Year, ev.EndDate.Month, 
+                ev.EndDate.Day, ev.EndTime.Hour, ev.EndTime.Minute, 0);
+
+            await _context.SaveChangesAsync();
+
+            return EventForUpdateTranslator.ToModel(dbEvent);
+        }
+
+        public async Task<int> DeleteEvent(int id)
+        {
+            var dbEvent = await _context.Events.FindAsync(id);
+
+            _context.Events.Remove(dbEvent);
+            await _context.SaveChangesAsync();
+
+            return id;
+        }
+
+        public async Task<EventForDetailedDto> AddEventParticipantStatus(int eventId, int userId, string answer)
+        {
+            //Check if participant already has answered to the event
+            var participantExists = await _context.EventParticipants
+                .FirstOrDefaultAsync(ep => ep.EventId == eventId && ep.UserId == userId);
+
+            //Update participants answer if already answered
+            if (participantExists != null)
+            {
+                participantExists.Status = answer;
+            } else
+            {
+                //Add participants answer to db if not answered earlier
+                var ep = new EventParticipant
+                {
+                    EventId = eventId,
+                    UserId = userId,
+                    Status = answer
+                };
+
+                _context.EventParticipants.Add(ep);
+            }
+
+            await _context.SaveChangesAsync();
+
+            var dbEvent = await _context.Events.Include(e => e.EventParticipants
+               .Select(u => u.User)).FirstOrDefaultAsync(e => e.Id == eventId);
+
+            return EventForDetailedTranslator.ToModel(dbEvent);
+        }
+
+        public async Task<ICollection<EventForUserListDto>> UpdateParticipantStatus(int eventId, int userId, string answer)
+        {
+            var participant = await _context.EventParticipants
+                .FirstOrDefaultAsync(ep => ep.EventId == eventId && ep.UserId == userId);
+
+            participant.Status = answer;
+
+            await _context.SaveChangesAsync();
+
+            var dbEvents = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId).ToListAsync();
+
+            return dbEvents.Select(EventForUserListTranslator.ToModel).ToList();
+
+        }
+
+        public async Task<EventForCreateDto> SaveImage(int id, IFormFile image)
+        {
+            var dbEvent = await _context.Events.FindAsync(id);
+
+            if (image.Length > 0)
+            {
+                var folderName = Path.Combine("assets", "images", "event-images");
+                var pathToSave = Path.GetFullPath(folderName);
+                pathToSave = pathToSave.Replace("server\\Api", "app\\src");
+
+                var fileName = id.ToString() + Path.GetExtension(image.FileName);
+                var fullPath = Path.Combine(pathToSave, fileName);
+                var dbPath = Path.Combine(folderName, fileName);
+
+                var files = Directory.GetFiles(pathToSave, id.ToString() + ".*");
+                if (files.Length > 0)
+                {
+                    foreach (var file in files)
+                    {
+                        File.Delete(file);
+                    }
+                }
+
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    image.CopyTo(stream);
+                }
+             
+                dbEvent.Image = dbPath;
+
+                await _context.SaveChangesAsync();
+            } 
+
+            return EventForCreateTranslator.ToModel(dbEvent);
+        }
+
+        public async Task<ICollection<EventForUserListDto>> GetCurrentUserEvents(int userId)
+        {
+            var dbEvents = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId).ToListAsync();
+
+            return dbEvents.Select(EventForUserListTranslator.ToModel).ToList();
+        }
+
+        public void CreateGoogleCalendarEvent(EventForCreateDto ev, List<EventParticipant> eps)
+        {
+            // trivselapp@gmail.com exsitec123
             // If modifying these scopes, delete your previously saved credentials
             // at ~/.credentials/calendar-dotnet-quickstart.json
             string[] Scopes = { CalendarService.Scope.Calendar };
-            string ApplicationName = "Exsitec TrivselApp Google Calendar";
+            string ApplicationName = "Google Calendar API .NET Quickstart";
 
             UserCredential credential;
 
@@ -61,20 +241,23 @@ namespace Logic.Services
                 ApplicationName = ApplicationName,
             });
 
-            return calendarService;
-        }
+            //Get all users details that is participating
+            var users = new List<User>();
+            foreach(var ep in eps)
+            {
+                users.Add(_context.Users.Find(ep.UserId));
+            }
+            var organizer = users.Find(u => u.Id == ev.CreatorId);
 
-        public void CreateGoogleCalendarService(EventForCreateDto ev)
-        {
             //Create google event
-            var googleEv = new Google.Apis.Calendar.v3.Data.Event() 
+            var googleEv = new Google.Apis.Calendar.v3.Data.Event()
             {
                 Summary = ev.Title,
                 Description = ev.Description,
                 Location = ev.Location,
                 Start = new EventDateTime()
                 {
-                    DateTime = new DateTime(ev.StartDate.Year, ev.StartDate.Month, ev.StartDate.Day, 
+                    DateTime = new DateTime(ev.StartDate.Year, ev.StartDate.Month, ev.StartDate.Day,
                         ev.StartTime.Hour, ev.StartTime.Minute, 0),
                     TimeZone = "Europe/Stockholm"
                 },
@@ -84,254 +267,23 @@ namespace Logic.Services
                         ev.EndTime.Hour, ev.EndTime.Minute, 0),
                     TimeZone = "Europe/Stockholm"
                 },
-                Attendees = ev.Users.Select(u => 
-                    new EventAttendee() { DisplayName = u.Name, Email = u.Email }).ToList(),                
-                Created = ev.CreateDate             
+                Attendees = new List<EventAttendee>(),
+                Created = ev.CreateDate,
             };
-            //googleEv.Attendees.Add(new EventAttendee() { Email = "obarthelsson@gmail.com" });
-            //googleEv.Attendees.Add(new EventAttendee() { Email = "martinloord@live.com" });
-            //googleEv.Attendees.Add(new EventAttendee() { Email = "daniel.goransson@exsitec.se" });
 
-            //Insert in primary(default) calendar for account and send email notification
+            foreach(var user in users)
+            {
+                googleEv.Attendees.Add(new EventAttendee() {  DisplayName = user.Name, Email = user.Email });
+            }
+            var creator = googleEv.Attendees.FirstOrDefault(a => a.Email == organizer.Email).ResponseStatus = "accepted";
+
+            //Insert in primary(default) calendar for account and send email notification to all attendees
             var calendarId = "primary";
-            EventsResource.InsertRequest insertRequest = _calendarService.Events.Insert(googleEv, calendarId);
+            EventsResource.InsertRequest insertRequest = calendarService.Events.Insert(googleEv, calendarId);
+
             insertRequest.SendUpdates = 0;
             insertRequest.Execute();
         }
-
-        public async Task<EventForDetailedDto> GetEvent(int id)
-        {
-            var dbEvent = await _context.Events.Include(e => e.EventParticipants
-                .Select(u => u.User).Select(u => u.EventParticipants)).FirstOrDefaultAsync(e => e.Id == id);
-
-            return EventForDetailedTranslator.ToModel(dbEvent);
-        }
-
-        public async Task<ICollection<EventForListDto>> GetEvents()
-        {
-            var dbEvents = await _context.Events.ToListAsync();
-
-            return dbEvents.Select(EventForListTranslator.ToModel).ToList();
-        }
-
-        public async Task<EventForCreateDto> CreateEvent(EventForCreateDto ev)
-        {
-
-            var newEvent = new Database.Entities.Event()
-            {
-                Title = ev.Title,
-                Description = ev.Description,
-                Location = ev.Location,
-                Image = ev.Image,
-                StartDate = new DateTime(ev.StartDate.Year, ev.StartDate.Month,
-                    ev.StartDate.Day, ev.StartTime.Hour, ev.StartTime.Minute, 0),
-                EndDate = new DateTime(ev.EndDate.Year, ev.EndDate.Month,
-                    ev.EndDate.Day, ev.EndTime.Hour, ev.EndTime.Minute, 0),
-                CreateDate = ev.CreateDate,
-                CreatorId = ev.CreatorId
-            };
-
-            _context.Events.Add(newEvent);
-
-            //bryta ut till två egna metoder nedan..
-
-            var CheckIfUserIsAddedInOffice = new List<EventParticipant>();
-
-            if (ev.Offices != null)
-            {
-                foreach (var office in ev.Offices)
-                {
-                    var usersToAdd = await _context.Users.Where(o => o.Office == office).ToListAsync();
-
-                    foreach (var user in usersToAdd)
-                    {
-
-                        var newEventParticipant = new EventParticipant()
-                        {
-                            EventId = ev.Id,
-                            UserId = user.Id
-                        };
-
-                        CheckIfUserIsAddedInOffice.Add(newEventParticipant);
-                        _context.EventParticipants.Add(newEventParticipant);
-                    }
-                }
-            }
-
-            if (ev.Users != null)
-            {
-                foreach (var user in ev.Users)
-                {
-                    var newEventParticipant = new EventParticipant()
-                    {
-                        EventId = ev.Id,
-                        UserId = user.Id
-                    };
-
-                    if (!CheckIfUserIsAddedInOffice.Exists(x => x.UserId == newEventParticipant.UserId))
-                    {
-                        _context.EventParticipants.Add(newEventParticipant);
-                    }
-                }
-            }
-
-            await _context.SaveChangesAsync();
-
-            return EventForCreateTranslator.ToModel(newEvent);
-        }
-
-        public async Task<EventForUpdateDto> UpdateEvent(int id, EventForUpdateDto ev)
-        {
-            var dbEvent = await _context.Events
-                .FirstOrDefaultAsync(e => e.Id == id);
-
-            dbEvent.Title = ev.Title;
-            dbEvent.Location = ev.Location;
-            dbEvent.Description = ev.Description;
-            dbEvent.Image = ev.Image;
-            dbEvent.StartDate = new DateTime(ev.StartDate.Year, ev.StartDate.Month,
-                ev.StartDate.Day, ev.StartTime.Hour, ev.StartTime.Minute, 0);
-            dbEvent.EndDate = new DateTime(ev.EndDate.Year, ev.EndDate.Month, 
-                ev.EndDate.Day, ev.EndTime.Hour, ev.EndTime.Minute, 0);
-
-            await _context.SaveChangesAsync();
-
-            return EventForUpdateTranslator.ToModel(dbEvent);
-        }
-
-        public async Task<int> DeleteEvent(int id)
-        {
-            var dbEvent = await _context.Events.FirstOrDefaultAsync(e => e.Id == id);
-
-            _context.Events.Remove(dbEvent);
-            await _context.SaveChangesAsync();
-
-            return id;
-        }
-
-        public async Task<EventForDetailedDto> AddEventParticipantStatus(int eventId, int userId, string answer)
-        {
-            //Check if participant already has answered to the event
-            var participantExists = await _context.EventParticipants
-                .FirstOrDefaultAsync(ep => ep.EventId == eventId && ep.UserId == userId);
-
-            //Update participants answer if already answered
-            if (participantExists != null)
-            {
-                participantExists.Status = answer;
-            }
-            else {
-
-            //Add participants answer to db if not answered earlier
-                var ep = new EventParticipant
-            {
-                EventId = eventId,
-                UserId = userId,
-                Status = answer
-            };
-
-            _context.EventParticipants.Add(ep);
-            }
-
-            await _context.SaveChangesAsync();
-
-            var dbEvent = await _context.Events.Include(e => e.EventParticipants
-               .Select(u => u.User)).FirstOrDefaultAsync(e => e.Id == eventId);
-
-            return EventForDetailedTranslator.ToModel(dbEvent);
-        }
-
-        public async Task<ICollection<EventForUserListDto>> UpdateParticipantStatus(int eventId, int userId, string answer)
-        {
-            var participant = await _context.EventParticipants
-                .FirstOrDefaultAsync(ep => ep.EventId == eventId && ep.UserId == userId);
-
-            participant.Status = answer;
-
-            await _context.SaveChangesAsync();
-
-            var dbEvent = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId).ToListAsync();
-
-            return dbEvent.Select(EventForUserListTranslator.ToModel).ToList();
-
-        }
-
-        public async Task<bool> SaveImage(int id, IFormFile image)
-        {
-            var folderName = Path.Combine("Resources", "Images");
-            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-            pathToSave = pathToSave.Replace("Api", "Logic");
-
-            //Tillfällig lösning, går inte att använda Path till app
-            var folderName2 = Path.Combine("images", "event-images");
-            var pathToSave2 = "C:\\Users\\andre\\TrivselAppV2\\app\\src\\assets\\images\\event-images";
-
-            if (image.Length > 0)
-            {
-                var fileName = id.ToString() + Path.GetExtension(image.FileName);
-                var fullPath = Path.Combine(pathToSave2, fileName);
-                var dbPath = Path.Combine(folderName2, fileName);
-
-                var files = Directory.GetFiles(pathToSave2, id.ToString() + ".*");
-                if (files.Length > 0)
-                {
-                    foreach (var file in files)
-                    {
-                        File.Delete(file);
-                    }
-                }
-
-                using (var stream = new FileStream(fullPath, FileMode.Create))
-                {
-                    image.CopyTo(stream);
-                }
-
-                _context.Events.Find(id).Image = dbPath;
-                await _context.SaveChangesAsync();
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public async Task<string> GetImage(int id)
-        {
-            var dbEvent = await _context.Events.FindAsync(id);
-            var imagePath = dbEvent.Image;
-            var fullPath = Path.GetFullPath(imagePath);
-            fullPath = fullPath.Replace("Api", "Logic");
-
-            var fullPath2 = Path.GetFullPath(imagePath);
-            
-            return fullPath2;
-        }
-
-        //public async Task<HttpResponseMessage> GetImage(int id)
-        //{
-        //    var dbEvent = await _context.Events.FindAsync(id);
-        //    var imagePath = dbEvent.Image;
-        //    var fullPath = Path.GetFullPath(imagePath);
-        //    fullPath = fullPath.Replace("Api", "Logic");
-
-        //    using (var fs = new FileStream(fullPath, FileMode.Open))
-        //    {
-        //        HttpResponseMessage response = new HttpResponseMessage();
-        //        response.Content = new StreamContent(fs);
-        //        response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
-        //        return response;
-        //    }
-        //}
-
-        public async Task<ICollection<EventForUserListDto>> GetCurrentUserEvents(int userId)
-        {
-            var dbEvent = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId).ToListAsync();
-
-            return dbEvent.Select(EventForUserListTranslator.ToModel).ToList();
-        }
-
     }
 }
 

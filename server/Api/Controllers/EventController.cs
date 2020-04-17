@@ -16,14 +16,6 @@ namespace Api.Controllers
             _eventService = eventService;
         }
 
-        [HttpPost("createcalendar")]
-        public async Task<IActionResult> CreateCalendar([FromBody]EventForCreateDto ev)
-        {
-            _eventService.CreateGoogleCalendarService(ev);
-
-            return new OkObjectResult(ApiResponse.Create(ev));
-        }
-
         [HttpGet]
         public async Task<IActionResult> GetEvents()
         {
@@ -86,16 +78,6 @@ namespace Api.Controllers
             var result = await _eventService.SaveImage(id, image);
 
             return new OkObjectResult(ApiResponse.Create(result));
-        }
-
-        [HttpGet("{id}/getimage")]
-        public async Task<IActionResult> GetImage(int id)
-        {
-            var result = await _eventService.GetImage(id);
-
-            var image = File(result, "image");
-
-            return new OkObjectResult(ApiResponse.Create(image));
         }
 
         [HttpGet("{id}/getUserEvents")]

@@ -4,8 +4,9 @@
   </div>
   <div class="row">
     <div class="col-sm-4">
-      <div *ngIf="ev.image">
-        <img class="card-img-top img-thumbnail" src="../../assets/{{ ev.image }}" />
+      <div>
+        <img class="card-img-top img-thumbnail" [src]="ev.image ? 
+          '../../'+ ev.image : '/assets/images/event-images/default_event.png'" />
       </div>
       <div class="card">
         <div class="card-body">
