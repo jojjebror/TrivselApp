@@ -34,7 +34,8 @@ export class DrinkCreditComponent implements OnInit {
 
 
   ngOnInit() {
-   this.createCreditForm();
+  //  this.usr$ = this.store$.pipe(select(fromSession.selectUser));
+ //  this.createCreditForm();
   }
 
   createCreditForm() {
@@ -45,7 +46,7 @@ export class DrinkCreditComponent implements OnInit {
     
   }
   addCredit() {
-   this.store$.select(fromSession.selectUser).subscribe((user)=> (this.userCredit = user.credit))
+   this.store$.select(fromSession.selectUser).subscribe((user)=> (this.userCredit = user.credit));
     var newSaldo = this.userCreditForm.value + this.userCredit;
       this.user = Object.assign({}, this.userCreditForm.value + this.userCredit);
       console.log(newSaldo);
