@@ -64,6 +64,12 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetPrices(string name)
+        {
+            var result = await _drinkService.GetPriceClasses(name);
+            return new OkObjectResult(ApiResponse.Create(result));
+        }
     } 
 
 }

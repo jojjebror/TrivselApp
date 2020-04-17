@@ -27,6 +27,21 @@ namespace Logic.Services
             return dbDrinks.Select(DrinkForListTranslator.ToModel).ToList();
         }
 
+        public async Task<ICollection<PriceClassDto>> GetPriceClasses(string price)
+        {
+
+            if(price != null)
+            {
+
+                var result = await _context.PriceClasses.Where(p => p.Name == price).ToListAsync();
+                var add = result.Select(PriceClassTranslator.ToModel).ToList();
+                return add;
+            }
+
+            return null;
+
+        }
+
 
         public async Task<ICollection<DrinkForListDto>> FilterDrink(string category)
         {

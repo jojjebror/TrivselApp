@@ -51,6 +51,7 @@ export class LoadDrinksError implements Action {
 /*--------------LoadPrices-------------*/
 export class LoadPrices implements Action {
   readonly type = ActionTypes.LOAD_PRICES;
+  constructor(public payload: string) {}
 }
 
 export class LoadPricesSuccess implements Action {

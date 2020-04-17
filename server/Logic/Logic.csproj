@@ -298,6 +298,7 @@
     <Compile Include="Translators\EventForUpdateTranslator.cs" />
     <Compile Include="Translators\EventForUserListTranslator.cs" />
     <Compile Include="Translators\ExampleTranslator.cs" />
+    <Compile Include="Translators\PriceClassTranslator.cs" />
     <Compile Include="Translators\UserForListTranslator.cs" />
     <Compile Include="Translators\UserTranslator.cs" />
   </ItemGroup>

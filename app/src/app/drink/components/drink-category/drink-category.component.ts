@@ -3,7 +3,7 @@ import { Observable } from "rxjs";
 import { Store, select } from "@ngrx/store";
 
 import { AppState } from "src/app/core/state";
-import { Drink } from "src/app/shared/models";
+import { Drink, PriceClass } from "src/app/shared/models";
 
 import * as drinksActions from "../../state/drinks";
 import * as fromDrink from "../../state/drinks/drinks.selectors";
@@ -17,6 +17,7 @@ import * as fromDrink from "../../state/drinks/drinks.selectors";
 export class DrinkCategoryComponent implements OnInit {
   drs$: Observable<Drink[]>;
   categoryOne: boolean = false;
+  pcs$: Observable<PriceClass[]>
 
   constructor(private store$: Store<AppState>) {}
 
@@ -28,4 +29,9 @@ export class DrinkCategoryComponent implements OnInit {
     this.store$.dispatch(new drinksActions.FilterDrink("Öl"));
     this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
   }
+
+  public initializePriceClass(): void {
+    this.store$.dispatch(new drinksActions.LoadPrices(""))
+  }
+
 }

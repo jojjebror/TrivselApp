@@ -22,6 +22,8 @@ export const getCurrentDrink = createSelector(selectState, getCurrentDrinkId, st
 
 export const getFilterDrinks = createSelector(selectState, selectAll)
 
+export const getPriceClass = createSelector(selectState, selectAll);
+
  // export const getBeer = createSelector(getDrinks, state => state.filter(category => category.category == 'öl'))
 
  // export const getVin = createSelector(getDrinks, state => state.filter(category => category.category == 'vin'))
