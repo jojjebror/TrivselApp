@@ -161,7 +161,7 @@ namespace Logic.Services
 
             await _context.SaveChangesAsync();
 
-            var dbEvent = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId)
+            var dbEvents = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId)
                 .Include(us => us.Event.Creator).ToListAsync();
 
             return dbEvents.Select(EventForUserListTranslator.ToModel).ToList();
@@ -207,7 +207,7 @@ namespace Logic.Services
         public async Task<ICollection<EventForUserListDto>> GetCurrentUserEvents(int userId)
         {
             // old one, keep.... var dbEvent = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId).ToListAsync();
-            var dbEvent = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId)
+            var dbEvents = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId)
                 .Include(us => us.Event.Creator).ToListAsync();
 
             return dbEvents.Select(EventForUserListTranslator.ToModel).ToList();
