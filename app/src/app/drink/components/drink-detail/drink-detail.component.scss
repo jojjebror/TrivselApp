@@ -44,7 +44,7 @@
   .getHome{
     position: absolute;
     
-    bottom: 5%;
+    bottom: 20%;
   }
   .buy{
     display: none;
@@ -67,7 +67,7 @@
   
   .container {
     width: 70%;
-    height: 600px;
+    height: 425px;
     margin-top: 3%;
     border: solid;
     background-repeat: no-repeat;
@@ -123,6 +123,11 @@
    background-color: rgba(39, 223, 100, 0.877);
    color: white;
    background-color: black;
+  }
+  .buySaldo{
+    color: white;
+    background-color: black;
+    margin-left: 18px;
   }
   
   .plus{

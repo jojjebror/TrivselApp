@@ -2,6 +2,8 @@ import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 
 import { AppState } from "src/app/core/state";
 import { Store, select } from "@ngrx/store";
+import * as fromSession from '../../../core/state/session'
+import * as fromUser from '../../../user/state/users/users.actions';
 
 import { Observable } from "rxjs";
 import { Drink } from "src/app/shared/models";
@@ -21,9 +23,10 @@ export class DrinkDetailComponent implements OnInit {
   dr$: Observable<Drink>;
   id: number;
   isShown: boolean = false; // hidden by default
-  photo: string = '/bilder/beer.jpg';
+  photo: string = "/bilder/beer.jpg";
   clickCounter: number = 1;
   totalSum: number = 0;
+  userId: number;
 
   constructor(
     private store$: Store<AppState>,
@@ -34,6 +37,8 @@ export class DrinkDetailComponent implements OnInit {
 
   ngOnInit() {
     this.LoadDrink();
+    this.store$.select(fromSession.selectUser).subscribe((currentuser ) => (this.userId = currentuser.id));
+    console.log(this.userId);
   }
 
   private LoadDrink(): void {
@@ -77,6 +82,20 @@ export class DrinkDetailComponent implements OnInit {
     this.totalSum += this.clickCounter * drink.price;
     console.log(this.totalSum);
   }
+
+  paySaldo(drink: Drink) {
+    this.totalSum = 0;
+    this.totalSum += this.clickCounter * drink.price;
+    this.totalSum = -this.totalSum
+    var data = [this.userId , this.totalSum];
+    console.log(this.totalSum);
+    this.store$.dispatch(new fromUser.UpdateCredit(data));
+    this.alertify.success("Världet för ditt saldo har ändrats!");
+  }
+
+
+
+
 
   changeImage(drink: Drink) {
     if (drink.category == "cider") {

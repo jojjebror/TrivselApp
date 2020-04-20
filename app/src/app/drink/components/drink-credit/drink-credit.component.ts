@@ -55,7 +55,7 @@ export class DrinkCreditComponent implements OnInit {
     var data = [this.userId, this.userCreditForm.get('credit').value]
 
     this.store$.dispatch(new fromUser.UpdateCredit(data));
-    this.alertify.success("Information om drycken har ändrats!");
+    this.alertify.success("Världet för ditt saldo har ändrats!");
     
   }
 
