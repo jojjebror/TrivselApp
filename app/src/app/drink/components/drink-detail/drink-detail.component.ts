@@ -41,6 +41,11 @@ export class DrinkDetailComponent implements OnInit {
     this.LoadDrink();
     this.store$.select(fromSession.selectUser).subscribe((currentuser ) => (this.userId = currentuser.id));
     this.store$.select(fromSession.selectUser).subscribe((currentuser ) => (this.userCredit = currentuser.credit));
+
+    if (this.userCredit < 60) {
+      this.alertify.warning("Psst..Det börjar se lite tomt ut på ditt saldo! :)");
+    }
+    
     console.log(this.userId);
     console.log(this.userCredit);
   }
@@ -107,6 +112,7 @@ export class DrinkDetailComponent implements OnInit {
     else(
       this.alertify.error("Du har för lite pengar på ditt saldo!")
     )
+    
     
   }
  
