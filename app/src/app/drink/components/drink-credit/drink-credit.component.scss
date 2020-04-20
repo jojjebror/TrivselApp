@@ -41,9 +41,13 @@ mat-form-field {
 }
 
 p {
-  font-size: small;
+  font-size: medium;
   text-align: center;
  
+}
+
+a {
+  color: rgb(11, 187, 11) !important;
 }
 
 //input outline color
@@ -95,6 +99,10 @@ p {
 
 :host /deep/ .mat-select-value-text {
   color: rgb(11, 187, 11) !important;
+}
+
+.border {
+  height: 600px;
 }
 
 

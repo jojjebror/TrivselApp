@@ -51,14 +51,17 @@ export class DrinkCreditComponent implements OnInit {
     
   }
   addCredit() {
-
-    this.user = Object.assign({}, this.userCreditForm.value);
+    var creditInput = [this.userCreditForm.get('credit').value]
+    if(confirm("Lägga till " + creditInput + "kr i saldo?")) {
+      this.user = Object.assign({}, this.userCreditForm.value);
     console.log(this.user);
 
     var data = [this.userId, this.userCreditForm.get('credit').value]
 
     this.store$.dispatch(new fromUser.UpdateCredit(data));
-    this.alertify.success("Världet för ditt saldo har ändrats!");
+    this.alertify.success("Värdet för ditt saldo har ändrats!");
+    }
+    
     
   }
 
