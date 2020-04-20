@@ -12,6 +12,7 @@ import { AlertifyService } from "src/app/core/services/alertify.service";
 
 import * as fromDrink from "../../state/drinks";
 import * as drinksActions from "../../state/drinks";
+import { Url } from "url";
 
 @Component({
   selector: "ex-drink-detail",
@@ -80,6 +81,7 @@ export class DrinkDetailComponent implements OnInit {
   GetToSwish(drink: Drink) {
     this.totalSum = 0;
     this.totalSum += this.clickCounter * drink.price;
+    // add token to swish-url-string hopefully!!
     console.log(this.totalSum);
   }
 
@@ -92,11 +94,7 @@ export class DrinkDetailComponent implements OnInit {
     this.store$.dispatch(new fromUser.UpdateCredit(data));
     this.alertify.success("Världet för ditt saldo har ändrats!");
   }
-
-
-
-
-
+ 
   changeImage(drink: Drink) {
     if (drink.category == "cider") {
       this.photo = "/beer3.jpg";

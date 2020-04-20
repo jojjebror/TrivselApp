@@ -8,7 +8,7 @@
             <h3 class="text-center">Nuvarande saldo</h3>
             <hr />
             
-            <p>Just nu har du {{user?.credit}}kr innestående på ditt konto!</p>
+            <p>Just nu har du {{userCredit}}kr innestående på ditt konto!</p>
             <hr />
 
             
@@ -37,7 +37,6 @@
                 <mat-option [value]="200">200kr</mat-option>
                 <mat-option [value]="300">300kr</mat-option>
                 <mat-option [value]="400">400kr</mat-option>
-                <mat-option [value]="-100">-100kr</mat-option>
               </mat-select>
               
               <mat-icon matSuffix> attach_money</mat-icon>

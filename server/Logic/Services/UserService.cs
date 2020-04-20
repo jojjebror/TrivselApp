@@ -68,18 +68,18 @@ namespace Logic.Services
         {
                 var dbUser = await _context.Users
                     .FirstOrDefaultAsync(x => x.Id == id);
-            if (amount < 0)
+            if (amount > 0)
             {
                 dbUser.Credit = dbUser.Credit + amount;
                 await _context.SaveChangesAsync();
 
             }
-            else
+            if(amount < 0)
             {
-                dbUser.Credit = dbUser.Credit - amount;
+                dbUser.Credit = dbUser.Credit + amount;
                 await _context.SaveChangesAsync();
             }
-                return UserForUpdateTranslator.ToModel(dbUser);
+            return UserForUpdateTranslator.ToModel(dbUser);
         }
 
         public async Task<UserForUpdateDto> RemoveCredit(int id, UserForUpdateDto user)

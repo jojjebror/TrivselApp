@@ -21,6 +21,7 @@ export class DrinkCreditComponent implements OnInit {
   userId: number;
   userCreditForm: FormGroup;
   user: User;
+  userCredit: number;
 
   
 
@@ -35,7 +36,9 @@ export class DrinkCreditComponent implements OnInit {
 
   ngOnInit() {
     this.store$.select(fromSession.selectUser).subscribe((currentuser ) => (this.userId = currentuser.id));
+    this.store$.select(fromSession.selectUser).subscribe((currentuser ) => (this.userCredit = currentuser.credit));
     console.log(this.userId);
+    console.log(this.userCredit);
      this.createCreditForm();
   }
 
