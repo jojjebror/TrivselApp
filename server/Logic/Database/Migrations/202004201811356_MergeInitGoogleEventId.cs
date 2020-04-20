@@ -3,7 +3,7 @@ namespace Logic.Database.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddedPostEntity : DbMigration
+    public partial class MergeInitGoogleEventId : DbMigration
     {
         public override void Up()
         {
@@ -33,7 +33,7 @@ namespace Logic.Database.Migrations
                         Status = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: false)
                 .ForeignKey("dbo.Events", t => t.EventId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.EventId);
@@ -50,6 +50,7 @@ namespace Logic.Database.Migrations
                         StartDate = c.DateTime(nullable: false),
                         EndDate = c.DateTime(nullable: false),
                         CreateDate = c.DateTime(nullable: false),
+                        GoogleEventId = c.String(),
                         CreatorId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
@@ -67,7 +68,7 @@ namespace Logic.Database.Migrations
                         EventId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Users", t => t.CreatorId, cascadeDelete: true)
+                .ForeignKey("dbo.Users", t => t.CreatorId, cascadeDelete: false)
                 .ForeignKey("dbo.Events", t => t.EventId, cascadeDelete: true)
                 .Index(t => t.CreatorId)
                 .Index(t => t.EventId);

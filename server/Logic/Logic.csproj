@@ -276,9 +276,9 @@
     <Compile Include="Database\Migrations\201802051252482_Init.Designer.cs">
       <DependentUpon>201802051252482_Init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\Migrations\202004141225353_AddedPostEntity.cs" />
-    <Compile Include="Database\Migrations\202004141225353_AddedPostEntity.Designer.cs">
-      <DependentUpon>202004141225353_AddedPostEntity.cs</DependentUpon>
+    <Compile Include="Database\Migrations\202004201811356_MergeInitGoogleEventId.cs" />
+    <Compile Include="Database\Migrations\202004201811356_MergeInitGoogleEventId.Designer.cs">
+      <DependentUpon>202004201811356_MergeInitGoogleEventId.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Helpers\PagedList.cs" />
@@ -330,8 +330,8 @@
     <EmbeddedResource Include="Database\Migrations\201802051252482_Init.resx">
       <DependentUpon>201802051252482_Init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Database\Migrations\202004141225353_AddedPostEntity.resx">
-      <DependentUpon>202004141225353_AddedPostEntity.cs</DependentUpon>
+    <EmbeddedResource Include="Database\Migrations\202004201811356_MergeInitGoogleEventId.resx">
+      <DependentUpon>202004201811356_MergeInitGoogleEventId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

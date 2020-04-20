@@ -60,6 +60,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     this.posts$ = this.store$.pipe(select(fromEvents.getEventPosts));
 
     this.attendedParticipants$ = this.store$.pipe(select(fromEvents.getAttendedParticipants));
+    console.log(this.attendedParticipants$);
     this.invitedParticipants$ = this.store$.pipe(select(fromEvents.getInvitedParticipants));
     this.declinedParticipants$ = this.store$.pipe(select(fromEvents.getDeclinedParticipants));
   }
