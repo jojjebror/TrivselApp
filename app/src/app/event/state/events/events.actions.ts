@@ -43,10 +43,6 @@ export enum ActionTypes {
   UPDATE_IMAGE_SUCCESS = '[API: /event] Update Image success',
   UPDATE_IMAGE_ERROR = '[API: /event] Update Image error',
 
-  LOAD_IMAGE = '[Events view] Load Image',
-  LOAD_IMAGE_SUCCESS = '[API: /event] Load Image success',
-  LOAD_IMAGE_ERROR = '[API: /event] Load Image error',
-
   GET_USER_EVENT = '[Events view] Get User Event',
   GET_USER_EVENT_SUCCESS = '[API: /event] Get User Event Success',
   GET_USER_EVENT_ERROR = '[API: /event] Get User Event Error',
@@ -213,7 +209,7 @@ export class SaveImage implements Action {
 export class SaveImageSuccess implements Action {
   readonly type = ActionTypes.SAVE_IMAGE_SUCCESS;
 
-  constructor(public payload: boolean) {}
+  constructor(public payload: Event) {}
 }
 
 export class SaveImageError implements Action {
@@ -238,26 +234,6 @@ export class UpdateImageSuccess implements Action {
 
 export class UpdateImageError implements Action {
   readonly type = ActionTypes.UPDATE_IMAGE_ERROR;
-
-  constructor(public payload: string) {}
-}
-
-/*--------------GetImage--------------*/
-
-export class LoadImage implements Action {
-  readonly type = ActionTypes.LOAD_IMAGE;
-
-  constructor(public payload: number) {}
-}
-
-export class LoadImageSuccess implements Action {
-  readonly type = ActionTypes.LOAD_IMAGE_SUCCESS;
-
-  constructor(public payload: string) {}
-}
-
-export class LoadImageError implements Action {
-  readonly type = ActionTypes.LOAD_IMAGE_ERROR;
 
   constructor(public payload: string) {}
 }
@@ -378,10 +354,6 @@ export type Actions =
   | UpdateImage
   | UpdateImageSuccess
   | UpdateImageError
-  
-  | LoadImage
-  | LoadImageSuccess
-  | LoadImageError
 
   | GetCurrentUserEvent
   | GetCurrentUserEventSuccess

@@ -321,7 +321,6 @@
   <ItemGroup>
     <Folder Include="Database\Configuration\" />
     <Folder Include="Exceptions\" />
-    <Folder Include="Resources\Images\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

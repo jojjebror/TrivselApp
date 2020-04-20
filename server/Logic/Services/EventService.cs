@@ -68,7 +68,7 @@ namespace Logic.Services
                 foreach (var office in ev.Offices)
                 {
                     var usersToAdd = await _context.Users.Where(o => (o.Office == office && o.Id != ev.CreatorId)).ToListAsync();
-                    eventParticipants.AddRange(usersToAdd.Select(u => 
+                    eventParticipants.AddRange(usersToAdd.Select(u =>
                         new EventParticipant { EventId = ev.Id, UserId = u.Id }).ToList());
                 }
             }
@@ -77,18 +77,20 @@ namespace Logic.Services
             {
                 foreach (var user in ev.Users)
                 {
-                    if (!eventParticipants.Exists(ep => (ep.EventId == ev.Id && ep.UserId == user.Id))) 
+                    if (!eventParticipants.Exists(ep => (ep.EventId == ev.Id && ep.UserId == user.Id)))
                     {
-                        eventParticipants.Add(new EventParticipant { EventId = ev.Id, UserId = user.Id });                 
+                        eventParticipants.Add(new EventParticipant { EventId = ev.Id, UserId = user.Id });
                     }
                 }
             }
 
             _context.EventParticipants.AddRange(eventParticipants);
-            await _context.SaveChangesAsync();
 
-            //Create a google calendar event
-            CreateGoogleCalendarEvent(ev, eventParticipants);
+            //Create a google calendar event and returns Google Event Id
+            var googleEventId = CreateGoogleCalendarEvent(ev, eventParticipants);
+            //newEvent.GoogleEventId = googleEventId;
+
+            await _context.SaveChangesAsync();
 
             return EventForCreateTranslator.ToModel(newEvent);
         }
@@ -114,6 +116,12 @@ namespace Logic.Services
         public async Task<int> DeleteEvent(int id)
         {
             var dbEvent = await _context.Events.FindAsync(id);
+
+            var folderName = Path.Combine("assets", "images", "event-images");
+            var imageFolderPath = Path.GetFullPath(folderName).Replace("server\\Api", "app\\src");
+            DeleteImageFiles(id, imageFolderPath);
+
+            //DeleteGoogleCalendarEvent(dbEvent.GoogleEventId);
 
             _context.Events.Remove(dbEvent);
             await _context.SaveChangesAsync();
@@ -175,33 +183,37 @@ namespace Logic.Services
             if (image.Length > 0)
             {
                 var folderName = Path.Combine("assets", "images", "event-images");
-                var pathToSave = Path.GetFullPath(folderName);
-                pathToSave = pathToSave.Replace("server\\Api", "app\\src");
+                var pathToSave = Path.GetFullPath(folderName).Replace("server\\Api", "app\\src");
 
                 var fileName = id.ToString() + Path.GetExtension(image.FileName);
                 var fullPath = Path.Combine(pathToSave, fileName);
                 var dbPath = Path.Combine(folderName, fileName);
 
-                var files = Directory.GetFiles(pathToSave, id.ToString() + ".*");
-                if (files.Length > 0)
-                {
-                    foreach (var file in files)
-                    {
-                        File.Delete(file);
-                    }
-                }
+                DeleteImageFiles(id, pathToSave);
 
                 using (var stream = new FileStream(fullPath, FileMode.Create))
                 {
                     image.CopyTo(stream);
                 }
-             
+
                 dbEvent.Image = dbPath;
 
                 await _context.SaveChangesAsync();
-            } 
+            }
 
             return EventForCreateTranslator.ToModel(dbEvent);
+        }
+
+        public void DeleteImageFiles(int id, string path)
+        {
+            var files = Directory.GetFiles(path, id.ToString() + ".*");
+            if (files.Length > 0)
+            {
+                foreach (var file in files)
+                {
+                    File.Delete(file);
+                }
+            }
         }
 
         public async Task<ICollection<EventForUserListDto>> GetCurrentUserEvents(int userId)
@@ -213,7 +225,7 @@ namespace Logic.Services
             return dbEvents.Select(EventForUserListTranslator.ToModel).ToList();
         }
 
-        public void CreateGoogleCalendarEvent(EventForCreateDto ev, List<EventParticipant> eps)
+        public CalendarService CreateGoogleCalendarService()
         {
             // trivselapp@gmail.com exsitec123
             // If modifying these scopes, delete your previously saved credentials
@@ -244,9 +256,14 @@ namespace Logic.Services
                 ApplicationName = ApplicationName,
             });
 
+            return calendarService;
+        }
+
+        public string CreateGoogleCalendarEvent(EventForCreateDto ev, List<EventParticipant> eps)
+        {
             //Get all users details that is participating
             var users = new List<User>();
-            foreach(var ep in eps)
+            foreach (var ep in eps)
             {
                 users.Add(_context.Users.Find(ep.UserId));
             }
@@ -274,18 +291,28 @@ namespace Logic.Services
                 Created = ev.CreateDate,
             };
 
-            foreach(var user in users)
+            foreach (var user in users)
             {
-                googleEv.Attendees.Add(new EventAttendee() {  DisplayName = user.Name, Email = user.Email });
+                googleEv.Attendees.Add(new EventAttendee() { DisplayName = user.Name, Email = user.Email });
             }
             var creator = googleEv.Attendees.FirstOrDefault(a => a.Email == organizer.Email).ResponseStatus = "accepted";
 
             //Insert in primary(default) calendar for account and send email notification to all attendees
+            var calendarService = CreateGoogleCalendarService();
             var calendarId = "primary";
             EventsResource.InsertRequest insertRequest = calendarService.Events.Insert(googleEv, calendarId);
-
             insertRequest.SendUpdates = 0;
-            insertRequest.Execute();
+            var createdGoogleEvent = insertRequest.Execute();
+
+            var googleEventId = createdGoogleEvent.Id;
+            return googleEventId;
+        }
+
+        public void DeleteGoogleCalendarEvent(string id)
+        {
+            var calendarService = CreateGoogleCalendarService();
+            var calendarId = "primary";
+            calendarService.Events.Delete(calendarId, id).Execute();
         }
     }
 }
