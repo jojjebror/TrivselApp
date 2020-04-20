@@ -28,6 +28,7 @@ export class DrinkDetailComponent implements OnInit {
   clickCounter: number = 1;
   totalSum: number = 0;
   userId: number;
+  userCredit: number;
 
   constructor(
     private store$: Store<AppState>,
@@ -39,7 +40,9 @@ export class DrinkDetailComponent implements OnInit {
   ngOnInit() {
     this.LoadDrink();
     this.store$.select(fromSession.selectUser).subscribe((currentuser ) => (this.userId = currentuser.id));
+    this.store$.select(fromSession.selectUser).subscribe((currentuser ) => (this.userCredit = currentuser.credit));
     console.log(this.userId);
+    console.log(this.userCredit);
   }
 
   private LoadDrink(): void {
@@ -89,10 +92,22 @@ export class DrinkDetailComponent implements OnInit {
     this.totalSum = 0;
     this.totalSum += this.clickCounter * drink.price;
     this.totalSum = -this.totalSum
+    var sum = this.clickCounter * drink.price;
     var data = [this.userId , this.totalSum];
     console.log(this.totalSum);
-    this.store$.dispatch(new fromUser.UpdateCredit(data));
-    this.alertify.success("Världet för ditt saldo har ändrats!");
+    if(this.userCredit >= sum) {
+
+      if (confirm("Är du säker på att du vill köpa dessa produkter?")) {
+        this.store$.dispatch(new fromUser.UpdateCredit(data));
+      
+    this.alertify.success("Värdet för ditt saldo har ändrats!");
+      }
+      
+    }
+    else(
+      this.alertify.error("Du har för lite pengar på ditt saldo!")
+    )
+    
   }
  
   changeImage(drink: Drink) {
