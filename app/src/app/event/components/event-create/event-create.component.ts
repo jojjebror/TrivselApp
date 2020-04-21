@@ -7,7 +7,6 @@ import { Event, User } from 'src/app/shared/models';
 import * as fromEvents from '../../state/events';
 import * as fromUsers from '../../../user/state/users';
 
-import { AlertifyService } from 'src/app/core/services/alertify.service';
 import { Observable } from 'rxjs';
 import { DateAdapter, MatSnackBar } from '@angular/material';
 

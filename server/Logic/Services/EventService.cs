@@ -160,8 +160,12 @@ namespace Logic.Services
             //Update the participants status for the google calendar event
             var updatedEp = await _context.EventParticipants.Include(u => u.User).Include(e => e.Event)
                 .FirstOrDefaultAsync(ep => ep.EventId == eventId && ep.UserId == userId);
-            UpdateGoogleCalendarEventParticipantStatus(updatedEp);
 
+            if (updatedEp.Event.GoogleEventId != null)
+            {
+                UpdateGoogleCalendarEventParticipantStatus(updatedEp);
+            }
+                
             var dbEvent = await _context.Events.Include(e => e.EventParticipants.Select(u => u.User))
             .Include(p => p.Posts.Select(po => po.Creator)).Include(e => e.Creator).FirstOrDefaultAsync(e => e.Id == eventId);
 
@@ -309,9 +313,15 @@ namespace Logic.Services
             var calendarId = "primary";
             var insertRequest = calendarService.Events.Insert(googleEv, calendarId);
             insertRequest.SendUpdates = 0;
-            var createdGoogleEv = insertRequest.Execute();
-            var googleEventId = createdGoogleEv.Id;
-
+            string googleEventId = null;
+            try
+            {
+                var createdGoogleEv = insertRequest.Execute();
+                googleEventId = createdGoogleEv.Id;
+            } catch (Exception e)
+            {
+                e.Message;
+            }
             return googleEventId;
         }
 

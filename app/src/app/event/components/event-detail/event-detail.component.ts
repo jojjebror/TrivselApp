@@ -136,7 +136,6 @@ export class EventDetailComponent implements OnInit, OnDestroy {
 
   getDayOfWeek(date: Date) {
     const dayOfWeek = new Date(date).getDay();
-    console.log(dayOfWeek);
     return isNaN(dayOfWeek) ? null : ['Söndag', 'Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag'][dayOfWeek];
   }
 
@@ -153,7 +152,6 @@ export class EventDetailComponent implements OnInit, OnDestroy {
 
   checkEndTime(enddate: Date) {
     let endD = new Date(enddate);
-    console.log('enddate:' + endD.getHours() + ', min' + endD.getMinutes());
 
     if (endD.getHours() != 23 && endD.getMinutes() != 59) {
       return true;
