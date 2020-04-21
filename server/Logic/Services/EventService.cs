@@ -160,7 +160,11 @@ namespace Logic.Services
             //Update the participants status for the google calendar event
             var updatedEp = await _context.EventParticipants.Include(u => u.User).Include(e => e.Event)
                 .FirstOrDefaultAsync(ep => ep.EventId == eventId && ep.UserId == userId);
-            UpdateGoogleCalendarEventParticipantStatus(updatedEp);
+
+            if (updatedEp.Event.GoogleEventId != null) 
+            { 
+                UpdateGoogleCalendarEventParticipantStatus(updatedEp);
+            }
 
             var dbEvent = await _context.Events.Include(e => e.EventParticipants.Select(u => u.User))
             .Include(p => p.Posts.Select(po => po.Creator)).Include(e => e.Creator).FirstOrDefaultAsync(e => e.Id == eventId);

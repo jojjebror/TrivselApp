@@ -83,7 +83,7 @@
                     matTooltip="Acceptera inbjudan"
                     matTooltipPosition="left"
                     id="acceptIcon"
-                    (click)="updateParticpantsToEvent(element.id, 'Accepted')"
+                    (click)="updateParticpantsToEvent(element.id, 'accepted')"
                   >
                     <span class="material-icons">
                       check_box
@@ -95,7 +95,7 @@
                     #tooltip="matTooltip"
                     matTooltip="Avböj inbjudan"
                     matTooltipPosition="right"
-                    (click)="updateParticpantsToEvent(element.id, 'Declined')"
+                    (click)="updateParticpantsToEvent(element.id, 'declined')"
                   >
                     <span class="material-icons" id="declineIcon">
                       indeterminate_check_box
@@ -149,7 +149,7 @@
                     #tooltip="matTooltip"
                     matTooltip="Avböj evenemang"
                     matTooltipPosition="right"
-                    (click)="updateParticpantsToEvent(element.id, 'Declined')"
+                    (click)="updateParticpantsToEvent(element.id, 'declined')"
                   >
                     <span class="material-icons" id="declineIcon">
                       indeterminate_check_box
