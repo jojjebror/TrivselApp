@@ -320,7 +320,7 @@ namespace Logic.Services
                 googleEventId = createdGoogleEv.Id;
             } catch (Exception e)
             {
-                e.Message;
+                e.Message.ToString();
             }
             return googleEventId;
         }
