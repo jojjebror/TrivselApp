@@ -6,8 +6,7 @@ import { AppState } from 'src/app/core/state';
 import * as fromEvents from '../../state/events';
 import { AlertifyService } from 'src/app/core/services/alertify.service';
 import * as fromSession from '../../../core/state/session';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-
+import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'ex-event-list',
@@ -28,7 +27,7 @@ export class EventListComponent implements OnInit, OnDestroy {
   displayedColumnsInvited = ['title2', 'location2', 'date2', 'invited2', 'actions2'];
   displayedColumnsAttended = ['title3', 'location3', 'date3', 'invited3', 'actions3'];
 
-  constructor(private store$: Store<AppState>, private alertify: AlertifyService) {
+  constructor(private store$: Store<AppState>, private snackBar: MatSnackBar) {
     this.subscription.add(this.store$.select(fromSession.selectUserId).subscribe((response) => (this.userId = response)));
   }
 
@@ -55,7 +54,7 @@ export class EventListComponent implements OnInit, OnDestroy {
     this.evs$ = this.store$.pipe(select(fromEvents.getEvents));
 
     //Events that the user have created
-     this.subscription.add(
+    this.subscription.add(
       this.store$.pipe(select(fromEvents.getEventsCreatedByUser(this.userId))).subscribe((data: Event[]) => {
         this.createdEvents.data = data;
       })
@@ -79,7 +78,7 @@ export class EventListComponent implements OnInit, OnDestroy {
   deleteEvent(id: number) {
     if (confirm('Vill du verkligen ta bort evenemanget?')) {
       this.store$.dispatch(new fromEvents.DeleteEvent(id));
-      this.alertify.success('Evenemang borttaget');
+      this.snackBar.open('Evenemang borttaget', '', { duration: 2500 });
     }
   }
 
@@ -94,9 +93,10 @@ export class EventListComponent implements OnInit, OnDestroy {
     this.refreshData();
 
     if (answer == 'Accepted') {
-      this.alertify.success('Ditt svar är registrerat');
-    } else {
-      this.alertify.success('Du är borttagen från evenemanget');
+      this.snackBar.open('Du är tillagd i evenemanget', '', { duration: 2500 });
+    }
+    if (answer == 'Declined') {
+      this.snackBar.open('Du är borttagen från evenemanget', '', { duration: 2500 });
     }
   }
 

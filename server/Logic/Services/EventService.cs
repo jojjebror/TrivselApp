@@ -37,7 +37,7 @@ namespace Logic.Services
 
         public async Task<ICollection<EventForListDto>> GetEvents()
         {
-            var dbEvents = await _context.Events.ToListAsync();
+            var dbEvents = await _context.Events.Include(e => e.Creator).ToListAsync();
 
             return dbEvents.Select(EventForListTranslator.ToModel).ToList();
         }

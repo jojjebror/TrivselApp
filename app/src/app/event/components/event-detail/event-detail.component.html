@@ -1,12 +1,16 @@
 <div class="container mt-5 border border-light p-5" *ngIf="ev$ | async; let ev">
+  <div class="">
+    <span class="material-icons backIcon" [routerLink]="['/event']">
+      keyboard_backspace
+    </span>
+  </div>
   <div class="row">
-    <h1 class="mb-4">{{ ev.title }}</h1>
+    <h1 class="mb-4" style="margin-left: 35px;">{{ ev.title }}</h1>
   </div>
   <div class="row">
     <div class="col-sm-4">
       <div>
-        <img class="card-img-top img-thumbnail" [src]="ev.image ? 
-          '../../'+ ev.image : '/assets/images/event-images/default_event.png'" />
+        <img class="card-img-top img-thumbnail" [src]="ev.image ? '../../' + ev.image : '/assets/images/event-images/default_event.png'" />
       </div>
       <!-- <div *ngIf="ev.image.length == 0">
         <p style="margin-top: 25px;"></p>
@@ -21,26 +25,24 @@
             <strong>Plats:</strong>
             <p>{{ ev.location }}</p>
           </div>
-          <div>
-            <strong>Tid:</strong>
+          <div *ngIf="checkDates(ev.startDate, ev.endDate)">
+            <strong>När:</strong>
             <p>
-              {{ ev.startDate | date: 'HH:mm' }} -
-              {{ ev.endDate | date: 'HH:mm' }}
+              {{ getDayOfWeek(ev.startDate) }}
+              {{ ev.startDate | date: 'dd/M/yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }}
+              <span *ngIf="checkEndTime(ev.endDate)"> - {{ ev.endDate | date: 'HH:mm' }} </span>
+            </p>
+          </div>
+          <div *ngIf="!checkDates(ev.startDate, ev.endDate)">
+            <strong>När:</strong>
+            <p>
+              Starttid: {{ ev.startDate | date: 'dd/M/yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }} <br />
+              Sluttid: {{ ev.endDate | date: 'dd/M/yyyy' }} kl. {{ ev.endDate | date: 'HH:mm' }}
             </p>
           </div>
           <div>
-            <strong>Datum:</strong>
-            <p>
-              {{ ev.startDate | date: 'dd/M' }} -
-              {{ ev.endDate | date: 'dd/M/yyyy' }}
-            </p>
-            <div>
-              <strong>Skapad av:</strong>
-              <p>{{ ev.creatorName }}</p>
-            </div>
-            <!--             <p *ngIf="!checkDates(ev.startDate, ev.endDate)">
-              {{ ev.endDate | date: 'dd/M/yyyy' }}
-            </p> -->
+            <strong>Skapad av:</strong>
+            <p>{{ ev.creatorName }}</p>
           </div>
           <div>
             <strong>Status:</strong>
@@ -79,20 +81,20 @@
     </div>
     <div class="col-sm-8">
       <div class="tab-panel">
-        <mat-tab-group animationDuration="0ms">
+        <mat-tab-group animationDuration="0ms" dynamicHeight>
           <mat-tab label="Om evenemang">
             <mat-list>
               <form [formGroup]="postForm" (ngSubmit)="createPost()">
                 <div class="postBox">
                   <textarea
                     id="commentBox"
-                    placeholder="  Kommentera..."
+                    placeholder="Kommentera..."
                     formControlName="content"
                     cols="30"
                     rows="3"
                     autocomplete="off"
                   ></textarea>
-                  <button mat-button class="postBtn" type="submit">Posta</button>
+                  <button mat-button class="postBtn" type="submit">Skicka</button>
                 </div>
               </form>
 

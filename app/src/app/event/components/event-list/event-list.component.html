@@ -6,6 +6,10 @@
       </button>
     </div>
   </div>
+  <!-- <mat-form-field appearance="legacy" id="searchbar">
+    <input matInput type="text" placeholder="Sök evenemang" autocomplete="off" />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field> -->
 
   <!-- -------------------------------Tab 1----------------------------------------------- -->
   <!-- ---------------Incoming events---------------- -->
@@ -13,6 +17,7 @@
   <div class="tab-panel">
     <mat-tab-group animationDuration="0ms" dynamicHeight>
       <mat-tab label="Kommande evenemang">
+        <!--         <input type="text" placeholder="Sök evenemang" #query> -->
         <div class="mat-card-div">
           <mat-card *ngFor="let ev of evs$ | async" [routerLink]="['/event', ev.id]">
             <mat-card-header>
@@ -171,7 +176,7 @@
             <div class="spacer">
               <mat-form-field appearance="legacy" id="searchbar">
                 <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Sök evenemang" autocomplete="off" />
-              <mat-icon matSuffix>search</mat-icon>
+                <mat-icon matSuffix>search</mat-icon>
               </mat-form-field>
             </div>
           </mat-toolbar>

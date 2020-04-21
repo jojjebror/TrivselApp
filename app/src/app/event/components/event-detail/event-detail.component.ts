@@ -7,33 +7,32 @@ import { Observable, Subscription } from 'rxjs';
 import { Event, User, Post } from 'src/app/shared/models';
 
 import { ActivatedRoute } from '@angular/router';
-import { AlertifyService } from 'src/app/core/services/alertify.service';
-
 import * as fromSession from '../../../core/state/session';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'ex-event-detail',
   templateUrl: './event-detail.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['./event-detail.component.scss']
+  styleUrls: ['./event-detail.component.scss'],
 })
 export class EventDetailComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
   postForm: FormGroup;
   post: Post;
   eventId: any;
+  userId: number;
   ev$: Observable<Event>;
   posts$: Observable<Post[]>;
   attendedParticipants$: Observable<User[]>;
   invitedParticipants$: Observable<User[]>;
   declinedParticipants$: Observable<User[]>;
-  userId: number;
 
   constructor(
     private store$: Store<AppState>,
     private fb: FormBuilder,
-    private alertify: AlertifyService,
+    private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute
   ) {
     this.subscription.add(this.store$.select(fromSession.selectUser).subscribe((user) => (this.userId = user.id)));
@@ -68,8 +67,11 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     var data = [id, this.userId, answer];
     this.store$.dispatch(new fromEvents.AddEventParticipant(data));
 
-    if (answer == 'true') {
-      this.alertify.success('Ditt svar är registrerat');
+    if (answer == 'Accepted') {
+      this.snackBar.open('Du är tillagd i evenemanget', '', { duration: 2500 });
+    }
+    if (answer == 'Declined') {
+      this.snackBar.open('Du är borttagen ur evenemanget', '', { duration: 2500 });
     }
   }
 
@@ -113,26 +115,50 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   createPost() {
     if (this.postForm.valid) {
       this.postForm.get('created').setValue(new Date());
+
+      //fix for problem reloading after 1 post...
+      this.postForm.get('creatorId').setValue(this.userId);
+      this.postForm.get('eventId').setValue(this.eventId);
+
       this.post = Object.assign({}, this.postForm.value);
       this.store$.dispatch(new fromEvents.AddPostToEvent(this.post));
 
-      this.alertify.success('Postat');
+      this.snackBar.open('Kommentar postad', '', { duration: 2500 });
       this.postForm.reset();
     }
   }
 
   deletePost(id: number, postId: number) {
-      var data = [id, postId]; 
-      this.store$.dispatch(new fromEvents.DeletePost(data));
-      this.alertify.success('Kommentaren borttagen');
+    var data = [id, postId];
+    this.store$.dispatch(new fromEvents.DeletePost(data));
+    this.snackBar.open('Kommentar borttagen', '', { duration: 2500 });
   }
 
-  /* checkDates(startdate: Date, enddate: Date) {
-    if(startdate.getUTCDate != enddate.getUTCDate) {
+  getDayOfWeek(date: Date) {
+    const dayOfWeek = new Date(date).getDay();
+    console.log(dayOfWeek);
+    return isNaN(dayOfWeek) ? null : ['Söndag', 'Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag'][dayOfWeek];
+  }
+
+  checkDates(startdate: Date, enddate: Date) {
+    let startD = new Date(startdate);
+    let endD = new Date(enddate);
+
+    if (startD.toDateString() === endD.toDateString()) {
       return true;
-    }
-    else{
+    } else {
       return false;
     }
-  } */
+  }
+
+  checkEndTime(enddate: Date) {
+    let endD = new Date(enddate);
+    console.log('enddate:' + endD.getHours() + ', min' + endD.getMinutes());
+
+    if (endD.getHours() != 23 && endD.getMinutes() != 59) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

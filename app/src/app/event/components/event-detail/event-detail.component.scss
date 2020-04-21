@@ -66,9 +66,9 @@ h4 {
   font-size: 18px;
 }
 
- :host /deep/ .mat-list .mat-list-item {
+:host /deep/ .mat-list .mat-list-item {
   height: 25px !important;
-}   
+}
 
 ::ng-deep .mat-list .mat-list-item .mat-list-item-content,
 .mat-list .mat-list-option .mat-list-item-content,
@@ -76,7 +76,7 @@ h4 {
 .mat-nav-list .mat-list-option .mat-list-item-content,
 .mat-selection-list .mat-list-item .mat-list-item-content,
 .mat-selection-list .mat-list-option .mat-list-item-content {
-  padding: 0px!important;
+  padding: 0px !important;
 }
 
 .mat-list {
@@ -96,28 +96,28 @@ textarea {
 }
 
 textarea::placeholder {
-  color: black;  
+  color: black;
 }
 
 #commentBox {
-background-color: white;
-color: black;
-border-radius: 10px;
-resize: none;
-outline: none;
-
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  resize: none;
+  outline: none;
+  padding-left: 10px;
 }
 
 .postBox {
-  display:inline-block;
-  position:relative;
+  display: inline-block;
+  position: relative;
 }
 
 .postBtn {
- position:absolute;
- bottom:10px;
- right: 0px;
- color: black;
+  position: absolute;
+  bottom: 10px;
+  right: 0;
+  color: black;
 }
 
 /* width */
@@ -141,14 +141,14 @@ outline: none;
 }
 
 .comment-wrapper .panel-body {
-    max-height:650px;
-    width: 400px;
-    //overflow:auto;
+  max-height: 650px;
+  width: 400px;
+  //overflow:auto;
 }
 
 .comment-wrapper .media-list .media {
-    border-bottom:1px solid #efefef;
-    margin-bottom: 10px;
+  border-bottom: 1px solid #efefef;
+  margin-bottom: 10px;
 }
 
 ul {
@@ -171,3 +171,11 @@ ul {
 #userIcon {
   vertical-align: middle;
 }
+
+.backIcon {
+  font-size: 35px;
+  cursor: pointer;
+  margin-left: 15px;
+  outline: none;
+}
+
