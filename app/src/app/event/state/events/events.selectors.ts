@@ -24,11 +24,11 @@ export const getEventsCreatedByUser = (userId: number) =>
 export const getInvitedParticipants = createSelector(selectState, getCurrentEventId, (state) => state.users);
 
 export const getAttendedParticipants = createSelector(selectState, getInvitedParticipants, (state) =>
-  state.users.filter((val) => val.status === 'Accepted')
+  state.users.filter((val) => val.status === 'accepted')
 );
 
 export const getDeclinedParticipants = createSelector(selectState, getInvitedParticipants, (state) =>
-  state.users.filter((val) => val.status === 'Declined')
+  state.users.filter((val) => val.status === 'declined')
 );
 
 export const getEventPosts = createSelector(selectState, (state) => state.posts)
@@ -40,7 +40,7 @@ export const getInvitedEvents = createSelector(selectState, getUserEvents, (stat
 );
 
 export const getAttendedEvents = createSelector(selectState, getUserEvents, (state) =>
-  state.userEvents.filter((val) => val.status === 'Accepted')
+  state.userEvents.filter((val) => val.status === 'accepted')
 );
 
 const { selectIds, selectEntities } = adapter.getSelectors(selectState);

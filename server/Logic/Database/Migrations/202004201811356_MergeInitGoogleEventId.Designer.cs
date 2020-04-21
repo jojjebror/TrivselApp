@@ -7,13 +7,13 @@ namespace Logic.Database.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class AddedPostEntity : IMigrationMetadata
+    public sealed partial class MergeInitGoogleEventId : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedPostEntity));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(MergeInitGoogleEventId));
         
         string IMigrationMetadata.Id
         {
-            get { return "202004141225353_AddedPostEntity"; }
+            get { return "202004201811356_MergeInitGoogleEventId"; }
         }
         
         string IMigrationMetadata.Source
