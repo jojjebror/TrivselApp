@@ -203,13 +203,17 @@ export class AddEventParticipantError implements Action {
 export class SaveImage implements Action {
   readonly type = ActionTypes.SAVE_IMAGE;
 
-  constructor(public id: number, public payload: File) {}
+  constructor(public id: number, public payload: File) {
+    console.log("Save Image " + id + " " + payload)
+  }
 }
 
 export class SaveImageSuccess implements Action {
   readonly type = ActionTypes.SAVE_IMAGE_SUCCESS;
 
-  constructor(public payload: Event) {}
+  constructor(public payload: Update<Event>) {
+    console.log('Save Image Success ' + payload);
+  }
 }
 
 export class SaveImageError implements Action {

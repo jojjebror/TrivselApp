@@ -32,7 +32,6 @@ export class EventsEffects {
     switchMap((action: eventsActions.LoadEvent) =>
       this.eventResource.loadEvent(action.payload).pipe(
         switchMap((event: Event) => [new eventsActions.LoadEventSuccess(event)]),
-        //tap(() => this.router.navigate(['/event/' + action.payload])),
         catchError((err) => of(new eventsActions.LoadEventError(err)))
       )
     )
@@ -43,9 +42,10 @@ export class EventsEffects {
     ofType(eventsActions.ActionTypes.CREATE_EVENT),
     switchMap((action: eventsActions.CreateEvent) =>
       this.eventResource.createEvent(action.payload).pipe(
-        switchMap((newEvent: Event) => [
-          new eventsActions.CreateEventSuccess(newEvent),
-          new eventsActions.SaveImage(newEvent.id, action.image),
+        switchMap((newEvent: Event) => 
+        [
+          new eventsActions.SaveImage(newEvent.id, action.image), 
+          new eventsActions.CreateEventSuccess(newEvent)
         ]),
         tap(() => this.router.navigate(['/event'])),
         catchError((err) => of(new eventsActions.CreateEventError(err)))
@@ -73,7 +73,7 @@ export class EventsEffects {
         switchMap((updatedEvent: Event) => [
           new eventsActions.UpdateEventSuccess({
             id: updatedEvent.id,
-            changes: updatedEvent,
+            changes: updatedEvent
           }),
           new eventsActions.SaveImage(updatedEvent.id, action.image),
         ]),
@@ -118,13 +118,19 @@ export class EventsEffects {
     ofType(eventsActions.ActionTypes.SAVE_IMAGE),
     switchMap((action: eventsActions.SaveImage) =>
       this.eventResource.saveImage(action.id, action.payload).pipe(
-        map((newEvent: Event) => new eventsActions.SaveImageSuccess(newEvent)),
+        map(
+          (newEvent: Event) =>
+            new eventsActions.SaveImageSuccess({
+              id: newEvent.id,
+              changes: newEvent
+            })
+        ),
         catchError((err) => of(new eventsActions.SaveImageError(err)))
       )
     )
   );
 
-    @Effect()
+  @Effect()
   loadUserEvents$: Observable<Action> = this.actions$.pipe(
     ofType(eventsActions.ActionTypes.GET_USER_EVENT),
     switchMap((actions: eventsActions.GetCurrentUserEvent) =>

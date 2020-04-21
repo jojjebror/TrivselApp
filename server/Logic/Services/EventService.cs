@@ -119,6 +119,8 @@ namespace Logic.Services
 
             var folderName = Path.Combine("assets", "images", "event-images");
             var imageFolderPath = Path.GetFullPath(folderName).Replace("server\\Api", "app\\src");
+
+            //Deletes all images with the id
             DeleteImageFiles(id, imageFolderPath);
 
             DeleteGoogleCalendarEvent(dbEvent.GoogleEventId);
@@ -300,11 +302,6 @@ namespace Logic.Services
                 googleEv.Attendees = eps.Select(ep => 
                     new EventAttendee { DisplayName = ep.User.Name, Email = ep.User.Email }).ToList();
             }
-            
-            //foreach (var user in users)
-            //{
-            //    googleEv.Attendees.Add(new EventAttendee() { DisplayName = user.Name, Email = user.Email });
-            //}
             googleEv.Attendees.FirstOrDefault(a => a.Email == organizer.Email).ResponseStatus = "accepted";
 
             //Insert in primary(default) calendar for account and send email notification to all attendees
