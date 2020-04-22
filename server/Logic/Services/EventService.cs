@@ -1,9 +1,4 @@
-﻿using Google.Apis.Auth.OAuth2;
-using Google.Apis.Calendar.v3;
-using Google.Apis.Calendar.v3.Data;
-using Google.Apis.Services;
-using Google.Apis.Util.Store;
-using Logic.Database;
+﻿using Logic.Database;
 using Logic.Database.Entities;
 using Logic.Models;
 using Logic.Translators;
@@ -13,7 +8,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Logic.Services
@@ -21,10 +15,12 @@ namespace Logic.Services
     public class EventService
     {
         private readonly DatabaseContext _context;
+        private readonly GoogleCalendarService _googleCalendarService;
 
         public EventService(DatabaseContext context)
         {
             _context = context;
+            _googleCalendarService = new GoogleCalendarService(context);
         }
 
         public async Task<EventForDetailedDto> GetEvent(int id)
@@ -87,7 +83,7 @@ namespace Logic.Services
             _context.EventParticipants.AddRange(eventParticipants);
 
             //Create a google calendar event and returns Google Event Id
-            var googleEventId = CreateGoogleCalendarEvent(ev, eventParticipants);
+            var googleEventId = _googleCalendarService.CreateGoogleCalendarEvent(ev, eventParticipants);
             newEvent.GoogleEventId = googleEventId;
 
             await _context.SaveChangesAsync();
@@ -123,7 +119,7 @@ namespace Logic.Services
             //Deletes all images with the id
             DeleteImageFiles(id, imageFolderPath);
 
-            DeleteGoogleCalendarEvent(dbEvent.GoogleEventId);
+            _googleCalendarService.DeleteGoogleCalendarEvent(dbEvent.GoogleEventId);
 
             _context.Events.Remove(dbEvent);
             await _context.SaveChangesAsync();
@@ -161,9 +157,9 @@ namespace Logic.Services
             var updatedEp = await _context.EventParticipants.Include(u => u.User).Include(e => e.Event)
                 .FirstOrDefaultAsync(ep => ep.EventId == eventId && ep.UserId == userId);
 
-            if (updatedEp.Event.GoogleEventId != null) 
-            { 
-                UpdateGoogleCalendarEventParticipantStatus(updatedEp);
+            if (updatedEp.Event.GoogleEventId != null)
+            {
+                _googleCalendarService.UpdateGoogleCalendarEventParticipantStatus(updatedEp);
             }
 
             var dbEvent = await _context.Events.Include(e => e.EventParticipants.Select(u => u.User))
@@ -235,128 +231,6 @@ namespace Logic.Services
                 .Include(us => us.Event.Creator).ToListAsync();
 
             return dbEvents.Select(EventForUserListTranslator.ToModel).ToList();
-        }
-
-        public CalendarService CreateGoogleCalendarService()
-        {
-            // trivselapp@gmail.com exsitec123
-            // If modifying these scopes, delete your previously saved credentials
-            // at ~/.credentials/calendar-dotnet-quickstart.json
-            string[] Scopes = { CalendarService.Scope.Calendar };
-            string ApplicationName = "Google Calendar API .NET Quickstart";
-
-            UserCredential credential;
-
-            using (var stream =
-                new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
-            {
-                // The file token.json stores the user's access and refresh tokens, and is created
-                // automatically when the authorization flow completes for the first time.
-                string credPath = "token.json";
-                credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.Load(stream).Secrets,
-                    Scopes,
-                    "user",
-                    CancellationToken.None,
-                    new FileDataStore(credPath, true)).Result;
-            }
-
-            // Create Google Calendar API service.
-            var calendarService = new CalendarService(new BaseClientService.Initializer()
-            {
-                HttpClientInitializer = credential,
-                ApplicationName = ApplicationName,
-            });
-
-            return calendarService;
-        }
-
-        public string CreateGoogleCalendarEvent(EventForCreateDto ev, List<EventParticipant> eps)
-        {
-            //Get all users details that is participating
-            var users = new List<User>();
-            foreach (var ep in eps)
-            {
-                users.Add(_context.Users.Find(ep.UserId));
-            }
-            var organizer = users.Find(u => u.Id == ev.CreatorId);
-
-            //Create google event
-            var googleEv = new Google.Apis.Calendar.v3.Data.Event()
-            {
-                Summary = ev.Title,
-                Description = ev.Description,
-                Location = ev.Location,
-                Start = new EventDateTime()
-                {
-                    DateTime = new DateTime(ev.StartDate.Year, ev.StartDate.Month, ev.StartDate.Day,
-                        ev.StartTime.Hour, ev.StartTime.Minute, 0),
-                    TimeZone = "Europe/Stockholm"
-                },
-                End = new EventDateTime()
-                {
-                    DateTime = new DateTime(ev.EndDate.Year, ev.EndDate.Month, ev.EndDate.Day,
-                        ev.EndTime.Hour, ev.EndTime.Minute, 0),
-                    TimeZone = "Europe/Stockholm"
-                },
-                Created = ev.CreateDate
-            };
-
-            if (eps != null) {
-                googleEv.Attendees = eps.Select(ep => 
-                    new EventAttendee { DisplayName = ep.User.Name, Email = ep.User.Email }).ToList();
-            }
-            googleEv.Attendees.FirstOrDefault(a => a.Email == organizer.Email).ResponseStatus = "accepted";
-
-            //Insert in primary(default) calendar for account and send email notification to all attendees
-            var calendarService = CreateGoogleCalendarService();
-            var calendarId = "primary";
-            var insertRequest = calendarService.Events.Insert(googleEv, calendarId);
-            insertRequest.SendUpdates = 0;
-            var createdGoogleEv = insertRequest.Execute();
-            var googleEventId = createdGoogleEv.Id;
-
-            return googleEventId;
-        }
-
-        public Google.Apis.Calendar.v3.Data.Event GetGoogleCalendarEvent(string googleEventId)
-        {
-            var calendarService = CreateGoogleCalendarService();
-            var calendarId = "primary";
-            var googleEv = calendarService.Events.Get(calendarId, googleEventId).Execute();
-
-            return googleEv;
-        }
-
-        public void UpdateGoogleCalendarEventParticipantStatus(EventParticipant ep)
-        {
-            var googleEventId = ep.Event.GoogleEventId;
-            var googleEv = GetGoogleCalendarEvent(googleEventId);
-
-            var status = ep.Status;
-            if (ep.Status == "N/A")
-                status = "needsAction";
-
-            if (googleEv.Attendees.FirstOrDefault(a => a.Email == ep.User.Email) != null)
-            {
-                googleEv.Attendees.FirstOrDefault(a => a.Email == ep.User.Email).ResponseStatus = status;
-            } 
-            else
-            {
-                googleEv.Attendees.Add(new EventAttendee 
-                { DisplayName = ep.User.Name, Email = ep.User.Email, ResponseStatus = status });
-            }
-
-            var calendarService = CreateGoogleCalendarService();
-            var calendarId = "primary";
-            calendarService.Events.Update(googleEv, calendarId, googleEventId).Execute();
-        }
-
-        public void DeleteGoogleCalendarEvent(string id)
-        {
-            var calendarService = CreateGoogleCalendarService();
-            var calendarId = "primary";
-            calendarService.Events.Delete(calendarId, id).Execute();
         }
     }
 }

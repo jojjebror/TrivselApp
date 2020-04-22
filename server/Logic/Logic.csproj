@@ -303,6 +303,7 @@
     <Compile Include="Services\DrinkService.cs" />
     <Compile Include="Services\EventService.cs" />
     <Compile Include="Services\ExampleService.cs" />
+    <Compile Include="Services\GoogleCalendarService.cs" />
     <Compile Include="Services\PostService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Translators\DrinkForDetailedTranslator.cs" />
