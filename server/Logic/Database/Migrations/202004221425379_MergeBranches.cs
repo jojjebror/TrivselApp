@@ -3,7 +3,7 @@ namespace Logic.Database.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class MergeInitGoogleEventId : DbMigration
+    public partial class MergeBranches : DbMigration
     {
         public override void Up()
         {
@@ -33,7 +33,7 @@ namespace Logic.Database.Migrations
                         Status = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: false)
+                .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
                 .ForeignKey("dbo.Events", t => t.EventId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.EventId);
@@ -68,11 +68,12 @@ namespace Logic.Database.Migrations
                         EventId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Users", t => t.CreatorId, cascadeDelete: false)
+                .ForeignKey("dbo.Users", t => t.CreatorId, cascadeDelete: true)
                 .ForeignKey("dbo.Events", t => t.EventId, cascadeDelete: true)
                 .Index(t => t.CreatorId)
                 .Index(t => t.EventId);
             
+            AddColumn("dbo.Users", "Credit", c => c.Int(nullable: false));
             AddColumn("dbo.Users", "Office", c => c.String());
         }
         
@@ -89,6 +90,7 @@ namespace Logic.Database.Migrations
             DropIndex("dbo.EventParticipants", new[] { "EventId" });
             DropIndex("dbo.EventParticipants", new[] { "UserId" });
             DropColumn("dbo.Users", "Office");
+            DropColumn("dbo.Users", "Credit");
             DropTable("dbo.Posts");
             DropTable("dbo.Events");
             DropTable("dbo.EventParticipants");

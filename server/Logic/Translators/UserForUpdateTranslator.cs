@@ -8,22 +8,21 @@ using System.Threading.Tasks;
 
 namespace Logic.Translators
 {
-    public class UserTranslator
+    class UserForUpdateTranslator
     {
-
-        public static UserDto ToModel(User user)
+        public static UserForUpdateDto ToModel(User user)
         {
             if (user == null)
                 return null;
 
-            return new UserDto
+            return new UserForUpdateDto
             {
                 Id = user.Id,
                 Name = user.Name,
                 Credit = user.Credit,
                 Email = user.Email
+
             };
         }
-
     }
 }

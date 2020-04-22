@@ -27,12 +27,6 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetDrinks(string category)
-        //{
-        //    var result = await _drinkService.GetDrinks(category);
-        //    return new OkObjectResult(ApiResponse.Create(result));
-        //}
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDrink(int id)

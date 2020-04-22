@@ -2,6 +2,8 @@ import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 
 import { AppState } from "src/app/core/state";
 import { Store, select } from "@ngrx/store";
+import * as fromSession from '../../../core/state/session'
+import * as fromUser from '../../../user/state/users/users.actions';
 
 import { Observable } from "rxjs";
 import { Drink } from "src/app/shared/models";
@@ -10,6 +12,7 @@ import { AlertifyService } from "src/app/core/services/alertify.service";
 
 import * as fromDrink from "../../state/drinks";
 import * as drinksActions from "../../state/drinks";
+import { Url } from "url";
 
 @Component({
   selector: "ex-drink-detail",
@@ -21,9 +24,11 @@ export class DrinkDetailComponent implements OnInit {
   dr$: Observable<Drink>;
   id: number;
   isShown: boolean = false; // hidden by default
-  photo: string = "/beer.jpg";
+  photo: string = "/bilder/beer.jpg";
   clickCounter: number = 1;
   totalSum: number = 0;
+  userId: number;
+  userCredit: number;
 
   constructor(
     private store$: Store<AppState>,
@@ -34,6 +39,15 @@ export class DrinkDetailComponent implements OnInit {
 
   ngOnInit() {
     this.LoadDrink();
+    this.store$.select(fromSession.selectUser).subscribe((currentuser ) => (this.userId = currentuser.id));
+    this.store$.select(fromSession.selectUser).subscribe((currentuser ) => (this.userCredit = currentuser.credit));
+
+    if (this.userCredit < 60) {
+      this.alertify.warning("Psst..Det börjar se lite tomt ut på ditt saldo! :)");
+    }
+    
+    console.log(this.userId);
+    console.log(this.userCredit);
   }
 
   private LoadDrink(): void {
@@ -78,6 +92,29 @@ export class DrinkDetailComponent implements OnInit {
     console.log(this.totalSum);
   }
 
+  paySaldo(drink: Drink) {
+    this.totalSum = 0;
+    this.totalSum += this.clickCounter * drink.price;
+    this.totalSum = -this.totalSum
+    var sum = this.clickCounter * drink.price;
+    var data = [this.userId , this.totalSum];
+    console.log(this.totalSum);
+    if(this.userCredit >= sum) {
+
+      if (confirm("Är du säker på att du vill köpa dessa produkter?")) {
+        this.store$.dispatch(new fromUser.UpdateCredit(data));
+      
+    this.alertify.success("Värdet för ditt saldo har ändrats!");
+      }
+      
+    }
+    else(
+      this.alertify.error("Du har för lite pengar på ditt saldo!")
+    )
+    
+    
+  }
+ 
   changeImage(drink: Drink) {
     if (drink.category == "cider") {
       this.photo = "/beer3.jpg";
@@ -89,4 +126,5 @@ export class DrinkDetailComponent implements OnInit {
       return this.photo;
     }
   }
+  
 }

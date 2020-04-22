@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 
 import { Drink } from '../../shared/models';
+import { text } from "@angular/core/src/render3";
 
 @Injectable()
 export class DrinkResource extends ApiResource {
@@ -14,7 +15,7 @@ export class DrinkResource extends ApiResource {
     }
 
     loadDrinks(): Observable<Drink[]> {
-        return this.get('drink');
+        return this.get('drink/');
     }
 
     loadDrink(id: number): Observable<Drink> {
@@ -34,7 +35,7 @@ export class DrinkResource extends ApiResource {
 
     filterDrink(dr: string): Observable<Drink[]>
     {
-        return this.get('drink/' + 'filter?filter=' + dr);;
+        return this.get('drink/' + 'filter?filter=' + dr);
     }
     
 }

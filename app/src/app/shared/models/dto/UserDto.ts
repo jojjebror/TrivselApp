@@ -12,6 +12,8 @@ export class User extends Base {
 
          public status: string;
 
+         public credit: number;
+         
        }
 
 

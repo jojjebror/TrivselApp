@@ -1,0 +1,111 @@
+.addCreditForm {
+  border: lightness($color: #ffffff);
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  color: white;
+  height: 800px;
+  }
+  
+
+  /* active tab */
+::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+  color:white;
+  font-size: 18px;
+  opacity: 1
+  }
+
+  /* ink bar */
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary {
+  background-color: white !important;
+  }
+  
+  ::ng-deep .mat-tab-label .mat-tab-label-content {
+    color: white;
+    font-size: 18px;
+  }
+
+mat-form-field {
+  width: 100%;
+  
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
+}
+
+.btn{
+  float: right;
+}
+
+p {
+  font-size: small;
+  text-align: center;
+ 
+}
+
+//input outline color
+::ng-deep .mat-form-field-appearance-standard .mat-form-field-standard {
+  color: white!important;
+}
+
+//mat-input focused color
+::ng-deep .mat-form-field-appearance-standard.mat-focused .mat-form-field-standard-thick {
+  color: white!important;
+}
+
+// mat-input error outline color
+::ng-deep .mat-form-field-appearance-standard.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-standard-thick{
+  color: white!important;
+  opacity: 0.8!important;
+}
+
+// mat-input carent color
+::ng-deep .mat-input-element {
+  caret-color: white!important;
+}
+
+// mat-input error carent color
+::ng-deep .mat-form-field-invalid .mat-input-element, .mat-warn .mat-input-element {
+  caret-color: white!important;
+}
+
+// mat-label normal state style
+::ng-deep .mat-form-field-label {
+  color: white!important;
+  // color: $mainColor!important;
+}
+
+// mat-label focused style
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+  color: white!important;
+}
+
+// mat-label error style
+::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label {
+  color: white!important;
+}
+
+
+.not-empty-select.mat-selected {
+  color: green !important;
+}
+
+:host /deep/ .mat-select-value-text {
+  color: rgb(11, 187, 11) !important;
+}
+
+
+
+@media (max-width: 414px) {
+
+.addCreditForm{
+  margin-top: 10%;
+  width: 80%;
+  height: 600px;
+  }
+
+}
+
