@@ -6,10 +6,6 @@
       </button>
     </div>
   </div>
-  <!-- <mat-form-field appearance="legacy" id="searchbar">
-    <input matInput type="text" placeholder="Sök evenemang" autocomplete="off" />
-    <mat-icon matSuffix>search</mat-icon>
-  </mat-form-field> -->
 
   <!-- -------------------------------Tab 1----------------------------------------------- -->
   <!-- ---------------Incoming events---------------- -->
@@ -17,9 +13,15 @@
   <div class="tab-panel">
     <mat-tab-group animationDuration="0ms" dynamicHeight>
       <mat-tab label="Kommande evenemang">
-        <!--         <input type="text" placeholder="Sök evenemang" #query> -->
-        <div class="mat-card-div">
-          <mat-card *ngFor="let ev of evs$ | async" [routerLink]="['/event', ev.id]">
+        <div class="filtering">
+          <mat-paginator class="listPaginator" [pageSizeOptions]="[6, 12, 24]"></mat-paginator>
+          <mat-form-field appearance="legacy" id="allEventSearchbar">
+            <input matInput type="text" placeholder="Sök evenemang" (keyup)="doFilter($event.target.value, '')" autocomplete="off" />
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div> <br>
+          <div class="mat-card-div">
+          <mat-card *ngFor="let ev of evs$ | async" [routerLink]="['/event', ev.id]" fxFlex="100">
             <mat-card-header>
               <mat-card-title>{{ ev.title }}</mat-card-title>
             </mat-card-header>
@@ -108,8 +110,6 @@
 
               <mat-row *matRowDef="let row; columns: displayedColumnsInvited"></mat-row>
             </mat-table>
-            <!--             <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
- -->
             <div class="noDataTable" *ngIf="invitedEvents.data.length === 0">Du har inga nya inbjudningar</div>
           </div>
         </div>
@@ -175,7 +175,13 @@
             <div>Dina skapade evenemang</div>
             <div class="spacer">
               <mat-form-field appearance="legacy" id="searchbar">
-                <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Sök evenemang" autocomplete="off" />
+                <input
+                  matInput
+                  type="text"
+                  (keyup)="doFilter($event.target.value, 'createdEvents')"
+                  placeholder="Sök evenemang"
+                  autocomplete="off"
+                />
                 <mat-icon matSuffix>search</mat-icon>
               </mat-form-field>
             </div>
@@ -231,12 +237,12 @@
 
             <mat-row *matRowDef="let row; columns: displayedColumnsCreated"></mat-row>
           </mat-table>
-          <mat-paginator
+          <!--           <mat-paginator
             [pageSizeOptions]="[5, 20, 50]"
             [length]="createdEvents.data.length"
             *ngIf="createdEvents.data.length > 0"
             showFirstLastButtons
-          ></mat-paginator>
+          ></mat-paginator> -->
           <div class="noDataTable" *ngIf="createdEvents.data.length === 0">Du har ännu inga skapade evenemang</div>
           <hr />
         </div>

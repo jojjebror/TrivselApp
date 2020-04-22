@@ -1,12 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Event } from '../../../shared/models';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, Subject, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 import * as fromEvents from '../../state/events';
-import { AlertifyService } from 'src/app/core/services/alertify.service';
 import * as fromSession from '../../../core/state/session';
-import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar, PageEvent } from '@angular/material';
 
 @Component({
   selector: 'ex-event-list',
@@ -15,6 +16,10 @@ import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar } from '@angular
   styleUrls: ['./event-list.component.scss'],
 })
 export class EventListComponent implements OnInit, OnDestroy {
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   private subscription = new Subscription();
   evs$: Observable<Event[]>;
   userId: number;
@@ -22,26 +27,26 @@ export class EventListComponent implements OnInit, OnDestroy {
   createdEvents = new MatTableDataSource<Event>();
   invitedEvents = new MatTableDataSource<Event>();
   attendedEvents = new MatTableDataSource<Event>();
+  allEvents = new MatTableDataSource<Event>();
 
   displayedColumnsCreated = ['title', 'location', 'date', 'actions'];
   displayedColumnsInvited = ['title2', 'location2', 'date2', 'invited2', 'actions2'];
   displayedColumnsAttended = ['title3', 'location3', 'date3', 'invited3', 'actions3'];
 
-  constructor(private store$: Store<AppState>, private snackBar: MatSnackBar) {
+  constructor(private store$: Store<AppState>, private snackBar: MatSnackBar, private changeDetectorRef: ChangeDetectorRef) {
     this.subscription.add(this.store$.select(fromSession.selectUserId).subscribe((response) => (this.userId = response)));
   }
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
   ngOnInit() {
+    this.changeDetectorRef.detectChanges();
     this.loadEvents();
-    this.createdEvents.paginator = this.paginator;
-    this.createdEvents.sort = this.sort;
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    if (this.allEvents) {
+      this.allEvents.disconnect();
+    }
   }
 
   private loadEvents() {
@@ -51,7 +56,16 @@ export class EventListComponent implements OnInit, OnDestroy {
     this.store$.dispatch(new fromEvents.LoadEvents());
 
     //All events
-    this.evs$ = this.store$.pipe(select(fromEvents.getEvents));
+    //save this
+    //this.evs$ = this.store$.pipe(select(fromEvents.getEvents));
+
+    this.store$.pipe(select(fromEvents.getEvents)).subscribe((data: Event[]) => {
+      this.allEvents.data = data;
+    });
+
+    this.allEvents.paginator = this.paginator;
+    this.evs$ = this.allEvents.connect();
+    this.createdEvents.sort = this.sort;
 
     //Events that the user have created
     this.subscription.add(
@@ -92,10 +106,10 @@ export class EventListComponent implements OnInit, OnDestroy {
 
     this.refreshData();
 
-    if (answer == 'Accepted') {
+    if (answer == 'accepted') {
       this.snackBar.open('Du är tillagd i evenemanget', '', { duration: 2500 });
     }
-    if (answer == 'Declined') {
+    if (answer == 'declined') {
       this.snackBar.open('Du är borttagen från evenemanget', '', { duration: 2500 });
     }
   }
@@ -123,7 +137,13 @@ export class EventListComponent implements OnInit, OnDestroy {
     );
   }
 
-  doFilter(filterValue: string) {
-    this.createdEvents.filter = filterValue.trim().toLocaleLowerCase();
+  doFilter(filterValue: string, keyword: string) {
+    if(keyword === 'createdEvents') {
+      this.createdEvents.filter = filterValue.trim().toLocaleLowerCase();
+    }
+    else {
+      this.allEvents.filter = filterValue.trim().toLocaleLowerCase();
+    }
+    
   }
 }

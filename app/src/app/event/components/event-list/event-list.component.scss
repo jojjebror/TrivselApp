@@ -20,7 +20,7 @@ h3 {
   text-align: right;
 }
 
-.mat-card {
+ .mat-card {
   width: 32%;
   margin-top: 30px;
   margin-right: 1%;
@@ -28,7 +28,7 @@ h3 {
   color: white;
   cursor: pointer;
   background-color: rgb(37, 2, 48);
-}
+} 
 
 .mat-card-title {
   font-size: 1.2rem;
@@ -109,7 +109,8 @@ h3 {
 }
 
 :host ::ng-deep.mat-paginator .mat-paginator-container {
-  background-color: rgb(37, 2, 48);
+  //background-color: rgb(37, 2, 48);
+  background-color: transparent;
   color: white;
 }
 
@@ -148,7 +149,28 @@ h3 {
   width: 180px;
 }
 
+#allEventSearchbar {
+  float: left;
+  color: white;
+}
+
 .spacer {
   flex: 1 1 auto;
   text-align: right;
 }
+
+.listPaginator {
+  background: transparent;
+  float: right;
+}
+
+.filtering {
+  margin-bottom: 43px;
+}
+
+// mat-label normal state style
+::ng-deep .mat-form-field-label {
+    color: white!important;
+}
+
+

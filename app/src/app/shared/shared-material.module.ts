@@ -21,7 +21,8 @@ import {
 	MatTooltipModule,
 	MatBadgeModule,
 	MatPaginatorModule,
-	MatSortModule
+	MatSortModule,
+	MatGridListModule
 
 } from '@angular/material';
 
@@ -46,7 +47,8 @@ const modules = [
   MatTooltipModule,
   MatBadgeModule,
   MatPaginatorModule,
-  MatSortModule
+  MatSortModule,
+  MatGridListModule
 ];
 
 @NgModule({
