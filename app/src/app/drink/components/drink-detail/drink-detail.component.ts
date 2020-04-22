@@ -84,7 +84,6 @@ export class DrinkDetailComponent implements OnInit {
   GetToSwish(drink: Drink) {
     this.totalSum = 0;
     this.totalSum += this.clickCounter * drink.price;
-    // add token to swish-url-string hopefully!!
     console.log(this.totalSum);
   }
 
@@ -121,4 +120,5 @@ export class DrinkDetailComponent implements OnInit {
       return this.photo;
     }
   }
+  
 }
