@@ -68,7 +68,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     this.store$.dispatch(new fromEvents.AddEventParticipant(data));
 
     if (answer == 'accepted') {
-      this.snackBar.open('Du är tillagd i evenemanget', '', { duration: 2500 });
+      this.snackBar.open('Du är tillagd i evenemanget :)', '', { duration: 2500 });
     }
     if (answer == 'declined') {
       this.snackBar.open('Du är borttagen ur evenemanget', '', { duration: 2500 });
