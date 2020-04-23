@@ -1,13 +1,12 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Event } from '../../../shared/models';
 import { Observable, Subscription, Subject, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 import * as fromEvents from '../../state/events';
 import * as fromSession from '../../../core/state/session';
-import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar, PageEvent } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar, PageEvent, DateAdapter } from '@angular/material';
 
 @Component({
   selector: 'ex-event-list',
@@ -16,7 +15,6 @@ import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar, PageEvent } fro
   styleUrls: ['./event-list.component.scss'],
 })
 export class EventListComponent implements OnInit, OnDestroy {
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -33,7 +31,19 @@ export class EventListComponent implements OnInit, OnDestroy {
   displayedColumnsInvited = ['title2', 'location2', 'date2', 'invited2', 'actions2'];
   displayedColumnsAttended = ['title3', 'location3', 'date3', 'invited3', 'actions3'];
 
-  constructor(private store$: Store<AppState>, private snackBar: MatSnackBar, private changeDetectorRef: ChangeDetectorRef) {
+  searchField;
+  searchFieldUserEvents;
+  calendarField;
+  
+  isLoaded$: Observable<Boolean>;
+
+  constructor(
+    private store$: Store<AppState>,
+    private snackBar: MatSnackBar,
+    private changeDetectorRef: ChangeDetectorRef,
+    private dateAdapter: DateAdapter<Date>
+  ) {
+    dateAdapter.setLocale('sv');
     this.subscription.add(this.store$.select(fromSession.selectUserId).subscribe((response) => (this.userId = response)));
   }
 
@@ -59,7 +69,7 @@ export class EventListComponent implements OnInit, OnDestroy {
     //save this
     //this.evs$ = this.store$.pipe(select(fromEvents.getEvents));
 
-    this.store$.pipe(select(fromEvents.getEvents)).subscribe((data: Event[]) => {
+     this.store$.pipe(select(fromEvents.getEvents)).subscribe((data: Event[]) => {
       this.allEvents.data = data;
     });
 
@@ -138,12 +148,25 @@ export class EventListComponent implements OnInit, OnDestroy {
   }
 
   doFilter(filterValue: string, keyword: string) {
-    if(keyword === 'createdEvents') {
+    if (keyword === 'createdEvents') {
       this.createdEvents.filter = filterValue.trim().toLocaleLowerCase();
-    }
-    else {
+    } else {
       this.allEvents.filter = filterValue.trim().toLocaleLowerCase();
     }
-    
+  }
+
+  clearSearchField() {
+    this.searchField = '';
+    this.doFilter('', '');
+  }
+
+  clearSearchFieldUserEvents() {
+    this.searchFieldUserEvents = '';
+    this.doFilter('', 'createdEvents');
+  }
+
+  clearCalendarField() {
+    this.calendarField = '';
+    this.doFilter('', '');
   }
 }

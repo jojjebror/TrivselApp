@@ -16,11 +16,39 @@
         <div class="filtering">
           <mat-paginator class="listPaginator" [pageSizeOptions]="[6, 12, 24]"></mat-paginator>
           <mat-form-field appearance="legacy" id="allEventSearchbar">
-            <input matInput type="text" placeholder="Sök evenemang" (keyup)="doFilter($event.target.value, '')" autocomplete="off" />
-            <mat-icon matSuffix>search</mat-icon>
+            <input
+              [(ngModel)]="searchField"
+              matInput
+              type="text"
+              placeholder="Sök evenemang"
+              (keyup)="doFilter($event.target.value, '')"
+              autocomplete="off"
+            />
+            <button mat-button mat-icon-button matSuffix (click)="clearSearchField()" *ngIf="searchField">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-icon matSuffix *ngIf="!searchField">search</mat-icon>
           </mat-form-field>
-        </div> <br>
-          <div class="mat-card-div">
+
+          <mat-form-field appearance="legacy" id="allEventCalendarSearch">
+            <input
+              [(ngModel)]="calendarField"
+              matInput
+              (click)="picker.open()"
+              [matDatepicker]="picker"
+              autocomplete="off"
+              (focus)="doFilter($event.target.value, '')"
+              (keyup)="doFilter($event.target.value, '')"
+              placeholder="Datum"
+            />
+            <button mat-button mat-icon-button matSuffix (click)="clearCalendarField()" (click)="picker.close()" *ngIf="calendarField">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-icon matSuffix *ngIf="!calendarField">event</mat-icon>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="mat-card-div">
           <mat-card *ngFor="let ev of evs$ | async" [routerLink]="['/event', ev.id]" fxFlex="100">
             <mat-card-header>
               <mat-card-title>{{ ev.title }}</mat-card-title>
@@ -40,6 +68,10 @@
             </mat-card-actions>
           </mat-card>
         </div>
+        <!-- <mat-card *ngIf="isLoaded$ | async" class="progressSpinner">
+          <mat-progress-spinner color="primary" mode="indeterminate"> </mat-progress-spinner>
+        </mat-card> -->
+        <div class="noDataTable" *ngIf="(evs$ | async)?.length == 0">Tyvärr hittades inga evenemang</div>
       </mat-tab>
 
       <!-- -------------------------------Tab 2----------------------------------------------- -->
@@ -72,7 +104,7 @@
               </ng-container>
 
               <ng-container matColumnDef="invited2">
-                <mat-header-cell *matHeaderCellDef>Skapare</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>Skapad av</mat-header-cell>
                 <mat-cell class="duration-cell" *matCellDef="let element">{{ element.creatorName }}</mat-cell>
               </ng-container>
 
@@ -137,7 +169,7 @@
               </ng-container>
 
               <ng-container matColumnDef="invited3">
-                <mat-header-cell *matHeaderCellDef>Inbjuden av</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>Skapad av</mat-header-cell>
                 <mat-cell class="duration-cell" *matCellDef="let element">{{ element.creatorName }}</mat-cell>
               </ng-container>
 
@@ -176,13 +208,17 @@
             <div class="spacer">
               <mat-form-field appearance="legacy" id="searchbar">
                 <input
+                  [(ngModel)]="searchFieldUserEvents"
                   matInput
                   type="text"
                   (keyup)="doFilter($event.target.value, 'createdEvents')"
                   placeholder="Sök evenemang"
                   autocomplete="off"
                 />
-                <mat-icon matSuffix>search</mat-icon>
+                <button mat-button mat-icon-button matSuffix (click)="clearSearchFieldUserEvents()" *ngIf="searchFieldUserEvents">
+                  <mat-icon>close</mat-icon>
+                </button>
+                <mat-icon matSuffix *ngIf="!searchFieldUserEvents">search</mat-icon>
               </mat-form-field>
             </div>
           </mat-toolbar>
@@ -244,6 +280,9 @@
             showFirstLastButtons
           ></mat-paginator> -->
           <div class="noDataTable" *ngIf="createdEvents.data.length === 0">Du har ännu inga skapade evenemang</div>
+          <div class="noDataTable" *ngIf="createdEvents.filteredData.length === 0 && createdEvents.data.length > 0">
+            Inga evenemang matchade din sökning
+          </div>
           <hr />
         </div>
       </mat-tab>
