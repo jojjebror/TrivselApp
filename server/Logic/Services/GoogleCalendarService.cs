@@ -5,7 +5,6 @@ using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using Logic.Database;
 using Logic.Database.Entities;
-using Logic.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,7 +20,7 @@ namespace Logic.Services
         private readonly DatabaseContext _context;
         private readonly CalendarService _calendarService;
 
-        private string calendarId = "primary";
+        private readonly string calendarId = "primary";
         public GoogleCalendarService(DatabaseContext context)
         {
             _context = context;
@@ -60,52 +59,49 @@ namespace Logic.Services
             return calendarService;
         }
 
-        public string CreateGoogleCalendarEvent(EventForCreateDto ev, List<EventParticipant> eps)
+        public string CreateGoogleEvent(Database.Entities.Event ev, List<EventParticipant> eps)
         {
-            //Get all users details that is participating
-            var users = new List<User>();
-            foreach (var ep in eps)
-            {
-                users.Add(_context.Users.Find(ep.UserId));
-            }
-            var organizer = users.Find(u => u.Id == ev.CreatorId);
-
-            //Create google event
-            var googleEv = new Google.Apis.Calendar.v3.Data.Event()
-            {
-                Summary = ev.Title,
-                Description = ev.Description,
-                Location = ev.Location,
-                Start = new EventDateTime()
-                {
-                    DateTime = new DateTime(ev.StartDate.Year, ev.StartDate.Month, ev.StartDate.Day,
-                        ev.StartTime.Hour, ev.StartTime.Minute, 0),
-                    TimeZone = "Europe/Stockholm"
-                },
-                End = new EventDateTime()
-                {
-                    DateTime = new DateTime(ev.EndDate.Year, ev.EndDate.Month, ev.EndDate.Day,
-                        ev.EndTime.Hour, ev.EndTime.Minute, 0),
-                    TimeZone = "Europe/Stockholm"
-                },
-                Created = ev.CreateDate
-            };
-
-            if (eps != null)
-            {
-                googleEv.Attendees = eps.Select(ep =>
-                    new EventAttendee { DisplayName = ep.User.Name, Email = ep.User.Email }).ToList();
-            }
-            googleEv.Attendees.FirstOrDefault(a => a.Email == organizer.Email).ResponseStatus = "accepted";
-
-            //Insert in primary(default) calendar for account and send email notification to all attendees
-            var insertRequest = _calendarService.Events.Insert(googleEv, calendarId);
-            insertRequest.SendUpdates = 0;
-
             string googleEventId = null;
 
             try
             {
+                //Create google event
+                var googleEv = new Google.Apis.Calendar.v3.Data.Event()
+                {
+                    Summary = ev.Title,
+                    Description = ev.Description,
+                    Location = ev.Location,
+                    Start = new EventDateTime
+                    {
+                        DateTime = ev.StartDate,
+                        TimeZone = "Europe/Stockholm"
+                    },
+                    End = new EventDateTime
+                    {
+                        DateTime = ev.EndDate,
+                        TimeZone = "Europe/Stockholm"
+                    },
+                    Created = ev.CreateDate
+                };
+
+                //Get all users details that is participating
+                var users = new List<User>();
+                foreach (var ep in eps)
+                {
+                    users.Add(_context.Users.Find(ep.UserId));
+                }
+                var organizer = users.Find(u => u.Id == ev.CreatorId);
+
+                //Inserting many attendees into the event causes calendar usage exceed, 
+                //comment out the attendee lines if internal server error 500
+                googleEv.Attendees = eps.Select(ep =>
+                    new EventAttendee { DisplayName = ep.User.Name, Email = ep.User.Email }).ToList();
+                googleEv.Attendees.FirstOrDefault(a => a.Email == organizer.Email).ResponseStatus = "accepted";
+                //googleEv.Attendees.Add(new EventAttendee { Email = "obarthelsson@gmail.com" });
+
+                //Insert in primary(default) calendar for account and send email notification to all attendees
+                var insertRequest = _calendarService.Events.Insert(googleEv, calendarId);
+                insertRequest.SendUpdates = 0;
                 var createdGoogleEv = insertRequest.Execute();
                 googleEventId = createdGoogleEv.Id;
             }
@@ -117,7 +113,7 @@ namespace Logic.Services
             return googleEventId;
         }
 
-        public Google.Apis.Calendar.v3.Data.Event GetGoogleCalendarEvent(string googleEventId)
+        public Google.Apis.Calendar.v3.Data.Event GetGoogleEvent(string googleEventId)
         {
             var googleEv = new Google.Apis.Calendar.v3.Data.Event();
 
@@ -133,28 +129,21 @@ namespace Logic.Services
             return googleEv;
         }
 
-        public void UpdateGoogleCalendarEventParticipantStatus(EventParticipant ep)
+        public void UpdateGoogleEvent(Database.Entities.Event ev)
         {
-            var googleEventId = ep.Event.GoogleEventId;
-            var googleEv = GetGoogleCalendarEvent(googleEventId);
-
-            var status = ep.Status;
-            if (ep.Status == "N/A")
-                status = "needsAction";
-
-            if (googleEv.Attendees.FirstOrDefault(a => a.Email == ep.User.Email) != null)
-            {
-                googleEv.Attendees.FirstOrDefault(a => a.Email == ep.User.Email).ResponseStatus = status;
-            }
-            else
-            {
-                googleEv.Attendees.Add(new EventAttendee
-                { DisplayName = ep.User.Name, Email = ep.User.Email, ResponseStatus = status });
-            }
-
             try
             {
-                _calendarService.Events.Update(googleEv, calendarId, googleEventId).Execute();
+                var googleEv = GetGoogleEvent(ev.GoogleEventId);
+
+                googleEv.Summary = ev.Title;
+                googleEv.Description = ev.Description;
+                googleEv.Location = ev.Location;
+                googleEv.Start.DateTime = ev.StartDate;
+                googleEv.End.DateTime = ev.EndDate;
+
+                var updateRequest = _calendarService.Events.Update(googleEv, calendarId, ev.GoogleEventId);
+                updateRequest.SendUpdates = 0;
+                updateRequest.Execute();
             }
             catch (Exception e)
             {
@@ -162,11 +151,45 @@ namespace Logic.Services
             }
         }
 
-        public void DeleteGoogleCalendarEvent(string id)
+        public void UpdateGoogleEventParticipantStatus(EventParticipant ep)
         {
             try
             {
-                _calendarService.Events.Delete(calendarId, id).Execute();
+                var googleEventId = ep.Event.GoogleEventId;
+                var googleEv = GetGoogleEvent(googleEventId);
+
+                var status = ep.Status;
+                if (ep.Status == "N/A")
+                    status = "needsAction";
+
+                if (googleEv.Attendees.FirstOrDefault(a => a.Email == ep.User.Email) != null)
+                {
+                    googleEv.Attendees.FirstOrDefault(a =>
+                        a.Email == ep.User.Email).ResponseStatus = status;
+                }
+                else
+                {
+                    googleEv.Attendees.Add(new EventAttendee
+                    { DisplayName = ep.User.Name, Email = ep.User.Email, ResponseStatus = status });
+                }
+
+                var updateRequest = _calendarService.Events.Update(googleEv, calendarId, googleEventId);
+                updateRequest.SendUpdates = 0;
+                updateRequest.Execute();
+            }
+            catch (Exception e)
+            {
+                e.Message.ToString();
+            }
+        }
+
+        public void DeleteGoogleEvent(string id)
+        {
+            try
+            {
+                var deleteRequest = _calendarService.Events.Delete(calendarId, id);
+                deleteRequest.SendUpdates = 0;
+                deleteRequest.Execute();
             }
             catch (Exception e)
             {

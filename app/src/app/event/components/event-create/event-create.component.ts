@@ -65,7 +65,7 @@ export class EventCreateComponent implements OnInit {
       {
         title: ['', Validators.required],
         description: ['', Validators.required],
-        image: [''],
+        image: [null],
         location: ['', Validators.required],
         startdate: ['', Validators.required],
         starttime: ['', Validators.required],
@@ -101,35 +101,10 @@ export class EventCreateComponent implements OnInit {
     }
   }
 
-  /* imagePreview(file: FileList) {
-    this.fileUpload = file.item(0);
-
-    var reader = new FileReader();
-    reader.onload = (event: any) => {
-      this.imageUrl = event.target.result;
-    };
-    reader.readAsDataURL(this.fileUpload);
-  } */
-
   loadImage(file: FileList) {
     this.fileUpload = file.item(0);
   }
 
-  imageValidator(control: FormControl) {
-    //Får inte att fungera med formbuilder
-    if (control.value) {
-      if (this.fileUpload) {
-        const allowedInput = '/image-*/';
-        //const fileExtension = this.fileUpload.name.split('.').pop().toLowerCase();
-        const fileExtension = this.fileUpload.type;
-        console.log(fileExtension);
-        if (fileExtension.match(allowedInput)) {
-          return true;
-        }
-        return false;
-      }
-    }
-  }
 
   private loadUsers(): void {
     setTimeout(() => { this.store$.dispatch(new fromUsers.GetUsers()); }, 1000);

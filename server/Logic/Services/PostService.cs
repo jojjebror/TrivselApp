@@ -14,12 +14,11 @@ namespace Logic.Services
     public class PostService
     {
         private readonly DatabaseContext _context;
-    
 
-    public PostService(DatabaseContext context) 
-    {
-        _context = context;
-    }
+        public PostService(DatabaseContext context)
+        {
+            _context = context;
+        }
 
         public async Task<PostDto> CreatePost(PostDto post)
         {
@@ -35,6 +34,7 @@ namespace Logic.Services
             _context.Posts.Add(newPost);
 
             await _context.SaveChangesAsync();
+
             return PostForCreateTranslator.ToModel(newPost);
         }
 
@@ -51,7 +51,6 @@ namespace Logic.Services
             .Include(p => p.Posts.Select(po => po.Creator)).Include(e => e.Creator).FirstOrDefaultAsync(e => e.Id == eventId);
 
             return EventForDetailedTranslator.ToModel(dbEvent);
-
         }
 
     }

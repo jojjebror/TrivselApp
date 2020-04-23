@@ -40,7 +40,7 @@ namespace Logic.Services
 
         public async Task<EventForCreateDto> CreateEvent(EventForCreateDto ev)
         {
-            var newEvent = new Database.Entities.Event()
+            var newEvent = new Event()
             {
                 Title = ev.Title,
                 Description = ev.Description,
@@ -56,14 +56,14 @@ namespace Logic.Services
 
             _context.Events.Add(newEvent);
 
-            var eventParticipants = new List<EventParticipant>();
-            eventParticipants.Add(new EventParticipant { EventId = ev.Id, UserId = ev.CreatorId, Status = "accepted" });
+            var eventParticipants = new List<EventParticipant>() { new EventParticipant 
+                { EventId = ev.Id, UserId = ev.CreatorId, Status = "accepted" } };
 
             if (ev.Offices.Any())
             {
                 foreach (var office in ev.Offices)
                 {
-                    var usersToAdd = await _context.Users.Where(o => (o.Office == office && o.Id != ev.CreatorId)).ToListAsync();
+                    var usersToAdd = await _context.Users.Where(u => u.Office == office && u.Id != ev.CreatorId).ToListAsync();
                     eventParticipants.AddRange(usersToAdd.Select(u =>
                         new EventParticipant { EventId = ev.Id, UserId = u.Id }).ToList());
                 }
@@ -73,7 +73,7 @@ namespace Logic.Services
             {
                 foreach (var user in ev.Users)
                 {
-                    if (!eventParticipants.Exists(ep => (ep.EventId == ev.Id && ep.UserId == user.Id)))
+                    if (!eventParticipants.Exists(ep => ep.EventId == ev.Id && ep.UserId == user.Id))
                     {
                         eventParticipants.Add(new EventParticipant { EventId = ev.Id, UserId = user.Id });
                     }
@@ -83,7 +83,7 @@ namespace Logic.Services
             _context.EventParticipants.AddRange(eventParticipants);
 
             //Create a google calendar event and returns Google Event Id
-            var googleEventId = _googleCalendarService.CreateGoogleCalendarEvent(ev, eventParticipants);
+            var googleEventId = _googleCalendarService.CreateGoogleEvent(newEvent, eventParticipants);
             newEvent.GoogleEventId = googleEventId;
 
             await _context.SaveChangesAsync();
@@ -106,6 +106,8 @@ namespace Logic.Services
 
             await _context.SaveChangesAsync();
 
+            _googleCalendarService.UpdateGoogleEvent(dbEvent);
+
             return EventForUpdateTranslator.ToModel(dbEvent);
         }
 
@@ -119,10 +121,10 @@ namespace Logic.Services
             //Deletes all images with the id
             DeleteImageFiles(id, imageFolderPath);
 
-            _googleCalendarService.DeleteGoogleCalendarEvent(dbEvent.GoogleEventId);
-
             _context.Events.Remove(dbEvent);
             await _context.SaveChangesAsync();
+
+            _googleCalendarService.DeleteGoogleEvent(dbEvent.GoogleEventId);
 
             return id;
         }
@@ -156,14 +158,11 @@ namespace Logic.Services
             //Update the participants status for the google calendar event
             var updatedEp = await _context.EventParticipants.Include(u => u.User).Include(e => e.Event)
                 .FirstOrDefaultAsync(ep => ep.EventId == eventId && ep.UserId == userId);
-
-            if (updatedEp.Event.GoogleEventId != null)
-            {
-                _googleCalendarService.UpdateGoogleCalendarEventParticipantStatus(updatedEp);
-            }
+            
+            _googleCalendarService.UpdateGoogleEventParticipantStatus(updatedEp);
 
             var dbEvent = await _context.Events.Include(e => e.EventParticipants.Select(u => u.User))
-            .Include(p => p.Posts.Select(po => po.Creator)).Include(e => e.Creator).FirstOrDefaultAsync(e => e.Id == eventId);
+                .Include(p => p.Posts.Select(po => po.Creator)).Include(e => e.Creator).FirstOrDefaultAsync(e => e.Id == eventId);
 
             return EventForDetailedTranslator.ToModel(dbEvent);
         }
@@ -202,9 +201,8 @@ namespace Logic.Services
                 using (var stream = new FileStream(fullPath, FileMode.Create))
                 {
                     image.CopyTo(stream);
+                    dbEvent.Image = dbPath;
                 }
-
-                dbEvent.Image = dbPath;
 
                 await _context.SaveChangesAsync();
             }
@@ -215,6 +213,7 @@ namespace Logic.Services
         public void DeleteImageFiles(int id, string path)
         {
             var files = Directory.GetFiles(path, id.ToString() + ".*");
+
             if (files.Length > 0)
             {
                 foreach (var file in files)

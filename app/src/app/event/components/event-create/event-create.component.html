@@ -4,9 +4,9 @@
     <hr />
 
     <div>
-      <mat-form-field appearance="outline" style="width: 100%">
+      <mat-form-field appearance="outline" style="width: 100%;">
         <mat-label>Titel</mat-label>
-        <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage("title") }}</mat-error>
+        <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage('title') }}</mat-error>
         <input type="text" matInput formControlName="title" autocomplete="off" />
       </mat-form-field>
     </div>
@@ -14,7 +14,7 @@
     <div>
       <mat-form-field appearance="outline">
         <mat-label>Plats</mat-label>
-        <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage("location") }}</mat-error>
+        <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage('location') }}</mat-error>
         <input type="text" matInput formControlName="location" autocomplete="off" />
       </mat-form-field>
     </div>
@@ -22,8 +22,8 @@
     <div>
       <mat-form-field appearance="outline" class="fieldDescription">
         <mat-label>Beskrivning</mat-label>
-        <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage("description") }}</mat-error>
-        <textarea matInput formControlName="description" autocomplete="off" ></textarea>
+        <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage('description') }}</mat-error>
+        <textarea matInput formControlName="description" autocomplete="off"></textarea>
       </mat-form-field>
     </div>
 
@@ -31,14 +31,8 @@
       <!-- <mat-form-field appearance="outline">
         <mat-label>Bild-url</mat-label>
         <img [src]="imageUrl || ''" style="width: 50px;"> -->
-        <input
-          type="file"
-          accept="image/*"
-          autocomplete="off"
-          formControlName="image"
-          (change)="loadImage($event.target.files)"
-        />
-        <!-- <mat-error *ngIf="eventForm.invalid">Fel filtyp</mat-error> -->
+      <input type="file" accept="image/*" autocomplete="off" formControlName="image" (change)="loadImage($event.target.files)" />
+      <!-- <mat-error *ngIf="eventForm.invalid">Fel filtyp</mat-error> -->
       <!-- </mat-form-field> -->
     </div>
 
@@ -46,7 +40,7 @@
       <div>
         <mat-form-field appearance="outline">
           <mat-label>Startdatum</mat-label>
-          <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage("startdate") }}</mat-error>
+          <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage('startdate') }}</mat-error>
           <input matInput (focus)="picker.open()" [matDatepicker]="picker" formControlName="startdate" autocomplete="off" readonly />
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -56,8 +50,16 @@
         <timepicker formControlName="starttime" [(ngModel)]="starttime" [showMeridian]="false"></timepicker>
       </ng-template>
       <div class="form-group col-md-4" style="margin-top: 6.5px;">
-      <input class="hoursTxt" value="{{ starttime | date: 'HH:mm' }}" placeholder="00:00" [popover]="popTemplate" [outsideClick]="true" placement="bottom" readonly />
-    </div>
+        <input
+          class="hoursTxt"
+          value="{{ starttime | date: 'HH:mm' }}"
+          placeholder="00:00"
+          [popover]="popTemplate"
+          [outsideClick]="true"
+          placement="bottom"
+          readonly
+        />
+      </div>
 
       <div *ngIf="!endDateMode" class="form-group col-md-2 mt-3">
         <a (click)="endDateToggle()">+ Sluttid</a>
@@ -73,11 +75,19 @@
         </mat-form-field>
       </div>
 
-       <ng-template #popTemplate>
+      <ng-template #popTemplate>
         <timepicker formControlName="endtime" [(ngModel)]="endtime" [showMeridian]="false"></timepicker>
       </ng-template>
       <div class="form-group col-md-4" style="margin-top: 6.5px;">
-      <input class="hoursTxt" value="{{ endtime | date: 'HH:mm' }}" placeholder="00:00" [popover]="popTemplate" [outsideClick]="true" placement="bottom" readonly />
+        <input
+          class="hoursTxt"
+          value="{{ endtime | date: 'HH:mm' }}"
+          placeholder="00:00"
+          [popover]="popTemplate"
+          [outsideClick]="true"
+          placement="bottom"
+          readonly
+        />
       </div>
       <div class="form-group col-md-2" style="margin-top: 15px;">
         <a (click)="endDateToggle()">- Ångra</a>
