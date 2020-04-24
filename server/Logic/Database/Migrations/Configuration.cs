@@ -108,7 +108,7 @@ namespace Logic.Database.Migrations
                 Id = 1,
                 Title = "AW-fredag",
                 Description = "Nu ska vi ha kul",
-                Image = "images/event-images/default_event.png",
+                Image = "assets/images/event-images/default_event.png",
                 Location = "Art bar",
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now,
@@ -121,12 +121,12 @@ namespace Logic.Database.Migrations
                 Id = 2,
                 Title = "AW-torsdag",
                 Description = "Nu ska vi ha jättekul",
-                Image = "images/event-images/default_event.png",
+                Image = "assets/images/event-images/default_event.png",
                 Location = "Lion Bar",
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now,
                 CreateDate = DateTime.Now,
-                CreatorId = 1
+                CreatorId = 2
             };
 
             var testEvent3 = new Event()
@@ -134,7 +134,7 @@ namespace Logic.Database.Migrations
                 Id = 3,
                 Title = "Paintball",
                 Description = "Nu ska vi ha superkul",
-                Image = "images/event-images/default_event.png",
+                Image = "assets/images/event-images/default_event.png",
                 Location = "Trollskogen",
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now,
@@ -159,7 +159,7 @@ namespace Logic.Database.Migrations
                 Id = 1,
                 UserId = 1,
                 EventId = 3,
-                Status = "Accepted"
+                Status = "accepted"
             };
 
             var testEp1 = new EventParticipant()
@@ -167,7 +167,7 @@ namespace Logic.Database.Migrations
                 Id = 2,
                 UserId = 2,
                 EventId = 3,
-                Status = "Accepted"
+                Status = "accepted"
             };
 
             var testEp2 = new EventParticipant()
@@ -175,7 +175,7 @@ namespace Logic.Database.Migrations
                 Id = 3,
                 UserId = 1,
                 EventId = 1,
-                Status = "Accepted"
+                Status = "accepted"
             };
 
             var testEp3 = new EventParticipant()
@@ -183,7 +183,7 @@ namespace Logic.Database.Migrations
                 Id = 4,
                 UserId = 3,
                 EventId = 2,
-                Status = "Accepted"
+                Status = "accepted"
             };
 
             var testEp4 = new EventParticipant()
@@ -191,7 +191,7 @@ namespace Logic.Database.Migrations
                 Id = 5,
                 UserId = 4,
                 EventId = 1,
-                Status = "Accepted"
+                Status = "accepted"
             };
 
             var testEp5 = new EventParticipant()
@@ -199,7 +199,7 @@ namespace Logic.Database.Migrations
                 Id = 6,
                 UserId = 5,
                 EventId = 3,
-                Status = "Accepted"
+                Status = "accepted"
             };
 
             var testEp6 = new EventParticipant()
@@ -207,7 +207,7 @@ namespace Logic.Database.Migrations
                 Id = 7,
                 UserId = 6,
                 EventId = 1,
-                Status = "Accepted"
+                Status = "accepted"
             };
 
             var testEp7 = new EventParticipant()
@@ -215,7 +215,7 @@ namespace Logic.Database.Migrations
                 Id = 8,
                 UserId = 6,
                 EventId = 2,
-                Status = "Accepted"
+                Status = "accepted"
             };
 
             var testEp8 = new EventParticipant()
@@ -223,7 +223,7 @@ namespace Logic.Database.Migrations
                 Id = 9,
                 UserId = 4,
                 EventId = 3,
-                Status = "Accepted"
+                Status = "accepted"
             };
 
             var testEp9 = new EventParticipant()
@@ -231,7 +231,7 @@ namespace Logic.Database.Migrations
                 Id = 10,
                 UserId = 8,
                 EventId = 2,
-                Status = "Accepted"
+                Status = "accepted"
             };
 
             var testEp10 = new EventParticipant()
@@ -239,8 +239,35 @@ namespace Logic.Database.Migrations
                 Id = 10,
                 UserId = 7,
                 EventId = 1,
-                Status = "Accepted"
+                Status = "accepted"
             };
+
+            //var post1 = new Post()
+            //{
+            //    Id = 1,
+            //    Content = "Detta blir jättekul!!",
+            //    Created = DateTime.Now,
+            //    CreatorId = 1,
+            //    EventId = 1
+            //};
+
+            //var post2 = new Post()
+            //{
+            //    Id = 2,
+            //    Content = "Jäklar vad ösigt!!",
+            //    Created = DateTime.Now,
+            //    CreatorId = 3,
+            //    EventId = 2
+            //};
+
+            //var post3 = new Post()
+            //{
+            //    Id = 3,
+            //    Content = "Jag har köpt nya dojor ;)",
+            //    Created = DateTime.Now,
+            //    CreatorId = 2,
+            //    EventId = 3
+            //};
 
             context.Users.AddOrUpdate(testUser);
             context.Users.AddOrUpdate(testUser1);
@@ -268,8 +295,11 @@ namespace Logic.Database.Migrations
             context.EventParticipants.AddOrUpdate(testEp9);
             context.EventParticipants.AddOrUpdate(testEp10);
 
-            context.Drinks.AddOrUpdate(testDrink);
+            //context.Posts.AddOrUpdate(post1);
+            //context.Posts.AddOrUpdate(post2);
+            //context.Posts.AddOrUpdate(post3);
 
+            context.Drinks.AddOrUpdate(testDrink);
 
             context.SaveChanges();
         }

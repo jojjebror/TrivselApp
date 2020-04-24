@@ -14,10 +14,11 @@
     </div>
     <div class="row">
       <div class="col-sm-4">
-        <div *ngIf="imageUrl">
-          <img class="card-img-top img-thumbnail" src="../../assets/{{ imageUrl }}" />
+        <div>
+        <img class="card-img-top img-thumbnail" [src]="imageUrl ? 
+          '../../'+ imageUrl : '/assets/images/event-images/default_event.png'" />
           <input type="file" accept="image/*" autocomplete="off" formControlName="image" (change)="loadImage($event.target.files)" />
-        </div>
+      </div>
         <div class="card">
           <div class="card-body">
             <mat-form-field appearance="outline" id="location">
@@ -43,7 +44,7 @@
               <ng-template #popTemplate2>
                 <timepicker formControlName="endtime" [(ngModel)]="endtime" [showMeridian]="false"></timepicker>
               </ng-template>
-              <div class="form-group col-md-2" style="padding-left: 0">
+              <div class="form-group col-md-2" style="padding-left: 0;">
                 <input
                   class="hoursTxt"
                   value="Sluttid: {{ endtime | date: 'HH:mm' }}"

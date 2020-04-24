@@ -25,7 +25,8 @@ namespace Logic.Translators
                 StartDate = ev.Event.StartDate,
                 EndDate = ev.Event.EndDate,
                 CreatorId = ev.Event.CreatorId,
-                Status = ev.Status
+                Status = ev.Status,
+                CreatorName = ev.Event.Creator.Name
 
             };
         }
