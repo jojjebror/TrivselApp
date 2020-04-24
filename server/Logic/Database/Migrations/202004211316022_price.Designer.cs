@@ -7,13 +7,13 @@ namespace Logic.Database.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class PriceClass : IMigrationMetadata
+    public sealed partial class price : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(PriceClass));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(price));
         
         string IMigrationMetadata.Id
         {
-            get { return "202004151148185_PriceClass"; }
+            get { return "202004211316022_price"; }
         }
         
         string IMigrationMetadata.Source

@@ -7,4 +7,4 @@ export * from './LoginRequestDto';
 export * from './LoginResponseDto';
 export * from './UserDto';
 export * from './DrinkDto';
-export * from './PriceClassDto';
+export * from './PriceDto';

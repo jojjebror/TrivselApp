@@ -8,9 +8,9 @@ import { Router } from "@angular/router";
 
 import * as drinksActions from "./drinks.actions";
 import { DrinkResource } from "src/app/core/resources/drink.resource";
-import { Drink } from "src/app/shared/models";
+import { Drink, Price } from "src/app/shared/models";
 import { text } from "@angular/core/src/render3";
-import { PriceClass } from "src/app/shared/models/dto/PriceClassDto";
+
 
 @Injectable()
 export class DrinksEffects {
@@ -28,18 +28,6 @@ export class DrinksEffects {
       this.drinkResource.loadDrinks().pipe(
         map((drinks: Drink[]) => new drinksActions.LoadDrinksSuccess(drinks)),
         catchError((err) => of(new drinksActions.LoadDrinkError(err)))
-      )
-    )
-  );
-
-  //load prices
-  @Effect()
-  loadPrices$: Observable<Action> = this.actions$.pipe(
-    ofType<drinksActions.LoadPrices>(drinksActions.ActionTypes.LOAD_PRICES),
-    mergeMap((actions: drinksActions.LoadPrices) =>
-      this.drinkResource.loadPrices().pipe(
-        map((prices: PriceClass[]) => new drinksActions.LoadPricesSuccess(prices)),
-        catchError((err) => of(new drinksActions.LoadPricesError(err)))
       )
     )
   );
@@ -119,4 +107,5 @@ export class DrinksEffects {
       )
     )
   );
+
 }

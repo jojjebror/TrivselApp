@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logic.Models
+namespace Logic.Database.Entities
 {
-    public class PriceClassDto : BaseDto
+    public class Price : BaseEntity
     {
         public string Name { get; set; }
-        public int Price { get; set; }
+        public int Cost { get; set; }
+
+        public string Category { get; set; }
+        
     }
 }

@@ -3,17 +3,18 @@ namespace Logic.Database.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class PriceClass : DbMigration
+    public partial class price : DbMigration
     {
         public override void Up()
         {
             CreateTable(
-                "dbo.PriceClasses",
+                "dbo.Prices",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
-                        Price = c.Int(nullable: false),
+                        Cost = c.Int(nullable: false),
+                        Category = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -21,7 +22,7 @@ namespace Logic.Database.Migrations
         
         public override void Down()
         {
-            DropTable("dbo.PriceClasses");
+            DropTable("dbo.Prices");
         }
     }
 }

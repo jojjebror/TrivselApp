@@ -250,7 +250,7 @@
     <Compile Include="Database\Entities\Event.cs" />
     <Compile Include="Database\Entities\EventParticipant.cs" />
     <Compile Include="Database\Entities\Example.cs" />
-    <Compile Include="Database\Entities\PriceClass.cs" />
+    <Compile Include="Database\Entities\Price.cs" />
     <Compile Include="Database\Entities\User.cs" />
     <Compile Include="Database\Migrations\201802011317393_Google.cs" />
     <Compile Include="Database\Migrations\201802051252482_Init.cs" />
@@ -261,9 +261,9 @@
     <Compile Include="Database\Migrations\202004060658016_MergeInitStatus.Designer.cs">
       <DependentUpon>202004060658016_MergeInitStatus.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\Migrations\202004151148185_PriceClass.cs" />
-    <Compile Include="Database\Migrations\202004151148185_PriceClass.Designer.cs">
-      <DependentUpon>202004151148185_PriceClass.cs</DependentUpon>
+    <Compile Include="Database\Migrations\202004211316022_price.cs" />
+    <Compile Include="Database\Migrations\202004211316022_price.Designer.cs">
+      <DependentUpon>202004211316022_price.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Helpers\PagedList.cs" />
@@ -280,7 +280,7 @@
     <Compile Include="Models\EventForUserListDto.cs" />
     <Compile Include="Models\EventParticipantsDto.cs" />
     <Compile Include="Models\ExampleDto.cs" />
-    <Compile Include="Models\PriceClassDto.cs" />
+    <Compile Include="Models\PriceDto.cs" />
     <Compile Include="Models\UserDto.cs" />
     <Compile Include="Models\UserEventsDto.cs" />
     <Compile Include="Models\UserForListDto.cs" />
@@ -298,7 +298,7 @@
     <Compile Include="Translators\EventForUpdateTranslator.cs" />
     <Compile Include="Translators\EventForUserListTranslator.cs" />
     <Compile Include="Translators\ExampleTranslator.cs" />
-    <Compile Include="Translators\PriceClassTranslator.cs" />
+    <Compile Include="Translators\PriceForListTranslator.cs" />
     <Compile Include="Translators\UserForListTranslator.cs" />
     <Compile Include="Translators\UserTranslator.cs" />
   </ItemGroup>
@@ -318,8 +318,8 @@
     <EmbeddedResource Include="Database\Migrations\202004060658016_MergeInitStatus.resx">
       <DependentUpon>202004060658016_MergeInitStatus.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Database\Migrations\202004151148185_PriceClass.resx">
-      <DependentUpon>202004151148185_PriceClass.cs</DependentUpon>
+    <EmbeddedResource Include="Database\Migrations\202004211316022_price.resx">
+      <DependentUpon>202004211316022_price.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

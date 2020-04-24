@@ -14,6 +14,6 @@ namespace Logic.Database
         public DbSet<Event> Events { get; set; }
         public DbSet<Drink> Drinks { get; set; }
         public DbSet<EventParticipant> EventParticipants { get; set; }
-        public DbSet<PriceClass> PriceClasses { get; set; }
+        public DbSet<Price> Prices { get; set; }
     }
 }

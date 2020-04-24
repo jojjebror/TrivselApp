@@ -16,7 +16,7 @@ namespace Api.Controllers
         private readonly DrinkService _drinkService;
 
         public DrinkController(DrinkService drinkService)
-        { 
+        {
             _drinkService = drinkService;
         }
 
@@ -49,6 +49,15 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
+        
+
+        /*[HttpPost]
+        public async Task<IActionResult> CreatePrice([FromBody]PriceClassDto price)
+        {
+            var result = await _drinkService.Create(price);
+            return new OkObjectResult(ApiResponse.Create(result));
+
+        }*/
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDrink(int id)
         {
@@ -57,17 +66,17 @@ namespace Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateDrink(int id, [FromBody]DrinkForUpdateDto dr)
+        public async Task<IActionResult> UpdateDrink(int id,[FromBody]DrinkForUpdateDto dr)
         {
             var result = await _drinkService.Update(id, dr);
 
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetPrices(string name)
+        [HttpGet("category")]
+        public async Task<IActionResult> GetPrices(string category)
         {
-            var result = await _drinkService.GetPriceClasses(name);
+            var result = await _drinkService.GetPrices(category);
             return new OkObjectResult(ApiResponse.Create(result));
         }
     } 

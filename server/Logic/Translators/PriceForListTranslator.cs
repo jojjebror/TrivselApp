@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace Logic.Translators
 {
-    public class PriceClassTranslator
+    public class PriceForListTranslator
     {
 
-        public static PriceClassDto ToModel(PriceClass pc)
+        public static PriceDto ToModel(Price pc)
         {
             if (pc == null)
                 return null;
 
 
-                return new PriceClassDto
+                return new PriceDto
                 {
                     Id = pc.Id,
                     Name = pc.Name,
-                    Price = pc.Price
+                    Cost = pc.Cost
                 };
         }
     }
