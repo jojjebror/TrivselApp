@@ -42,12 +42,7 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(fetch));
         }
 
-        //[HttpPut("Add{id}")]
-        //public async Task<IActionResult> AddCredit(int id, [FromBody] UserForUpdateDto user)
-        //{
-        //    var fetch = await _userService.AddCredit(id, user);
-        //    return new OkObjectResult(ApiResponse.Create(fetch));
-        //}
+
 
         [HttpPut("{id}/{amount}")]
         public async Task<IActionResult> AddCredit(int id, int amount)
@@ -56,12 +51,7 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(fetch));
         }
 
-        //[HttpPut("Remove{id}")]
-        //public async Task<IActionResult> RemoveCredit(int id, [FromBody] UserForUpdateDto user)
-        //{
-        //    var fetch = await _userService.RemoveCredit(id, user);
-        //    return new OkObjectResult(ApiResponse.Create(fetch));
-        //}
+
     }
 }
     
