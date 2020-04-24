@@ -70,7 +70,7 @@ export class DrinkCreditComponent implements OnInit {
   }
 
   addEncodedUrl(){
-    var creditInput = [this.userCreditForm.get('credit').value]
+    var creditInput = this.userCreditForm.get('credit').value
     
     
     var initField = {
@@ -87,7 +87,6 @@ export class DrinkCreditComponent implements OnInit {
       }
      }
   
-     
      console.log(initField);
   
       var newEncode = JSON.stringify(initField);
