@@ -104,35 +104,5 @@ export class DrinkCreditComponent implements OnInit {
   }
 
 
-addEncodedUrl(){
-  var initField = {
-    "version":1,
-    "payee":{
-    "value":"+46700914195"
-    },
-    "amount":{
-    "value": this.userCredit
-    },
-    "message":{
-    "value":"Hälsningar Martin Loord",
-    "editable":true
-    }
-   }
-
-   console.log(initField);
-
-    var newEncode = JSON.stringify(initField);
-
-       console.log(newEncode);
-
-          var encodedString = encodeURI(newEncode);
-
-              console.log(encodedString);
-
-                var httpUrl = 'swish://payment?data=';
-
-                   console.log(httpUrl + encodedString);
-}
-
 
 }

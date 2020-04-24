@@ -95,6 +95,7 @@ export class DrinkDetailComponent implements OnInit {
   GetToSwish(drink: Drink) {
     this.totalSum = 0;
     this.totalSum += this.clickCounter * drink.price;
+    var sum = this.clickCounter * drink.price;
     console.log(this.totalSum);
     if (confirm("Du kommer skickas vidare till swish och betala " + sum + "kr.")) {
       this.addEncodedUrl(drink);
