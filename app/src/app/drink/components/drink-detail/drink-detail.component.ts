@@ -103,16 +103,12 @@ export class DrinkDetailComponent implements OnInit {
 
       if (confirm("Är du säker på att du vill köpa dessa produkter?")) {
         this.store$.dispatch(new fromUser.UpdateCredit(data));
-      
-    this.alertify.success("Värdet för ditt saldo har ändrats!");
+        this.alertify.success("Värdet för ditt saldo har ändrats!");
       }
-      
     }
     else(
       this.alertify.error("Du har för lite pengar på ditt saldo!")
     )
-    
-    
   }
  
   changeImage(drink: Drink) {
