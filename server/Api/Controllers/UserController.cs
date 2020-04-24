@@ -42,16 +42,12 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(fetch));
         }
 
-
-
         [HttpPut("{id}/{amount}")]
         public async Task<IActionResult> AddCredit(int id, int amount)
         {
             var fetch = await _userService.AddCredit(id, amount);
             return new OkObjectResult(ApiResponse.Create(fetch));
         }
-
-
     }
 }
     

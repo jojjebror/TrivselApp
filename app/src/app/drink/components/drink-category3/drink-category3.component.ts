@@ -32,4 +32,5 @@ export class DrinkCategory3Component implements OnInit {
     this.store$.dispatch(new drinksActions.FilterDrink("Cider"));
     this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
   }
+
 }

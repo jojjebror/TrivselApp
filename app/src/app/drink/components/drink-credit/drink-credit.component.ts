@@ -23,8 +23,7 @@ export class DrinkCreditComponent implements OnInit {
   user: User;
   userCredit: number;
 
-  
-
+   
   constructor(
     private store$: Store<AppState>,
     private route: ActivatedRoute,
@@ -40,6 +39,7 @@ export class DrinkCreditComponent implements OnInit {
     console.log(this.userId);
     console.log(this.userCredit);
      this.createCreditForm();
+     this.addEncodedUrl();
   }
 
   createCreditForm() {
@@ -61,6 +61,37 @@ export class DrinkCreditComponent implements OnInit {
     this.alertify.success("Världet för ditt saldo har ändrats!");
     
   }
+
+
+addEncodedUrl(){
+  var initField = {
+    "version":1,
+    "payee":{
+    "value":"+46700914195"
+    },
+    "amount":{
+    "value": this.userCredit
+    },
+    "message":{
+    "value":"Hälsningar Martin Loord",
+    "editable":true
+    }
+   }
+
+   console.log(initField);
+
+    var newEncode = JSON.stringify(initField);
+
+       console.log(newEncode);
+
+          var encodedString = encodeURI(newEncode);
+
+              console.log(encodedString);
+
+                var httpUrl = 'swish://payment?data=';
+
+                   console.log(httpUrl + encodedString);
+}
 
 
 }
