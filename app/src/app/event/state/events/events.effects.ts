@@ -8,7 +8,7 @@ import { EventResource } from '../../../core/resources';
 
 import * as eventsActions from './events.actions';
 
-import { Event } from 'src/app/shared/models';
+import { Event, Post } from 'src/app/shared/models';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -31,11 +31,7 @@ export class EventsEffects {
     ofType(eventsActions.ActionTypes.LOAD_EVENT),
     switchMap((action: eventsActions.LoadEvent) =>
       this.eventResource.loadEvent(action.payload).pipe(
-        switchMap((event: Event) => [
-          new eventsActions.LoadEventSuccess(event)
-          //new eventsActions.LoadImage(event.id)
-        ]),
-        //tap(() => this.router.navigate(['/event/' + action.payload])),
+        switchMap((event: Event) => [new eventsActions.LoadEventSuccess(event)]),
         catchError((err) => of(new eventsActions.LoadEventError(err)))
       )
     )
@@ -48,8 +44,8 @@ export class EventsEffects {
       this.eventResource.createEvent(action.payload).pipe(
         switchMap((newEvent: Event) => 
         [
-          new eventsActions.CreateEventSuccess(newEvent), 
-          new eventsActions.SaveImage(newEvent.id, action.image)
+          new eventsActions.SaveImage(newEvent.id, action.image), 
+          new eventsActions.CreateEventSuccess(newEvent)
         ]),
         tap(() => this.router.navigate(['/event'])),
         catchError((err) => of(new eventsActions.CreateEventError(err)))
@@ -62,7 +58,7 @@ export class EventsEffects {
     ofType(eventsActions.ActionTypes.LOAD_EDIT_EVENT),
     switchMap((action: eventsActions.LoadEditEvent) =>
       this.eventResource.loadEvent(action.payload).pipe(
-        switchMap((event: Event) => [new eventsActions.LoadEditEventSuccess(event), new eventsActions.LoadImage(event.id)]),
+        switchMap((event: Event) => [new eventsActions.LoadEditEventSuccess(event)]),
         tap(() => this.router.navigate(['/event/edit/' + action.payload])),
         catchError((err) => of(new eventsActions.LoadEditEventError(err)))
       )
@@ -79,32 +75,13 @@ export class EventsEffects {
             id: updatedEvent.id,
             changes: updatedEvent
           }),
-          new eventsActions.SaveImage(updatedEvent.id, action.image)
+          new eventsActions.SaveImage(updatedEvent.id, action.image),
         ]),
         tap(() => this.router.navigate(['/event/' + action.payload.id])),
-        catchError(err => of(new eventsActions.UpdateEventError(err)))
-      )
-    )
-  );
-
-  /* @Effect()
-  updateEvent$: Observable<Action> = this.actions$.pipe(
-    ofType<eventsActions.UpdateEvent>(eventsActions.ActionTypes.UPDATE_EVENT),
-    map((action: eventsActions.UpdateEvent) => action.payload),
-    switchMap((event: Event) =>
-      this.eventResource.updateEvent(event).pipe(
-        map(
-          (updatedEvent: Event) =>
-            new eventsActions.UpdateEventSuccess({
-              id: updatedEvent.id,
-              changes: updatedEvent,
-            })
-        ),
-        tap(() => this.router.navigate(['/event/' + event.id])),
         catchError((err) => of(new eventsActions.UpdateEventError(err)))
       )
     )
-  ); */
+  );
 
   @Effect()
   deleteEvent$: Observable<Action> = this.actions$.pipe(
@@ -141,19 +118,14 @@ export class EventsEffects {
     ofType(eventsActions.ActionTypes.SAVE_IMAGE),
     switchMap((action: eventsActions.SaveImage) =>
       this.eventResource.saveImage(action.id, action.payload).pipe(
-        map((data: boolean) => new eventsActions.SaveImageSuccess(data)),
+        map(
+          (newEvent: Event) =>
+            new eventsActions.SaveImageSuccess({
+              id: newEvent.id,
+              changes: newEvent
+            })
+        ),
         catchError((err) => of(new eventsActions.SaveImageError(err)))
-      )
-    )
-  );
-
-  @Effect()
-  loadImage$: Observable<Action> = this.actions$.pipe(
-    ofType(eventsActions.ActionTypes.LOAD_IMAGE),
-    switchMap((action: eventsActions.LoadImage) =>
-      this.eventResource.loadImage(action.payload).pipe(
-        map((imageUrl: string) => new eventsActions.LoadImageSuccess(imageUrl)),
-        catchError((err) => of(new eventsActions.LoadImageError(err)))
       )
     )
   );
@@ -183,6 +155,36 @@ export class EventsEffects {
         ]),
         tap(() => this.router.navigate(['/event'])),
         catchError((err) => of(new eventsActions.UpdateUserParticipantError(err)))
+      )
+    )
+  );
+
+  @Effect()
+  addPostToEvent$: Observable<Action> = this.actions$.pipe(
+    ofType(eventsActions.ActionTypes.ADD_POST_EVENT),
+    switchMap((action: eventsActions.AddPostToEvent) =>
+      this.eventResource.createPost(action.payload).pipe(
+        switchMap((post: Post) => [
+          new eventsActions.AddPostToEventSuccess({
+            id: post.id,
+            changes: post,
+          }),
+          new eventsActions.LoadEvent(post.eventId),
+        ]),
+        catchError((err) => of(new eventsActions.AddPostToEventError(err)))
+      )
+    )
+  );
+
+  @Effect()
+  deletePost$: Observable<Action> = this.actions$.pipe(
+    ofType(eventsActions.ActionTypes.REMOVE_POST_EVENT),
+    map((action: eventsActions.DeletePost) => action.payload),
+    switchMap((post: number[]) =>
+      this.eventResource.deletePost(post).pipe(
+        map(() => new eventsActions.DeletePostSuccess(post[0])),
+        map(() => new eventsActions.LoadEvent(post[1])),
+        catchError((err) => of(new eventsActions.DeletePostError(err)))
       )
     )
   );

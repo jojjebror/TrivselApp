@@ -6,6 +6,7 @@ import * as eventsActions from './events.actions';
 let initialState = adapter.getInitialState({
   selectedEventId: null,
   users: [],
+  posts: [],
   userEvents: [],
   loading: false,
   loaded: false,
@@ -20,7 +21,7 @@ export function reducer(state: EventsState = initialState, action: eventsActions
         loading: false,
         loaded: true,
         selectedEventId: null,
-        users: [],
+        users: []
       });
     }
 
@@ -30,22 +31,23 @@ export function reducer(state: EventsState = initialState, action: eventsActions
         entities: {},
         loading: false,
         loaded: false,
-        error: action.payload,
+        error: action.payload
       };
     }
 
-     case eventsActions.ActionTypes.LOAD_EVENT_SUCCESS: {
+    case eventsActions.ActionTypes.LOAD_EVENT_SUCCESS: {
       return adapter.addOne(action.payload, {
         ...state,
         selectedEventId: action.payload.id,
         users: action.payload.users,
+        posts: action.payload.posts
       });
-    } 
+    }
 
     case eventsActions.ActionTypes.LOAD_EVENT_ERROR: {
       return {
         ...state,
-        error: action.payload,
+        error: action.payload
       };
     }
 
@@ -53,14 +55,14 @@ export function reducer(state: EventsState = initialState, action: eventsActions
       return adapter.addOne(action.payload, {
         ...state,
         selectedEventId: action.payload.id,
-        users: action.payload.users,
+        users: action.payload.users
       });
     }
 
     case eventsActions.ActionTypes.LOAD_EDIT_EVENT_ERROR: {
       return {
         ...state,
-        error: action.payload,
+        error: action.payload
       };
     }
 
@@ -71,7 +73,18 @@ export function reducer(state: EventsState = initialState, action: eventsActions
     case eventsActions.ActionTypes.CREATE_EVENT_ERROR: {
       return {
         ...state,
-        error: action.payload,
+        error: action.payload
+      };
+    }
+
+    case eventsActions.ActionTypes.SAVE_IMAGE_SUCCESS: {
+      return adapter.updateOne(action.payload, state);
+    }
+
+    case eventsActions.ActionTypes.SAVE_IMAGE_ERROR: {
+      return {
+        ...state,
+        error: action.payload
       };
     }
 
@@ -82,7 +95,7 @@ export function reducer(state: EventsState = initialState, action: eventsActions
     case eventsActions.ActionTypes.UPDATE_EVENT_ERROR: {
       return {
         ...state,
-        error: action.payload,
+        error: action.payload
       };
     }
     case eventsActions.ActionTypes.DELETE_EVENT: {
@@ -91,7 +104,7 @@ export function reducer(state: EventsState = initialState, action: eventsActions
     case eventsActions.ActionTypes.DELETE_EVENT_ERROR: {
       return {
         ...state,
-        error: action.payload,
+        error: action.payload
       };
     }
 
@@ -102,7 +115,7 @@ export function reducer(state: EventsState = initialState, action: eventsActions
     case eventsActions.ActionTypes.ADD_EVENT_PARTICIPANT_ERROR: {
       return {
         ...state,
-        error: action.payload,
+        error: action.payload
       };
     }
 
@@ -111,13 +124,13 @@ export function reducer(state: EventsState = initialState, action: eventsActions
         ...state,
         loading: false,
         loaded: true,
-        userEvents: action.payload,
+        userEvents: action.payload
       };
     }
     case eventsActions.ActionTypes.GET_USER_EVENT_ERROR: {
       return {
         ...state,
-        error: action.payload,
+        error: action.payload
       };
     }
 
@@ -128,7 +141,28 @@ export function reducer(state: EventsState = initialState, action: eventsActions
     case eventsActions.ActionTypes.UPDATE_USER_PARTICIPANT_ERROR: {
       return {
         ...state,
-        error: action.payload,
+        error: action.payload
+      };
+    }
+
+    case eventsActions.ActionTypes.ADD_POST_EVENT_SUCCESS: {
+      return adapter.updateOne(action.payload, state);
+    }
+
+    case eventsActions.ActionTypes.ADD_POST_EVENT_ERROR: {
+      return {
+        ...state,
+        error: action.payload
+      };
+    }
+
+    case eventsActions.ActionTypes.REMOVE_POST_EVENT_SUCCESS: {
+      return adapter.removeOne(action.payload, state);
+    }
+    case eventsActions.ActionTypes.REMOVE_POST_EVENT_ERROR: {
+      return {
+        ...state,
+        error: action.payload
       };
     }
 

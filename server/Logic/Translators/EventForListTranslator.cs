@@ -24,7 +24,8 @@ namespace Logic.Translators
                 Location = ev.Location,
                 StartDate = ev.StartDate,
                 EndDate = ev.EndDate,
-                CreatorId = ev.CreatorId
+                CreatorId = ev.CreatorId,
+                CreatorName = ev.Creator.Name
             };
         }
     }

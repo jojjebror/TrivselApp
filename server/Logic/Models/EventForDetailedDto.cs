@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Logic.Database.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,9 @@ namespace Logic.Models
         public DateTime EndDate { get; set; }
         public DateTime CreateDate { get; set; }
         public int CreatorId { get; set; }
+        public string CreatorName { get; set; }
         public ICollection<EventParticipantsDto> Users { get; set; }
+        public ICollection<PostDto> Posts { get; set; }
 
     }
 }

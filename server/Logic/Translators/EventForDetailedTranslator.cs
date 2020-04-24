@@ -25,13 +25,25 @@ namespace Logic.Translators
                 StartDate = ev.StartDate,
                 EndDate = ev.EndDate,
                 CreatorId = ev.CreatorId,
+                CreatorName = ev.Creator.Name,
                 Users = ev.EventParticipants.Select(u =>
                     new EventParticipantsDto
                     {
-                        Id = u.User.Id,
+                        Id = u.UserId,
                         Name = u.User.Name,
                         Status = u.Status
-                    }).ToList()              
+                    }).ToList(),
+
+                Posts = ev.Posts.Select(p => 
+                    new PostDto
+                    {
+                        Id = p.Id,
+                        Content = p.Content,
+                        Created = p.Created,
+                        CreatorId = p.CreatorId,
+                        EventId = p.EventId,
+                        CreatorName = p.Creator.Name
+                    }).ToList()
             };
         }
     }
