@@ -24,7 +24,7 @@ export class DrinkDetailComponent implements OnInit {
   dr$: Observable<Drink>;
   id: number;
   isShown: boolean = false; // hidden by default
-  photo: string = "/bilder/beer.jpg";
+  
   clickCounter: number = 1;
   totalSum: number = 0;
   userId: number;
@@ -95,8 +95,14 @@ export class DrinkDetailComponent implements OnInit {
   GetToSwish(drink: Drink) {
     this.totalSum = 0;
     this.totalSum += this.clickCounter * drink.price;
+    var sum = this.clickCounter * drink.price;
     // add token to swish-url-string hopefully!!
     console.log(this.totalSum);
+    if (confirm("Du kommer skickas vidare till swish och betala " + sum + "kr.")) {
+      this.addEncodedUrl(drink);
+      
+    }
+    
   }
 
   paySaldo(drink: Drink) {
@@ -111,11 +117,12 @@ export class DrinkDetailComponent implements OnInit {
         this.store$.dispatch(new fromUser.UpdateCredit(data));
 
         this.alertify.success("Värdet för ditt saldo har ändrats!");
+        
       }
     } else this.alertify.error("Du har för lite pengar på ditt saldo!");
   }
 
-  changeImage(drink: Drink) {
+  /* changeImage(drink: Drink) {
     if (drink.category == "cider") {
       this.photo = "/beer3.jpg";
       console.log(this.photo);
@@ -125,5 +132,39 @@ export class DrinkDetailComponent implements OnInit {
     } else {
       return this.photo;
     }
+  } */
+
+  addEncodedUrl(drink: Drink){
+    
+    var sumPriceToSwish = this.clickCounter * drink.price;
+    
+    var initField = {
+      "version":1,
+      "payee":{
+      "value":"+46707662691"
+      },
+      "amount":{
+      "value": sumPriceToSwish
+      },
+      "message":{
+      "value":"",
+      "editable":true
+      }
+     }
+  
+     
+     console.log(initField);
+  
+      var newEncode = JSON.stringify(initField);
+  
+         console.log(newEncode);
+  
+            var encodedString = encodeURI(newEncode);
+  
+                console.log(encodedString);
+  
+                  var httpUrl = 'swish://payment?data=';
+  
+                     console.log(httpUrl + encodedString);
   }
 }
