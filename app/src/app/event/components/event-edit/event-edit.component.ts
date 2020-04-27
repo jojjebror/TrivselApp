@@ -1,14 +1,15 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 
-import { Store, select } from '@ngrx/store';
+import { Store, select, ActionsSubject } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 import { Observable, Subscription } from 'rxjs';
 import { Event } from 'src/app/shared/models';
 import * as fromEvents from '../../state/events';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DateAdapter, MatSnackBar } from '@angular/material';
-import { AlertifyService } from 'src/app/core/services/alertify.service';
 import { ActivatedRoute } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { ActionTypes } from '../../state/events';
 
 @Component({
   selector: 'ex-event-edit',
@@ -16,12 +17,12 @@ import { ActivatedRoute } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./event-edit.component.scss'],
 })
-export class EventEditComponent implements OnInit, OnDestroy {
+export class EventEditComponent implements OnInit {
   ev$: Observable<Event>;
   eventEditForm: FormGroup;
   subscription: Subscription;
 
-  eventId: any;
+  eventId: number;
   starttime: Date;
   endtime: Date;
   fileUpload: File = null;
@@ -30,29 +31,28 @@ export class EventEditComponent implements OnInit, OnDestroy {
   constructor(
     private store$: Store<AppState>,
     private fb: FormBuilder,
-    private alertify: AlertifyService,
     private snackBar: MatSnackBar,
     private dateAdapter: DateAdapter<Date>,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private actionsSubject$: ActionsSubject
   ) {
     dateAdapter.setLocale('sv');
   }
 
   ngOnInit() {
-    /* this.subscription = this.activatedRoute.params.subscribe((params) => {
+     /*  this.subscription = this.activatedRoute.params.subscribe((params) => {
       this.eventId = params['id'];
     });
-    console.log(this.eventId);
-
     this.store$.dispatch(new fromEvents.LoadEditEvent(this.eventId)); */
 
     this.ev$ = this.store$.pipe(select(fromEvents.getCurrentEvent));
+    console.log(this.ev$)
     this.createEventEditForm();
   }
 
-  ngOnDestroy() {
-    //this.subscription.unsubscribe();
-  }
+ /*  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  } */
 
   createEventEditForm() {
     this.ev$.subscribe((ev) => {
@@ -79,7 +79,6 @@ export class EventEditComponent implements OnInit, OnDestroy {
 
   updateEvent() {
     if (this.eventEditForm.valid) {
-
       //Fixar problem med UTC och lokal tid när datum skickas till servern
       this.fixDateTimeZone(this.eventEditForm.get('starttime').value);
       this.fixDateTimeZone(this.eventEditForm.get('endtime').value);
@@ -88,7 +87,14 @@ export class EventEditComponent implements OnInit, OnDestroy {
 
       const ev = Object.assign({}, this.eventEditForm.value);
       this.store$.dispatch(new fromEvents.UpdateEvent(ev, this.fileUpload));
-      this.snackBar.open('Evenemang uppdaterat', '', { duration: 2500 });
+
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_EVENT_SUCCESS)).subscribe((action) => {
+        this.snackBar.open('Evenemanget är nu uppdaterat', '', { duration: 2500 });
+      });
+
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_EVENT_ERROR)).subscribe((action) => {
+        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
+      });
     }
   }
 

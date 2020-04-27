@@ -1,17 +1,19 @@
-import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
+import { Store, select, ActionsSubject } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 
 import { Event, User } from 'src/app/shared/models';
 import * as fromEvents from '../../state/events';
 import * as fromUsers from '../../../user/state/users';
 
-import { AlertifyService } from 'src/app/core/services/alertify.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { DateAdapter, MatSnackBar } from '@angular/material';
 
 import * as fromSession from '../../../core/state/session';
+import { ActionTypes } from '../../state/events';
+import { filter } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/core/services';
 
 @Component({
   selector: 'ex-event-create',
@@ -21,6 +23,7 @@ import * as fromSession from '../../../core/state/session';
 })
 export class EventCreateComponent implements OnInit {
   @Output() cancelNewEvent = new EventEmitter();
+  //subscription = new Subscription();
   event: Event;
   users$: Observable<User[]>;
   userId: number;
@@ -49,11 +52,16 @@ export class EventCreateComponent implements OnInit {
     private store$: Store<AppState>,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private dateAdapter: DateAdapter<Date>
+    private dateAdapter: DateAdapter<Date>,
+    private actionsSubject$: ActionsSubject,
+    public authService: AuthenticationService
   ) {
-    dateAdapter.setLocale('sv');
-    this.store$.select(fromSession.selectUserId).subscribe((user) => (this.userId = user));
-  }
+      dateAdapter.setLocale('sv');
+      authService.getUserId().subscribe((user) => {
+        this.userId = user.sub;
+      });
+      //this.store$.select(fromSession.selectUserId).subscribe((user) => (this.userId = user));
+    }
 
   ngOnInit() {
     this.createEventForm();
@@ -72,7 +80,7 @@ export class EventCreateComponent implements OnInit {
         enddate: [''],
         endtime: [''],
         createdate: [''],
-        creatorid: [this.userId],
+        creatorid: [+this.userId],
         users: [null],
         offices: [['']],
       },
@@ -90,14 +98,17 @@ export class EventCreateComponent implements OnInit {
       this.fixDateTimeZone(this.eventForm.get('starttime').value);
       this.fixDateTimeZone(this.eventForm.get('endtime').value);
       this.fixDateTimeZone(this.eventForm.get('createdate').value);
-      this.fixDateTimeZone(this.eventForm.get('startdate').value)
+      this.fixDateTimeZone(this.eventForm.get('startdate').value);
       this.fixDateTimeZone(this.eventForm.get('enddate').value);
 
       this.event = Object.assign({}, this.eventForm.value);
 
       this.store$.dispatch(new fromEvents.CreateEvent(this.event, this.fileUpload));
 
-      this.snackBar.open('Evenemanget har skapats', '', { duration: 2500 });
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.CREATE_EVENT_SUCCESS)).subscribe((action) => {
+        var title = action.payload.title;
+        this.snackBar.open(title + ' är nu tillagt i evenemangslistan', '', { duration: 2500 });
+      });
     }
   }
 
@@ -131,8 +142,8 @@ export class EventCreateComponent implements OnInit {
     }
   }
 
-  private loadUsers(): void {
-    setTimeout(() => { this.store$.dispatch(new fromUsers.GetUsers()); }, 1000);
+  private loadUsers() {
+    this.store$.dispatch(new fromUsers.GetUsers);
     this.users$ = this.store$.pipe(select(fromUsers.getUsers));
   }
 
@@ -200,4 +211,8 @@ export class EventCreateComponent implements OnInit {
       }
     }
   }
+
+ /*  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  } */
 }

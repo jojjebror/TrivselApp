@@ -23,7 +23,8 @@ import {
   MatPaginatorModule,
   MatSortModule,
   MatGridListModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatAutocompleteModule
   
 } from '@angular/material';
 
@@ -50,7 +51,8 @@ const modules = [
   MatPaginatorModule,
   MatSortModule,
   MatGridListModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatAutocompleteModule
 ];
 
 @NgModule({

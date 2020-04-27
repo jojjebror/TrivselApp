@@ -7,23 +7,28 @@ import { map, catchError, switchMap, tap } from 'rxjs/operators';
 import { EventResource } from '../../../core/resources';
 
 import * as eventsActions from './events.actions';
+import * as fromError from '../../../core/state/error';
 
 import { Event, Post } from 'src/app/shared/models';
 import { Router } from '@angular/router';
 
 @Injectable()
 export class EventsEffects {
-  constructor(private actions$: Actions, private eventResource: EventResource, private router: Router) {}
+  constructor(
+    private actions$: Actions,
+    private eventResource: EventResource,
+    private router: Router
+  ) {}
 
   @Effect()
   loadEvents$: Observable<Action> = this.actions$.pipe(
     ofType(eventsActions.ActionTypes.LOAD_EVENTS),
-    switchMap((actions: eventsActions.LoadEvents) =>
-      this.eventResource.loadEvents().pipe(
+    switchMap(() => {
+      return this.eventResource.loadEvents().pipe(
         map((events: Event[]) => new eventsActions.LoadEventsSuccess(events)),
         catchError((err) => of(new eventsActions.LoadEventsError(err)))
-      )
-    )
+      );
+    })
   );
 
   @Effect()
@@ -42,9 +47,8 @@ export class EventsEffects {
     ofType(eventsActions.ActionTypes.CREATE_EVENT),
     switchMap((action: eventsActions.CreateEvent) =>
       this.eventResource.createEvent(action.payload).pipe(
-        switchMap((newEvent: Event) => 
-        [
-          new eventsActions.SaveImage(newEvent.id, action.image), 
+        switchMap((newEvent: Event) => [
+          new eventsActions.SaveImage(newEvent.id, action.image),
           new eventsActions.CreateEventSuccess(newEvent)
         ]),
         tap(() => this.router.navigate(['/event'])),

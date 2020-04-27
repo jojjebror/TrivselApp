@@ -102,8 +102,6 @@ namespace Logic.Services
             return fetch.Select(UserTranslator.ToModel).ToList();
         }
 
-
-
         public async Task<ICollection<UserForListDto>> GetUsers()
         {
             var dbUsers = await _context.Users.ToListAsync();

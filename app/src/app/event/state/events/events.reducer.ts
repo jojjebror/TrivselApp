@@ -10,7 +10,7 @@ let initialState = adapter.getInitialState({
   userEvents: [],
   loading: false,
   loaded: false,
-  error: ''
+  error: null
 });
 
 export function reducer(state: EventsState = initialState, action: eventsActions.Actions): EventsState {
@@ -25,7 +25,7 @@ export function reducer(state: EventsState = initialState, action: eventsActions
       });
     }
 
-    case eventsActions.ActionTypes.LOAD_EVENTS_ERROR: {
+   case eventsActions.ActionTypes.LOAD_EVENTS_ERROR: {
       return {
         ...state,
         entities: {},

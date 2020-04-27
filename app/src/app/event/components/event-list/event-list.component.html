@@ -47,6 +47,14 @@
             <mat-icon matSuffix *ngIf="!calendarField">event</mat-icon>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
+
+          <!-- <mat-form-field>
+            <input type="text" placeholder="Skapare" matInput [(ngModel)]="state" [matAutocomplete]="auto" />
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let s of states" [value]="s"> {{ s }} </mat-option>
+            </mat-autocomplete>
+          </mat-form-field> -->
+
         </div>
         <div class="mat-card-div">
           <mat-card *ngFor="let ev of evs$ | async" [routerLink]="['/event', ev.id]" fxFlex="100">
@@ -71,6 +79,10 @@
         <!-- <mat-card *ngIf="isLoaded$ | async" class="progressSpinner">
           <mat-progress-spinner color="primary" mode="indeterminate"> </mat-progress-spinner>
         </mat-card> -->
+
+        <!-- <div *ngIf="error$ | async as errorMessage">
+          {{ errorMessage }}
+        </div> -->
         <div class="noDataTable" *ngIf="(evs$ | async)?.length == 0">Tyvärr hittades inga evenemang</div>
       </mat-tab>
 
