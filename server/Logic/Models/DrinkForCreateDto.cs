@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logic.Database.Entities
+namespace Logic.Models
 {
-    public class Drink : BaseEntity
+    class DrinkForCreateDto : BaseDto
     {
+
         public string ProductNameBold { get; set; }
         public string Category { get; set; }
         public int AlcoholPercentage { get; set; }
@@ -17,5 +18,6 @@ namespace Logic.Database.Entities
         public string Taste { get; set; }
         public string BeverageDescriptionShort { get; set; }
         public string Image { get; set; }
+
     }
 }

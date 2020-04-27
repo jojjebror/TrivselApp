@@ -50,6 +50,17 @@ export function reducer(
       };
     }
 
+    case drinksActions.ActionTypes.SAVE_IMAGE_SUCCESS: {
+      return adapter.updateOne(action.payload, state);
+    }
+
+    case drinksActions.ActionTypes.SAVE_IMAGE_ERROR: {
+      return {
+        ...state,
+        error: action.payload
+      };
+    }
+
     case drinksActions.ActionTypes.CREATE_DRINK_SUCCESS: {
       return adapter.addOne(action.payload, state);
     }

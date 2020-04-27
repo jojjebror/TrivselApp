@@ -280,10 +280,15 @@
     <Compile Include="Database\Migrations\202004221425379_MergeBranches.Designer.cs">
       <DependentUpon>202004221425379_MergeBranches.cs</DependentUpon>
     </Compile>
+    <Compile Include="Database\Migrations\202004271219557_imageDrink.cs" />
+    <Compile Include="Database\Migrations\202004271219557_imageDrink.Designer.cs">
+      <DependentUpon>202004271219557_imageDrink.cs</DependentUpon>
+    </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Helpers\PagedList.cs" />
     <Compile Include="Init.cs" />
     <Compile Include="Models\BaseDto.cs" />
+    <Compile Include="Models\DrinkForCreateDto.cs" />
     <Compile Include="Models\DrinkForDetailedDto.cs" />
     <Compile Include="Models\DrinkForListDto.cs" />
     <Compile Include="Models\DrinkForUpdateDto.cs" />
@@ -307,6 +312,7 @@
     <Compile Include="Services\GoogleCalendarService.cs" />
     <Compile Include="Services\PostService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="Translators\DrinkForCreateTranslator.cs" />
     <Compile Include="Translators\DrinkForDetailedTranslator.cs" />
     <Compile Include="Translators\DrinkForListTranslator.cs" />
     <Compile Include="Translators\DrinkForUpdateTranslator.cs" />
@@ -335,6 +341,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\Migrations\202004221425379_MergeBranches.resx">
       <DependentUpon>202004221425379_MergeBranches.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202004271219557_imageDrink.resx">
+      <DependentUpon>202004271219557_imageDrink.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

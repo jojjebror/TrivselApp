@@ -2,7 +2,7 @@
 <div class="base" *ngIf="dr$ | async; let dr">
 <div class="container">
  
- <div class="settings">
+ <div class="settings" >
   <button (click)="toggleShow()" type="checkbox" style="float: right;"> <i class="fa fa-gear"></i></button>
     <div class="dropContent">
       <ol>
@@ -20,6 +20,9 @@
     </div>
 </div>
 
+<div>
+  <img class="card-img-top img-thumbnail" [src]="dr.image ? '../../../' + dr.image : '/assets/images/event-images/default_event.png'" />
+</div>
   <div class="row">
     <ul class="list">
      <li ><h1 class="mb-4" >{{ dr.productNameBold }}</h1></li>

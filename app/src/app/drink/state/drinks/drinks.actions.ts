@@ -25,6 +25,34 @@ export enum ActionTypes {
   FILTER_DRINK_SUCCESS = "[API: /drink] Filter Drink success",
   FILTER_DRINK_ERROR = "[API: /drink] Filter Drink error",
 
+  SAVE_IMAGE = '[Drinks view] Save Image',
+  SAVE_IMAGE_SUCCESS = '[API: /drink] Save Image success',
+  SAVE_IMAGE_ERROR = '[API: /drink] Save Image error',
+
+}
+
+/*--------------SaveImage--------------*/
+
+export class SaveImage implements Action {
+  readonly type = ActionTypes.SAVE_IMAGE;
+
+  constructor(public id: number, public payload: File) {
+    console.log("Save Image " + id + " " + payload)
+  }
+}
+
+export class SaveImageSuccess implements Action {
+  readonly type = ActionTypes.SAVE_IMAGE_SUCCESS;
+
+  constructor(public payload: Update<Drink>) {
+    console.log('Save Image Success ' + payload);
+  }
+}
+
+export class SaveImageError implements Action {
+  readonly type = ActionTypes.SAVE_IMAGE_ERROR;
+
+  constructor(public payload: string) {}
 }
 
 
@@ -71,7 +99,7 @@ export class LoadDrinkError implements Action {
 export class CreateDrink implements Action {
   readonly type = ActionTypes.CREATE_DRINK;
 
-  constructor(public payload: Drink) {}
+  constructor(public payload: Drink, public image: File) {}
 }
 
 export class CreateDrinkSuccess implements Action {
@@ -169,4 +197,8 @@ export type Actions =
 
   | LoadDrink
   | LoadDrinkError
-  | LoadDrinkSuccess;
+  | LoadDrinkSuccess
+
+  | SaveImage
+  | SaveImageSuccess
+  | SaveImageError;

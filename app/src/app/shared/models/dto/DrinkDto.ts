@@ -9,6 +9,7 @@ export class Drink extends Base {
     public usage: string;
     public taste: string;
     public beverageDescriptionShort: string;
+    public image: string;
     
     
 }
