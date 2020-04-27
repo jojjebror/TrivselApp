@@ -20,6 +20,7 @@ namespace Logic.Translators
                 Id = user.Id,
                 Name = user.Name,
                 Email = user.Email,
+                Credit = user.Credit,
                 Office = user.Office,
                 Events = user.EventParticipants.Select(e =>
                     new UserEventsDto

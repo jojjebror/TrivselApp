@@ -12,6 +12,8 @@ namespace Logic.Database.Entities
 
         public string Name { get; set; }
 
+        public int Credit { get; set; }
+
         public string Office { get; set; }
 
         public string GoogleId { get; set; }
@@ -19,6 +21,8 @@ namespace Logic.Database.Entities
         public virtual ICollection<Event> Events { get; set; }
 
         public virtual ICollection<EventParticipant> EventParticipants { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
+
 
     }
 }

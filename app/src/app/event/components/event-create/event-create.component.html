@@ -23,7 +23,7 @@
       <mat-form-field appearance="outline" class="fieldDescription">
         <mat-label>Beskrivning</mat-label>
         <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage("description") }}</mat-error>
-        <textarea matInput formControlName="description" autocomplete="off"></textarea>
+        <textarea matInput formControlName="description" autocomplete="off" ></textarea>
       </mat-form-field>
     </div>
 

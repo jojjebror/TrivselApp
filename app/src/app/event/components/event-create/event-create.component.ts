@@ -9,7 +9,7 @@ import * as fromUsers from '../../../user/state/users';
 
 import { AlertifyService } from 'src/app/core/services/alertify.service';
 import { Observable } from 'rxjs';
-import { DateAdapter } from '@angular/material';
+import { DateAdapter, MatSnackBar } from '@angular/material';
 
 import * as fromSession from '../../../core/state/session';
 
@@ -17,7 +17,7 @@ import * as fromSession from '../../../core/state/session';
   selector: 'ex-event-create',
   templateUrl: './event-create.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['./event-create.component.scss']
+  styleUrls: ['./event-create.component.scss'],
 })
 export class EventCreateComponent implements OnInit {
   @Output() cancelNewEvent = new EventEmitter();
@@ -32,16 +32,32 @@ export class EventCreateComponent implements OnInit {
   starttime: Date;
   endtime: Date;
 
-  offices: string[] = ['Linköping', 'Stockholm', 'Göteborg', 'Malmö', 'Uppsala', 'Örebro', 'Söderhamn', 'Borlänge', 'Helsingborg', 'Karlstad'];
+  offices: string[] = [
+    'Linköping',
+    'Stockholm',
+    'Göteborg',
+    'Malmö',
+    'Uppsala',
+    'Örebro',
+    'Söderhamn',
+    'Borlänge',
+    'Helsingborg',
+    'Karlstad',
+  ];
 
-  constructor(private store$: Store<AppState>, private fb: FormBuilder, private alertify: AlertifyService, private dateAdapter: DateAdapter<Date>) {
+  constructor(
+    private store$: Store<AppState>,
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar,
+    private dateAdapter: DateAdapter<Date>
+  ) {
     dateAdapter.setLocale('sv');
-    this.store$.select(fromSession.selectUser).subscribe(user => (this.userId = user.id));
+    this.store$.select(fromSession.selectUserId).subscribe((user) => (this.userId = user));
   }
 
   ngOnInit() {
-    this.loadUsers();
     this.createEventForm();
+    this.loadUsers();
   }
 
   createEventForm() {
@@ -58,7 +74,7 @@ export class EventCreateComponent implements OnInit {
         createdate: [''],
         creatorid: [this.userId],
         users: [null],
-        offices: [['']]
+        offices: [['']],
       },
       { validator: this.DateValidation }
     );
@@ -70,16 +86,18 @@ export class EventCreateComponent implements OnInit {
 
       this.eventForm.get('createdate').setValue(new Date());
 
-      //Fixar problem med UTC och lokal tid när datum skickas till servern
+      //Fixar problem med tidzon när datum skickas till servern
       this.fixDateTimeZone(this.eventForm.get('starttime').value);
       this.fixDateTimeZone(this.eventForm.get('endtime').value);
       this.fixDateTimeZone(this.eventForm.get('createdate').value);
+      this.fixDateTimeZone(this.eventForm.get('startdate').value)
+      this.fixDateTimeZone(this.eventForm.get('enddate').value);
 
       this.event = Object.assign({}, this.eventForm.value);
 
       this.store$.dispatch(new fromEvents.CreateEvent(this.event, this.fileUpload));
 
-      this.alertify.success('Evenemanget har skapats');
+      this.snackBar.open('Evenemanget har skapats', '', { duration: 2500 });
     }
   }
 
@@ -97,7 +115,8 @@ export class EventCreateComponent implements OnInit {
     this.fileUpload = file.item(0);
   }
 
-  imageValidator(control: FormControl) { //Får inte att fungera med formbuilder
+  imageValidator(control: FormControl) {
+    //Får inte att fungera med formbuilder
     if (control.value) {
       if (this.fileUpload) {
         const allowedInput = '/image-*/';
@@ -113,7 +132,7 @@ export class EventCreateComponent implements OnInit {
   }
 
   private loadUsers(): void {
-    this.store$.dispatch(new fromUsers.GetUsers());
+    setTimeout(() => { this.store$.dispatch(new fromUsers.GetUsers()); }, 1000);
     this.users$ = this.store$.pipe(select(fromUsers.getUsers));
   }
 

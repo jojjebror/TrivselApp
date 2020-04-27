@@ -22,12 +22,7 @@ export abstract class ApiResource {
          protected get<T>(url: string): Observable<T> {
            return this.http.get<T>(`${this.baseUrl}/${url}`, this.createOptions()).pipe(map(this.mapResponse), catchError(this.mapError));
          }
-
-         //Get for image
-         protected get2<T>(url: string): Observable<T> {
-           return this.http.get<T>(`${this.baseUrl}/${url}`, this.createOptions3()).pipe(map(this.mapResponse), catchError(this.mapError));
-         }
-
+         
          protected put<T>(url: string, data: any): Observable<T> {
            return this.http.put<T>(`${this.baseUrl}/${url}`, JSON.stringify(data), this.createOptions()).pipe(map(this.mapResponse), catchError(this.mapError));
          }
@@ -85,15 +80,5 @@ export abstract class ApiResource {
            headers = headers.set('Content-Disposition', 'multipart/form');
 
            return { headers: headers };
-         }
-
-         //Options for image
-         private createOptions3(): { headers: HttpHeaders, responseType: any } {
-           let headers = new HttpHeaders();
-
-           // Set content type
-           headers = headers.set('Content-Type', 'application/json');
-
-           return { headers: headers, responseType: 'blob' };
          }
        }

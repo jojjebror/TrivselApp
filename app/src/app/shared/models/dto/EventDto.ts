@@ -1,5 +1,6 @@
 import { Base } from './BaseDto';
 import { User } from './UserDto';
+import { Post } from './PostDto';
 
 export class Event extends Base {
   public title: string;
@@ -13,7 +14,8 @@ export class Event extends Base {
   public createDate: Date;
   public creatorId: number;
   public users?: User[];
+  public posts?: Post[];
   public offices?: string[];
   public status: string;
-  public name: string;
+  public creatorName: string;
 }

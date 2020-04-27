@@ -25,6 +25,7 @@
         Välkommen
         {{ user?.name }}
       </a>
+      
 
       <div class="dropdown-menu mt-3" *dropdownMenu>
         <a class="dropdown-item" [routerLink]="['/drink/credit']"><i class="fa fa-user"></i>Hantera saldo</a>
@@ -32,10 +33,10 @@
         <a class="dropdown-item" (click)="$event.preventDefault(); logout.emit()"><i class="fa fa-sign-out"></i> Logga ut</a>
       </div>
     </div>
-
+    <a style="float: right; padding-left: 1%;"> Saldo: {{user?.credit}}kr</a>
     <div class="dropdownM" dropdown>
       <a class="dropdown-toggle1 text-light" dropdownToggle>
-        <div class="container1">
+        <div class="container1" (click)="status=!status" [ngClass]="status ? 'change' : 'basic'">
           <div class="bar1"></div>
           <div class="bar2"></div>
           <div class="bar3"></div>
@@ -84,3 +85,6 @@
             </div>
           </div>
         </div> -->
+
+  
+         

@@ -16,6 +16,7 @@ import * as fromDrink from "../../state/drinks/drinks.selectors";
 })
 export class DrinkCategoryComponent implements OnInit {
   drs$: Observable<Drink[]>;
+
   categoryOne: boolean = false;
 
   private subscription = new Subscription();

@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="base" *ngIf="dr$ | async; let dr">
-<div class="container" [ngStyle]="{'background-image':'url('+photo+')'}">
+<div class="container">
  
  <div class="settings">
   <button (click)="toggleShow()" type="checkbox" style="float: right;"> <i class="fa fa-gear"></i></button>
@@ -43,6 +43,9 @@
     </button>
     <button class="buy" (click)="GetToSwish(dr)">
       Köp dryck!
+    </button>
+    <button class="buySaldo" (click)="paySaldo(dr)" >
+      Köp med Saldo!
     </button>
   </div>
 
