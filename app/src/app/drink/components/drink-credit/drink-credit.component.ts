@@ -87,7 +87,6 @@ export class DrinkCreditComponent implements OnInit {
       }
      }
   
-     
      console.log(initField);
   
       var newEncode = JSON.stringify(initField);
