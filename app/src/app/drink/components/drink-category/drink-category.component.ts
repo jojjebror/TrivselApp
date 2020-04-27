@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
-import { Observable } from "rxjs";
+import { Component, OnInit, ChangeDetectionStrategy, Input } from "@angular/core";
+import { Observable, Subscription } from "rxjs";
 import { Store, select } from "@ngrx/store";
 
 import { AppState } from "src/app/core/state";
@@ -19,14 +19,21 @@ export class DrinkCategoryComponent implements OnInit {
 
   categoryOne: boolean = false;
 
+  private subscription = new Subscription();
+
   constructor(private store$: Store<AppState>) {}
+
+ 
 
   ngOnInit(): void {
     this.initializeFilterBeer();
+
   }
 
   public initializeFilterBeer(): void {
     this.store$.dispatch(new drinksActions.FilterDrink("Öl"));
     this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
   }
+
+
 }

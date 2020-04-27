@@ -1,9 +1,11 @@
 import { Action } from "@ngrx/store";
 
 import { Update } from "@ngrx/entity";
-import { Drink } from "../../../shared/models";
+import { Drink} from "../../../shared/models";
+
 
 export enum ActionTypes {
+
   LOAD_DRINKS = "[Drinks view] Load Drinks",
   LOAD_DRINKS_SUCCESS = "[API: /drink] Load Drinks success",
   LOAD_DRINKS_ERROR = "[API: /drink] Load Drinks error",
@@ -19,13 +21,14 @@ export enum ActionTypes {
   DELETE_DRINK = "[Drinks view] Delete Drink",
   DELETE_DRINK_SUCCESS = "[API: /drink] Delete Drink success",
   DELETE_DRINK_ERROR = "[API: /drink] Delete Drink error",
-
   FILTER_DRINK = "[Drinks view] Filter Drink",
   FILTER_DRINK_SUCCESS = "[API: /drink] Filter Drink success",
   FILTER_DRINK_ERROR = "[API: /drink] Filter Drink error",
+
 }
 
-/*--------------LoadAllEvents--------------*/
+
+/*--------------LoadAllDrinks--------------*/
 
 export class LoadDrinks implements Action {
   readonly type = ActionTypes.LOAD_DRINKS;
@@ -143,18 +146,27 @@ export type Actions =
   | LoadDrinks
   | LoadDrinksSuccess
   | LoadDrinksError
+
   | LoadDrink
   | LoadDrinkSuccess
   | LoadDrinkError
+
   | CreateDrink
   | CreateDrinkSuccess
   | CreateDrinkError
+
   | UpdateDrink
   | UpdateDrinkSuccess
   | UpdateDrinkError
+
   | DeleteDrink
   | DeleteDrinkSuccess
   | DeleteDrinkError
+
   | FilterDrink
   | FilterDrinkError
-  | FilterDrinkSuccess;
+  | FilterDrinkSuccess
+
+  | LoadDrink
+  | LoadDrinkError
+  | LoadDrinkSuccess;
