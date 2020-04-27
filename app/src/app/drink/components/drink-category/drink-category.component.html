@@ -1,5 +1,5 @@
 <div class="container justify-content-center">
-  <h2>
+  <h2 class="titel">
     Öl
   </h2>
   <button
@@ -14,23 +14,44 @@
   </button>
   <hr />
 
-  <div class="info">
-    <ul *ngIf="drs$">
-      <li *ngFor="let dr of drs$ | async" [routerLink]="['/drink', dr.id]">
-        <a class="title" [routerLink]="['/drink', dr.id]">
-          {{ dr.productNameBold }}</a
-        >
+  <mat-tab-group>
+    <mat-tab label="First"> 
+<ul>
+ <li>  
+   <h3>BUDGET</h3> 
+   <h2>10kr</h2>
+</li>
+<li>  
+  <h3>STANDARD</h3> 
+  <h2>15kr</h2>
+</li>
+<li>   
+  <h3>FIN BÄRS</h3> 
+  <h2>20kr</h2>
+</li>
+</ul>
+    </mat-tab>
+    <mat-tab label="Second">
+      <div class="info">
+        <ul *ngIf="drs$">
+          <li *ngFor="let dr of drs$ | async" [routerLink]="['/drink', dr.id]">
+            <a class="title" [routerLink]="['/drink', dr.id]">
+              {{ dr.productNameBold }}</a
+            >
+    
+            <p class="location">Pris: {{ dr.price }}kr</p>
+    
+            <p class="location">Volym: {{ dr.volume }}cl</p>
+    
+            <p class="location">Kategori: {{ dr.category }}</p>
+    
+            <ng-template #none>
+              <p></p>
+            </ng-template>
+          </li>
+        </ul>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 
-        <p class="location">Pris: {{ dr.price }}kr</p>
 
-        <p class="location">Volym: {{ dr.volume }}cl</p>
-
-        <p class="location">Kategori: {{ dr.category }}</p>
-
-        <ng-template #none>
-          <p></p>
-        </ng-template>
-      </li>
-    </ul>
-  </div>
-</div>
