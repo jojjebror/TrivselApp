@@ -7,7 +7,7 @@ import { ExampleState } from '../../example/state';
 import { EventState } from '../../event/state';
 import { DrinkState } from '../../drink/state';
 import { UserState } from '../../user/state';
-import { PriceState } from '../../price/state';
+
 
 
 /**
@@ -21,8 +21,6 @@ export interface AppState {
 	session: SessionState;
 
 	example?: ExampleState;
-	
-	price?: PriceState;
 
 	event?: EventState;
 	

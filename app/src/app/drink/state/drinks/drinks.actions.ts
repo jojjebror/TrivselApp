@@ -1,7 +1,7 @@
 import { Action } from "@ngrx/store";
 
 import { Update } from "@ngrx/entity";
-import { Drink, Price } from "../../../shared/models";
+import { Drink} from "../../../shared/models";
 
 
 export enum ActionTypes {

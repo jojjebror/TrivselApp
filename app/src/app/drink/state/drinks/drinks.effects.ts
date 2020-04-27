@@ -8,7 +8,7 @@ import { Router } from "@angular/router";
 
 import * as drinksActions from "./drinks.actions";
 import { DrinkResource } from "src/app/core/resources/drink.resource";
-import { Drink, Price } from "src/app/shared/models";
+import { Drink } from "src/app/shared/models";
 import { text } from "@angular/core/src/render3";
 
 

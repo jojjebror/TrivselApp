@@ -1,6 +1,6 @@
 import { EntityState } from "@ngrx/entity";
 
-import { Drink, Price } from '../../../shared/models';
+import { Drink } from '../../../shared/models';
 
 export interface DrinksState extends EntityState<Drink> {
     selectedDrinkId: number | null;

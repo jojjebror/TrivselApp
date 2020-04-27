@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 
-import { Drink, Price } from '../../shared/models';
+import { Drink } from '../../shared/models';
 import { text } from "@angular/core/src/render3";
 
 
@@ -37,10 +37,6 @@ export class DrinkResource extends ApiResource {
     filterDrink(dr: string): Observable<Drink[]>
     {
         return this.get('drink/' + 'filter?filter=' + dr);
-    }
-
-    loadPrices(pr: string): Observable<Price[]> {
-        return this.get('drink/' + 'category?category=' + pr);
     }
     
 }

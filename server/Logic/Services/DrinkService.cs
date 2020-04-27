@@ -27,21 +27,6 @@ namespace Logic.Services
             return dbDrinks.Select(DrinkForListTranslator.ToModel).ToList();
         }
 
-        public async Task<ICollection<PriceDto>> GetPrices(string category)
-        {
-
-            if(category == "Öl")
-            {
-
-                var result = await _context.Prices.Where(p => p.Category == "Öl").ToListAsync();
-                var add = result.Select(PriceForListTranslator.ToModel).ToList();
-                return add;
-            }
-
-            return null;
-
-        }
-
 
         public async Task<ICollection<DrinkForListDto>> FilterDrink(string category)
         {
@@ -102,20 +87,6 @@ namespace Logic.Services
         //    return null;
         //}
 
-        public async Task<PriceDto> CreatePrice(PriceDto price)
-        {
-            var pr = new Price()
-            {
-                Name = price.Name,
-                Cost = price.Cost,
-                Category = price.Category
-            };
-
-            _context.Prices.Add(pr);
-            await _context.SaveChangesAsync();
-
-            return PriceForListTranslator.ToModel(pr);
-        }
 
         public async Task<DrinkForListDto> Create(DrinkForListDto drink)
         {

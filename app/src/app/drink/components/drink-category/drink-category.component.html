@@ -5,25 +5,29 @@
   
  <!-- -------------------------------Tab 1----------------------------------------------- -->
                   <!-- --------------- Buy Beer depending on class ---------------- -->
-<mat-tab label="Köp dryck"> Öl 
+
 
 <div class ="container justify-content-center">
 <div class="info">
-      <ul *ngIf="prs$">
-        <li *ngFor="let pr of prs$ | async">
+      <ul >
+        <li>
 
-          <p class ="location"> Namn: {{pr.name }} </p>
-          <p class = "location"> Pris: {{pr.price }} </p>
-
-          <ng-template #none>
-            <p></p>
-          </ng-template>
-  
+          <p class ="location"> Namn: Klass 1 </p>
+          <p class = "location"> Pris: 10 SEK} </p>
+        </li>
+        <li>
+          <p class ="location"> Namn: Klass 2 </p>
+          <p class ="location"> Pris: 15 SEK </p>
+        </li>
+        
+        <li>
+          <p class ="location"> Namn: Klass 3 </p>
+          <p class ="location"> Pris: 20 SEK </p>
         </li>
       </ul>
 </div>
 </div>
-</mat-tab>
+
 
 
 
