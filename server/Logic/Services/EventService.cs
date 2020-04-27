@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,11 +15,13 @@ namespace Logic.Services
     {
         private readonly DatabaseContext _context;
         private readonly GoogleCalendarService _googleCalendarService;
+        private readonly CloudinaryService _cloudinaryService;
 
         public EventService(DatabaseContext context)
         {
             _context = context;
             _googleCalendarService = new GoogleCalendarService(context);
+            _cloudinaryService = new CloudinaryService();
         }
 
         public async Task<EventForDetailedDto> GetEvent(int id)
@@ -45,7 +46,6 @@ namespace Logic.Services
                 Title = ev.Title,
                 Description = ev.Description,
                 Location = ev.Location,
-                Image = ev.Image,
                 StartDate = new DateTime(ev.StartDate.Year, ev.StartDate.Month,
                     ev.StartDate.Day, ev.StartTime.Hour, ev.StartTime.Minute, 0),
                 EndDate = new DateTime(ev.EndDate.Year, ev.EndDate.Month,
@@ -98,7 +98,6 @@ namespace Logic.Services
             dbEvent.Title = ev.Title;
             dbEvent.Location = ev.Location;
             dbEvent.Description = ev.Description;
-            dbEvent.Image = ev.Image;
             dbEvent.StartDate = new DateTime(ev.StartDate.Year, ev.StartDate.Month,
                 ev.StartDate.Day, ev.StartTime.Hour, ev.StartTime.Minute, 0);
             dbEvent.EndDate = new DateTime(ev.EndDate.Year, ev.EndDate.Month, 
@@ -115,15 +114,13 @@ namespace Logic.Services
         {
             var dbEvent = await _context.Events.FindAsync(id);
 
-            var folderName = Path.Combine("assets", "images", "event-images");
-            var imageFolderPath = Path.GetFullPath(folderName).Replace("server\\Api", "app\\src");
-
-            //Deletes all images with the id
-            DeleteImageFiles(id, imageFolderPath);
-
             _context.Events.Remove(dbEvent);
             await _context.SaveChangesAsync();
 
+            //Deletes the uploaded image
+            _cloudinaryService.DeleteImage(dbEvent.ImageId);
+
+            //Deletes the event in google calendar
             _googleCalendarService.DeleteGoogleEvent(dbEvent.GoogleEventId);
 
             return id;
@@ -187,40 +184,28 @@ namespace Logic.Services
         {
             var dbEvent = await _context.Events.FindAsync(id);
 
-            if (image.Length > 0)
-            {
-                var folderName = Path.Combine("assets", "images", "event-images");
-                var pathToSave = Path.GetFullPath(folderName).Replace("server\\Api", "app\\src");
+            var uploadResult = _cloudinaryService.UploadImage(image);
 
-                var fileName = id.ToString() + Path.GetExtension(image.FileName);
-                var fullPath = Path.Combine(pathToSave, fileName);
-                var dbPath = Path.Combine(folderName, fileName);
+            dbEvent.Image = uploadResult.Uri.ToString();
+            dbEvent.ImageId = uploadResult.PublicId;
 
-                DeleteImageFiles(id, pathToSave);
-
-                using (var stream = new FileStream(fullPath, FileMode.Create))
-                {
-                    image.CopyTo(stream);
-                    dbEvent.Image = dbPath;
-                }
-
-                await _context.SaveChangesAsync();
-            }
+            await _context.SaveChangesAsync();
 
             return EventForCreateTranslator.ToModel(dbEvent);
         }
 
-        public void DeleteImageFiles(int id, string path)
+        public async Task<EventForUpdateDto> UpdateImage(int id, IFormFile image)
         {
-            var files = Directory.GetFiles(path, id.ToString() + ".*");
+            var dbEvent = _context.Events.Find(id);
 
-            if (files.Length > 0)
-            {
-                foreach (var file in files)
-                {
-                    File.Delete(file);
-                }
-            }
+            var uploadResult = _cloudinaryService.UpdateImage(dbEvent.ImageId, image);
+
+            dbEvent.Image = uploadResult.Uri.ToString();
+            //dbEvent.ImageId = uploadResult.PublicId;
+
+            await _context.SaveChangesAsync();
+
+            return EventForUpdateTranslator.ToModel(dbEvent);
         }
 
         public async Task<ICollection<EventForUserListDto>> GetCurrentUserEvents(int userId)

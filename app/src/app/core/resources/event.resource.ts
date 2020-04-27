@@ -49,6 +49,12 @@ export class EventResource extends ApiResource {
     return this.post2('event/' + id + '/saveimage', formData);
   }
 
+  updateImage(id: number, image: File): Observable<Event> {
+    var formData = new FormData();
+    formData.append('image', image, image.name);
+    return this.post2('event/' + id + '/updateimage', formData);
+  }
+
   createPost(data: Post): Observable<Post> {
     return this.post('post', data);
   }

@@ -16,48 +16,72 @@ namespace Logic.Services
     public class GoogleCalendarService
     {
         // trivselapp@gmail.com exsitec123
+        
 
         private readonly DatabaseContext _context;
         private readonly CalendarService _calendarService;
 
-        private readonly string calendarId = "primary";
+        private readonly string calendarId = "trivselapp@gmail.com"; //primary
         public GoogleCalendarService(DatabaseContext context)
         {
             _context = context;
             _calendarService = CreateGoogleCalendarService();
         }
+
         public CalendarService CreateGoogleCalendarService()
         {
-            // If modifying these scopes, delete your previously saved credentials
-            // at ~/.credentials/calendar-dotnet-quickstart.json
-            string[] Scopes = { CalendarService.Scope.Calendar };
-            string ApplicationName = "Google Calendar API .NET Quickstart";
+            string[] scopes = { CalendarService.Scope.Calendar };
+            GoogleCredential credential;
+            //ServiceAccountCredential credential;
 
-            UserCredential credential;
-
-            using (var stream =
-                new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+            using (var stream = new FileStream("serviceAccountCredentials.json", FileMode.Open, FileAccess.Read))
             {
-                // The file token.json stores the user's access and refresh tokens, and is created
-                // automatically when the authorization flow completes for the first time.
-                string credPath = "token.json";
-                credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.Load(stream).Secrets,
-                    Scopes,
-                    "user",
-                    CancellationToken.None,
-                    new FileDataStore(credPath, true)).Result;
+                credential = GoogleCredential.FromStream(stream)
+                                 .CreateScoped(scopes);
             }
 
-            // Create Google Calendar API service.
+            // Create the Calendar service.
             var calendarService = new CalendarService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
-                ApplicationName = ApplicationName,
+                ApplicationName = "TrivselApp"
             });
 
             return calendarService;
         }
+
+        //public CalendarService CreateGoogleCalendarService()
+        //{
+        //    // If modifying these scopes, delete your previously saved credentials
+        //    // at ~/.credentials/calendar-dotnet-quickstart.json
+        //    string[] Scopes = { CalendarService.Scope.Calendar };
+        //    string ApplicationName = "Google Calendar API .NET Quickstart";
+
+        //    UserCredential credential;
+
+        //    using (var stream =
+        //        new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+        //    {
+        //        // The file token.json stores the user's access and refresh tokens, and is created
+        //        // automatically when the authorization flow completes for the first time.
+        //        string credPath = "token.json";
+        //        credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+        //            GoogleClientSecrets.Load(stream).Secrets,
+        //            Scopes,
+        //            "user",
+        //            CancellationToken.None,
+        //            new FileDataStore(credPath, true)).Result;
+        //    }
+
+        //    // Create Google Calendar API service.
+        //    var calendarService = new CalendarService(new BaseClientService.Initializer()
+        //    {
+        //        HttpClientInitializer = credential,
+        //        ApplicationName = ApplicationName,
+        //    });
+
+        //    return calendarService;
+        //}
 
         public string CreateGoogleEvent(Database.Entities.Event ev, List<EventParticipant> eps)
         {
@@ -94,9 +118,9 @@ namespace Logic.Services
 
                 //Inserting many attendees into the event causes calendar usage exceed, 
                 //comment out the attendee lines if internal server error 500
-                googleEv.Attendees = eps.Select(ep =>
-                    new EventAttendee { DisplayName = ep.User.Name, Email = ep.User.Email }).ToList();
-                googleEv.Attendees.FirstOrDefault(a => a.Email == organizer.Email).ResponseStatus = "accepted";
+                //googleEv.Attendees = eps.Select(ep =>
+                //    new EventAttendee { DisplayName = ep.User.Name, Email = ep.User.Email }).ToList();
+                //googleEv.Attendees.FirstOrDefault(a => a.Email == organizer.Email).ResponseStatus = "accepted";
                 //googleEv.Attendees.Add(new EventAttendee { Email = "obarthelsson@gmail.com" });
 
                 //Insert in primary(default) calendar for account and send email notification to all attendees

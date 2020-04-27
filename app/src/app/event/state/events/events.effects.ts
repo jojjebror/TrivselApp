@@ -37,14 +37,14 @@ export class EventsEffects {
     )
   );
 
-  @Effect()
+   @Effect()
   createEvent$: Observable<Action> = this.actions$.pipe(
     ofType(eventsActions.ActionTypes.CREATE_EVENT),
     switchMap((action: eventsActions.CreateEvent) =>
       this.eventResource.createEvent(action.payload).pipe(
         switchMap((newEvent: Event) => 
         [
-          new eventsActions.SaveImage(newEvent.id, action.image), 
+          new eventsActions.SaveImage(newEvent.id, action.image),
           new eventsActions.CreateEventSuccess(newEvent)
         ]),
         tap(() => this.router.navigate(['/event'])),
@@ -75,7 +75,7 @@ export class EventsEffects {
             id: updatedEvent.id,
             changes: updatedEvent
           }),
-          new eventsActions.SaveImage(updatedEvent.id, action.image),
+          new eventsActions.UpdateImage(updatedEvent.id, action.image),
         ]),
         tap(() => this.router.navigate(['/event/' + action.payload.id])),
         catchError((err) => of(new eventsActions.UpdateEventError(err)))
@@ -126,6 +126,23 @@ export class EventsEffects {
             })
         ),
         catchError((err) => of(new eventsActions.SaveImageError(err)))
+      )
+    )
+  );
+
+  @Effect()
+  updateImage$: Observable<Action> = this.actions$.pipe(
+    ofType(eventsActions.ActionTypes.UPDATE_IMAGE),
+    switchMap((action: eventsActions.UpdateImage) =>
+      this.eventResource.updateImage(action.id, action.payload).pipe(
+        map(
+          (newEvent: Event) =>
+            new eventsActions.UpdateImageSuccess({
+              id: newEvent.id,
+              changes: newEvent
+            })
+        ),
+        catchError((err) => of(new eventsActions.UpdateImageError(err)))
       )
     )
   );

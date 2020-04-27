@@ -10,11 +10,8 @@
   <div class="row">
     <div class="col-sm-4">
       <div>
-        <img class="card-img-top img-thumbnail" [src]="ev.image ? '../../' + ev.image : '/assets/images/event-images/default_event.png'" />
+        <img class="card-img-top img-thumbnail" [src]="ev.image ? ev.image : '/assets/images/event-images/default_event.png'" />
       </div>
-      <!-- <div *ngIf="ev.image.length == 0">
-        <p style="margin-top: 25px;"></p>
-      </div> -->
       <div class="card">
         <div class="card-body">
           <div>

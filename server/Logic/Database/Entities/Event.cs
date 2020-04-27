@@ -11,6 +11,7 @@ namespace Logic.Database.Entities
     {
         public string Title { get; set; }
         public string Description { get; set; }
+        public string ImageId { get; set; }
         public string Image { get; set; }
         public string Location { get; set; }
         public DateTime StartDate { get; set; }

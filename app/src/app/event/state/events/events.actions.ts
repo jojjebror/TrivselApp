@@ -233,7 +233,7 @@ export class UpdateImage implements Action {
 export class UpdateImageSuccess implements Action {
   readonly type = ActionTypes.UPDATE_IMAGE_SUCCESS;
 
-  constructor(public payload: boolean) {}
+  constructor(public payload: Update<Event>) {}
 }
 
 export class UpdateImageError implements Action {
