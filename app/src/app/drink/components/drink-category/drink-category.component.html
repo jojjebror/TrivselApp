@@ -43,6 +43,54 @@
         </ul>
       </div>
     </mat-tab>
-  </mat-tab-group>
 
+
+ <!-- -------------------------------Tab 2----------------------------------------------- -->
+                  <!-- --------------- Beer Supply ---------------- -->
+
+
+
+  <mat-tab label="Sortiment"> <div class="container justify-content-center" style="margin-right: 0; margin-left: 0;">
+    <button
+      class="btn btn-default"
+      style="color: white;"
+      [routerLink]="['/drink']"
+    >
+      Gå tillbaka
+    </button>
+    <button class="btn btn-primary" [routerLink]="['/drink/create']">
+      Lägg till ny dryck
+    </button>
+    <hr />
+  
+    <div class="info">
+      <ul *ngIf="drs$">
+        <li *ngFor="let dr of drs$ | async" [routerLink]="['/drink', dr.id]">
+         <hr/>
+         <hr/>
+          <div>
+            <img class="card-img-top img-thumbnail" [src]="dr.image ? '../../../' + dr.image : '/assets/images/drink-images/default_drink.jpg'" />
+          </div>
+
+          <a class="title" [routerLink]="['/drink', dr.id]">
+            {{ dr.productNameBold }}
+          </a>
+
+          <p class="location">Pris: {{ dr.price }}kr</p>
+  
+          <p class="location">Volym: {{ dr.volume }}cl</p>
+  
+          <p class="location">Kategori: {{ dr.category }}</p>
+  
+          <ng-template #none>
+            <p></p>
+          </ng-template>
+        </li>
+      </ul>
+    </div>
+  </div>
+ </mat-tab>
+</mat-tab-group>
+
+</div>
 

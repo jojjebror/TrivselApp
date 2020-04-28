@@ -8,25 +8,26 @@ using System.Threading.Tasks;
 
 namespace Logic.Translators
 {
-    public class DrinkForListTranslator
+    class DrinkForCreateTranslator
     {
-        public static DrinkForListDto ToModel(Drink dr)
+
+        public static DrinkForCreateDto ToModel(Drink dr)
         {
             if (dr == null)
                 return null;
 
-            return new DrinkForListDto
+            return new DrinkForCreateDto
             {
                 Id = dr.Id,
                 ProductNameBold = dr.ProductNameBold,
-                Category = dr.Category,
-                Volume = dr.Volume,
-                Price = dr.Price,
-                Taste = dr.Taste,
                 Usage = dr.Usage,
+                Price = dr.Price,
+                Category = dr.Category,
+                Image = dr.Image,
                 AlcoholPercentage = dr.AlcoholPercentage,
                 BeverageDescriptionShort = dr.BeverageDescriptionShort,
-                Image = dr.Image
+                Taste = dr.Taste,
+                Volume = dr.Volume
             };
         }
     }

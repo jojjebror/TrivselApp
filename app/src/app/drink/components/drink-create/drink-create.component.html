@@ -93,20 +93,24 @@
       <div class="invalid-feedback">Ange en kategori för dryck</div>
     </div>
 
-    <div class="form-group" style="width: 50%;">
-      <input
-        type="file"
-        [ngClass]="{
-          'is-invalid':
-            drinkForm.get('image').errors && drinkForm.get('image').touched
-        }"
-        class="form-control"
-        placeholder="Bild-url"
-        formControlName="image"
-      />
+    <div>
+      <!-- <mat-form-field appearance="outline">
+        <mat-label>Bild-url</mat-label>
+        <img [src]="imageUrl || ''" style="width: 50px;"> -->
+        <input
+          type="file"
+          accept="image/*"
+          autocomplete="off"
+          formControlName="image"
+          (change)="loadImage($event.target.files)"
+        />
+        <!-- <mat-error *ngIf="eventForm.invalid">Fel filtyp</mat-error> -->
+      <!-- </mat-form-field> -->
       <div class="invalid-feedback">Du måste ange en bild-url</div>
     </div>
+
     <hr />
+
     <div class="form-group text-center">
       <button
         class="btn btn-success"

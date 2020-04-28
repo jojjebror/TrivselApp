@@ -14,7 +14,7 @@ namespace Logic.Models
             public string Category { get; set; }
             public int Volume { get; set; }
             public int Price { get; set; }
-            
-        
+            public string Image { get; set; }
+
     }
 }

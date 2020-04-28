@@ -49,7 +49,18 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
-        
+        [HttpPost("{id}/saveimage")]
+        public async Task<IActionResult> SaveImage(int id)
+        {
+            var httpRequest = Request.Form;
+            var image = httpRequest.Files["image"];
+
+            var result = await _drinkService.SaveImage(id, image);
+
+            return new OkObjectResult(ApiResponse.Create(result));
+        }
+
+
 
         /*[HttpPost]
         public async Task<IActionResult> CreatePrice([FromBody]PriceClassDto price)
