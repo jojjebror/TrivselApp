@@ -1,28 +1,31 @@
 import { NgModule } from '@angular/core';
 
 import {
-	MatIconModule,
-	MatButtonModule,
-	MatInputModule,
-	MatCardModule,
-	MatListModule,
-	MatDialogModule,
-	MatTabsModule,
-	MatSidenavModule,
-	MatToolbarModule,
-	MatRippleModule,
-	MatMenuModule,
-	MatSnackBarModule,
-	MatSlideToggleModule,
-	MatSelectModule,
-	MatDatepickerModule,
-	MatNativeDateModule,
-	MatTableModule,
-	MatTooltipModule,
-	MatBadgeModule,
-	MatPaginatorModule,
-	MatSortModule,
-	MatGridListModule
+  MatIconModule,
+  MatButtonModule,
+  MatInputModule,
+  MatCardModule,
+  MatListModule,
+  MatDialogModule,
+  MatTabsModule,
+  MatSidenavModule,
+  MatToolbarModule,
+  MatRippleModule,
+  MatMenuModule,
+  MatSnackBarModule,
+  MatSlideToggleModule,
+  MatSelectModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatTableModule,
+  MatTooltipModule,
+  MatBadgeModule,
+  MatPaginatorModule,
+  MatSortModule,
+  MatGridListModule,
+  MatProgressSpinnerModule,
+  MatAutocompleteModule
+  
 } from '@angular/material';
 
 const modules = [
@@ -47,7 +50,9 @@ const modules = [
   MatBadgeModule,
   MatPaginatorModule,
   MatSortModule,
-  MatGridListModule
+  MatGridListModule,
+  MatProgressSpinnerModule,
+  MatAutocompleteModule
 ];
 
 @NgModule({

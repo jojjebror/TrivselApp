@@ -3,27 +3,29 @@ import { Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { map, catchError, switchMap, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import { EventResource } from '../../../core/resources';
-
 import * as eventsActions from './events.actions';
-
 import { Event, Post } from 'src/app/shared/models';
-import { Router } from '@angular/router';
 
 @Injectable()
 export class EventsEffects {
-  constructor(private actions$: Actions, private eventResource: EventResource, private router: Router) {}
+  constructor(
+    private actions$: Actions,
+    private eventResource: EventResource,
+    private router: Router
+  ) {}
 
   @Effect()
   loadEvents$: Observable<Action> = this.actions$.pipe(
     ofType(eventsActions.ActionTypes.LOAD_EVENTS),
-    switchMap((actions: eventsActions.LoadEvents) =>
-      this.eventResource.loadEvents().pipe(
+    switchMap(() => {
+      return this.eventResource.loadEvents().pipe(
         map((events: Event[]) => new eventsActions.LoadEventsSuccess(events)),
         catchError((err) => of(new eventsActions.LoadEventsError(err)))
-      )
-    )
+      );
+    })
   );
 
   @Effect()

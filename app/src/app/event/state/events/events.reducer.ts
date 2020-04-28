@@ -10,11 +10,19 @@ let initialState = adapter.getInitialState({
   userEvents: [],
   loading: false,
   loaded: false,
-  error: ''
+  error: null
 });
 
 export function reducer(state: EventsState = initialState, action: eventsActions.Actions): EventsState {
   switch (action.type) {
+    case eventsActions.ActionTypes.LOAD_EVENTS: {
+      return {
+        ...state,
+        loading: true,
+        loaded: false
+      };
+    }
+
     case eventsActions.ActionTypes.LOAD_EVENTS_SUCCESS: {
       return adapter.addAll(action.payload, {
         ...state,

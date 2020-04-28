@@ -141,6 +141,72 @@ namespace Logic.Database.Migrations
                 CreateDate = DateTime.Now,
                 CreatorId = 1
             };
+
+            var testEvent4 = new Event()
+            {
+                Id = 4,
+                Title = "Padeltunering",
+                Description = "Ta med er racket, mer information kommer",
+                Image = "assets/images/event-images/default_event.png",
+                Location = "Padelcenter",
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now,
+                CreateDate = DateTime.Now,
+                CreatorId = 5
+            };
+
+            var testEvent5 = new Event()
+            {
+                Id = 5,
+                Title = "UFC-night",
+                Description = "Ta med snacks",
+                Image = "assets/images/event-images/default_event.png",
+                Location = "Hummelgatan 31",
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now,
+                CreateDate = DateTime.Now,
+                CreatorId = 7
+            };
+
+            var testEvent6 = new Event()
+            {
+                Id = 6,
+                Title = "Lunchträning",
+                Description = "Ta med kläder, nu kör vi",
+                Image = "assets/images/event-images/default_event.png",
+                Location = "Friskis & Svettis",
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now,
+                CreateDate = DateTime.Now,
+                CreatorId = 8
+            };
+
+            var testEvent7 = new Event()
+            {
+                Id = 7,
+                Title = "Brunch",
+                Description = "Anders bjuder på käk!",
+                Image = "assets/images/event-images/default_event.png",
+                Location = "Linköpingskontoret",
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now,
+                CreateDate = DateTime.Now,
+                CreatorId = 5
+            };
+
+            var testEvent8 = new Event()
+            {
+                Id = 8,
+                Title = "Cykelvasan",
+                Description = "Avgång med buss 18.30 från centralstation",
+                Image = "assets/images/event-images/default_event.png",
+                Location = "Åre",
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now,
+                CreateDate = DateTime.Now,
+                CreatorId = 4
+            };
+
             var testDrink = new Drink()
             {
                 Id = 1,
@@ -236,10 +302,26 @@ namespace Logic.Database.Migrations
 
             var testEp10 = new EventParticipant()
             {
-                Id = 10,
+                Id = 11,
                 UserId = 7,
                 EventId = 1,
                 Status = "accepted"
+            };
+
+            var testEp11 = new EventParticipant()
+            {
+                Id = 12,
+                UserId = 1,
+                EventId = 13,
+                Status = "N/A"
+            };
+
+            var testEp12 = new EventParticipant()
+            {
+                Id = 13,
+                UserId = 1,
+                EventId = 6,
+                Status = "N/A"
             };
 
             //var post1 = new Post()
@@ -282,6 +364,11 @@ namespace Logic.Database.Migrations
             context.Events.AddOrUpdate(testEvent1);
             context.Events.AddOrUpdate(testEvent2);
             context.Events.AddOrUpdate(testEvent3);
+            context.Events.AddOrUpdate(testEvent4);
+            context.Events.AddOrUpdate(testEvent5);
+            context.Events.AddOrUpdate(testEvent6);
+            context.Events.AddOrUpdate(testEvent7);
+            context.Events.AddOrUpdate(testEvent8);
 
             context.EventParticipants.AddOrUpdate(testEp);
             context.EventParticipants.AddOrUpdate(testEp1);
@@ -293,7 +380,7 @@ namespace Logic.Database.Migrations
             context.EventParticipants.AddOrUpdate(testEp7);
             context.EventParticipants.AddOrUpdate(testEp8);
             context.EventParticipants.AddOrUpdate(testEp9);
-            context.EventParticipants.AddOrUpdate(testEp10);
+
 
             //context.Posts.AddOrUpdate(post1);
             //context.Posts.AddOrUpdate(post2);

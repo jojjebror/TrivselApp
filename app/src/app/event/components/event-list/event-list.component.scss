@@ -22,7 +22,7 @@ h3 {
 
  .mat-card {
   width: 32%;
-  margin-top: 30px;
+  margin-bottom: 30px;
   margin-right: 1%;
   float: left;
   color: white;
@@ -146,13 +146,23 @@ h3 {
 
 #searchbar {
   font-size: 14px;
-  width: 180px;
+  width: 160px;
 }
 
 #allEventSearchbar {
   float: left;
   color: white;
+  font-size: 15px;
+  width: 160px;
+  margin-right: 25px;
 }
+
+#allEventCalendarSearch {
+  color: white;
+  font-size: 15px;
+  width: 130px;
+}
+
 
 .spacer {
   flex: 1 1 auto;
@@ -165,7 +175,7 @@ h3 {
 }
 
 .filtering {
-  margin-bottom: 43px;
+  margin-top: 10px;
 }
 
 // mat-label normal state style
@@ -173,4 +183,11 @@ h3 {
     color: white!important;
 }
 
+.progressSpinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  width: 100%;
+}
 

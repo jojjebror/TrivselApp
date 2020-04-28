@@ -1,13 +1,17 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Event } from '../../../shared/models';
 import { Observable, Subscription, Subject, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 
-import { Store, select } from '@ngrx/store';
+import { Store, select, ActionsSubject } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 import * as fromEvents from '../../state/events';
 import * as fromSession from '../../../core/state/session';
-import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar, PageEvent } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar, PageEvent, DateAdapter } from '@angular/material';
+import { AlertService } from 'src/app/core/services/alert.service';
+
+import { AuthenticationService } from 'src/app/core/services';
+import { ActionTypes } from '../../state/events';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'ex-event-list',
@@ -16,7 +20,6 @@ import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar, PageEvent } fro
   styleUrls: ['./event-list.component.scss'],
 })
 export class EventListComponent implements OnInit, OnDestroy {
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -33,8 +36,28 @@ export class EventListComponent implements OnInit, OnDestroy {
   displayedColumnsInvited = ['title2', 'location2', 'date2', 'invited2', 'actions2'];
   displayedColumnsAttended = ['title3', 'location3', 'date3', 'invited3', 'actions3'];
 
-  constructor(private store$: Store<AppState>, private snackBar: MatSnackBar, private changeDetectorRef: ChangeDetectorRef) {
-    this.subscription.add(this.store$.select(fromSession.selectUserId).subscribe((response) => (this.userId = response)));
+  searchField;
+  searchFieldUserEvents;
+  calendarField;
+
+  //isLoaded$: Observable<Boolean>;
+
+  constructor(
+    private store$: Store<AppState>,
+    private snackBar: MatSnackBar,
+    private changeDetectorRef: ChangeDetectorRef,
+    private dateAdapter: DateAdapter<Date>,
+    public alertService: AlertService,
+    public authService: AuthenticationService,
+    private actionsSubject$: ActionsSubject
+  ) {
+    dateAdapter.setLocale('sv');
+    //this.subscription.add(this.store$.select(fromSession.selectUser).subscribe((response) => (this.userId = response.id)));
+    this.subscription.add(
+      this.authService.getUserId().subscribe((user) => {
+        this.userId = user.sub;
+      })
+    );
   }
 
   ngOnInit() {
@@ -50,15 +73,20 @@ export class EventListComponent implements OnInit, OnDestroy {
   }
 
   private loadEvents() {
-    this.subscription.add(this.store$.select(fromSession.selectUserId).subscribe((response) => (this.userId = response)));
+    //this.subscription.add(this.store$.select(fromSession.selectUser).subscribe((response) => (this.userId = response.id)));
 
-    this.store$.dispatch(new fromEvents.GetCurrentUserEvent(this.userId));
+    this.store$.dispatch(new fromEvents.GetCurrentUserEvent(+this.userId));
     this.store$.dispatch(new fromEvents.LoadEvents());
 
-    //All events
-    //save this
-    //this.evs$ = this.store$.pipe(select(fromEvents.getEvents));
+    this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.GET_USER_EVENT_ERROR)).subscribe((action) => {
+      this.snackBar.open('Evenemangen kunde inte laddas, försök igen', '', { duration: 10000 });
+    });
 
+     this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.LOAD_EVENTS_ERROR)).subscribe((action) => {
+      this.snackBar.open('Evenemangen kunde inte laddas, försök igen', '', { duration: 10000 });
+    });
+
+    //All events
     this.store$.pipe(select(fromEvents.getEvents)).subscribe((data: Event[]) => {
       this.allEvents.data = data;
     });
@@ -69,7 +97,7 @@ export class EventListComponent implements OnInit, OnDestroy {
 
     //Events that the user have created
     this.subscription.add(
-      this.store$.pipe(select(fromEvents.getEventsCreatedByUser(this.userId))).subscribe((data: Event[]) => {
+      this.store$.pipe(select(fromEvents.getEventsCreatedByUser(+this.userId))).subscribe((data: Event[]) => {
         this.createdEvents.data = data;
       })
     );
@@ -92,7 +120,14 @@ export class EventListComponent implements OnInit, OnDestroy {
   deleteEvent(id: number) {
     if (confirm('Vill du verkligen ta bort evenemanget?')) {
       this.store$.dispatch(new fromEvents.DeleteEvent(id));
-      this.snackBar.open('Evenemang borttaget', '', { duration: 2500 });
+
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.DELETE_EVENT_SUCCESS)).subscribe((action) => {
+        this.snackBar.open('Evenemanget borttaget', '', { duration: 2500 });
+      });
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.DELETE_EVENT_ERROR)).subscribe((action) => {
+        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
+        this.loadEvents();
+      });
     }
   }
 
@@ -101,23 +136,30 @@ export class EventListComponent implements OnInit, OnDestroy {
   } */
 
   updateParticpantsToEvent(id: number, answer: string) {
-    var data = [id, this.userId, answer];
+    var data = [id, +this.userId, answer];
     this.store$.dispatch(new fromEvents.UpdateUserParticipant(data));
 
     this.refreshData();
 
-    if (answer == 'accepted') {
-      this.snackBar.open('Du är tillagd i evenemanget', '', { duration: 2500 });
-    }
-    if (answer == 'declined') {
-      this.snackBar.open('Du är borttagen från evenemanget', '', { duration: 2500 });
-    }
+    this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_USER_PARTICIPANT_SUCCESS)).subscribe((action) => {
+      if (answer == 'accepted') {
+        this.snackBar.open('Du är tillagd i evenemanget', '', { duration: 2500 });
+      }
+      if (answer == 'declined') {
+        this.snackBar.open('Du är borttagen ur evenemanget', '', { duration: 2500 });
+      }
+    });
+
+    this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_USER_PARTICIPANT_ERROR)).subscribe((action) => {
+        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 2500 });
+    });
+
   }
 
   refreshData() {
     //Events created by logged in user
     this.subscription.add(
-      this.store$.pipe(select(fromEvents.getEventsCreatedByUser(this.userId))).subscribe((data: Event[]) => {
+      this.store$.pipe(select(fromEvents.getEventsCreatedByUser(+this.userId))).subscribe((data: Event[]) => {
         this.createdEvents.data = data;
       })
     );
@@ -138,12 +180,25 @@ export class EventListComponent implements OnInit, OnDestroy {
   }
 
   doFilter(filterValue: string, keyword: string) {
-    if(keyword === 'createdEvents') {
+    if (keyword === 'createdEvents') {
       this.createdEvents.filter = filterValue.trim().toLocaleLowerCase();
-    }
-    else {
+    } else {
       this.allEvents.filter = filterValue.trim().toLocaleLowerCase();
     }
-    
+  }
+
+  clearSearchField() {
+    this.searchField = '';
+    this.doFilter('', '');
+  }
+
+  clearSearchFieldUserEvents() {
+    this.searchFieldUserEvents = '';
+    this.doFilter('', 'createdEvents');
+  }
+
+  clearCalendarField() {
+    this.calendarField = '';
+    this.doFilter('', '');
   }
 }

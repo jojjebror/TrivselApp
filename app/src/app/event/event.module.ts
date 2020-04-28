@@ -14,7 +14,6 @@ import { components } from './components';
 
 import { TimepickerModule, PopoverModule } from 'ngx-bootstrap';
 
-
 @NgModule({
   imports: [
     SharedModule,

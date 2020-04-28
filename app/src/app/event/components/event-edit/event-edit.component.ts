@@ -1,14 +1,15 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
-import { Store, select } from '@ngrx/store';
+import { Store, select, ActionsSubject } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 import { Observable, Subscription } from 'rxjs';
 import { Event } from 'src/app/shared/models';
 import * as fromEvents from '../../state/events';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DateAdapter, MatSnackBar } from '@angular/material';
-import { AlertifyService } from 'src/app/core/services/alertify.service';
 import { ActivatedRoute } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { ActionTypes } from '../../state/events';
 
 @Component({
   selector: 'ex-event-edit',
@@ -21,7 +22,7 @@ export class EventEditComponent implements OnInit {
   eventEditForm: FormGroup;
   subscription: Subscription;
 
-  eventId: any;
+  eventId: number;
   starttime: Date;
   endtime: Date;
   fileUpload: File = null;
@@ -30,10 +31,10 @@ export class EventEditComponent implements OnInit {
   constructor(
     private store$: Store<AppState>,
     private fb: FormBuilder,
-    private alertify: AlertifyService,
     private snackBar: MatSnackBar,
     private dateAdapter: DateAdapter<Date>,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private actionsSubject$: ActionsSubject
   ) {
     dateAdapter.setLocale('sv');
   }
@@ -86,7 +87,14 @@ export class EventEditComponent implements OnInit {
 
       const ev = Object.assign({}, this.eventEditForm.value);
       this.store$.dispatch(new fromEvents.UpdateEvent(ev, this.fileUpload));
-      this.snackBar.open('Evenemang uppdaterat', '', { duration: 2500 });
+
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_EVENT_SUCCESS)).subscribe((action) => {
+        this.snackBar.open('Evenemanget är nu uppdaterat', '', { duration: 2500 });
+      });
+
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_EVENT_ERROR)).subscribe((action) => {
+        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
+      });
     }
   }
 

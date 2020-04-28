@@ -43,9 +43,9 @@ export enum ActionTypes {
   GET_USER_EVENT_SUCCESS = '[API: /event] Get User Event Success',
   GET_USER_EVENT_ERROR = '[API: /event] Get User Event Error',
 
-  UPDATE_USER_PARTICIPANT = '[Events view] Add User In Event',
-  UPDATE_USER_PARTICIPANT_SUCCESS = '[API: /event] Add User In Event Success',
-  UPDATE_USER_PARTICIPANT_ERROR = '[API: /event] Add User In Event Error',
+  UPDATE_USER_PARTICIPANT = '[Events view] Update User In Event',
+  UPDATE_USER_PARTICIPANT_SUCCESS = '[API: /event] Update User In Event Success',
+  UPDATE_USER_PARTICIPANT_ERROR = '[API: /event] Update User In Event Error',
 
   ADD_POST_EVENT = '[Events view] Add Post In Event',
   ADD_POST_EVENT_SUCCESS = '[API: /post] Add Post In Event Success',
