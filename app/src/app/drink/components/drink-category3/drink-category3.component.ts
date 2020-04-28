@@ -17,20 +17,25 @@ import * as fromDrink from "../../state/drinks/drinks.selectors";
 export class DrinkCategory3Component implements OnInit {
   drs$: Observable<Drink[]>;
 
+  categoryOne: boolean = false;
+
   constructor(private store$: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.initializeFilterBeer();
-  }
-
-  private initializeDrinks(): void {
-    this.store$.dispatch(new drinksActions.LoadDrinks());
-    this.drs$ = this.store$.select(fromDrink.getDrinks);
+    this.initializeFilterCategory();
   }
 
   public initializeFilterBeer(): void {
     this.store$.dispatch(new drinksActions.FilterDrink("Cider"));
+    
     this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
   }
 
+
+  public initializeFilterCategory(): void {
+
+    this.store$.dispatch(new drinksActions.FilterDrink("Kategori"));
+    
+    this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
+  }
 }
