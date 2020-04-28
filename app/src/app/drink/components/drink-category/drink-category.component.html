@@ -22,27 +22,7 @@
 <li><h3>FIN BÄRS</h3> <h2>20kr</h2></li>
 </ul>
     </mat-tab>
-    <mat-tab label="Second">
-      <div class="info">
-        <ul *ngIf="drs$">
-          <li *ngFor="let dr of drs$ | async" [routerLink]="['/drink', dr.id]">
-            <a class="title" [routerLink]="['/drink', dr.id]">
-              {{ dr.productNameBold }}</a
-            >
-    
-            <p class="location">Pris: {{ dr.price }}kr</p>
-    
-            <p class="location">Volym: {{ dr.volume }}cl</p>
-    
-            <p class="location">Kategori: {{ dr.category }}</p>
-    
-            <ng-template #none>
-              <p></p>
-            </ng-template>
-          </li>
-        </ul>
-      </div>
-    </mat-tab>
+  
 
 
  <!-- -------------------------------Tab 2----------------------------------------------- -->
