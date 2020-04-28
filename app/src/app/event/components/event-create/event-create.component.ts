@@ -147,6 +147,8 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   }
 
   private loadUsers() {
+/*     ----------------------Spara, måste hitta en bättre lösning än timeout... ------------------------*/
+
     /* this.subscription.add(this.store$.select(fromSession.selectInitialized).subscribe((response) => (this.initialized = response)));
     console.log(this.initialized); */
 
