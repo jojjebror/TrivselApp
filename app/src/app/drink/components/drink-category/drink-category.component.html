@@ -23,7 +23,7 @@
         
       <div class="info">
         <ul *ngIf="drs$">
-          <li *ngFor="let dr of drs$ | async">
+          <li *ngFor="let dr of drs$ | async" class="tab1">
             <a class="title">
               {{ dr.productNameBold }} </a
             >
@@ -43,9 +43,9 @@
       <ng-template mat-tab-label>
         <span (click)="initializeFilterBeer()">Drycker</span>
     </ng-template>
-      <div class="info">
+      <div>
         <ul *ngIf="drs$">
-          <li *ngFor="let dr of drs$ | async" [routerLink]="['/drink', dr.id]">
+          <li *ngFor="let dr of drs$ | async" [routerLink]="['/drink', dr.id]" class="tab2">
 
             <hr/>
             <hr/>
