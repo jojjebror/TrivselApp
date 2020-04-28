@@ -21,9 +21,9 @@ import { AuthenticationService } from 'src/app/core/services';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./event-create.component.scss'],
 })
-export class EventCreateComponent implements OnInit {
+export class EventCreateComponent implements OnInit, OnDestroy {
   @Output() cancelNewEvent = new EventEmitter();
-  //subscription = new Subscription();
+  subscription = new Subscription();
   event: Event;
   users$: Observable<User[]>;
   userId: number;
@@ -57,15 +57,15 @@ export class EventCreateComponent implements OnInit {
     public authService: AuthenticationService
   ) {
       dateAdapter.setLocale('sv');
-      authService.getUserId().subscribe((user) => {
+      this.subscription.add(authService.getUserId().subscribe((user) => {
         this.userId = user.sub;
-      });
+      }));
       //this.store$.select(fromSession.selectUserId).subscribe((user) => (this.userId = user));
     }
 
   ngOnInit() {
-    this.createEventForm();
     this.loadUsers();
+    this.createEventForm();
   }
 
   createEventForm() {
@@ -212,7 +212,7 @@ export class EventCreateComponent implements OnInit {
     }
   }
 
- /*  ngOnDestroy() {
+   ngOnDestroy() {
     this.subscription.unsubscribe();
-  } */
+  } 
 }

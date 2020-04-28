@@ -15,6 +15,14 @@ let initialState = adapter.getInitialState({
 
 export function reducer(state: EventsState = initialState, action: eventsActions.Actions): EventsState {
   switch (action.type) {
+    case eventsActions.ActionTypes.LOAD_EVENTS: {
+      return {
+        ...state,
+        loading: true,
+        loaded: false
+      };
+    }
+
     case eventsActions.ActionTypes.LOAD_EVENTS_SUCCESS: {
       return adapter.addAll(action.payload, {
         ...state,
@@ -25,7 +33,7 @@ export function reducer(state: EventsState = initialState, action: eventsActions
       });
     }
 
-   case eventsActions.ActionTypes.LOAD_EVENTS_ERROR: {
+    case eventsActions.ActionTypes.LOAD_EVENTS_ERROR: {
       return {
         ...state,
         entities: {},

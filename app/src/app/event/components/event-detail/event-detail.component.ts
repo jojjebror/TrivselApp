@@ -40,10 +40,9 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     public authService: AuthenticationService,
     private actionsSubject$: ActionsSubject
   ) {
-    authService.getUserId().subscribe((user) => {
+    this.subscription.add(authService.getUserId().subscribe((user) => {
       this.userId = user.sub;
-    });
-    //this.subscription.add(this.store$.select(fromSession.selectUser).subscribe((user) => (this.userId = user.id)));
+    }));
   }
 
   ngOnInit() {
