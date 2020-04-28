@@ -8,3 +8,4 @@ export interface DrinksState extends EntityState<Drink> {
     loaded: boolean;
     error: string;
 }
+

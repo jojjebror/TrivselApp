@@ -54,6 +54,14 @@ namespace Logic.Services
 
             }
 
+            if (category == "Kategori")
+            {
+                var filter = await _context.Drinks.Where(d => d.Category == "Kategori").ToListAsync();
+                var add = filter.Select(DrinkForListTranslator.ToModel).ToList();
+                return add;
+
+            }
+
             return httpBadRequest();
 
         }
@@ -86,6 +94,7 @@ namespace Logic.Services
 
         //    return null;
         //}
+
 
         public async Task<DrinkForListDto> Create(DrinkForListDto drink)
         {

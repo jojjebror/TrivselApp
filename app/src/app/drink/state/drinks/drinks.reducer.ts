@@ -1,7 +1,9 @@
-import { DrinksState } from "./drinks.model";
+import { DrinksState} from "./drinks.model";
 
-import { adapter } from "./drinks.adapter";
+import { adapter} from "./drinks.adapter";
 import * as drinksActions from "./drinks.actions";
+import { DrinkState } from "../drink.model";
+
 
 let initialState = adapter.getInitialState({
   selectedDrinkId: null,
@@ -9,6 +11,7 @@ let initialState = adapter.getInitialState({
   loaded: false,
   error: "",
 });
+
 
 export function reducer(
   state: DrinksState = initialState,
@@ -94,3 +97,4 @@ export function reducer(
     }
   }
 }
+
