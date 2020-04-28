@@ -12,23 +12,17 @@ import { User } from 'src/app/shared/models';
 
 @Injectable()
 export class UsersEffects {
-  constructor(
-    private actions$: Actions,
-    private userResource: UserResource
-    ) {}
+  constructor(private actions$: Actions, private userResource: UserResource) {}
 
   @Effect()
   loadUsers$: Observable<Action> = this.actions$.pipe(
     ofType(usersActions.ActionTypes.GET_USERS),
     switchMap(() => {
-      console.log("loadUser-effekt..");
-      return (
-        this.userResource.getUsers().pipe(
-          map((users: User[]) => new usersActions.GetUsersSuccess(users)),
-          catchError((err) => of(new usersActions.GetUsersError(err)))
-        )
+      return this.userResource.getUsers().pipe(
+        map((users: User[]) => new usersActions.GetUsersSuccess(users)),
+        catchError((err) => of(new usersActions.GetUsersError(err)))
       );
-      })
+    })
   );
 
   // update Credit

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Store, select, ActionsSubject } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
@@ -26,6 +26,8 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
   event: Event;
   users$: Observable<User[]>;
+  users: User[];
+  //initialized: boolean;
   userId: number;
   eventForm: FormGroup;
   endDateMode = false;
@@ -54,18 +56,20 @@ export class EventCreateComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private dateAdapter: DateAdapter<Date>,
     private actionsSubject$: ActionsSubject,
-    public authService: AuthenticationService
+    public authService: AuthenticationService,
+    private cd: ChangeDetectorRef,
   ) {
-      dateAdapter.setLocale('sv');
-      this.subscription.add(authService.getUserId().subscribe((user) => {
+    dateAdapter.setLocale('sv');
+    this.subscription.add(
+      authService.getUserId().subscribe((user) => {
         this.userId = user.sub;
-      }));
-      //this.store$.select(fromSession.selectUserId).subscribe((user) => (this.userId = user));
-    }
+      })
+    );
+  }
 
   ngOnInit() {
-    this.loadUsers();
     this.createEventForm();
+    this.loadUsers();
   }
 
   createEventForm() {
@@ -143,8 +147,26 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   }
 
   private loadUsers() {
-    this.store$.dispatch(new fromUsers.GetUsers);
-    this.users$ = this.store$.pipe(select(fromUsers.getUsers));
+    /* this.subscription.add(this.store$.select(fromSession.selectInitialized).subscribe((response) => (this.initialized = response)));
+    console.log(this.initialized); */
+
+    /* if (this.initialized == true) {
+      this.store$.dispatch(new fromUsers.GetUsers());
+      this.users$ = this.store$.pipe(select(fromUsers.getUsers));
+    } else {
+      setTimeout(() => {
+        this.store$.dispatch(new fromUsers.GetUsers());
+        this.users$ = this.store$.pipe(select(fromUsers.getUsers));
+        this.cd.detectChanges();
+      }, 300);
+    }  */
+
+    setTimeout(() => {
+      this.store$.dispatch(new fromUsers.GetUsers());
+      this.users$ = this.store$.pipe(select(fromUsers.getUsers));
+      this.cd.detectChanges();
+    }, 120);
+
   }
 
   endDateToggle() {
@@ -212,7 +234,7 @@ export class EventCreateComponent implements OnInit, OnDestroy {
     }
   }
 
-   ngOnDestroy() {
+  ngOnDestroy() {
     this.subscription.unsubscribe();
-  } 
+  }
 }
