@@ -11,9 +11,8 @@
 <div class="info">
       <ul >
         <li>
-
           <p class ="location"> Namn: Klass 1 </p>
-          <p class = "location"> Pris: 10 SEK} </p>
+          <p class = "location"> Pris: 10 SEK </p>
         </li>
         <li>
           <p class ="location"> Namn: Klass 2 </p>
@@ -37,9 +36,6 @@
 
 
   <mat-tab label="Sortiment"> <div class="container justify-content-center" style="margin-right: 0; margin-left: 0;">
-    <h2>
-      Öl
-    </h2>
     <button
       class="btn btn-default"
       style="color: white;"
@@ -55,12 +51,16 @@
     <div class="info">
       <ul *ngIf="drs$">
         <li *ngFor="let dr of drs$ | async" [routerLink]="['/drink', dr.id]">
-          <a class="title" [routerLink]="['/drink', dr.id]">
-            {{ dr.productNameBold }}</a
-          >
+         <hr/>
+         <hr/>
+          <div>
+            <img class="card-img-top img-thumbnail" [src]="dr.image ? '../../../' + dr.image : '/assets/images/drink-images/default_drink.jpg'" />
+          </div>
 
-          
-  
+          <a class="title" [routerLink]="['/drink', dr.id]">
+            {{ dr.productNameBold }}
+          </a>
+
           <p class="location">Pris: {{ dr.price }}kr</p>
   
           <p class="location">Volym: {{ dr.volume }}cl</p>

@@ -1,7 +1,8 @@
 @media (min-width: 415px) {
 
   .img-thumbnail {
-      width: 300px;
+      max-width: 300px;
+      max-height: 400px;
   }
  
   .dropContent{
@@ -23,8 +24,15 @@
   .alt li:first-child {
     list-style: none;
   }
+  
   li{
     list-style: none;
+    text-align: center;
+    padding:1em;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-bottom: 1em;
+
   }
   ol{
     display: inline-block;
@@ -55,8 +63,11 @@
   
   .card-body {
       padding: 0 25px;
-      color: white;
-     
+      background-color:  rgb(37, 2, 48);
+  }
+  
+  .list{
+    float: right;
   }
   
   .card-footer {
@@ -73,6 +84,7 @@
     border: solid;
     background-repeat: no-repeat;
     background-size: cover;
+    background-color:  rgb(37, 2, 48);
   
   }
   
