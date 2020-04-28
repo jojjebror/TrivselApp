@@ -212,8 +212,9 @@
                   #tooltip="matTooltip"
                   matTooltip="Redigera evenemang"
                   matTooltipPosition="left"
-                  (click)="editEvent(ev.id)"
+                  [routerLink]="['/event/edit/', ev.id]"
                 >
+                <!-- (click)="editEvent(ev.id)" -->
                   <span class="material-icons" id="editIcon">
                     edit
                   </span>

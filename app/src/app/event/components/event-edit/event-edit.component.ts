@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
@@ -16,7 +16,7 @@ import { ActivatedRoute } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./event-edit.component.scss'],
 })
-export class EventEditComponent implements OnInit, OnDestroy {
+export class EventEditComponent implements OnInit {
   ev$: Observable<Event>;
   eventEditForm: FormGroup;
   subscription: Subscription;
@@ -39,19 +39,18 @@ export class EventEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    /* this.subscription = this.activatedRoute.params.subscribe((params) => {
+    this.activatedRoute.params.subscribe((params) => {
       this.eventId = params['id'];
     });
     console.log(this.eventId);
 
-    this.store$.dispatch(new fromEvents.LoadEditEvent(this.eventId)); */
-
+    this.store$.dispatch(new fromEvents.LoadEvent(+this.eventId));
     this.ev$ = this.store$.pipe(select(fromEvents.getCurrentEvent));
-    this.createEventEditForm();
-  }
+    console.log(this.ev$);
 
-  ngOnDestroy() {
-    //this.subscription.unsubscribe();
+    setTimeout(() => {
+      this.createEventEditForm();
+    }, 2000);
   }
 
   createEventEditForm() {
@@ -79,7 +78,6 @@ export class EventEditComponent implements OnInit, OnDestroy {
 
   updateEvent() {
     if (this.eventEditForm.valid) {
-
       //Fixar problem med UTC och lokal tid när datum skickas till servern
       this.fixDateTimeZone(this.eventEditForm.get('starttime').value);
       this.fixDateTimeZone(this.eventEditForm.get('endtime').value);

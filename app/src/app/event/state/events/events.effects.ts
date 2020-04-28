@@ -37,16 +37,34 @@ export class EventsEffects {
     )
   );
 
-   @Effect()
+  /* @Effect()
   createEvent$: Observable<Action> = this.actions$.pipe(
     ofType(eventsActions.ActionTypes.CREATE_EVENT),
     switchMap((action: eventsActions.CreateEvent) =>
       this.eventResource.createEvent(action.payload).pipe(
         switchMap((newEvent: Event) => 
         [
-          new eventsActions.SaveImage(newEvent.id, action.image),
-          new eventsActions.CreateEventSuccess(newEvent)
+          new eventsActions.CreateEventSuccess(newEvent), 
+          new eventsActions.UploadImage(newEvent.id, action.image)
         ]),
+        tap(() => this.router.navigate(['/event'])),
+        catchError((err) => of(new eventsActions.CreateEventError(err)))
+      )
+    )
+  ); */
+
+  @Effect()
+  createEvent$: Observable<Action> = this.actions$.pipe(
+    ofType(eventsActions.ActionTypes.CREATE_EVENT),
+    switchMap((action: eventsActions.CreateEvent) =>
+      this.eventResource.createEvent(action.payload).pipe(
+        map((newEvent: Event) => {
+          if (action.image !== null) {
+            return new eventsActions.UploadImage(newEvent.id, action.image);
+          }
+          
+          return new eventsActions.CreateEventSuccess(newEvent);
+        }),
         tap(() => this.router.navigate(['/event'])),
         catchError((err) => of(new eventsActions.CreateEventError(err)))
       )
@@ -65,7 +83,7 @@ export class EventsEffects {
     )
   );
 
-  @Effect()
+  /* @Effect()
   updateEvent$: Observable<Action> = this.actions$.pipe(
     ofType(eventsActions.ActionTypes.UPDATE_EVENT),
     switchMap((action: eventsActions.UpdateEvent) =>
@@ -75,8 +93,29 @@ export class EventsEffects {
             id: updatedEvent.id,
             changes: updatedEvent
           }),
-          new eventsActions.UpdateImage(updatedEvent.id, action.image),
+          new eventsActions.UploadImage(updatedEvent.id, action.image),
         ]),
+        tap(() => this.router.navigate(['/event/' + action.payload.id])),
+        catchError((err) => of(new eventsActions.UpdateEventError(err)))
+      )
+    )
+  ); */
+
+  @Effect()
+  updateEvent$: Observable<Action> = this.actions$.pipe(
+    ofType(eventsActions.ActionTypes.UPDATE_EVENT),
+    switchMap((action: eventsActions.UpdateEvent) =>
+      this.eventResource.updateEvent(action.payload).pipe(
+        map((updatedEvent: Event) => {
+          if (action.image !== null) {
+            return new eventsActions.UploadImage(updatedEvent.id, action.image);
+          }
+
+          return new eventsActions.UpdateEventSuccess({
+            id: updatedEvent.id,
+            changes: updatedEvent,
+          });
+        }),
         tap(() => this.router.navigate(['/event/' + action.payload.id])),
         catchError((err) => of(new eventsActions.UpdateEventError(err)))
       )
@@ -114,35 +153,18 @@ export class EventsEffects {
   );
 
   @Effect()
-  saveImage$: Observable<Action> = this.actions$.pipe(
-    ofType(eventsActions.ActionTypes.SAVE_IMAGE),
-    switchMap((action: eventsActions.SaveImage) =>
-      this.eventResource.saveImage(action.id, action.payload).pipe(
+  uploadImage$: Observable<Action> = this.actions$.pipe(
+    ofType(eventsActions.ActionTypes.UPLOAD_IMAGE),
+    switchMap((action: eventsActions.UploadImage) =>
+      this.eventResource.uploadImage(action.id, action.payload).pipe(
         map(
           (newEvent: Event) =>
-            new eventsActions.SaveImageSuccess({
+            new eventsActions.UploadImageSuccess({
               id: newEvent.id,
-              changes: newEvent
+              changes: newEvent,
             })
         ),
-        catchError((err) => of(new eventsActions.SaveImageError(err)))
-      )
-    )
-  );
-
-  @Effect()
-  updateImage$: Observable<Action> = this.actions$.pipe(
-    ofType(eventsActions.ActionTypes.UPDATE_IMAGE),
-    switchMap((action: eventsActions.UpdateImage) =>
-      this.eventResource.updateImage(action.id, action.payload).pipe(
-        map(
-          (newEvent: Event) =>
-            new eventsActions.UpdateImageSuccess({
-              id: newEvent.id,
-              changes: newEvent
-            })
-        ),
-        catchError((err) => of(new eventsActions.UpdateImageError(err)))
+        catchError((err) => of(new eventsActions.UploadImageError(err)))
       )
     )
   );

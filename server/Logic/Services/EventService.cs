@@ -64,6 +64,7 @@ namespace Logic.Services
                 foreach (var office in ev.Offices)
                 {
                     var usersToAdd = await _context.Users.Where(u => u.Office == office && u.Id != ev.CreatorId).ToListAsync();
+
                     eventParticipants.AddRange(usersToAdd.Select(u =>
                         new EventParticipant { EventId = ev.Id, UserId = u.Id }).ToList());
                 }
@@ -180,11 +181,11 @@ namespace Logic.Services
 
         }
 
-        public async Task<EventForCreateDto> SaveImage(int id, IFormFile image)
+        public async Task<EventForCreateDto> UploadImage(int id, IFormFile image)
         {
             var dbEvent = await _context.Events.FindAsync(id);
 
-            var uploadResult = _cloudinaryService.UploadImage(image);
+            var uploadResult = _cloudinaryService.UploadImage(dbEvent.ImageId, image);
 
             dbEvent.Image = uploadResult.Uri.ToString();
             dbEvent.ImageId = uploadResult.PublicId;
@@ -192,20 +193,6 @@ namespace Logic.Services
             await _context.SaveChangesAsync();
 
             return EventForCreateTranslator.ToModel(dbEvent);
-        }
-
-        public async Task<EventForUpdateDto> UpdateImage(int id, IFormFile image)
-        {
-            var dbEvent = _context.Events.Find(id);
-
-            var uploadResult = _cloudinaryService.UpdateImage(dbEvent.ImageId, image);
-
-            dbEvent.Image = uploadResult.Uri.ToString();
-            //dbEvent.ImageId = uploadResult.PublicId;
-
-            await _context.SaveChangesAsync();
-
-            return EventForUpdateTranslator.ToModel(dbEvent);
         }
 
         public async Task<ICollection<EventForUserListDto>> GetCurrentUserEvents(int userId)

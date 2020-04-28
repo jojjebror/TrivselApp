@@ -23,7 +23,7 @@ namespace Logic.Services
             _cloudinaryService = new Cloudinary(account);
         }
         
-        public ImageUploadResult UploadImage(IFormFile image)
+        public ImageUploadResult UploadImage(string publicId, IFormFile image)
         {
             var uploadResult = new ImageUploadResult();
 
@@ -35,9 +35,11 @@ namespace Logic.Services
                     {
                         var uploadParams = new ImageUploadParams()
                         {
+                            PublicId = (publicId == null) ? null : publicId,
                             File = new FileDescription(image.Name, stream),
-                            Folder = "event-images",
-                            Transformation = new Transformation().Width(200).Height(200).Crop("fill")                    
+                            Folder = (publicId == null) ? "event-images" : null,
+                            Transformation = new Transformation().Width(200).Height(200).Crop("fill"),
+                            Overwrite = (publicId == null) ? false : true
                         };
 
                         uploadResult = _cloudinaryService.Upload(uploadParams);
@@ -62,36 +64,6 @@ namespace Logic.Services
             {
                 e.Message.ToString();
             }         
-        }
-
-        public ImageUploadResult UpdateImage(string publicId, IFormFile image)
-        {
-            var uploadResult = new ImageUploadResult();
-
-            try
-            {
-                if (image.Length > 0)
-                {
-                    using (var stream = image.OpenReadStream())
-                    {
-                        var uploadParams = new ImageUploadParams()
-                        {
-                            PublicId = publicId,
-                            File = new FileDescription(image.Name, stream),
-                            Transformation = new Transformation().Width(200).Height(200).Crop("fill"),
-                            Overwrite = true
-                        };
-
-                        uploadResult = _cloudinaryService.Upload(uploadParams);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                e.Message.ToString();
-            }
-
-            return uploadResult;
         }
     }
 }

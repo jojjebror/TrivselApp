@@ -1,5 +1,5 @@
 <div class="container mt-5 border border-light p-5">
-  <form [formGroup]="eventEditForm" (ngSubmit)="updateEvent()" *ngIf="ev$">
+  <form *ngIf="ev$ | async" [formGroup]="eventEditForm" (ngSubmit)="updateEvent()" >
     <button [disabled]="!eventEditForm.dirty || !eventEditForm.valid" type="submit" class="btn btn-success">
       Spara ändringar
     </button>

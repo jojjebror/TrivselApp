@@ -23,7 +23,6 @@ import {
 	MatPaginatorModule,
 	MatSortModule,
 	MatGridListModule
-
 } from '@angular/material';
 
 const modules = [
@@ -52,13 +51,7 @@ const modules = [
 ];
 
 @NgModule({
-	imports: [
-		...modules
-	],
-	exports: [
-		...modules
-	]
+  imports: [...modules],
+  exports: [...modules]
 })
-export class SharedMaterialModule {
-
-}
+export class SharedMaterialModule {}

@@ -65,23 +65,13 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
-        [HttpPost("{id}/saveimage")]
-        public async Task<IActionResult> SaveImage(int id)
+        [HttpPost("{id}/uploadimage")]
+        public async Task<IActionResult> UploadImage(int id)
         {
             var httpRequest = Request.Form;
             var image = httpRequest.Files["image"];
 
-            var result = await _eventService.SaveImage(id, image);
-            return new OkObjectResult(ApiResponse.Create(result));
-        }
-
-        [HttpPost("{id}/updateimage")]
-        public async Task<IActionResult> UpdateImage(int id)
-        {
-            var httpRequest = Request.Form;
-            var image = httpRequest.Files["image"];
-
-            var result = await _eventService.UpdateImage(id, image);
+            var result = await _eventService.UploadImage(id, image);
             return new OkObjectResult(ApiResponse.Create(result));
         }
 

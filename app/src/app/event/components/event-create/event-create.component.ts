@@ -7,7 +7,6 @@ import { Event, User } from 'src/app/shared/models';
 import * as fromEvents from '../../state/events';
 import * as fromUsers from '../../../user/state/users';
 
-import { AlertifyService } from 'src/app/core/services/alertify.service';
 import { Observable } from 'rxjs';
 import { DateAdapter, MatSnackBar } from '@angular/material';
 
@@ -112,11 +111,12 @@ export class EventCreateComponent implements OnInit {
   }
 
   endDateToggle() {
-    this.endDateMode ? (this.endDateMode = false) : (this.endDateMode = true);
+    this.endDateMode = !this.endDateMode;
+    //this.endDateMode ? (this.endDateMode = false) : (this.endDateMode = true);
     if (this.endDateMode == true) {
       this.addEndDate();
     } else {
-      this.cancelEndDate();
+      this.removeEndDate();
     }
   }
 
@@ -125,7 +125,7 @@ export class EventCreateComponent implements OnInit {
     this.eventForm.controls['endtime'].setValue(this.eventForm.value.starttime);
   }
 
-  cancelEndDate() {
+  removeEndDate() {
     this.eventForm.controls['enddate'].setValue('');
     this.eventForm.controls['endtime'].setValue('');
   }

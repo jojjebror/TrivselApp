@@ -96,9 +96,9 @@ export class EventListComponent implements OnInit, OnDestroy {
     }
   }
 
-  editEvent(id: number) {
+  /* editEvent(id: number) {
     this.store$.dispatch(new fromEvents.LoadEditEvent(id));
-  }
+  } */
 
   updateParticpantsToEvent(id: number, answer: string) {
     var data = [id, this.userId, answer];

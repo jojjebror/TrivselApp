@@ -77,22 +77,11 @@ export function reducer(state: EventsState = initialState, action: eventsActions
       };
     }
 
-    case eventsActions.ActionTypes.SAVE_IMAGE_SUCCESS: {
+    case eventsActions.ActionTypes.UPLOAD_IMAGE_SUCCESS: {
       return adapter.updateOne(action.payload, state);
     }
 
-    case eventsActions.ActionTypes.SAVE_IMAGE_ERROR: {
-      return {
-        ...state,
-        error: action.payload
-      };
-    }
-
-    case eventsActions.ActionTypes.UPDATE_IMAGE_SUCCESS: {
-      return adapter.updateOne(action.payload, state);
-    }
-
-    case eventsActions.ActionTypes.UPDATE_IMAGE_ERROR: {
+    case eventsActions.ActionTypes.UPLOAD_IMAGE_ERROR: {
       return {
         ...state,
         error: action.payload
