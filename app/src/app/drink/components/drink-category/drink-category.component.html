@@ -13,25 +13,36 @@
     Lägg till ny dryck
   </button>
   <hr />
-
+ 
   <mat-tab-group>
-    <mat-tab label="First"> 
-<ul>
- <li>  
-   <h3>BUDGET</h3> 
-   <h2>10kr</h2>
-</li>
-<li>  
-  <h3>STANDARD</h3> 
-  <h2>15kr</h2>
-</li>
-<li>   
-  <h3>FIN BÄRS</h3> 
-  <h2>20kr</h2>
-</li>
-</ul>
+    
+      <mat-tab label="First" > 
+        <ng-template mat-tab-label>
+          <span (click)="initializeFilterCategory()">Kategorier</span>
+      </ng-template>
+        
+      <div class="info">
+        <ul *ngIf="drs$">
+          <li *ngFor="let dr of drs$ | async">
+            <a class="title">
+              {{ dr.productNameBold }} </a
+            >
+              
+            <p class="location">{{ dr.price }}kr</p>
+
+    
+            <ng-template >
+              <p></p>
+            </ng-template>
+          </li>
+        </ul>
+      </div>
     </mat-tab>
+    
     <mat-tab label="Second">
+      <ng-template mat-tab-label>
+        <span (click)="initializeFilterBeer()">Drycker</span>
+    </ng-template>
       <div class="info">
         <ul *ngIf="drs$">
           <li *ngFor="let dr of drs$ | async" [routerLink]="['/drink', dr.id]">
@@ -45,13 +56,12 @@
     
             <p class="location">Kategori: {{ dr.category }}</p>
     
-            <ng-template #none>
-              <p></p>
-            </ng-template>
+            
           </li>
         </ul>
       </div>
     </mat-tab>
+    
   </mat-tab-group>
 
 
