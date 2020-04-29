@@ -24,7 +24,7 @@ export class DrinkDetailComponent implements OnInit {
   dr$: Observable<Drink>;
   id: number;
   isShown: boolean = false; // hidden by default
-  
+
   clickCounter: number = 1;
   totalSum: number = 0;
   userId: number;
@@ -74,7 +74,7 @@ export class DrinkDetailComponent implements OnInit {
       this.alertify.warning("Dryck pantad!");
     }
   }
-
+  
   clickCount() {
     this.clickCounter += 1;
     console.log(this.clickCounter);
@@ -92,16 +92,19 @@ export class DrinkDetailComponent implements OnInit {
     this.isShown = !this.isShown;
   }
 
+  //
   GetToSwish(drink: Drink) {
     this.totalSum = 0;
     this.totalSum += this.clickCounter * drink.price;
     var sum = this.clickCounter * drink.price;
     console.log(this.totalSum);
-    if (confirm("Du kommer skickas vidare till swish och betala " + sum + "kr.")) {
-      this.addEncodedUrl(drink);
-      
-    }
-    
+    if (this.userCredit >= sum) {
+      if (
+        confirm("Du kommer skickas vidare till swish och betala " + sum + "kr.")
+      ) {
+        this.addEncodedUrl(drink);
+      }
+    } else this.alertify.error("Du har för lite pengar på ditt saldo!");
   }
 
   paySaldo(drink: Drink) {
@@ -112,11 +115,12 @@ export class DrinkDetailComponent implements OnInit {
     var data = [this.userId, this.totalSum];
     console.log(this.totalSum);
     if (this.userCredit >= sum) {
-      if (confirm("Total summa som dras från saldo är " + sum + "kr, fortsätta?")) {
+      if (
+        confirm("Total summa som dras från saldo är " + sum + "kr, fortsätta?")
+      ) {
         this.store$.dispatch(new fromUser.UpdateCredit(data));
 
         this.alertify.success("Värdet för ditt saldo har ändrats!");
-        
       }
     } else this.alertify.error("Du har för lite pengar på ditt saldo!");
   }
@@ -133,38 +137,35 @@ export class DrinkDetailComponent implements OnInit {
     }
   } */
 
-  addEncodedUrl(drink: Drink){
-    
+  addEncodedUrl(drink: Drink) {
     var sumPriceToSwish = this.clickCounter * drink.price;
-    
+
     var initField = {
-      "version":1,
-      "payee":{
-      "value":"+46707662691"
+      version: 1,
+      payee: {
+        value: "+46707662691",
       },
-      "amount":{
-      "value": sumPriceToSwish
+      amount: {
+        value: sumPriceToSwish,
       },
-      "message":{
-      "value":"",
-      "editable":true
-      }
-     }
-  
-     
-     console.log(initField);
-  
-      var newEncode = JSON.stringify(initField);
-  
-         console.log(newEncode);
-  
-            var encodedString = encodeURI(newEncode);
-  
-                console.log(encodedString);
-  
-                  var httpUrl = 'swish://payment?data=';
-  
-                     console.log(httpUrl + encodedString);
+      message: {
+        value: "",
+        editable: true,
+      },
+    };
+
+    console.log(initField);
+
+    var newEncode = JSON.stringify(initField);
+
+    console.log(newEncode);
+
+    var encodedString = encodeURI(newEncode);
+
+    console.log(encodedString);
+
+    var httpUrl = "swish://payment?data=";
+
+    console.log(httpUrl + encodedString);
   }
-  
 }

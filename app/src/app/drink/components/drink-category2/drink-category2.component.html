@@ -1,10 +1,9 @@
 <div class="container justify-content-center">
-  <h2>
+  <h2 class="titel">
     Vin
   </h2>
   <button
     class="btn btn-default"
-    type="button"
     style="color: white;"
     [routerLink]="['/drink']"
   >
@@ -13,26 +12,56 @@
   <button class="btn btn-primary" [routerLink]="['/drink/create']">
     Lägg till ny dryck
   </button>
-
   <hr />
+ 
+  <mat-tab-group>
+    
+      <mat-tab label="First" > 
+        <ng-template mat-tab-label>
+          <span (click)="initializeFilterCategory()">Kategorier</span>
+      </ng-template>
+        
+      <div class="info">
+        <ul *ngIf="drs$">
+          <li *ngFor="let dr of drs$ | async">
+            <a class="title">
+              {{ dr.productNameBold }}</a
+            >
+              
+            <p class="location">{{ dr.price }}kr</p>
 
-  <div class="info">
-    <ul *ngIf="drs$">
-      <li *ngFor="let dr of drs$ | async" [routerLink]="['/drink', dr.id]">
-        <a class="title" [routerLink]="['/drink', dr.id]">
-          {{ dr.productNameBold }}</a
-        >
+    
+            <ng-template >
+              <p></p>
+            </ng-template>
+          </li>
+        </ul>
+      </div>
+    </mat-tab>
+    
+    <mat-tab label="Second">
+      <ng-template mat-tab-label>
+        <span (click)="initializeFilterBeer()">Drycker</span>
+    </ng-template>
+      <div class="info">
+        <ul *ngIf="drs$">
+          <li *ngFor="let dr of drs$ | async" [routerLink]="['/drink', dr.id]">
+            <a class="title" [routerLink]="['/drink', dr.id]">
+              {{ dr.productNameBold }}</a
+            >
+    
+            <p class="location">Pris: {{ dr.price }}kr</p>
+    
+            <p class="location">Volym: {{ dr.volume }}cl</p>
+    
+            <p class="location">Kategori: {{ dr.category }}</p>
+    
+            
+          </li>
+        </ul>
+      </div>
+    </mat-tab>
+    
+  </mat-tab-group>
 
-        <p class="location">Pris: {{ dr.price }}kr</p>
 
-        <p class="location">Volym: {{ dr.volume }}cl</p>
-
-        <p class="location">Kategori: {{ dr.category }}</p>
-
-        <ng-template #none>
-          <p></p>
-        </ng-template>
-      </li>
-    </ul>
-  </div>
-</div>

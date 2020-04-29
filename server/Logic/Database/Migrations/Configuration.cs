@@ -141,17 +141,84 @@ namespace Logic.Database.Migrations
                 CreateDate = DateTime.Now,
                 CreatorId = 1
             };
-            var testDrink = new Drink()
+            var testBeer = new Drink()
             {
                 Id = 1,
                 ProductNameBold = "Carlsberg Hof",
                 Category = "Öl",
                 AlcoholPercentage = 4,
                 Volume = 50,
-                Price = 16,
+                Price = 10,
                 Taste = "Standard ljus öl, rätt svag",
                 Usage = "Gott till grillat",
                 BeverageDescriptionShort = "Klen smak",
+            };
+
+            var testWine = new Drink()
+            {
+                Id = 2,
+                ProductNameBold = "L'amarone",
+                Category = "Vin",
+                AlcoholPercentage = 12,
+                Volume = 50,
+                Price = 20,
+                Taste = "Trevligt sällskapsvin",
+                Usage = "Gott till grillat",
+                BeverageDescriptionShort = "Trevlig",
+            };
+
+            var testCider = new Drink()
+            {
+                Id = 3,
+                ProductNameBold = "Briska",
+                Category = "Cider",
+                AlcoholPercentage = 4,
+                Volume = 33,
+                Price = 20,
+                Taste = "Fruktig",
+                Usage = "God på sommaren",
+                BeverageDescriptionShort = "Läskande",
+            };
+
+
+
+            var kategori = new Drink()
+            {
+                Id = 4,
+                ProductNameBold = "Budget",
+                Category = "Kategori",
+                AlcoholPercentage = 4,
+                Volume = 50,
+                Price = 10,
+                Taste = "",
+                Usage = "",
+                BeverageDescriptionShort = "",
+            };
+
+            var kategori2 = new Drink()
+            {
+                Id = 5,
+                ProductNameBold = "Standard",
+                Category = "Kategori",
+                AlcoholPercentage = 4,
+                Volume = 50,
+                Price = 15,
+                Taste = "",
+                Usage = "",
+                BeverageDescriptionShort = "",
+            };
+
+            var kategori3 = new Drink()
+            {
+                Id = 6,
+                ProductNameBold = "Luxury",
+                Category = "Kategori",
+                AlcoholPercentage = 4,
+                Volume = 50,
+                Price = 20,
+                Taste = "",
+                Usage = "",
+                BeverageDescriptionShort = "",
             };
 
             var testEp = new EventParticipant()
@@ -299,7 +366,12 @@ namespace Logic.Database.Migrations
             //context.Posts.AddOrUpdate(post2);
             //context.Posts.AddOrUpdate(post3);
 
-            context.Drinks.AddOrUpdate(testDrink);
+            context.Drinks.AddOrUpdate(testBeer);
+            context.Drinks.AddOrUpdate(testWine);
+            context.Drinks.AddOrUpdate(testCider);
+            context.Drinks.AddOrUpdate(kategori);
+            context.Drinks.AddOrUpdate(kategori2);
+            context.Drinks.AddOrUpdate(kategori3);
 
             context.SaveChanges();
         }
