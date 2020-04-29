@@ -56,7 +56,7 @@ export class DrinkCreditComponent implements OnInit {
   }
   addCredit() {
     var creditInput = [this.userCreditForm.get('credit').value]
-    if(confirm("Lägga till " + creditInput + "kr i saldo?")) {
+    if(confirm("Swisha " + creditInput + "kr till saldo?")) {
       this.user = Object.assign({}, this.userCreditForm.value);
     console.log(this.user);
 
