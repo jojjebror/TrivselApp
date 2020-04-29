@@ -79,10 +79,13 @@ h3 {
 
 #declineIcon {
   color: red;
+  vertical-align: middle;
 }
 
 #editIcon {
   color: white;
+  margin-right: 10px;
+  vertical-align: middle;
 }
 
 /* active tab */
@@ -146,21 +149,21 @@ h3 {
 
 #searchbar {
   font-size: 14px;
-  width: 160px;
+  width: 160px !important;
 }
 
 #allEventSearchbar {
   float: left;
   color: white;
   font-size: 15px;
-  width: 160px;
+  width: 160px !important;
   margin-right: 25px;
 }
 
 #allEventCalendarSearch {
   color: white;
   font-size: 15px;
-  width: 130px;
+  width: 130px !important;
 }
 
 

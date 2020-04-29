@@ -1,17 +1,17 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Event } from '../../../shared/models';
-import { Observable, Subscription, Subject, of } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { Store, select, ActionsSubject } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 import * as fromEvents from '../../state/events';
-import * as fromSession from '../../../core/state/session';
-import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar, PageEvent, DateAdapter } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar, DateAdapter, MatDialog } from '@angular/material';
 import { AlertService } from 'src/app/core/services/alert.service';
 
 import { AuthenticationService } from 'src/app/core/services';
 import { ActionTypes } from '../../state/events';
 import { filter } from 'rxjs/operators';
+import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/shared/components/confirmDialog/confirmDialog.component';
 
 @Component({
   selector: 'ex-event-list',
@@ -49,10 +49,10 @@ export class EventListComponent implements OnInit, OnDestroy {
     private dateAdapter: DateAdapter<Date>,
     public alertService: AlertService,
     public authService: AuthenticationService,
-    private actionsSubject$: ActionsSubject
+    private actionsSubject$: ActionsSubject,
+    public dialog: MatDialog
   ) {
     dateAdapter.setLocale('sv');
-    //this.subscription.add(this.store$.select(fromSession.selectUser).subscribe((response) => (this.userId = response.id)));
     this.subscription.add(
       this.authService.getUserId().subscribe((user) => {
         this.userId = user.sub;
@@ -65,31 +65,30 @@ export class EventListComponent implements OnInit, OnDestroy {
     this.loadEvents();
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-    if (this.allEvents) {
-      this.allEvents.disconnect();
-    }
-  }
-
   private loadEvents() {
     //this.subscription.add(this.store$.select(fromSession.selectUser).subscribe((response) => (this.userId = response.id)));
 
     this.store$.dispatch(new fromEvents.GetCurrentUserEvent(+this.userId));
     this.store$.dispatch(new fromEvents.LoadEvents());
 
-    this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.GET_USER_EVENT_ERROR)).subscribe((action) => {
-      this.snackBar.open('Evenemangen kunde inte laddas, försök igen', '', { duration: 10000 });
-    });
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.GET_USER_EVENT_ERROR)).subscribe((action) => {
+        this.snackBar.open('Evenemangen kunde inte laddas, försök igen', '', { duration: 10000 });
+      })
+    );
 
-     this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.LOAD_EVENTS_ERROR)).subscribe((action) => {
-      this.snackBar.open('Evenemangen kunde inte laddas, försök igen', '', { duration: 10000 });
-    });
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.LOAD_EVENTS_ERROR)).subscribe((action) => {
+        this.snackBar.open('Evenemangen kunde inte laddas, försök igen', '', { duration: 10000 });
+      })
+    );
 
     //All events
-    this.store$.pipe(select(fromEvents.getEvents)).subscribe((data: Event[]) => {
-      this.allEvents.data = data;
-    });
+    this.subscription.add(
+      this.store$.pipe(select(fromEvents.getEvents)).subscribe((data: Event[]) => {
+        this.allEvents.data = data;
+      })
+    );
 
     this.allEvents.paginator = this.paginator;
     this.evs$ = this.allEvents.connect();
@@ -118,22 +117,24 @@ export class EventListComponent implements OnInit, OnDestroy {
   }
 
   deleteEvent(id: number) {
-    if (confirm('Vill du verkligen ta bort evenemanget?')) {
       this.store$.dispatch(new fromEvents.DeleteEvent(id));
 
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.DELETE_EVENT_SUCCESS)).subscribe((action) => {
-        this.snackBar.open('Evenemanget borttaget', '', { duration: 2500 });
-      });
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.DELETE_EVENT_ERROR)).subscribe((action) => {
-        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
-        this.loadEvents();
-      });
-    }
+      this.subscription.add(
+        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.DELETE_EVENT_SUCCESS)).subscribe((action) => {
+          this.snackBar.open('Evenemanget borttaget', '', { duration: 2500 });
+        })
+      );
+      this.subscription.add(
+        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.DELETE_EVENT_ERROR)).subscribe((action) => {
+          this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
+          this.loadEvents();
+        })
+      );
   }
 
-  /* editEvent(id: number) {
+  editEvent(id: number) {
     this.store$.dispatch(new fromEvents.LoadEditEvent(id));
-  } */
+  }
 
   updateParticpantsToEvent(id: number, answer: string) {
     var data = [id, +this.userId, answer];
@@ -141,19 +142,24 @@ export class EventListComponent implements OnInit, OnDestroy {
 
     this.refreshData();
 
-    this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_USER_PARTICIPANT_SUCCESS)).subscribe((action) => {
-      if (answer == 'accepted') {
-        this.snackBar.open('Du är tillagd i evenemanget', '', { duration: 2500 });
-      }
-      if (answer == 'declined') {
-        this.snackBar.open('Du är borttagen ur evenemanget', '', { duration: 2500 });
-      }
-    });
+    this.subscription.add(
+      this.actionsSubject$
+        .pipe(filter((action: any) => action.type === ActionTypes.UPDATE_USER_PARTICIPANT_SUCCESS))
+        .subscribe((action) => {
+          if (answer == 'accepted') {
+            this.snackBar.open('Du är tillagd i evenemanget', '', { duration: 2500 });
+          }
+          if (answer == 'declined') {
+            this.snackBar.open('Du är borttagen ur evenemanget', '', { duration: 2500 });
+          }
+        })
+    );
 
-    this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_USER_PARTICIPANT_ERROR)).subscribe((action) => {
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_USER_PARTICIPANT_ERROR)).subscribe((action) => {
         this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 2500 });
-    });
-
+      })
+    );
   }
 
   refreshData() {
@@ -200,5 +206,28 @@ export class EventListComponent implements OnInit, OnDestroy {
   clearCalendarField() {
     this.calendarField = '';
     this.doFilter('', '');
+  }
+
+  confirmDialog(id: number, title: string): void {
+    const message = 'Vill du ta bort evenemanget ' + title + '?';
+    const dialogData = new ConfirmDialogModel('Bekräfta', message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: '400px',
+      data: dialogData,
+    });
+
+    this.subscription.add(dialogRef.afterClosed().subscribe((dialogResult) => {
+      if(dialogResult == true)  {
+        this.deleteEvent(id);
+      }
+    }));
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    if (this.allEvents) {
+      this.allEvents.disconnect();
+    }
   }
 }

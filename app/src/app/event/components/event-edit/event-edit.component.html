@@ -1,5 +1,5 @@
 <div class="container mt-5 border border-light p-5">
-  <form *ngIf="ev$ | async" [formGroup]="eventEditForm" (ngSubmit)="updateEvent()" >
+  <form *ngIf="evt" [formGroup]="eventEditForm" (ngSubmit)="updateEvent()" >
     <button [disabled]="!eventEditForm.dirty || !eventEditForm.valid" type="submit" class="btn btn-success">
       Spara ändringar
     </button>
@@ -105,3 +105,7 @@
     </div>
   </form>
 </div>
+
+<ng-template #stillLoading>
+  <p>Loading...</p>
+</ng-template>

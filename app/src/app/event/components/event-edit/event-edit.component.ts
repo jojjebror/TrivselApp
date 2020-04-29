@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 
 import { Store, select, ActionsSubject } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
@@ -7,9 +7,10 @@ import { Event } from 'src/app/shared/models';
 import * as fromEvents from '../../state/events';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DateAdapter, MatSnackBar } from '@angular/material';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ActionTypes } from '../../state/events';
+
 
 @Component({
   selector: 'ex-event-edit',
@@ -17,10 +18,11 @@ import { ActionTypes } from '../../state/events';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./event-edit.component.scss'],
 })
-export class EventEditComponent implements OnInit {
+export class EventEditComponent implements OnInit, OnDestroy {
   ev$: Observable<Event>;
+  evt: Event;
   eventEditForm: FormGroup;
-  subscription: Subscription;
+  private subscription = new Subscription();
 
   eventId: number;
   starttime: Date;
@@ -34,47 +36,49 @@ export class EventEditComponent implements OnInit {
     private snackBar: MatSnackBar,
     private dateAdapter: DateAdapter<Date>,
     private activatedRoute: ActivatedRoute,
-    private actionsSubject$: ActionsSubject
+    private actionsSubject$: ActionsSubject,
+    private router: Router
   ) {
     dateAdapter.setLocale('sv');
   }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe((params) => {
-      this.eventId = params['id'];
-    });
-    console.log(this.eventId);
+    this.loadData();
+  }
 
-    this.store$.dispatch(new fromEvents.LoadEvent(+this.eventId));
-    this.ev$ = this.store$.pipe(select(fromEvents.getCurrentEvent));
-    console.log(this.ev$);
-
-    setTimeout(() => {
+  loadData() {
+    this.subscription.add(
+    this.store$.pipe(select(fromEvents.getCurrentEvent)).subscribe((data) => {
+      this.evt = data;
+    })
+  );
+    if (this.evt != undefined) {
       this.createEventEditForm();
-    }, 2000);
+    } else {
+      this.router.navigate(['/event']);
+    }
   }
 
   createEventEditForm() {
-    this.ev$.subscribe((ev) => {
-      this.eventEditForm = this.fb.group(
-        {
-          id: [ev.id],
-          title: [ev.title, Validators.required],
-          description: [ev.description, Validators.required],
-          image: [null],
-          location: [ev.location, Validators.required],
-          startdate: [new Date(ev.startDate), Validators.required],
-          starttime: [new Date(ev.startDate), Validators.required],
-          enddate: [new Date(ev.endDate), Validators.required],
-          endtime: [new Date(ev.endDate), Validators.required],
-        },
-        { validator: this.DateValidation }
-      );
-      this.starttime = ev.startDate;
-      this.endtime = ev.endDate;
-      this.eventId = ev.id;
-      this.imageUrl = ev.image;
-    });
+    /* this.store$.pipe(select(fromEvents.getCurrentEvent)).subscribe((ev) => { */
+    this.eventEditForm = this.fb.group(
+      {
+        id: [this.evt.id],
+        title: [this.evt.title, Validators.required],
+        description: [this.evt.description, Validators.required],
+        image: [null],
+        location: [this.evt.location, Validators.required],
+        startdate: [new Date(this.evt.startDate), Validators.required],
+        starttime: [new Date(this.evt.startDate), Validators.required],
+        enddate: [new Date(this.evt.endDate), Validators.required],
+        endtime: [new Date(this.evt.endDate), Validators.required],
+      },
+      { validator: this.DateValidation }
+    );
+    this.starttime = this.evt.startDate;
+    this.endtime = this.evt.endDate;
+    this.eventId = this.evt.id;
+    this.imageUrl = this.evt.image;
   }
 
   updateEvent() {
@@ -88,13 +92,17 @@ export class EventEditComponent implements OnInit {
       const ev = Object.assign({}, this.eventEditForm.value);
       this.store$.dispatch(new fromEvents.UpdateEvent(ev, this.fileUpload));
 
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_EVENT_SUCCESS)).subscribe((action) => {
-        this.snackBar.open('Evenemanget är nu uppdaterat', '', { duration: 2500 });
-      });
+      this.subscription.add(
+        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_EVENT_SUCCESS)).subscribe((action) => {
+          this.snackBar.open('Evenemanget är nu uppdaterat', '', { duration: 2500 });
+        })
+      );
 
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_EVENT_ERROR)).subscribe((action) => {
-        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
-      });
+      this.subscription.add(
+        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_EVENT_ERROR)).subscribe((action) => {
+          this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
+        })
+      );
     }
   }
 
@@ -142,5 +150,9 @@ export class EventEditComponent implements OnInit {
         return 'Du måste ange ett slutdatum';
       }
     }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

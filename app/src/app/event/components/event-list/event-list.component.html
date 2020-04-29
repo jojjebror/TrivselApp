@@ -54,7 +54,6 @@
               <mat-option *ngFor="let s of states" [value]="s"> {{ s }} </mat-option>
             </mat-autocomplete>
           </mat-form-field> -->
-
         </div>
         <div class="mat-card-div">
           <mat-card *ngFor="let ev of evs$ | async" [routerLink]="['/event', ev.id]" fxFlex="100">
@@ -255,30 +254,27 @@
             <ng-container matColumnDef="actions">
               <mat-header-cell *matHeaderCellDef>Hantera</mat-header-cell>
               <mat-cell *matCellDef="let ev">
-                <button
-                  mat-icon-button
-                  #tooltip="matTooltip"
-                  matTooltip="Redigera evenemang"
-                  matTooltipPosition="left"
-                  [routerLink]="['/event/edit/', ev.id]"
-                >
-                <!-- (click)="editEvent(ev.id)" -->
+                <label type="button" mat-icon-button #tooltip="matTooltip" matTooltip="Redigera evenemang" matTooltipPosition="left" (click)="editEvent(ev.id)">
+                  <!-- (click)="editEvent(ev.id)" -->
+<!--                   [routerLink]="['/event/edit/', ev.id]"
+ -->
                   <span class="material-icons" id="editIcon">
                     edit
                   </span>
-                </button>
+                </label>
 
-                <button
+                <label
+                  type="button"
                   mat-icon-button
                   #tooltip="matTooltip"
                   matTooltip="Ta bort evenemang"
                   matTooltipPosition="right"
-                  (click)="deleteEvent(ev.id)"
+                  (click)="confirmDialog(ev.id, ev.title)"
                 >
                   <span class="material-icons" id="declineIcon">
                     delete_outline
                   </span>
-                </button>
+                </label>
               </mat-cell>
             </ng-container>
 

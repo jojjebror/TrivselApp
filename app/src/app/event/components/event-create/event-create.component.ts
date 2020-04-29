@@ -109,15 +109,15 @@ export class EventCreateComponent implements OnInit, OnDestroy {
 
       this.store$.dispatch(new fromEvents.CreateEvent(this.event, this.fileUpload));
 
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.CREATE_EVENT_SUCCESS)).subscribe((action) => {
+      this.subscription.add(this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.CREATE_EVENT_SUCCESS)).subscribe((action) => {
         var title = action.payload.title;
         this.snackBar.open(title + ' är nu tillagt i evenemangslistan', '', { duration: 2500 });
-      });
+      }));
 
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPLOAD_IMAGE_SUCCESS)).subscribe((action) => {
+      this.subscription.add(this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPLOAD_IMAGE_SUCCESS)).subscribe((action) => {
         var title = action.payload.title;
         this.snackBar.open(title + ' är nu tillagt i evenemangslistan', '', { duration: 2500 });
-      });
+      }));
     }
   }
 
