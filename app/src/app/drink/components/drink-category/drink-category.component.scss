@@ -28,8 +28,37 @@
     color: white;
   }
 
-  .tab1{
+  .btn-primary{
+    float: right;
+  }
+
+  .btn-success {
+    float: right;
+    margin-top: 1em;
+    size: 0,5px;
+    margin-left: 1em;
+    margin-right: 3em;
+    font-size: small;
+    text-align: center;
+    
+  }
+
+
+  .quantity {
+    text-align: center;
+    font-size: xx-large;
+  }
+
+  .countBtns {
     float: left;
+    size: 0,5px;
+    margin-right: 4em;
+    margin-top: 1em;
+    
+  }
+
+  li {
+    //float: left;
     background-color:  rgb(37, 2, 48);
     padding: 1em;
     margin-right: 10px;
@@ -69,7 +98,7 @@
     margin-bottom: 1em;
     flex-direction: column;
     
-    text-align: center;
+    //text-align: center;
     
   }
 
@@ -96,7 +125,7 @@
   
   .title {
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: white;
     margin-bottom: 8px;
   }
@@ -139,13 +168,37 @@ ul {
     margin-right: 10px;
     margin-left: 10px;
     width: 90%;
-    height: 140px;
+    height: 200px;
     margin-bottom: 1em;
     flex-direction: column;
     border-radius: 10px;
+    //text-align: center;
+    
+  }
+
+  
+
+  .btn-success {
+    float: right;
+    margin-top: 1em;
+    size: 0,5px;
+    margin-left: 1em;
+    margin-right: 3em;
+    font-size: small;
     text-align: center;
     
   }
+
+  .countBtns {
+    float: left;
+    size: 0,5px;
+    margin-right: 4em;
+    margin-top: 1em;
+    
+  }
+
+
+  
 
 }
   
