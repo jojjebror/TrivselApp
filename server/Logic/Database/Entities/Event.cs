@@ -22,6 +22,5 @@ namespace Logic.Database.Entities
         public User Creator { get; set; }
         public virtual ICollection<EventParticipant> EventParticipants { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
-
     }
 }
