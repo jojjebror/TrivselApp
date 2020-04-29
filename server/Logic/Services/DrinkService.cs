@@ -182,5 +182,11 @@ namespace Logic.Services
 
             return DrinkForListTranslator.ToModel(dbDrink);
         }
+
+        public async Task<ICollection<ReceiptForListDto>> GetReceipt()
+        {
+            var dbDrinks = await _context.Receipts.ToListAsync();
+            return dbDrinks.Select(ReceiptForListTranslator.ToModel).ToList();
+        }
     }
 }

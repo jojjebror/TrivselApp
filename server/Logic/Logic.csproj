@@ -270,6 +270,7 @@
     <Compile Include="Database\Entities\Event.cs" />
     <Compile Include="Database\Entities\EventParticipant.cs" />
     <Compile Include="Database\Entities\Example.cs" />
+    <Compile Include="Database\Entities\Receipt.cs" />
     <Compile Include="Database\Entities\User.cs" />
     <Compile Include="Database\Migrations\201802011317393_Google.cs" />
     <Compile Include="Database\Migrations\201802051252482_Init.cs" />
@@ -283,6 +284,10 @@
     <Compile Include="Database\Migrations\202004271219557_imageDrink.cs" />
     <Compile Include="Database\Migrations\202004271219557_imageDrink.Designer.cs">
       <DependentUpon>202004271219557_imageDrink.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Migrations\202004291415092_Receipts.cs" />
+    <Compile Include="Database\Migrations\202004291415092_Receipts.Designer.cs">
+      <DependentUpon>202004291415092_Receipts.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Helpers\PagedList.cs" />
@@ -301,6 +306,7 @@
     <Compile Include="Models\EventParticipantsDto.cs" />
     <Compile Include="Models\ExampleDto.cs" />
     <Compile Include="Models\PostDto.cs" />
+    <Compile Include="Models\ReceiptForListDto.cs" />
     <Compile Include="Models\UserDto.cs" />
     <Compile Include="Models\UserEventsDto.cs" />
     <Compile Include="Models\UserForListDto.cs" />
@@ -323,6 +329,7 @@
     <Compile Include="Translators\EventForUserListTranslator.cs" />
     <Compile Include="Translators\ExampleTranslator.cs" />
     <Compile Include="Translators\PostForCreateTranslator.cs" />
+    <Compile Include="Translators\ReceiptForListTranslator.cs" />
     <Compile Include="Translators\UserForListTranslator.cs" />
     <Compile Include="Translators\UserForUpdateTranslator.cs" />
     <Compile Include="Translators\UserTranslator.cs" />
@@ -344,6 +351,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\Migrations\202004271219557_imageDrink.resx">
       <DependentUpon>202004271219557_imageDrink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202004291415092_Receipts.resx">
+      <DependentUpon>202004291415092_Receipts.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 
-import { Drink } from '../../shared/models';
+import { Drink, Receipt } from '../../shared/models';
 import { text } from "@angular/core/src/render3";
 
 
@@ -43,6 +43,10 @@ export class DrinkResource extends ApiResource {
         var formData = new FormData();
         formData.append('image', image, image.name);
         return this.post2('drink/' + id + '/saveimage', formData);
-      }
+    }
+
+    loadReceipts(): Observable<Receipt[]> {
+        return this.get('drink/receipts/')
+    }
 }
 

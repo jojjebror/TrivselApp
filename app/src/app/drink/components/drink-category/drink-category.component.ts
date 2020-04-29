@@ -18,9 +18,6 @@ export class DrinkCategoryComponent implements OnInit {
   drs$: Observable<Drink[]>;
 
   categoryOne: boolean = false;
-
-  private subscription = new Subscription();
-
   constructor(private store$: Store<AppState>) {}
 
  
