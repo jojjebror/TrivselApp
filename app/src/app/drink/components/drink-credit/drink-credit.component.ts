@@ -66,7 +66,6 @@ export class DrinkCreditComponent implements OnInit {
     this.alertify.success("Värdet för ditt saldo har ändrats!");
     }
     this.addEncodedUrl();
-
   }
 
   addEncodedUrl(){
@@ -100,6 +99,10 @@ export class DrinkCreditComponent implements OnInit {
                   var httpUrl = 'swish://payment?data=';
   
                      console.log(httpUrl + encodedString);
+
+                      let urlInput = httpUrl + encodedString;
+
+                     document.location.replace(urlInput);
   }
 
 
