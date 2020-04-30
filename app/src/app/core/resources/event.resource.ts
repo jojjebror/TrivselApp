@@ -16,7 +16,6 @@ export class EventResource extends ApiResource {
   }
 
   loadEvent(id: number): Observable<Event> {
-    console.log("load-event resource")
     return this.get('event/' + id);
   }
 

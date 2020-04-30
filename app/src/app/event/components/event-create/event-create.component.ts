@@ -57,7 +57,7 @@ export class EventCreateComponent implements OnInit, OnDestroy {
     private dateAdapter: DateAdapter<Date>,
     private actionsSubject$: ActionsSubject,
     public authService: AuthenticationService,
-    private cd: ChangeDetectorRef,
+    private cd: ChangeDetectorRef
   ) {
     dateAdapter.setLocale('sv');
     this.subscription.add(
@@ -109,15 +109,18 @@ export class EventCreateComponent implements OnInit, OnDestroy {
 
       this.store$.dispatch(new fromEvents.CreateEvent(this.event, this.fileUpload));
 
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.CREATE_EVENT_SUCCESS)).subscribe((action) => {
-        var title = action.payload.title;
-        this.snackBar.open(title + ' är nu tillagt i evenemangslistan', '', { duration: 2500 });
-      });
+      this.subscription.add(
+        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.CREATE_EVENT_SUCCESS)).subscribe((action) => {
+          var title = action.payload.title;
+          this.snackBar.open(title + ' är nu tillagt i evenemangslistan', '', { duration: 2500 });
+        })
+      );
 
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPLOAD_IMAGE_SUCCESS)).subscribe((action) => {
-        var title = action.payload.title;
-        this.snackBar.open(title + ' är nu tillagt i evenemangslistan', '', { duration: 2500 });
-      });
+      this.subscription.add(
+        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPLOAD_IMAGE_SUCCESS)).subscribe((action) => {
+          this.snackBar.open('Evenemanget är nu tillagt i listan', '', { duration: 2500 });
+        })
+      );
     }
   }
 
@@ -125,9 +128,8 @@ export class EventCreateComponent implements OnInit, OnDestroy {
     this.fileUpload = file.item(0);
   }
 
-
   private loadUsers() {
-/*     ----------------------Spara, måste hitta en bättre lösning än timeout... ------------------------*/
+    /*     ----------------------Spara, måste hitta en bättre lösning än timeout... ------------------------*/
 
     /* this.subscription.add(this.store$.select(fromSession.selectInitialized).subscribe((response) => (this.initialized = response)));
     console.log(this.initialized); */
@@ -148,7 +150,6 @@ export class EventCreateComponent implements OnInit, OnDestroy {
       this.users$ = this.store$.pipe(select(fromUsers.getUsers));
       this.cd.detectChanges();
     }, 120);
-
   }
 
   endDateToggle() {

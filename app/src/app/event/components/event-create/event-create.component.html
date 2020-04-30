@@ -36,8 +36,8 @@
       <!-- </mat-form-field> -->
     </div>
 
-    <div class="form-row">
-      <div>
+    <div class="form-row startInput">
+      <div class="startDateInput">
         <mat-form-field appearance="outline">
           <mat-label>Startdatum</mat-label>
           <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage('startdate') }}</mat-error>
@@ -49,8 +49,8 @@
       <ng-template #popTemplate>
         <timepicker formControlName="starttime" [(ngModel)]="starttime" [showMeridian]="false"></timepicker>
       </ng-template>
-      <div class="form-group col-md-4" style="margin-top: 6.5px;">
-        <input
+        <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4" style="margin-top: 6.5px;">
+          <input
           class="hoursTxt"
           value="{{ starttime | date: 'HH:mm' }}"
           placeholder="00:00"
@@ -61,7 +61,7 @@
         />
       </div>
 
-      <div *ngIf="!endDateMode" class="form-group col-md-2 mt-3">
+        <div *ngIf="!endDateMode" class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2 mt-3">
         <a (click)="endDateToggle()">+ Sluttid</a>
       </div>
     </div>

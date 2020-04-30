@@ -79,10 +79,13 @@ h3 {
 
 #declineIcon {
   color: red;
+  vertical-align: middle;
 }
 
 #editIcon {
   color: white;
+  margin-right: 10px;
+  vertical-align: middle;
 }
 
 /* active tab */
@@ -146,21 +149,21 @@ h3 {
 
 #searchbar {
   font-size: 14px;
-  width: 160px;
+  width: 160px !important;
 }
 
 #allEventSearchbar {
   float: left;
   color: white;
   font-size: 15px;
-  width: 160px;
+  width: 160px !important;
   margin-right: 25px;
 }
 
 #allEventCalendarSearch {
   color: white;
   font-size: 15px;
-  width: 130px;
+  width: 130px !important;
 }
 
 
@@ -178,6 +181,10 @@ h3 {
   margin-top: 10px;
 }
 
+.mobileShow {
+   display: none;
+  }
+
 // mat-label normal state style
 ::ng-deep .mat-form-field-label {
     color: white!important;
@@ -189,5 +196,100 @@ h3 {
   align-items: center;
   background-color: transparent;
   width: 100%;
+}
+
+ /*------Mobile------*/
+  
+ @media (max-width: 766px) {
+  .mat-card {
+    width: 49%;
+} 
+  .btn-create-event {
+    text-align: center;
+    margin-bottom: 10px;
+}
+  .container {
+    margin-top: 20px;
+}
+
+  .mat-cell {
+  font-size: 14px;
+}
+
+  .mat-header-cell {
+  font-size: 12px;
+}
+
+} 
+
+  @media (max-width: 454px) {
+  .mat-card {
+    width: 99%;
+} 
+  .btn-create-event {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+  .container {
+    margin-top: 20px;
+}
+
+  .mat-cell {
+  font-size: 11px;
+}
+
+  .mat-header-cell {
+  font-size: 14px;
+}
+  .tableTitle {
+  font-size: 15px;
+}
+  #searchbar {
+  font-size: 10px;
+  width: 100px !important;
+}
+
+/*   #editIcon {
+  font-size: 20px;
+}
+
+  #declineIcon {
+  font-size: 20px;
+} */
+
+  .noDataTable {
+  font-size: 15px;
+}
+
+  .mobileShow { 
+  display: inline;
+}
+
+  .listPaginator {
+  display: none;
+}
+
+  .listMobilePaginator {
+  background: transparent;
+  float: right;
+}
+
+  .filtering {
+  text-align: center;
+  }
+
+  #allEventSearchbar {
+  float: left;
+  font-size: 15px;
+  width: 150px !important;
+  //margin-right: 25px;
+}
+
+#allEventCalendarSearch {
+  float: right;
+  font-size: 15px;
+  width: 120px !important;
+}
 }
 

@@ -54,7 +54,6 @@
               <mat-option *ngFor="let s of states" [value]="s"> {{ s }} </mat-option>
             </mat-autocomplete>
           </mat-form-field> -->
-
         </div>
         <div class="mat-card-div">
           <mat-card *ngFor="let ev of evs$ | async" [routerLink]="['/event', ev.id]" fxFlex="100">
@@ -80,10 +79,10 @@
           <mat-progress-spinner color="primary" mode="indeterminate"> </mat-progress-spinner>
         </mat-card> -->
 
-        <!-- <div *ngIf="error$ | async as errorMessage">
-          {{ errorMessage }}
-        </div> -->
         <div class="noDataTable" *ngIf="(evs$ | async)?.length == 0">Tyvärr hittades inga evenemang</div>
+        <!-- <div class="mobileShow">
+          <mat-paginator class="listMobilePaginator" [pageSizeOptions]="[6, 12, 24]"></mat-paginator>E
+        </div> -->
       </mat-tab>
 
       <!-- -------------------------------Tab 2----------------------------------------------- -->
@@ -95,7 +94,7 @@
           >
         </ng-template>
         <div class="table-holder">
-          <mat-toolbar>Inbjudningar till evenemang</mat-toolbar>
+          <mat-toolbar class="tableTitle">Inbjudningar till evenemang</mat-toolbar>
           <div>
             <mat-table class="lessons-table mat-elevation-z8" [dataSource]="invitedEvents" *ngIf="invitedEvents.data.length > 0">
               <ng-container matColumnDef="title2">
@@ -160,7 +159,7 @@
 
         <!-- ---------------------Attended events table------------------- -->
         <div class="table-holder">
-          <mat-toolbar>Dina kommande evenemang</mat-toolbar>
+          <mat-toolbar class="tableTitle">Dina kommande evenemang</mat-toolbar>
           <div>
             <mat-table class="lessons-table mat-elevation-z8" [dataSource]="attendedEvents" *ngIf="attendedEvents.data.length > 0">
               <ng-container matColumnDef="title3">
@@ -181,7 +180,7 @@
               </ng-container>
 
               <ng-container matColumnDef="invited3">
-                <mat-header-cell *matHeaderCellDef>Skapad av</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>Skapare</mat-header-cell>
                 <mat-cell class="duration-cell" *matCellDef="let element">{{ element.creatorName }}</mat-cell>
               </ng-container>
 
@@ -216,7 +215,7 @@
       <mat-tab label="Hantera evenemang">
         <div class="table-holder">
           <mat-toolbar>
-            <div>Dina skapade evenemang</div>
+            <div class="tableTitle">Dina skapade evenemang</div>
             <div class="spacer">
               <mat-form-field appearance="legacy" id="searchbar">
                 <input
@@ -255,30 +254,27 @@
             <ng-container matColumnDef="actions">
               <mat-header-cell *matHeaderCellDef>Hantera</mat-header-cell>
               <mat-cell *matCellDef="let ev">
-                <button
-                  mat-icon-button
-                  #tooltip="matTooltip"
-                  matTooltip="Redigera evenemang"
-                  matTooltipPosition="left"
-                  [routerLink]="['/event/edit/', ev.id]"
-                >
-                <!-- (click)="editEvent(ev.id)" -->
+                <label type="button" mat-icon-button #tooltip="matTooltip" matTooltip="Redigera evenemang" matTooltipPosition="left" (click)="editEvent(ev.id)">
+                  <!-- (click)="editEvent(ev.id)" -->
+<!--                   [routerLink]="['/event/edit/', ev.id]"
+ -->
                   <span class="material-icons" id="editIcon">
                     edit
                   </span>
-                </button>
+                </label>
 
-                <button
+                <label
+                  type="button"
                   mat-icon-button
                   #tooltip="matTooltip"
                   matTooltip="Ta bort evenemang"
                   matTooltipPosition="right"
-                  (click)="deleteEvent(ev.id)"
+                  (click)="confirmDialog(ev.id, ev.title)"
                 >
                   <span class="material-icons" id="declineIcon">
                     delete_outline
                   </span>
-                </button>
+                </label>
               </mat-cell>
             </ng-container>
 
