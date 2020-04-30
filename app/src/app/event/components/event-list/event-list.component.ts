@@ -186,7 +186,6 @@ export class EventListComponent implements OnInit, OnDestroy {
     }
   }
 
-  //Ersätter metoderna nedan
   clearField(property: string) {
     switch (property) {
       case 'searchField': {
@@ -206,19 +205,4 @@ export class EventListComponent implements OnInit, OnDestroy {
       this.doFilter('', '');
     }
   }
-
-  /* clearSearchField() {
-    this.searchField = '';
-    this.doFilter('', '');
-  }
-
-  clearSearchFieldUserEvents() {
-    this.searchFieldUserEvents = '';
-    this.doFilter('', 'createdEvents');
-  }
-
-  clearCalendarField() {
-    this.calendarField = '';
-    this.doFilter('', '');
-  } */
 }
