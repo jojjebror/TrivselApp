@@ -23,7 +23,7 @@
         
       <div class="info">
         <ul *ngIf="drs$">
-          <li *ngFor="let dr of drs$ | async">
+          <li *ngFor="let dr of drs$ | async" class="tab1">
             <a class="title">
               {{ dr.productNameBold }} </a
             >
@@ -43,12 +43,20 @@
       <ng-template mat-tab-label>
         <span (click)="initializeFilterBeer()">Drycker</span>
     </ng-template>
-      <div class="info">
+      <div>
         <ul *ngIf="drs$">
-          <li *ngFor="let dr of drs$ | async" [routerLink]="['/drink', dr.id]">
+          <li *ngFor="let dr of drs$ | async" [routerLink]="['/drink', dr.id]" class="tab2">
+
+            <hr/>
+            <hr/>
+            
+            <div>
+              <img class="card-img-top img-thumbnail" [src]="dr.image ? '../../../' + dr.image : '/assets/images/drink-images/default_drink.jpg'" />
+            </div>
+            
             <a class="title" [routerLink]="['/drink', dr.id]">
-              {{ dr.productNameBold }}</a
-            >
+              {{ dr.productNameBold }}
+            </a>
     
             <p class="location">Pris: {{ dr.price }}kr</p>
     
@@ -64,4 +72,5 @@
     
   </mat-tab-group>
 
+</div>
 

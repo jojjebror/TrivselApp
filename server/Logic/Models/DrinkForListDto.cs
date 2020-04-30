@@ -16,5 +16,7 @@ namespace Logic.Models
         public string Usage { get; set; }
         public string Taste { get; set; }
         public string BeverageDescriptionShort { get; set; }
+        public string Image { get; set; }
+
     }
 }
