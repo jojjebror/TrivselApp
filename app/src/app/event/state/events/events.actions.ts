@@ -199,7 +199,7 @@ export class AddEventParticipantError implements Action {
 export class UploadImage implements Action {
   readonly type = ActionTypes.UPLOAD_IMAGE;
 
-  constructor(public id: number, public payload: File) {}
+  constructor(public id: number, public image: File) {}
 }
 
 export class UploadImageSuccess implements Action {

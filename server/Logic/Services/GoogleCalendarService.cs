@@ -223,9 +223,18 @@ namespace Logic.Services
             }
         }
 
-        public void CheckForChangesInEvents(List<Database.Entities.Event> events)
+        public ICollection<Google.Apis.Calendar.v3.Data.Event> CheckForChangesInGoogleEvents()
         {
-            var googleEvents = _calendarService.Events.List(calendarId).Execute();
+            string nextSyncToken = null;
+
+            var request = _calendarService.Events.List("primary");
+            request.SyncToken = nextSyncToken;
+            var googleEvents = request.Execute();
+
+            //syncToken = "CNCkyreJkOkCENCkyreJkOkCGAU="
+            nextSyncToken = googleEvents.NextSyncToken;
+
+            return googleEvents.Items;
         }
     }
 }

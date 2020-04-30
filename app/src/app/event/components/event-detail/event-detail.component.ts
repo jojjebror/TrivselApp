@@ -40,9 +40,11 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     public authService: AuthenticationService,
     private actionsSubject$: ActionsSubject
   ) {
-    this.subscription.add(authService.getUserId().subscribe((user) => {
-      this.userId = user.sub;
-    }));
+    this.subscription.add(
+      authService.getUserId().subscribe((user) => {
+        this.userId = user.sub;
+      })
+    );
   }
 
   ngOnInit() {
@@ -62,7 +64,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   loadEvent() {
     this.store$.dispatch(new fromEvents.LoadEvent(+this.eventId));
     this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.LOAD_EVENT_ERROR)).subscribe((action) => {
-        this.snackBar.open('Evenemanget kunde inte laddas', '', { duration: 10000 });   
+      this.snackBar.open('Evenemanget kunde inte laddas', '', { duration: 10000 });
     });
 
     this.ev$ = this.store$.pipe(select(fromEvents.getCurrentEvent));

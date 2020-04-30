@@ -158,7 +158,7 @@ export class EventsEffects {
   uploadImage$: Observable<Action> = this.actions$.pipe(
     ofType(eventsActions.ActionTypes.UPLOAD_IMAGE),
     switchMap((action: eventsActions.UploadImage) =>
-      this.eventResource.uploadImage(action.id, action.payload).pipe(
+      this.eventResource.uploadImage(action.id, action.image).pipe(
         map(
           (newEvent: Event) =>
             new eventsActions.UploadImageSuccess({

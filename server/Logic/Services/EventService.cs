@@ -116,6 +116,38 @@ namespace Logic.Services
             return EventTranslator.ToEventForUpdateDto(dbEvent);
         }
 
+        public void SyncEventsWithGoogleEvents()
+        {
+            //Get all google events that has changed
+            var googleEvents = _googleCalendarService.CheckForChangesInGoogleEvents();
+
+            foreach (var googleEv in googleEvents) {
+                //Get the event from db that needs to be updated and all the eventparticipants for the event
+                var dbEvent = _context.Events.FirstOrDefault(e => e.GoogleEventId == googleEv.Id);
+                var dbEventParticipants = _context.EventParticipants.Include(u => u.User)
+                    .Where(ep => ep.EventId == dbEvent.Id).ToList();
+
+                dbEvent.Title = googleEv.Summary;
+                dbEvent.Location = googleEv.Location;
+                dbEvent.Description = googleEv.Description;
+                dbEvent.StartDate = googleEv.Start.DateTime.Value;
+                dbEvent.EndDate = googleEv.End.DateTime.Value;
+
+                foreach (var attendee in googleEv.Attendees)
+                {
+                    var dbEp = dbEventParticipants.FirstOrDefault(ep => ep.User.Email == attendee.Email);
+
+                    if (attendee.ResponseStatus == "accepted"
+                                || attendee.ResponseStatus == "declined")
+                    {
+                        dbEp.Status = attendee.ResponseStatus;
+                    }
+                }
+            }
+
+            _context.SaveChangesAsync();
+        }
+
         public async Task<int> DeleteEvent(int id)
         {
             var dbEvent = await _context.Events.FindAsync(id);

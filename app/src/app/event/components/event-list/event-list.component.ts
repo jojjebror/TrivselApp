@@ -82,7 +82,7 @@ export class EventListComponent implements OnInit, OnDestroy {
       this.snackBar.open('Evenemangen kunde inte laddas, försök igen', '', { duration: 10000 });
     });
 
-     this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.LOAD_EVENTS_ERROR)).subscribe((action) => {
+    this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.LOAD_EVENTS_ERROR)).subscribe((action) => {
       this.snackBar.open('Evenemangen kunde inte laddas, försök igen', '', { duration: 10000 });
     });
 
@@ -151,9 +151,8 @@ export class EventListComponent implements OnInit, OnDestroy {
     });
 
     this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_USER_PARTICIPANT_ERROR)).subscribe((action) => {
-        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 2500 });
+      this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 2500 });
     });
-
   }
 
   refreshData() {
@@ -187,7 +186,28 @@ export class EventListComponent implements OnInit, OnDestroy {
     }
   }
 
-  clearSearchField() {
+  //Ersätter metoderna nedan
+  clearField(property: string) {
+    switch (property) {
+      case 'searchField': {
+        this.searchField = '';
+      }
+      case 'searchFieldUserEvents': {
+        this.searchFieldUserEvents = '';
+      }
+      case 'calendarField': {
+        this.calendarField = '';
+      }
+    }
+
+    if (property === 'searchFieldUserEvents') {
+      this.doFilter('', 'createdEvents');
+    } else {
+      this.doFilter('', '');
+    }
+  }
+
+  /* clearSearchField() {
     this.searchField = '';
     this.doFilter('', '');
   }
@@ -200,5 +220,5 @@ export class EventListComponent implements OnInit, OnDestroy {
   clearCalendarField() {
     this.calendarField = '';
     this.doFilter('', '');
-  }
+  } */
 }
