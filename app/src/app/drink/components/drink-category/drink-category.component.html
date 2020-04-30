@@ -58,12 +58,8 @@
       <div>
         <ul *ngIf="drs$">
           <li *ngFor="let dr of drs$ | async">
-            <hr/>
-            <hr/>
+            <img class="card-img-top img-thumbnail" [src]="dr.image ? '../../../' + dr.image : '/assets/images/drink-images/default_drink.jpg'" />
             
-            <div>
-              <img class="card-img-top img-thumbnail" [src]="dr.image ? '../../../' + dr.image : '/assets/images/drink-images/default_drink.jpg'" />
-            </div>
             <a class="title" [routerLink]="['/drink', dr.id]">
               {{ dr.productNameBold }}</a
             >
@@ -76,7 +72,7 @@
             <button class="minus" mat-mini-fab color="green" (click)="clickCount(dr)">+</button>
             </div>
             <p class="location">Pris: {{ dr.price }}kr</p>
-             <p class="location">Volym: {{ dr.volume }}cl</p>
+             
     
             
           </li>
