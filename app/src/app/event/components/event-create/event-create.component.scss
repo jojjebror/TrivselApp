@@ -164,3 +164,89 @@ textarea {
 ::-ms-input-placeholder { /* Microsoft Edge */
   color: white;
 }
+
+/*------Mobile------*/
+  
+ @media (max-width: 768px) {
+
+form {
+  width: 500px;
+  height: 1650px;
+}
+
+.registerEventMain {
+  width: 500px;
+  margin-top: 30px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.officeContainer {
+  width: 100%;
+}
+
+.userContainer {
+  width: 100%;
+  height: 180px;
+  float: left;
+}
+
+.inviteContainer {
+  margin-top: 12px;
+  margin-bottom: 20px;
+  height: 600px;
+}
+
+.startInput {
+  float: left;
+}
+
+/* .startDateInput {
+  width: 130px;
+} */
+
+/* .hoursTxt {
+  //margin-left: 10px;
+  width: 80px;
+  background-color:transparent;
+  color: white;
+  border-radius: 5px;
+  border: 1px solid white;
+  //padding: 16px;  
+} */
+} 
+
+@media (max-width: 576px) {
+
+  form {
+  width: 400px;
+}
+
+.registerEventMain {
+  width: 400px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+}
+
+@media (max-width: 454px) {
+
+  form {
+  width: 350px;
+}
+
+.registerEventMain {
+  width: 350px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+}
+
+
+

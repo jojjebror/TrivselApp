@@ -79,10 +79,10 @@
           <mat-progress-spinner color="primary" mode="indeterminate"> </mat-progress-spinner>
         </mat-card> -->
 
-        <!-- <div *ngIf="error$ | async as errorMessage">
-          {{ errorMessage }}
-        </div> -->
         <div class="noDataTable" *ngIf="(evs$ | async)?.length == 0">Tyvärr hittades inga evenemang</div>
+        <!-- <div class="mobileShow">
+          <mat-paginator class="listMobilePaginator" [pageSizeOptions]="[6, 12, 24]"></mat-paginator>E
+        </div> -->
       </mat-tab>
 
       <!-- -------------------------------Tab 2----------------------------------------------- -->
@@ -94,7 +94,7 @@
           >
         </ng-template>
         <div class="table-holder">
-          <mat-toolbar>Inbjudningar till evenemang</mat-toolbar>
+          <mat-toolbar class="tableTitle">Inbjudningar till evenemang</mat-toolbar>
           <div>
             <mat-table class="lessons-table mat-elevation-z8" [dataSource]="invitedEvents" *ngIf="invitedEvents.data.length > 0">
               <ng-container matColumnDef="title2">
@@ -159,7 +159,7 @@
 
         <!-- ---------------------Attended events table------------------- -->
         <div class="table-holder">
-          <mat-toolbar>Dina kommande evenemang</mat-toolbar>
+          <mat-toolbar class="tableTitle">Dina kommande evenemang</mat-toolbar>
           <div>
             <mat-table class="lessons-table mat-elevation-z8" [dataSource]="attendedEvents" *ngIf="attendedEvents.data.length > 0">
               <ng-container matColumnDef="title3">
@@ -180,7 +180,7 @@
               </ng-container>
 
               <ng-container matColumnDef="invited3">
-                <mat-header-cell *matHeaderCellDef>Skapad av</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>Skapare</mat-header-cell>
                 <mat-cell class="duration-cell" *matCellDef="let element">{{ element.creatorName }}</mat-cell>
               </ng-container>
 
@@ -215,7 +215,7 @@
       <mat-tab label="Hantera evenemang">
         <div class="table-holder">
           <mat-toolbar>
-            <div>Dina skapade evenemang</div>
+            <div class="tableTitle">Dina skapade evenemang</div>
             <div class="spacer">
               <mat-form-field appearance="legacy" id="searchbar">
                 <input

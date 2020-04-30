@@ -1,4 +1,9 @@
 <div class="container mt-5 border border-light p-5">
+  <div class="">
+    <span class="material-icons backIcon" [routerLink]="['/event']">
+      keyboard_backspace
+    </span>
+  </div>
   <form *ngIf="evt" [formGroup]="eventEditForm" (ngSubmit)="updateEvent()" >
     <button [disabled]="!eventEditForm.dirty || !eventEditForm.valid" type="submit" class="btn btn-success">
       Spara ändringar
