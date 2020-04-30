@@ -20,6 +20,7 @@ namespace Logic.Database.Migrations
                         Usage = c.String(),
                         Taste = c.String(),
                         BeverageDescriptionShort = c.String(),
+                        Image = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
             
