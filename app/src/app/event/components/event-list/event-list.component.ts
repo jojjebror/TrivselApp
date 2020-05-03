@@ -122,6 +122,7 @@ export class EventListComponent implements OnInit, OnDestroy {
       this.subscription.add(
         this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.DELETE_EVENT_SUCCESS)).subscribe((action) => {
           this.snackBar.open('Evenemanget borttaget', '', { duration: 2500 });
+          this.store$.dispatch(new fromEvents.GetCurrentUserEvent(+this.userId));
         })
       );
       this.subscription.add(

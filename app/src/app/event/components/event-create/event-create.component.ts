@@ -27,10 +27,10 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   event: Event;
   users$: Observable<User[]>;
   users: User[];
-  //initialized: boolean;
   userId: number;
   eventForm: FormGroup;
   endDateMode = false;
+  toggleFormHeight: boolean = true;
   fileUpload: File = null;
   imageUrl: string;
 
@@ -153,6 +153,8 @@ export class EventCreateComponent implements OnInit, OnDestroy {
 
   endDateToggle() {
     this.endDateMode = !this.endDateMode;
+    this.toggleFormHeight = !this.toggleFormHeight;
+
     //this.endDateMode ? (this.endDateMode = false) : (this.endDateMode = true);
     if (this.endDateMode == true) {
       this.addEndDate();
