@@ -19,10 +19,7 @@ namespace Logic.Database.Entities
         public string GoogleId { get; set; }
 
         public virtual ICollection<Event> Events { get; set; }
-
         public virtual ICollection<EventParticipant> EventParticipants { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
-
-
     }
 }

@@ -46,6 +46,7 @@ namespace Logic.Database.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(),
                         Description = c.String(),
+                        ImageId = c.String(),
                         Image = c.String(),
                         Location = c.String(),
                         StartDate = c.DateTime(nullable: false),
