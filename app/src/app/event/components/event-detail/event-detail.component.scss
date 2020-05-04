@@ -4,10 +4,11 @@
 
 .img-thumbnail {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 25px;
+  //margin-left: auto;
+  //margin-right: auto;
   margin-bottom: 15px;
-  width: 50%;
+  width: 80%;
   height: auto;
 }
 
@@ -80,7 +81,6 @@ h4 {
 }
 
 .mat-list {
-  //border: 1px solid white;
   margin-top: 10px;
   margin-bottom: 20px;
   min-height: 250px;
@@ -179,3 +179,88 @@ ul {
   outline: none;
 }
 
+.invitesList {
+  float: left;
+  padding-right: 12px;
+}
+@media (max-width: 1076px) {
+  .invitesList {
+    clear: both;
+    margin: 20px;
+    padding-right: 220px;
+  }
+  .tab-panel {
+    height: 500px;
+    margin-left: 0px;
+  }
+
+  .mat-list {
+    min-height: 0;
+  }
+  .comment-wrapper .panel-body {
+    max-height: 650px;
+    width: 350px;
+  }
+
+  #postContent {
+    width: 350px;
+    margin: 5px;
+  }
+
+  textarea {
+    width: 350px;
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 473px) {
+  .comment-wrapper .panel-body {
+    max-height: 650px;
+    width: 285px;
+  }
+
+  #postContent {
+    width: 285px;
+    margin: 5px;
+  }
+
+  textarea {
+    width: 285px;
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 411px) {
+.comment-wrapper .panel-body {
+    max-height: 650px;
+    width: 245px;
+  }
+
+  #postContent {
+    width: 245px;
+    margin: 5px;
+  }
+
+  textarea {
+    width: 245px;
+    margin-top: 20px;
+  
+  }
+}
+
+  @media (max-width: 340px) {
+  .comment-wrapper .panel-body {
+    max-height: 650px;
+    width: 190px;
+  }
+
+  #postContent {
+    width: 190px;
+    margin: 5px;
+  }
+
+  textarea {
+    width: 190px;
+    margin-top: 20px;
+  }
+}

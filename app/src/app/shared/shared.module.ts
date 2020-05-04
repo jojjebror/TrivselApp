@@ -9,6 +9,7 @@ import { pipes } from './pipes';
 import { SharedMaterialModule } from './shared-material.module';
 import { getSwedishPaginatorIntl } from '../shared/swedish-paginator-intl';
 import { MatPaginatorIntl } from '@angular/material';
+import { ConfirmDialogComponent } from './components/confirmDialog/confirmDialog.component';
 
 
 /**
@@ -20,5 +21,6 @@ import { MatPaginatorIntl } from '@angular/material';
   exports: [CommonModule, FormsModule, ReactiveFormsModule, SharedMaterialModule, ...components, ...directives, ...pipes],
   declarations: [...components, ...directives, ...pipes],
   providers: [{ provide: MatPaginatorIntl, useValue: getSwedishPaginatorIntl() }],
+  entryComponents: [ConfirmDialogComponent],
 })
 export class SharedModule {}

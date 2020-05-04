@@ -1,15 +1,19 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 
 import { AppState } from 'src/app/core/state';
-import { Store, select } from '@ngrx/store';
+import { Store, select, ActionsSubject } from '@ngrx/store';
 import * as fromEvents from '../../state/events';
 import { Observable, Subscription } from 'rxjs';
 import { Event, User, Post } from 'src/app/shared/models';
 
 import { ActivatedRoute } from '@angular/router';
 import * as fromSession from '../../../core/state/session';
+import { ActionTypes } from '../../state/events';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
+import { AuthenticationService } from 'src/app/core/services';
+import { filter } from 'rxjs/operators';
+import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/components/confirmDialog/confirmDialog.component';
 
 @Component({
   selector: 'ex-event-detail',
@@ -33,9 +37,16 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     private store$: Store<AppState>,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public authService: AuthenticationService,
+    private actionsSubject$: ActionsSubject,
+    public dialog: MatDialog
   ) {
-    this.subscription.add(this.store$.select(fromSession.selectUser).subscribe((user) => (this.userId = user.id)));
+    this.subscription.add(
+      authService.getUserId().subscribe((user) => {
+        this.userId = user.sub;
+      })
+    );
   }
 
   ngOnInit() {
@@ -48,12 +59,15 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     this.createPostForm();
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
   loadEvent() {
     this.store$.dispatch(new fromEvents.LoadEvent(+this.eventId));
+    
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.LOAD_EVENT_ERROR)).subscribe((action) => {
+        this.snackBar.open('Evenemanget kunde inte laddas', '', { duration: 10000 });
+      })
+    );
+
     this.ev$ = this.store$.pipe(select(fromEvents.getCurrentEvent));
 
     this.posts$ = this.store$.pipe(select(fromEvents.getEventPosts));
@@ -64,22 +78,26 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   }
 
   updateParticpantsToEvent(id: number, answer: string) {
-    var data = [id, this.userId, answer];
+    var data = [id, +this.userId, answer];
     this.store$.dispatch(new fromEvents.AddEventParticipant(data));
 
-    if (answer == 'accepted') {
-      this.snackBar.open('Du är tillagd i evenemanget :)', '', { duration: 2500 });
-    }
-    if (answer == 'declined') {
-      this.snackBar.open('Du är borttagen ur evenemanget', '', { duration: 2500 });
-    }
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.ADD_EVENT_PARTICIPANT_SUCCESS)).subscribe((action) => {
+        if (answer == 'accepted') {
+          this.snackBar.open('Du är tillagd i evenemanget', '', { duration: 2500 });
+        }
+        if (answer == 'declined') {
+          this.snackBar.open('Du är borttagen ur evenemanget', '', { duration: 2500 });
+        }
+      })
+    );
   }
 
   checkAttendedUsers() {
     let attendedUsers: User[];
-    this.attendedParticipants$.subscribe((data) => (attendedUsers = data));
+    this.subscription.add(this.attendedParticipants$.subscribe((data) => (attendedUsers = data)));
 
-    if (attendedUsers.some((u) => u.id === this.userId)) {
+    if (attendedUsers.some((u) => u.id === +this.userId)) {
       return true;
     } else {
       return false;
@@ -88,9 +106,9 @@ export class EventDetailComponent implements OnInit, OnDestroy {
 
   checkDeclinedUsers() {
     let declinedUsers: User[];
-    this.declinedParticipants$.subscribe((data) => (declinedUsers = data));
+    this.subscription.add(this.declinedParticipants$.subscribe((data) => (declinedUsers = data)));
 
-    if (declinedUsers.some((u) => u.id === this.userId)) {
+    if (declinedUsers.some((u) => u.id === +this.userId)) {
       return true;
     } else {
       return false;
@@ -99,7 +117,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
 
   countParticipants(users: Observable<User[]>) {
     let countParticipants: User[];
-    users.subscribe((data) => (countParticipants = data));
+    this.subscription.add(users.subscribe((data) => (countParticipants = data)));
     return countParticipants.length;
   }
 
@@ -123,7 +141,16 @@ export class EventDetailComponent implements OnInit, OnDestroy {
       this.post = Object.assign({}, this.postForm.value);
       this.store$.dispatch(new fromEvents.AddPostToEvent(this.post));
 
-      this.snackBar.open('Kommentar postad', '', { duration: 2500 });
+       this.subscription.add(
+        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.ADD_POST_EVENT_SUCCESS)).subscribe((action) => {
+          this.snackBar.open('Kommentar postad', '', { duration: 2500 });
+        })
+      );
+      this.subscription.add(
+        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.ADD_POST_EVENT_ERROR)).subscribe((action) => {
+          this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
+        })
+      );
       this.postForm.reset();
     }
   }
@@ -131,12 +158,22 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   deletePost(id: number, postId: number) {
     var data = [id, postId];
     this.store$.dispatch(new fromEvents.DeletePost(data));
-    this.snackBar.open('Kommentar borttagen', '', { duration: 2500 });
+
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.REMOVE_POST_EVENT)).subscribe((action) => {
+        this.snackBar.open('Kommentar borttagen', '', { duration: 2500 });
+      })
+    );
+
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.REMOVE_POST_EVENT_ERROR)).subscribe((action) => {
+        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
+      })
+    );
   }
 
   getDayOfWeek(date: Date) {
     const dayOfWeek = new Date(date).getDay();
-    console.log(dayOfWeek);
     return isNaN(dayOfWeek) ? null : ['Söndag', 'Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag'][dayOfWeek];
   }
 
@@ -153,12 +190,33 @@ export class EventDetailComponent implements OnInit, OnDestroy {
 
   checkEndTime(enddate: Date) {
     let endD = new Date(enddate);
-    console.log('enddate:' + endD.getHours() + ', min' + endD.getMinutes());
 
     if (endD.getHours() != 23 && endD.getMinutes() != 59) {
       return true;
     } else {
       return false;
     }
+  }
+
+  confirmDialog(id: number, postId: number): void {
+    const message = `Vill du ta bort kommentaren?`;
+    const dialogData = new ConfirmDialogModel('Bekräfta', message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: '400px',
+      data: dialogData,
+    });
+
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe((dialogResult) => {
+        if (dialogResult == true) {
+          this.deletePost(id, postId);
+        }
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
