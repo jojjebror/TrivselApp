@@ -1,151 +1,178 @@
+.img-thumbnail {
+  max-width: 75px;
+  float: left;
+  object-fit: cover;
+  border-radius: 30%;
+  max-height: 80px;
+  margin-bottom: 40px;
+  margin-right: 2em;
 
+}
+
+  /* ink bar */
+  ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary {
+    background-color: white !important;
+    }
 
 /* Clear floats after the columns */
 .row:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-
-
-  .img-thumbnail {
-    max-width: 180px;
-    float:left;
-    object-fit: cover;
-    border-radius: 50%;
-    max-height: 200px;
+  content: "";
+  display: table;
+  clear: both;
 }
 
-  
-  .container {
-    margin-top: 50px;
-    width:100%;
-    height:100%;
-  }
-  
-  h2 {
-    text-align: center;
-    color: white;
-  }
-
-  .tab1{
-    float: left;
-    background-color:  rgb(37, 2, 48);
-    padding: 1em;
-    margin-right: 10px;
-    margin-left: 10px;
-    width: 30%;
-    height: 200px;
-    margin-bottom: 1em;
-    flex-direction: column;
-    
-    text-align: center;
-  }
-
-  .tab2{
-
-    float: left;
-    background-color:  rgb(37, 2, 48);
-    padding: 1em;
-    margin-right: 10px;
-    margin-left: 10px;
-    width: 33%;
-    height: 330px;
-    margin-bottom: 1em;
-    flex-direction: column;
-    
-    text-align: center;
-
-  }
-
-  li {
-    float: left;
-    background-color:  rgb(37, 2, 48);
-    padding: 1em;
-    margin-right: 10px;
-    margin-left: 10px;
-    width: 27%;
-    height: 330px;
-    margin-bottom: 1em;
-    flex-direction: column;
-    
-    text-align: center;
-    
-  }
-
-  ul {
-    list-style-type: none;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0;
-    display: inline-flexbox;
-    flex-wrap: wrap;
-    width:100%;
-    
-  }
-  
-  p {
-    margin: 0;
-    color: white;
-    margin-top: 20px;
-  }
-  
-  a {
-    color: white;
-  }
-  
-  .title {
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: white;
-    margin-bottom: 8px;
-  }
-
-
-  
-  .btnCreateDrink {
-    float: right;
-    margin: 18px;
-    margin-right: 45px;
-    width: 200px;
-  }
-  
-  
-  li {
-    cursor: pointer;
-  }
-
-  /*    Mobil            */
-
-@media (max-width: 414px) {
-
-.container{
-  width: 100%;
-  height: 600px;
+.container {
+  margin-top: 50px;
 }
+
+h2 {
+  text-align: center;
+  color: white;
+}
+
+.btn-primary{
+  float: right;
+}
+
+.btn-success {
+  float: right;
+  margin-top: 1em;
+  size: 0,5px;
+  margin-left: 1em;
+  margin-right: 3em;
+  font-size: small;
+  text-align: center;
+  
+}
+
+
+.quantity {
+  text-align: center;
+  font-size: xx-large;
+}
+
+.countBtns {
+  float: left;
+  size: 0,5px;
+  margin-right: 4em;
+  margin-top: 1em;
+  
+}
+
+li {
+  //float: left;
+  background-color:  rgb(37, 2, 48);
+  padding: 1em;
+  margin-right: 10px;
+  margin-left: 10px;
+  //border-radius: 45px;
+  height: 100px;
+  margin-bottom: 1em;
+  flex-direction: column;
+  
+  //text-align: center;
+  
+}
+
 ul {
   list-style-type: none;
   margin-left: auto;
   margin-right: auto;
   padding: 0;
+  display: inline-flexbox;
   flex-wrap: wrap;
-  width: 100%;
+  width: 1000px;
   
-  }
+}
 
-  li {
-    background-color: rgb(37, 2, 48); 
-    padding: 1em;
-    margin-right: 10px;
-    margin-left: 10px;
-    width: 90%;
-    height: 140px;
-    margin-bottom: 1em;
-    flex-direction: column;
-    border-radius: 10px;
-    text-align: center;
-    
-  }
+p {
+  margin: 0;
+  color: white;
+}
+
+a {
+  color: white;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 1rem;
+  color: white;
+  margin-bottom: 8px;
+}
+
+
+.btnCreateDrink {
+  float: right;
+  margin: 18px;
+  margin-right: 45px;
+  width: 200px;
+}
+
+
+li {
+  cursor: pointer;
+}
+
+/*    Mobil            */
+
+@media (max-width: 414px) {
+
+.container{
+width: 100%;
+height: 600px;
+}
+ul {
+list-style-type: none;
+margin-left: auto;
+margin-right: auto;
+padding: 0;
+flex-wrap: wrap;
+width: 100%;
 
 }
+
+.location{
+  float: left;
+}
+
+li {
+  background-color: rgb(37, 2, 48); 
+  padding: 1em;
+  margin-right: 10px;
+  margin-left: 10px;
+  width: 90%;
+  height: 200px;
+  margin-bottom: 1em;
+  flex-direction: column;
+
+  //text-align: center;
   
+}
+
+
+
+.btn-success {
+  float: right;
+  margin-top: 1em;
+  size: 0,5px;
+  margin-left: 1em;
+  margin-right: 2em;
+  font-size: small;
+  text-align: center;
+  
+}
+
+.countBtns {
+  float: left;
+  size: 0,5px;
+  margin-right: 1em;
+  margin-top: 1em;
+  
+  
+}
+
+
+
+
+}
