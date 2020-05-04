@@ -22,7 +22,7 @@ export enum ActionTypes {
     CREATE_RECEIPT = '[API: /drink] Create Receipt ',
 }
 
-/*--------------LoadAllDrinks--------------*/
+/*--------------LoadAllReceipts--------------*/
 
 export class LoadReceipts implements Action {
     readonly type = ActionTypes.LOAD_RECEIPTS;

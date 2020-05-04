@@ -1,7 +1,5 @@
-<form
-    [formGroup]="receiptForm"
-    class="border border-light p-5"
-    (ngSubmit)="createReceipt()">
+<div>
+<form [formGroup]="receiptForm" class="border border-light p-5" (ngSubmit)="createReceipt()">
     <div class="form-group">
       <!-- <mat-form-field appearance="outline">
         <mat-label>Bild-url</mat-label>
@@ -11,7 +9,6 @@
           accept="image/*"
           autocomplete="off"
           formControlName="Image"
-          (change)="loadImage($event.target.files)"
           
         />
         <!-- <mat-error *ngIf="eventForm.invalid">Fel filtyp</mat-error> -->
@@ -28,7 +25,7 @@
       </button>
     </div>
 </form>
-
+</div>
 
 <div class="container justify-content-center">
 

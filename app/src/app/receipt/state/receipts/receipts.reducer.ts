@@ -46,8 +46,7 @@ let initialState = adapter.getInitialState({
         };
       }
 
-      default: {
+      default:
         return state;
-      }
     }
 }

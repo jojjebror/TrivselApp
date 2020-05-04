@@ -46,9 +46,6 @@ export class ReceiptListComponent implements OnInit {
 
   createReceipt() {
     if (this.receiptForm.valid) {
-      this.receiptForm.get('Date').setValue(new Date());
-
-      this.fixDateTimeZone(this.receiptForm.get('Date').value);
 
       this.receipt = Object.assign({}, this.receiptForm.value);
 
@@ -81,9 +78,5 @@ export class ReceiptListComponent implements OnInit {
   loadImage(file: FileList) {
     this.fileUpload = file.item(0);
   }
-
-  fixDateTimeZone(d: Date): Date {
-    d.setHours(d.getHours() - d.getTimezoneOffset() / 60);
-    return d;
-  }
+  
 }
