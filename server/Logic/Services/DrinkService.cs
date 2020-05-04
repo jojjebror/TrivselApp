@@ -120,6 +120,8 @@ namespace Logic.Services
             return DrinkForListTranslator.ToModel(dr);
         }
 
+
+       
         public async Task<DrinkForListDto> DeleteDrink(int id)
         {
             var result = await _context.Drinks.FirstOrDefaultAsync(e => e.Id == id);
@@ -133,8 +135,7 @@ namespace Logic.Services
             return DrinkForListTranslator.ToModel(result);
         }
 
-        
-
+       
         public async Task<DrinkForUpdateDto> Update(int id, DrinkForUpdateDto dr)
         {
             var dbDrink = await _context.Drinks
@@ -189,6 +190,19 @@ namespace Logic.Services
             }
 
             return DrinkForListTranslator.ToModel(dbDrink);
+        }
+
+        public async Task<ReceiptForListDto> CreateReceipt(ReceiptForListDto receipt)
+        {
+            var re = new Receipt()
+            {
+                Image = receipt.Image,
+                Date = receipt.Date,
+            };
+
+            _context.Receipts.Add(re);
+            await _context.SaveChangesAsync();
+            return ReceiptForListTranslator.ToModel(re);
         }
 
         public async Task<ICollection<ReceiptForListDto>> GetReceipt()

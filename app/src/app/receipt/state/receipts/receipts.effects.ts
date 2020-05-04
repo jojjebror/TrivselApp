@@ -30,4 +30,21 @@ export class ReceiptsEffects {
         )
     )
   );
+
+  @Effect()
+  createReceipt$:Observable<Action> = this.actions$.pipe(
+      ofType(receiptsActions.ActionTypes.CREATE_RECEIPT),
+      switchMap((action: receiptsActions.CreateReceipt) =>
+        this.drinkResource.createReceipt(action.payload).pipe(
+            switchMap((newReceipt: Receipt) =>
+            [
+                new receiptsActions.SaveImage(newReceipt.id, action.image),
+                new receiptsActions.CreateReceiptSuccess(newReceipt)
+            ]),
+            tap(() => this.router.navigate(['/drink'])),
+            catchError((err) => of(new receiptsActions.CreateReceiptError(err)))
+        )
+    )
+  );
+  
 }

@@ -1,3 +1,50 @@
-<p>
-  receipt-list works!
-</p>
+<form
+    [formGroup]="receiptForm"
+    class="border border-light p-5"
+    (ngSubmit)="createReceipt()">
+    <div class="form-group">
+      <!-- <mat-form-field appearance="outline">
+        <mat-label>Bild-url</mat-label>
+        <img [src]="imageUrl || ''" style="width: 50px;"> -->
+        <input
+          type="file"
+          accept="image/*"
+          autocomplete="off"
+          formControlName="Image"
+          (change)="loadImage($event.target.files)"
+          
+        />
+        <!-- <mat-error *ngIf="eventForm.invalid">Fel filtyp</mat-error> -->
+      <!-- </mat-form-field> -->
+      <div class="invalid-feedback">Du måste ange en bild-url</div>
+    </div>
+
+    <div class="form-group text-center">
+      <button
+        class="btn btn-success"
+        type="submit"
+      >
+        Lägg till dryck
+      </button>
+    </div>
+</form>
+
+
+<div class="container justify-content-center">
+
+  <div class="info">
+    <ul *ngIf="res$">
+      <li *ngFor="let re of res$ | async">
+          
+        <a href={{re.Image}} class="btn clss" target="_self" download> Download</a>
+
+        <p class="location">{{ re.DateTime}}</p>
+        
+        <ng-template >
+          <p></p>
+        </ng-template>
+      </li>
+    </ul>
+  </div>
+
+</div>

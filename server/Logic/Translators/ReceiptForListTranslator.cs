@@ -20,7 +20,7 @@ namespace Logic.Translators
             {
                 Id = re.Id,
                 Image = re.Image,
-                Date = re.Date
+                Date = DateTime.Now
             };
         }
     }

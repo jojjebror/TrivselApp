@@ -12,7 +12,6 @@ export class DrinkResource extends ApiResource {
 
     constructor(http: HttpClient) {
         super(http);
-        
     }
 
     loadDrinks(): Observable<Drink[]> {
@@ -30,12 +29,12 @@ export class DrinkResource extends ApiResource {
     deleteDrink(id: number): Observable<Drink> {
         return this.delete('drink/' + id);
     }
+
     updateDrink(dr: Drink): Observable<Drink> {
         return this.put<Drink>('drink/'+ dr.id, dr);
-      }
+    }
 
-    filterDrink(dr: string): Observable<Drink[]>
-    {
+    filterDrink(dr: string): Observable<Drink[]> {
         return this.get('drink/' + 'filter?filter=' + dr);
     }
     
@@ -46,7 +45,12 @@ export class DrinkResource extends ApiResource {
     }
 
     loadReceipts(): Observable<Receipt[]> {
-        return this.get('drink/receipts/')
+        return this.get('drink/receipt/')
     }
+
+    createReceipt(re: Receipt): Observable<Receipt> {
+        return this.post('receipt', re);
+    }
+    
 }
 

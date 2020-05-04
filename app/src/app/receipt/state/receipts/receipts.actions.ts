@@ -16,6 +16,10 @@ export enum ActionTypes {
     UPDATE_IMAGE = '[Drinks view] Update Image',
     UPDATE_IMAGE_SUCCESS = '[API: /drink] Update Image success',
     UPDATE_IMAGE_ERROR = '[API: /drink] Update Image error',
+    
+    CREATE_RECEIPT_SUCCESS = '[API: /drink] Create Receipt success',
+    CREATE_RECEIPT_ERROR = '[API: /drink] Create Receipt error',
+    CREATE_RECEIPT = '[API: /drink] Create Receipt ',
 }
 
 /*--------------LoadAllDrinks--------------*/
@@ -57,6 +61,27 @@ export class SaveImage implements Action {
   
     constructor(public payload: string) {}
   }
+
+  /*--------------CreateReceipt--------------*/
+
+export class CreateReceipt implements Action {
+    readonly type = ActionTypes.CREATE_RECEIPT
+  
+    constructor(public payload: Receipt, public image: File) {}
+  }
+  
+  export class CreateReceiptSuccess implements Action {
+    readonly type = ActionTypes.CREATE_RECEIPT_SUCCESS;
+  
+    constructor(public payload: Receipt) {}
+  }
+  
+  export class CreateReceiptError implements Action {
+    readonly type = ActionTypes.CREATE_RECEIPT_ERROR;
+  
+    constructor(public payload: string) {}
+  }
+  
   
 
 export type Actions = 
@@ -66,4 +91,8 @@ export type Actions =
 
     | SaveImage
     | SaveImageSuccess
-    | SaveImageError;
+    | SaveImageError
+    
+    |CreateReceipt
+    |CreateReceiptError
+    |CreateReceiptSuccess;

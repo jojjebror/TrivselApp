@@ -34,7 +34,18 @@ let initialState = adapter.getInitialState({
           error: action.payload,
         };
       }
-      
+
+      case receiptsActions.ActionTypes.CREATE_RECEIPT_SUCCESS: {
+        return adapter.addOne(action.payload, state);
+      }
+  
+      case receiptsActions.ActionTypes.CREATE_RECEIPT_ERROR: {
+        return {
+          ...state,
+          error: action.payload
+        };
+      }
+
       default: {
         return state;
       }

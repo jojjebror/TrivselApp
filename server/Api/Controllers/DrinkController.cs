@@ -49,6 +49,13 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
+        [HttpPost("Receipt")]
+        public async Task<IActionResult> CreateReceipt([FromBody] ReceiptForListDto receipt)
+        {
+            var result = await _drinkService.CreateReceipt(receipt);
+            return new ObjectResult(ApiResponse.Create(result));
+        }
+
         [HttpPost("{id}/saveimage")]
         public async Task<IActionResult> SaveImage(int id)
         {

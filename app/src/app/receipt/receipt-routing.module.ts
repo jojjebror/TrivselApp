@@ -5,18 +5,15 @@ import { Routes, RouterModule } from '@angular/router';
 import { ReceiptComponent } from './views'
 import { ReceiptListComponent } from './components/receipt-list/receipt-list.component';
 
-
-
-
 export const routes: Routes = [
     {
       path: '',
       component: ReceiptComponent,
       children: [
-        {
+          {
             path: '',
             component: ReceiptListComponent
-          },
+          }
         ]
     }
 ];
@@ -27,6 +24,6 @@ export const routes: Routes = [
   declarations: [],
   providers: []
 })
-export class LoginRoutingModule {}
+export class ReceiptRoutingModule {}
 
 
