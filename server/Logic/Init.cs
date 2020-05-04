@@ -23,7 +23,6 @@ namespace Logic
             services.AddScoped<EventService>();
             services.AddScoped<DrinkService>();
             services.AddScoped<PostService>();
-
         }
     }
 }

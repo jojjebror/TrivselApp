@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { User } from '../../shared/models';
@@ -10,29 +10,28 @@ import * as fromSession from '../state/session';
 import * as fromAuthentication from '../state/authentication';
 
 @Component({
-	selector: 'ex-protected',
-	templateUrl: './protected.component.html',
-	styleUrls: ['./protected.component.scss']
+  selector: 'ex-protected',
+  templateUrl: './protected.component.html',
+  styleUrls: ['./protected.component.scss']
 })
 export class ProtectedComponent implements OnInit {
+  user$: Observable<User>;
 
-	user$: Observable<User>;
+  isMenuVisible$: Observable<boolean>;
 
-	isMenuVisible$: Observable<boolean>;
+  constructor(private store$: Store<AppState>) {}
 
-	constructor(private store$: Store<AppState>) { }
+  ngOnInit(): void {
+	this.user$ = this.store$.select(fromSession.selectUser);
+	
+    this.isMenuVisible$ = this.store$.select(fromLayout.selectMenuVisible);
+  }
 
-	ngOnInit(): void {
-		this.user$ = this.store$.select(fromSession.selectUser);
-		this.isMenuVisible$ = this.store$.select(fromLayout.selectMenuVisible);
-	}
+  toggleMenu(): void {
+    this.store$.dispatch(new fromLayout.ToggleMenu());
+  }
 
-	toggleMenu(): void {
-		this.store$.dispatch(new fromLayout.ToggleMenu());
-	}
-
-	logout(): void {
-		this.store$.dispatch(new fromAuthentication.Logout());
-	}
-
+  logout(): void {
+    this.store$.dispatch(new fromAuthentication.Logout());
+  }
 }

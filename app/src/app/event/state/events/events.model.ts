@@ -6,7 +6,7 @@ export interface EventsState extends EntityState<Event> {
   selectedEventId: number | null;
   loading: boolean;
   loaded: boolean;
-  error: string;
+  error: string | null;
   users: User[];
   posts: Post[];
   userEvents: Event[];
