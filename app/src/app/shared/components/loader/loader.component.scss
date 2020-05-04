@@ -1,0 +1,28 @@
+@import '../../../../assets/stylesheets/variables';
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+
+.ex-loader {
+	margin: 100px 0;
+
+	.ex-loader-spinner {
+		border: 2px solid transparent;
+		border-top: 2px solid $ex-primary;
+		border-radius: 50%;
+		width: 20px;
+		height: 20px;
+		animation: spin 1.5s linear infinite;
+		margin: auto;
+	}
+
+	.ex-loader-text {
+		text-align: center;
+		font-size: 0.9rem;
+		color: #666;
+		margin-top: 10px;
+	}
+}
