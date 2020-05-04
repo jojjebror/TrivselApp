@@ -5,10 +5,14 @@
   border-radius: 30%;
   max-height: 80px;
   margin-bottom: 40px;
+  margin-right: 2em;
 
 }
 
-
+  /* ink bar */
+  ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary {
+    background-color: white !important;
+    }
 
 /* Clear floats after the columns */
 .row:after {
@@ -128,12 +132,8 @@ width: 100%;
 
 }
 
-.title{
-  //margin-left: 4em;
-}
-
 .location{
-  margin-left: 3em;
+  float: left;
 }
 
 li {
@@ -145,7 +145,7 @@ li {
   height: 200px;
   margin-bottom: 1em;
   flex-direction: column;
-  border-radius: 10px;
+
   //text-align: center;
   
 }
@@ -157,7 +157,7 @@ li {
   margin-top: 1em;
   size: 0,5px;
   margin-left: 1em;
-  margin-right: 3em;
+  margin-right: 2em;
   font-size: small;
   text-align: center;
   
@@ -166,7 +166,7 @@ li {
 .countBtns {
   float: left;
   size: 0,5px;
-  margin-right: 4em;
+  margin-right: 1em;
   margin-top: 1em;
   
   

@@ -2,6 +2,8 @@
   <h2 class="titel">
     Öl
   </h2>
+<hr />
+<p class="quantity">Antal valda drycker: {{clickCounter}}</p>
   <button
     class="btn btn-default"
     style="color: white;"
@@ -23,6 +25,7 @@
         <div class="info">
           
         </div>
+        <br>
       <div class="info">
         <ul *ngIf="drs$">
           <li *ngFor="let dr of drs$ | async" class="tab1">
@@ -71,14 +74,14 @@
               <button class="minus" mat-mini-fab color="warn" (click)="clickCountM(dr)">-</button>
             <button class="minus" mat-mini-fab color="green" (click)="clickCount(dr)">+</button>
             </div>
-            <p class="location">Pris: {{ dr.price }}kr</p>
+            <p class="title">{{ dr.price }}kr</p>
              
     
             
           </li>
         </ul>
       </div>
-      <p class="quantity">Antal valda drycker: {{clickCounter}}</p>
+      
     </mat-tab>
     
   </mat-tab-group>

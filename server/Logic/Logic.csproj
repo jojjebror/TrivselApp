@@ -276,13 +276,9 @@
     <Compile Include="Database\Migrations\201802051252482_Init.Designer.cs">
       <DependentUpon>201802051252482_Init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\Migrations\202004221425379_MergeBranches.cs" />
-    <Compile Include="Database\Migrations\202004221425379_MergeBranches.Designer.cs">
-      <DependentUpon>202004221425379_MergeBranches.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Database\Migrations\202004271219557_imageDrink.cs" />
-    <Compile Include="Database\Migrations\202004271219557_imageDrink.Designer.cs">
-      <DependentUpon>202004271219557_imageDrink.cs</DependentUpon>
+    <Compile Include="Database\Migrations\202004301341104_MergeBranches.cs" />
+    <Compile Include="Database\Migrations\202004301341104_MergeBranches.Designer.cs">
+      <DependentUpon>202004301341104_MergeBranches.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Helpers\PagedList.cs" />
@@ -339,11 +335,8 @@
     <EmbeddedResource Include="Database\Migrations\201802051252482_Init.resx">
       <DependentUpon>201802051252482_Init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Database\Migrations\202004221425379_MergeBranches.resx">
-      <DependentUpon>202004221425379_MergeBranches.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Database\Migrations\202004271219557_imageDrink.resx">
-      <DependentUpon>202004271219557_imageDrink.cs</DependentUpon>
+    <EmbeddedResource Include="Database\Migrations\202004301341104_MergeBranches.resx">
+      <DependentUpon>202004301341104_MergeBranches.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
