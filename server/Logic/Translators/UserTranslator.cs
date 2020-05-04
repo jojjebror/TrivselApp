@@ -21,7 +21,8 @@ namespace Logic.Translators
                 Id = user.Id,
                 Name = user.Name,
                 Credit = user.Credit,
-                Email = user.Email
+                Email = user.Email,
+                Office = user.Office
             };
         }
 
