@@ -8,9 +8,10 @@
       dynamicHeight
     >
       <mat-tab label="Nuvarande saldo">
+        <form class="border border-light p-6">
         <div class="mat-div-card">
           <div class="addCreditForm">
-            <form class="border border-light p-6">
+            
               <h3 class="text-center">Nuvarande saldo</h3>
               <hr />
 
@@ -18,9 +19,10 @@
                 Just nu har du <a>{{ userCredit }}kr </a> innestående på ditt saldo!
               </p>
               <hr />
-            </form>
+            
           </div>
         </div>
+      </form>
       </mat-tab>
 
       <!-- Tab add balance -->
@@ -32,7 +34,7 @@
                 <h3 class="text-center">Fyll på saldo</h3>
                 <hr />
                 <div>
-                  <mat-form-field style="width: 100%;">
+                  <mat-form-field >
                     <mat-label>Välj en summa</mat-label>
 
                     <mat-select
@@ -63,11 +65,6 @@
               </div>
             </div>
           </form>
-          <!--     <form>
-    <input type="text" >
-    <button (click)="addCredit()"></button>
-  </form>
-   -->
         </mat-list>
       </mat-tab>
     </mat-tab-group>

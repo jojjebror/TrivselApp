@@ -5,9 +5,14 @@
   margin-right: auto;
   margin-top: 100px;
   color: white;
-  height: 800px;
+  height: 400px;
   }
   
+  .border-light {
+    margin-top: 40px;
+    height: 400px;
+    padding-top: 12px;
+  }
 
   /* active tab */
 ::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
@@ -107,10 +112,23 @@ a {
 
 @media (max-width: 414px) {
 
+ 
+
+  ::ng-deep .mat-tab-label .mat-tab-label-content {
+    color: white;
+    font-size: 16px;
+  }
+
 .addCreditForm{
   margin-top: 10%;
   width: 80%;
   height: 600px;
+  }
+
+  .border-light {
+    margin-top: 40px;
+    height: 400px;
+    padding-top: 12px;
   }
 
 }
