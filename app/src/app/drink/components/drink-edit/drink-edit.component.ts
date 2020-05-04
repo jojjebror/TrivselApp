@@ -19,6 +19,8 @@ export class DrinkEditComponent implements OnInit {
   dr$: Observable<Drink>;
   drink: Drink;
   drinkEditForm: FormGroup;
+  fileUpload: File = null;
+  imageUrl: string;
   
 
   constructor(
@@ -44,16 +46,21 @@ export class DrinkEditComponent implements OnInit {
         price: [dr.price, Validators.required],
         volume: [dr.volume, Validators.required],
         category: [dr.category, Validators.required],
+        image: [dr.image, Validators.required]
       });
     });
   }
 
   updateDrink() {
     if (this.drinkEditForm.valid) {
-      this.drink = Object.assign({}, this.drinkEditForm.value);
-      console.log(this.drink);
-      this.store$.dispatch(new fromDrink.UpdateDrink(this.drink));
+      const dr = Object.assign({}, this.drinkEditForm.value);
+      console.log(dr);
+      this.store$.dispatch(new fromDrink.UpdateDrink(dr, this.fileUpload));
       this.alertify.success("Information om drycken har ändrats!");
     }
+  }
+  
+  loadImage(file: FileList) {
+    this.fileUpload = file.item(0);
   }
 }

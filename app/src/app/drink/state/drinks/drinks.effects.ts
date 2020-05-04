@@ -11,6 +11,7 @@ import { DrinkResource } from "src/app/core/resources/drink.resource";
 import { Drink } from "src/app/shared/models";
 import { text } from "@angular/core/src/render3";
 
+
 @Injectable()
 export class DrinksEffects {
   constructor(
@@ -18,7 +19,25 @@ export class DrinksEffects {
     private drinkResource: DrinkResource,
     private router: Router
   ) {}
-
+  
+  
+  @Effect()
+  saveImage$: Observable<Action> = this.actions$.pipe(
+    ofType(drinksActions.ActionTypes.SAVE_IMAGE),
+    switchMap((action: drinksActions.SaveImage) =>
+      this.drinkResource.saveImage(action.id, action.payload).pipe(
+        map(
+          (newDrink: Drink) =>
+            new drinksActions.SaveImageSuccess({
+              id: newDrink.id,
+              changes: newDrink
+            })
+        ),
+        catchError((err) => of(new drinksActions.SaveImageError(err)))
+      )
+    )
+  );
+  
   //load drinks
   @Effect()
   loadDrinks$: Observable<Action> = this.actions$.pipe(
@@ -46,13 +65,14 @@ export class DrinksEffects {
   // create new drink
   @Effect()
   createDrink$: Observable<Action> = this.actions$.pipe(
-    ofType<drinksActions.CreateDrink>(drinksActions.ActionTypes.CREATE_DRINK),
-    map((action: drinksActions.CreateDrink) => action.payload),
-    mergeMap((drink: Drink) =>
-      this.drinkResource.create(drink).pipe(
-        map(
-          (newDrink: Drink) => new drinksActions.CreateDrinkSuccess(newDrink)
-        ),
+    ofType(drinksActions.ActionTypes.CREATE_DRINK),
+    switchMap((action: drinksActions.CreateDrink) =>
+      this.drinkResource.create(action.payload).pipe(
+        switchMap((newDrink: Drink) =>
+        [
+          new drinksActions.SaveImage(newDrink.id, action.image),
+          new drinksActions.CreateDrinkSuccess(newDrink)
+        ]),
         tap(() => this.router.navigate(["/drink"])),
         catchError((err) => of(new drinksActions.CreateDrinkError(err)))
       )
@@ -75,18 +95,17 @@ export class DrinksEffects {
   // update Drink
   @Effect()
   updateDrink$: Observable<Action> = this.actions$.pipe(
-    ofType<drinksActions.UpdateDrink>(drinksActions.ActionTypes.UPDATE_DRINK),
-    map((action: drinksActions.UpdateDrink) => action.payload),
-    mergeMap((drink: Drink) =>
-      this.drinkResource.updateDrink(drink).pipe(
-        map(
-          (updatedDrink: Drink) =>
-            new drinksActions.UpdateDrinkSuccess({
-              id: updatedDrink.id,
-              changes: updatedDrink,
-            })
-        ),
-        tap(() => this.router.navigate(["/drink/" + drink.id])),
+    ofType(drinksActions.ActionTypes.UPDATE_DRINK),
+    switchMap((action: drinksActions.UpdateDrink) =>
+      this.drinkResource.updateDrink(action.payload).pipe(
+        switchMap((updatedDrink: Drink) => [
+          new drinksActions.UpdateDrinkSuccess({
+            id: updatedDrink.id,
+            changes: updatedDrink
+          }),
+          new drinksActions.SaveImage(updatedDrink.id, action.image),
+        ]),
+        tap(() => this.router.navigate(["/drink/" + action.payload.id])),
         catchError((err) => of(new drinksActions.UpdateDrinkError(err)))
       )
     )
@@ -106,4 +125,5 @@ export class DrinksEffects {
       )
     )
   );
+
 }

@@ -3,7 +3,7 @@ namespace Logic.Database.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class MergeBranchesImageId : DbMigration
+    public partial class MergeBranches : DbMigration
     {
         public override void Up()
         {
@@ -20,6 +20,7 @@ namespace Logic.Database.Migrations
                         Usage = c.String(),
                         Taste = c.String(),
                         BeverageDescriptionShort = c.String(),
+                        Image = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
             

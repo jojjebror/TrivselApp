@@ -20,12 +20,18 @@
       </li> -->
     </ul>
 
-    <div class="dropdown" dropdown>
+    <a class="navbarExtra"><span class="material-icons icon">
+        attach_money
+      </span> {{user?.credit}} kr</a>
+    <a class="navbarExtra"><span class="material-icons icon">
+        pin_drop
+      </span> {{user?.office}}</a>
+
+    <div class="dropdown navbarExtra" dropdown>
       <a class="dropdown-toggle text-light" dropdownToggle>
       {{ user?.name }}
       </a>
       
-
       <div class="dropdown-menu mt-3" *dropdownMenu>
         <a class="dropdown-item" [routerLink]="['/drink/credit']"><i class="fa fa-user"></i>Hantera saldo</a>
         <div class="dropdown-divider"></div>
@@ -38,7 +44,7 @@
     <a class="navbarExtra" (click)="editDialog();"><span class="material-icons icon">
       pin_drop
     </span>  {{user?.office}}</a>
-
+   
     <div class="dropdownM" dropdown>
       <a class="dropdown-toggle1 text-light" dropdownToggle>
         <div class="container1" (click)="status=!status" [ngClass]="status ? 'change' : 'basic'">

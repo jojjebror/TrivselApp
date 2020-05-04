@@ -6,6 +6,7 @@ import { Observable } from "rxjs";
 import { Drink } from '../../shared/models';
 import { text } from "@angular/core/src/render3";
 
+
 @Injectable()
 export class DrinkResource extends ApiResource {
 
@@ -38,5 +39,10 @@ export class DrinkResource extends ApiResource {
         return this.get('drink/' + 'filter?filter=' + dr);
     }
     
+    saveImage(id: number, image: File): Observable<Drink> {
+        var formData = new FormData();
+        formData.append('image', image, image.name);
+        return this.post2('drink/' + id + '/saveimage', formData);
+      }
 }
 

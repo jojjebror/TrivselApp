@@ -194,19 +194,24 @@ export class EventListComponent implements OnInit, OnDestroy {
     }
   }
 
-  clearSearchField() {
-    this.searchField = '';
-    this.doFilter('', '');
-  }
+  clearField(property: string) {
+    switch (property) {
+      case 'searchField': {
+        this.searchField = '';
+      }
+      case 'searchFieldUserEvents': {
+        this.searchFieldUserEvents = '';
+      }
+      case 'calendarField': {
+        this.calendarField = '';
+      }
+    }
 
-  clearSearchFieldUserEvents() {
-    this.searchFieldUserEvents = '';
-    this.doFilter('', 'createdEvents');
-  }
-
-  clearCalendarField() {
-    this.calendarField = '';
-    this.doFilter('', '');
+    if (property === 'searchFieldUserEvents') {
+      this.doFilter('', 'createdEvents');
+    } else {
+      this.doFilter('', '');
+    }
   }
 
   confirmDialog(id: number, title: string): void {

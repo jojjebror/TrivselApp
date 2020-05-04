@@ -61,6 +61,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
 
   loadEvent() {
     this.store$.dispatch(new fromEvents.LoadEvent(+this.eventId));
+    
     this.subscription.add(
       this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.LOAD_EVENT_ERROR)).subscribe((action) => {
         this.snackBar.open('Evenemanget kunde inte laddas', '', { duration: 10000 });

@@ -27,7 +27,7 @@ namespace Logic.Database.Migrations
                 Email = "test@test.se",
                 Name = "Test Persson",
                 Password = _passwordHasher.HashPassword("test"),
-                Office = "Linköping"
+                Office = "LinkÃ¶ping"
             };
 
             var testUser1 = new User()
@@ -54,7 +54,7 @@ namespace Logic.Database.Migrations
                 Email = "zlatan@test.se",
                 Name = "Zlatan Ibrahimovic",
                 Password = _passwordHasher.HashPassword("test"),
-                Office = "Linköping"
+                Office = "LinkÃ¶ping"
             };
 
             var testUser4 = new User()
@@ -63,7 +63,7 @@ namespace Logic.Database.Migrations
                 Email = "hanna@test.se",
                 Name = "Hanna Fransson",
                 Password = _passwordHasher.HashPassword("test"),
-                Office = "Örebro"
+                Office = "Ã–rebro"
             };
 
             var testUser5 = new User()
@@ -72,7 +72,7 @@ namespace Logic.Database.Migrations
                 Email = "philip@test.se",
                 Name = "Philip Haglund",
                 Password = _passwordHasher.HashPassword("test"),
-                Office = "Linköping"
+                Office = "LinkÃ¶ping"
             };
 
             var testUser6 = new User()
@@ -81,7 +81,7 @@ namespace Logic.Database.Migrations
                 Email = "sanna@test.se",
                 Name = "Sanna Kallur",
                 Password = _passwordHasher.HashPassword("test"),
-                Office = "Malmö"
+                Office = "MalmÃ¶"
             };
 
             var testUser7 = new User()
@@ -90,7 +90,7 @@ namespace Logic.Database.Migrations
                 Email = "martin@test.se",
                 Name = "Martin De La Hoya",
                 Password = _passwordHasher.HashPassword("test"),
-                Office = "Örebro"
+                Office = "Ã–rebro"
             };
 
             var testUser8 = new User()
@@ -120,7 +120,7 @@ namespace Logic.Database.Migrations
             {
                 Id = 2,
                 Title = "AW-torsdag",
-                Description = "Nu ska vi ha jättekul",
+                Description = "Nu ska vi ha jÃ¤ttekul",
                 Image = "assets/images/event-images/default_event.png",
                 Location = "Lion Bar",
                 StartDate = DateTime.Now,
@@ -171,8 +171,8 @@ namespace Logic.Database.Migrations
             var testEvent6 = new Event()
             {
                 Id = 6,
-                Title = "Lunchträning",
-                Description = "Ta med kläder, nu kör vi",
+                Title = "LunchtrÃ¤ning",
+                Description = "Ta med klÃ¤der, nu kÃ¶r vi",
                 Image = "assets/images/event-images/default_event.png",
                 Location = "Friskis & Svettis",
                 StartDate = DateTime.Now,
@@ -185,9 +185,9 @@ namespace Logic.Database.Migrations
             {
                 Id = 7,
                 Title = "Brunch",
-                Description = "Anders bjuder på käk!",
+                Description = "Anders bjuder pÃ¥ kÃ¤k!",
                 Image = "assets/images/event-images/default_event.png",
-                Location = "Linköpingskontoret",
+                Location = "LinkÃ¶pingskontoret",
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now,
                 CreateDate = DateTime.Now,
@@ -198,26 +198,13 @@ namespace Logic.Database.Migrations
             {
                 Id = 8,
                 Title = "Cykelvasan",
-                Description = "Avgång med buss 18.30 från centralstation",
+                Description = "AvgÃ¥ng med buss 18.30 frÃ¥n centralstation",
                 Image = "assets/images/event-images/default_event.png",
-                Location = "Åre",
+                Location = "Ã…re",
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now,
                 CreateDate = DateTime.Now,
                 CreatorId = 4
-            };
-
-            var testDrink = new Drink()
-            {
-                Id = 1,
-                ProductNameBold = "Carlsberg Hof",
-                Category = "Öl",
-                AlcoholPercentage = 4,
-                Volume = 50,
-                Price = 16,
-                Taste = "Standard ljus öl, rätt svag",
-                Usage = "Gott till grillat",
-                BeverageDescriptionShort = "Klen smak",
             };
 
             var testEp = new EventParticipant()
@@ -327,7 +314,7 @@ namespace Logic.Database.Migrations
             //var post1 = new Post()
             //{
             //    Id = 1,
-            //    Content = "Detta blir jättekul!!",
+            //    Content = "Detta blir jï¿½ttekul!!",
             //    Created = DateTime.Now,
             //    CreatorId = 1,
             //    EventId = 1
@@ -336,7 +323,7 @@ namespace Logic.Database.Migrations
             //var post2 = new Post()
             //{
             //    Id = 2,
-            //    Content = "Jäklar vad ösigt!!",
+            //    Content = "Jï¿½klar vad ï¿½sigt!!",
             //    Created = DateTime.Now,
             //    CreatorId = 3,
             //    EventId = 2
@@ -345,11 +332,89 @@ namespace Logic.Database.Migrations
             //var post3 = new Post()
             //{
             //    Id = 3,
-            //    Content = "Jag har köpt nya dojor ;)",
+            //    Content = "Jag har kï¿½pt nya dojor ;)",
             //    Created = DateTime.Now,
             //    CreatorId = 2,
             //    EventId = 3
             //};
+
+            var testBeer = new Drink()
+            {
+                Id = 1,
+                ProductNameBold = "Carlsberg Hof",
+                Category = "Ã–l",
+                AlcoholPercentage = 4,
+                Volume = 50,
+                Price = 10,
+                Taste = "Standard ljus Ã¶l, rÃ¤tt svag",
+                Usage = "Gott till grillat",
+                BeverageDescriptionShort = "Klen smak",
+            };
+
+            var testWine = new Drink()
+            {
+                Id = 2,
+                ProductNameBold = "L'amarone",
+                Category = "Vin",
+                AlcoholPercentage = 12,
+                Volume = 50,
+                Price = 20,
+                Taste = "Trevligt sÃ¤llskapsvin",
+                Usage = "Gott till grillat",
+                BeverageDescriptionShort = "Trevlig",
+            };
+
+            var testCider = new Drink()
+            {
+                Id = 3,
+                ProductNameBold = "Briska",
+                Category = "Cider",
+                AlcoholPercentage = 4,
+                Volume = 33,
+                Price = 20,
+                Taste = "Fruktig",
+                Usage = "God pÃ¥ sommaren",
+                BeverageDescriptionShort = "LÃ¤skande",
+            };
+
+            var kategori = new Drink()
+            {
+                Id = 4,
+                ProductNameBold = "Budget",
+                Category = "Kategori",
+                AlcoholPercentage = 4,
+                Volume = 50,
+                Price = 10,
+                Taste = "",
+                Usage = "",
+                BeverageDescriptionShort = "",
+            };
+
+            var kategori2 = new Drink()
+            {
+                Id = 5,
+                ProductNameBold = "Standard",
+                Category = "Kategori",
+                AlcoholPercentage = 4,
+                Volume = 50,
+                Price = 15,
+                Taste = "",
+                Usage = "",
+                BeverageDescriptionShort = "",
+            };
+
+            var kategori3 = new Drink()
+            {
+                Id = 6,
+                ProductNameBold = "Luxury",
+                Category = "Kategori",
+                AlcoholPercentage = 4,
+                Volume = 50,
+                Price = 20,
+                Taste = "",
+                Usage = "",
+                BeverageDescriptionShort = "",
+            };
 
             context.Users.AddOrUpdate(testUser);
             context.Users.AddOrUpdate(testUser1);
@@ -381,12 +446,16 @@ namespace Logic.Database.Migrations
             context.EventParticipants.AddOrUpdate(testEp8);
             context.EventParticipants.AddOrUpdate(testEp9);
 
-
             //context.Posts.AddOrUpdate(post1);
             //context.Posts.AddOrUpdate(post2);
             //context.Posts.AddOrUpdate(post3);
 
-            context.Drinks.AddOrUpdate(testDrink);
+            context.Drinks.AddOrUpdate(testBeer);
+            context.Drinks.AddOrUpdate(testWine);
+            context.Drinks.AddOrUpdate(testCider);
+            context.Drinks.AddOrUpdate(kategori);
+            context.Drinks.AddOrUpdate(kategori2);
+            context.Drinks.AddOrUpdate(kategori3);
 
             context.SaveChanges();
         }

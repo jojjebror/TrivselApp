@@ -26,6 +26,7 @@ namespace Logic.Translators
                 //Usage = dr.Usage,
                 //AlcoholPercentage = dr.AlcoholPercentage,
                 //BeverageDescriptionShort = dr.BeverageDescriptionShort
+                Image = dr.Image
             };
         }
     }

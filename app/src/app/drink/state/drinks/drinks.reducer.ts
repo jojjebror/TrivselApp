@@ -1,7 +1,9 @@
-import { DrinksState } from "./drinks.model";
+import { DrinksState} from "./drinks.model";
 
-import { adapter } from "./drinks.adapter";
+import { adapter} from "./drinks.adapter";
 import * as drinksActions from "./drinks.actions";
+import { DrinkState } from "../drink.model";
+
 
 let initialState = adapter.getInitialState({
   selectedDrinkId: null,
@@ -9,6 +11,7 @@ let initialState = adapter.getInitialState({
   loaded: false,
   error: "",
 });
+
 
 export function reducer(
   state: DrinksState = initialState,
@@ -44,6 +47,17 @@ export function reducer(
       return {
         ...state,
         error: action.payload,
+      };
+    }
+
+    case drinksActions.ActionTypes.SAVE_IMAGE_SUCCESS: {
+      return adapter.updateOne(action.payload, state);
+    }
+
+    case drinksActions.ActionTypes.SAVE_IMAGE_ERROR: {
+      return {
+        ...state,
+        error: action.payload
       };
     }
 
@@ -94,3 +108,4 @@ export function reducer(
     }
   }
 }
+

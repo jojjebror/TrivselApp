@@ -3,10 +3,8 @@ using Logic.Database.Entities;
 using Logic.Models;
 using Logic.Translators;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Logic.Services
@@ -35,7 +33,7 @@ namespace Logic.Services
 
             await _context.SaveChangesAsync();
 
-            return PostForCreateTranslator.ToModel(newPost);
+            return PostTranslator.ToPostDto(newPost);
         }
 
         public async Task<EventForDetailedDto> DeletePost(int id, int eventId)
@@ -50,7 +48,7 @@ namespace Logic.Services
             var dbEvent = await _context.Events.Include(e => e.EventParticipants.Select(u => u.User))
             .Include(p => p.Posts.Select(po => po.Creator)).Include(e => e.Creator).FirstOrDefaultAsync(e => e.Id == eventId);
 
-            return EventForDetailedTranslator.ToModel(dbEvent);
+            return EventTranslator.ToEventForDetailedDto(dbEvent);
         }
 
     }

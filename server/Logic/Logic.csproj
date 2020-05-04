@@ -284,14 +284,15 @@
     <Compile Include="Database\Migrations\201802051252482_Init.Designer.cs">
       <DependentUpon>201802051252482_Init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\Migrations\202004271333121_MergeBranchesImageId.cs" />
-    <Compile Include="Database\Migrations\202004271333121_MergeBranchesImageId.Designer.cs">
-      <DependentUpon>202004271333121_MergeBranchesImageId.cs</DependentUpon>
+    <Compile Include="Database\Migrations\202005040933159_MergeBranches.cs" />
+    <Compile Include="Database\Migrations\202005040933159_MergeBranches.Designer.cs">
+      <DependentUpon>202005040933159_MergeBranches.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Helpers\PagedList.cs" />
     <Compile Include="Init.cs" />
     <Compile Include="Models\BaseDto.cs" />
+    <Compile Include="Models\DrinkForCreateDto.cs" />
     <Compile Include="Models\DrinkForDetailedDto.cs" />
     <Compile Include="Models\DrinkForListDto.cs" />
     <Compile Include="Models\DrinkForUpdateDto.cs" />
@@ -316,18 +317,13 @@
     <Compile Include="Services\GoogleCalendarService.cs" />
     <Compile Include="Services\PostService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="Translators\DrinkForCreateTranslator.cs" />
     <Compile Include="Translators\DrinkForDetailedTranslator.cs" />
     <Compile Include="Translators\DrinkForListTranslator.cs" />
     <Compile Include="Translators\DrinkForUpdateTranslator.cs" />
-    <Compile Include="Translators\EventForCreateTranslator.cs" />
-    <Compile Include="Translators\EventForDetailedTranslator.cs" />
-    <Compile Include="Translators\EventForListTranslator.cs" />
-    <Compile Include="Translators\EventForUpdateTranslator.cs" />
-    <Compile Include="Translators\EventForUserListTranslator.cs" />
+    <Compile Include="Translators\EventTranslator.cs" />
     <Compile Include="Translators\ExampleTranslator.cs" />
-    <Compile Include="Translators\PostForCreateTranslator.cs" />
-    <Compile Include="Translators\UserForListTranslator.cs" />
-    <Compile Include="Translators\UserForUpdateTranslator.cs" />
+    <Compile Include="Translators\PostTranslator.cs" />
     <Compile Include="Translators\UserTranslator.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -342,8 +338,8 @@
     <EmbeddedResource Include="Database\Migrations\201802051252482_Init.resx">
       <DependentUpon>201802051252482_Init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Database\Migrations\202004271333121_MergeBranchesImageId.resx">
-      <DependentUpon>202004271333121_MergeBranchesImageId.cs</DependentUpon>
+    <EmbeddedResource Include="Database\Migrations\202005040933159_MergeBranches.resx">
+      <DependentUpon>202005040933159_MergeBranches.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

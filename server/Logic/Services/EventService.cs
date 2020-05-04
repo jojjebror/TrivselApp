@@ -20,7 +20,7 @@ namespace Logic.Services
         public EventService(DatabaseContext context)
         {
             _context = context;
-            _googleCalendarService = new GoogleCalendarService(context);
+            _googleCalendarService = new GoogleCalendarService();
             _cloudinaryService = new CloudinaryService();
         }
 
@@ -29,14 +29,14 @@ namespace Logic.Services
             var dbEvent = await _context.Events.Include(e => e.EventParticipants.Select(u => u.User))
                 .Include(p => p.Posts.Select(po => po.Creator)).Include(e => e.Creator).FirstOrDefaultAsync(e => e.Id == id);
 
-            return EventForDetailedTranslator.ToModel(dbEvent);
+            return EventTranslator.ToEventForDetailedDto(dbEvent);
         }
 
         public async Task<ICollection<EventForListDto>> GetEvents()
         {
             var dbEvents = await _context.Events.Include(e => e.Creator).ToListAsync();
 
-            return dbEvents.Select(EventForListTranslator.ToModel).ToList();
+            return dbEvents.Select(EventTranslator.ToEventForListDto).ToList();
         }
 
         public async Task<EventForCreateDto> CreateEvent(EventForCreateDto ev)
@@ -59,7 +59,7 @@ namespace Logic.Services
             var eventParticipants = new List<EventParticipant>() { new EventParticipant 
                 { EventId = ev.Id, UserId = ev.CreatorId, Status = "accepted" } };
 
-            if (ev.Offices.Any())
+            if (ev.Offices.First() != "")
             {
                 foreach (var office in ev.Offices)
                 {
@@ -83,13 +83,18 @@ namespace Logic.Services
 
             _context.EventParticipants.AddRange(eventParticipants);
 
+            await _context.SaveChangesAsync();
+            
+            var attendees = await _context.EventParticipants.Include(ep => ep.User)
+                .Where(u => u.EventId == newEvent.Id).Select(u => u.User).ToListAsync();
+
             //Create a google calendar event and returns Google Event Id
-            var googleEventId = _googleCalendarService.CreateGoogleEvent(newEvent, eventParticipants);
+            var googleEventId = _googleCalendarService.CreateGoogleEvent(newEvent, attendees);
             newEvent.GoogleEventId = googleEventId;
 
             await _context.SaveChangesAsync();
 
-            return EventForCreateTranslator.ToModel(newEvent);
+            return EventTranslator.ToEventForCreateDto(newEvent);
         }
 
         public async Task<EventForUpdateDto> UpdateEvent(int id, EventForUpdateDto ev)
@@ -108,7 +113,39 @@ namespace Logic.Services
 
             _googleCalendarService.UpdateGoogleEvent(dbEvent);
 
-            return EventForUpdateTranslator.ToModel(dbEvent);
+            return EventTranslator.ToEventForUpdateDto(dbEvent);
+        }
+
+        public void SyncEventsWithGoogleEvents()
+        {
+            //Get all google events that has changed
+            var googleEvents = _googleCalendarService.CheckForChangesInGoogleEvents();
+
+            foreach (var googleEv in googleEvents) {
+                //Get the event from db that needs to be updated and all the eventparticipants for the event
+                var dbEvent = _context.Events.FirstOrDefault(e => e.GoogleEventId == googleEv.Id);
+                var dbEventParticipants = _context.EventParticipants.Include(u => u.User)
+                    .Where(ep => ep.EventId == dbEvent.Id).ToList();
+
+                dbEvent.Title = googleEv.Summary;
+                dbEvent.Location = googleEv.Location;
+                dbEvent.Description = googleEv.Description;
+                dbEvent.StartDate = googleEv.Start.DateTime.Value;
+                dbEvent.EndDate = googleEv.End.DateTime.Value;
+
+                foreach (var attendee in googleEv.Attendees)
+                {
+                    var dbEp = dbEventParticipants.FirstOrDefault(ep => ep.User.Email == attendee.Email);
+
+                    if (attendee.ResponseStatus == "accepted"
+                                || attendee.ResponseStatus == "declined")
+                    {
+                        dbEp.Status = attendee.ResponseStatus;
+                    }
+                }
+            }
+
+            _context.SaveChangesAsync();
         }
 
         public async Task<int> DeleteEvent(int id)
@@ -162,7 +199,7 @@ namespace Logic.Services
             var dbEvent = await _context.Events.Include(e => e.EventParticipants.Select(u => u.User))
                 .Include(p => p.Posts.Select(po => po.Creator)).Include(e => e.Creator).FirstOrDefaultAsync(e => e.Id == eventId);
 
-            return EventForDetailedTranslator.ToModel(dbEvent);
+            return EventTranslator.ToEventForDetailedDto(dbEvent);
         }
 
         public async Task<ICollection<EventForUserListDto>> UpdateParticipantStatus(int eventId, int userId, string answer)
@@ -177,7 +214,7 @@ namespace Logic.Services
             var dbEvents = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId)
                 .Include(us => us.Event.Creator).ToListAsync();
 
-            return dbEvents.Select(EventForUserListTranslator.ToModel).ToList();
+            return dbEvents.Select(EventTranslator.ToEventForUserListDto).ToList();
 
         }
 
@@ -192,7 +229,7 @@ namespace Logic.Services
 
             await _context.SaveChangesAsync();
 
-            return EventForCreateTranslator.ToModel(dbEvent);
+            return EventTranslator.ToEventForCreateDto(dbEvent);
         }
 
         public async Task<ICollection<EventForUserListDto>> GetCurrentUserEvents(int userId)
@@ -201,7 +238,7 @@ namespace Logic.Services
             var dbEvents = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId)
                 .Include(us => us.Event.Creator).ToListAsync();
 
-            return dbEvents.Select(EventForUserListTranslator.ToModel).ToList();
+            return dbEvents.Select(EventTranslator.ToEventForUserListDto).ToList();
         }
     }
 }

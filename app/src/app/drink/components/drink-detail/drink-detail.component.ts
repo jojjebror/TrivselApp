@@ -2,8 +2,8 @@ import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 
 import { AppState } from "src/app/core/state";
 import { Store, select } from "@ngrx/store";
-import * as fromSession from '../../../core/state/session'
-import * as fromUser from '../../../user/state/users/users.actions';
+import * as fromSession from "../../../core/state/session";
+import * as fromUser from "../../../user/state/users/users.actions";
 
 import { Observable } from "rxjs";
 import { Drink } from "src/app/shared/models";
@@ -24,7 +24,7 @@ export class DrinkDetailComponent implements OnInit {
   dr$: Observable<Drink>;
   id: number;
   isShown: boolean = false; // hidden by default
-  photo: string = "/bilder/beer.jpg";
+
   clickCounter: number = 1;
   totalSum: number = 0;
   userId: number;
@@ -39,13 +39,19 @@ export class DrinkDetailComponent implements OnInit {
 
   ngOnInit() {
     this.LoadDrink();
-    this.store$.select(fromSession.selectUser).subscribe((currentuser ) => (this.userId = currentuser.id));
-    this.store$.select(fromSession.selectUser).subscribe((currentuser ) => (this.userCredit = currentuser.credit));
+    this.store$
+      .select(fromSession.selectUser)
+      .subscribe((currentuser) => (this.userId = currentuser.id));
+    this.store$
+      .select(fromSession.selectUser)
+      .subscribe((currentuser) => (this.userCredit = currentuser.credit));
 
     if (this.userCredit < 60) {
-      this.alertify.warning("Psst..Det börjar se lite tomt ut på ditt saldo! :)");
+      this.alertify.warning(
+        "Psst..Det börjar se lite tomt ut på ditt saldo! :)"
+      );
     }
-    
+
     console.log(this.userId);
     console.log(this.userCredit);
   }
@@ -68,7 +74,7 @@ export class DrinkDetailComponent implements OnInit {
       this.alertify.warning("Dryck pantad!");
     }
   }
-
+  
   clickCount() {
     this.clickCounter += 1;
     console.log(this.clickCounter);
@@ -86,36 +92,40 @@ export class DrinkDetailComponent implements OnInit {
     this.isShown = !this.isShown;
   }
 
+  //
   GetToSwish(drink: Drink) {
     this.totalSum = 0;
     this.totalSum += this.clickCounter * drink.price;
+    var sum = this.clickCounter * drink.price;
     console.log(this.totalSum);
+    if (this.userCredit >= sum) {
+      if (
+        confirm("Du kommer skickas vidare till swish och betala " + sum + "kr.")
+      ) {
+        this.addEncodedUrl(drink);
+      }
+    } else this.alertify.error("Du har för lite pengar på ditt saldo!");
   }
 
   paySaldo(drink: Drink) {
     this.totalSum = 0;
     this.totalSum += this.clickCounter * drink.price;
-    this.totalSum = -this.totalSum
+    this.totalSum = -this.totalSum;
     var sum = this.clickCounter * drink.price;
-    var data = [this.userId , this.totalSum];
+    var data = [this.userId, this.totalSum];
     console.log(this.totalSum);
-    if(this.userCredit >= sum) {
-
-      if (confirm("Är du säker på att du vill köpa dessa produkter?")) {
+    if (this.userCredit >= sum) {
+      if (
+        confirm("Total summa som dras från saldo är " + sum + "kr, fortsätta?")
+      ) {
         this.store$.dispatch(new fromUser.UpdateCredit(data));
-      
-    this.alertify.success("Värdet för ditt saldo har ändrats!");
+
+        this.alertify.success("Värdet för ditt saldo har ändrats!");
       }
-      
-    }
-    else(
-      this.alertify.error("Du har för lite pengar på ditt saldo!")
-    )
-    
-    
+    } else this.alertify.error("Du har för lite pengar på ditt saldo!");
   }
- 
-  changeImage(drink: Drink) {
+
+  /* changeImage(drink: Drink) {
     if (drink.category == "cider") {
       this.photo = "/beer3.jpg";
       console.log(this.photo);
@@ -125,6 +135,37 @@ export class DrinkDetailComponent implements OnInit {
     } else {
       return this.photo;
     }
+  } */
+
+  addEncodedUrl(drink: Drink) {
+    var sumPriceToSwish = this.clickCounter * drink.price;
+
+    var initField = {
+      version: 1,
+      payee: {
+        value: "+46707662691",
+      },
+      amount: {
+        value: sumPriceToSwish,
+      },
+      message: {
+        value: "",
+        editable: true,
+      },
+    };
+
+    console.log(initField);
+
+    var newEncode = JSON.stringify(initField);
+
+    console.log(newEncode);
+
+    var encodedString = encodeURI(newEncode);
+
+    console.log(encodedString);
+
+    var httpUrl = "swish://payment?data=";
+
+    console.log(httpUrl + encodedString);
   }
-  
 }

@@ -24,7 +24,7 @@
               (keyup)="doFilter($event.target.value, '')"
               autocomplete="off"
             />
-            <button mat-button mat-icon-button matSuffix (click)="clearSearchField()" *ngIf="searchField">
+            <button mat-button mat-icon-button matSuffix (click)="clearField('searchField')" *ngIf="searchField">
               <mat-icon>close</mat-icon>
             </button>
             <mat-icon matSuffix *ngIf="!searchField">search</mat-icon>
@@ -41,7 +41,7 @@
               (keyup)="doFilter($event.target.value, '')"
               placeholder="Datum"
             />
-            <button mat-button mat-icon-button matSuffix (click)="clearCalendarField()" (click)="picker.close()" *ngIf="calendarField">
+            <button mat-button mat-icon-button matSuffix (click)="clearField('calendarField')" (click)="picker.close()" *ngIf="calendarField">
               <mat-icon>close</mat-icon>
             </button>
             <mat-icon matSuffix *ngIf="!calendarField">event</mat-icon>
@@ -226,7 +226,7 @@
                   placeholder="Sök evenemang"
                   autocomplete="off"
                 />
-                <button mat-button mat-icon-button matSuffix (click)="clearSearchFieldUserEvents()" *ngIf="searchFieldUserEvents">
+                <button mat-button mat-icon-button matSuffix (click)="clearField('searchFieldUserEvents')" *ngIf="searchFieldUserEvents">
                   <mat-icon>close</mat-icon>
                 </button>
                 <mat-icon matSuffix *ngIf="!searchFieldUserEvents">search</mat-icon>
