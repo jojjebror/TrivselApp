@@ -12,7 +12,8 @@ import { reducers, effects } from './state';
 import { views } from './views';
 import { components } from './components';
 
-import { TimepickerModule, PopoverModule } from 'ngx-bootstrap';
+import { PopoverModule } from 'ngx-bootstrap/popover';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 
 
 @NgModule({
