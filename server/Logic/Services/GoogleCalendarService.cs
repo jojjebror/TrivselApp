@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Xml.Linq;
 
 namespace Logic.Services
 {
@@ -225,14 +226,24 @@ namespace Logic.Services
 
         public ICollection<Google.Apis.Calendar.v3.Data.Event> CheckForChangesInGoogleEvents()
         {
-            string nextSyncToken = null;
+            var syncTokenXml = new XDocument();
+            if (!File.Exists("synctoken.xml"))
+            {
+                syncTokenXml = new XDocument(new XElement("synctoken", ""));
+                syncTokenXml.Save("synctoken.xml");
+            }
+            
+            syncTokenXml = XDocument.Load("synctoken.xml");
+            var nextSyncToken = syncTokenXml.Root.Value;
 
-            var request = _calendarService.Events.List("primary");
-            request.SyncToken = nextSyncToken;
+            var request = _calendarService.Events.List(calendarId);
+            request.SyncToken = nextSyncToken != "" ? nextSyncToken : null;
             var googleEvents = request.Execute();
 
             //syncToken = "CNCkyreJkOkCENCkyreJkOkCGAU="
             nextSyncToken = googleEvents.NextSyncToken;
+            syncTokenXml.Root.Value = nextSyncToken;
+            syncTokenXml.Save("synctoken.xml");
 
             return googleEvents.Items;
         }
