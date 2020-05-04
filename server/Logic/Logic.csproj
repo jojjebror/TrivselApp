@@ -284,6 +284,10 @@
     <Compile Include="Database\Migrations\201802051252482_Init.Designer.cs">
       <DependentUpon>201802051252482_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Database\Migrations\202005040933159_MergeBranches.cs" />
+    <Compile Include="Database\Migrations\202005040933159_MergeBranches.Designer.cs">
+      <DependentUpon>202005040933159_MergeBranches.cs</DependentUpon>
+    </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Helpers\PagedList.cs" />
     <Compile Include="Init.cs" />
@@ -333,6 +337,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Database\Migrations\201802051252482_Init.resx">
       <DependentUpon>201802051252482_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202005040933159_MergeBranches.resx">
+      <DependentUpon>202005040933159_MergeBranches.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

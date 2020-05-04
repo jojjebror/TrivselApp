@@ -208,8 +208,6 @@ namespace Logic.Database.Migrations
             };
 
             var testBeer = new Drink()
-
-            var testDrink = new Drink()
             {
                 Id = 1,
                 ProductNameBold = "Carlsberg Hof",
@@ -247,8 +245,6 @@ namespace Logic.Database.Migrations
                 Usage = "God p� sommaren",
                 BeverageDescriptionShort = "L�skande",
             };
-
-
 
             var kategori = new Drink()
             {
