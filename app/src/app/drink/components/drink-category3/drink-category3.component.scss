@@ -1,4 +1,23 @@
+.img-thumbnail {
+  max-width: 75px;
+  float: left;
+  object-fit: cover;
+  border-radius: 30%;
+  max-height: 80px;
+  margin-bottom: 40px;
+  margin-right: 2em;
 
+}
+
+.plus {
+  background-color: rgb(75, 194, 75);
+  color: white;
+}
+
+  /* ink bar */
+  ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary {
+    background-color: white !important;
+    }
 
 /* Clear floats after the columns */
 .row:after {
@@ -16,18 +35,47 @@ h2 {
   color: white;
 }
 
-li {
+.btn-primary{
+  float: right;
+}
+
+.btn-success {
+  float: right;
+  margin-top: 1em;
+  size: 0,5px;
+  margin-left: 1em;
+  margin-right: 3em;
+  font-size: small;
+  text-align: center;
+  
+}
+
+
+.quantity {
+  text-align: center;
+  font-size: xx-large;
+}
+
+.countBtns {
   float: left;
+  size: 0,5px;
+  margin-right: 4em;
+  margin-top: 1em;
+  
+}
+
+li {
+  //float: left;
   background-color:  rgb(37, 2, 48);
   padding: 1em;
   margin-right: 10px;
   margin-left: 10px;
-  width: 30%;
-  height: 150px;
+  //border-radius: 45px;
+  height: 100px;
   margin-bottom: 1em;
   flex-direction: column;
- 
-  text-align: center;
+  
+  //text-align: center;
   
 }
 
@@ -53,10 +101,19 @@ a {
 
 .title {
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: white;
   margin-bottom: 8px;
 }
+
+
+.btnCreateDrink {
+  float: right;
+  margin: 18px;
+  margin-right: 45px;
+  width: 200px;
+}
+
 
 li {
   cursor: pointer;
@@ -80,19 +137,46 @@ width: 100%;
 
 }
 
+.location{
+  float: left;
+}
+
 li {
   background-color: rgb(37, 2, 48); 
   padding: 1em;
   margin-right: 10px;
   margin-left: 10px;
   width: 90%;
-  height: 150px;
+  height: 200px;
   margin-bottom: 1em;
   flex-direction: column;
-  border-radius: 10px;
+
+  //text-align: center;
+  
+}
+
+
+
+.btn-success {
+  float: right;
+  margin-top: 1em;
+  size: 0,5px;
+  margin-left: 1em;
+  margin-right: 2em;
+  font-size: small;
   text-align: center;
   
 }
+
+.countBtns {
+  float: left;
+  size: 0,5px;
+  margin-right: 1em;
+  margin-top: 1em;
+  
+  
+}
+
 
 
 

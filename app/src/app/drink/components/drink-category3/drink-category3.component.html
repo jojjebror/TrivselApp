@@ -1,7 +1,9 @@
 <div class="container justify-content-center">
   <h2 class="titel">
-    Cider
+    Öl
   </h2>
+<hr />
+<p class="quantity">Antal valda drycker: {{clickCounter}}</p>
   <button
     class="btn btn-default"
     style="color: white;"
@@ -20,48 +22,69 @@
         <ng-template mat-tab-label>
           <span (click)="initializeFilterCategory()">Kategorier</span>
       </ng-template>
-        
+        <div class="info">
+          
+        </div>
+        <br>
       <div class="info">
         <ul *ngIf="drs$">
-          <li *ngFor="let dr of drs$ | async">
+          <li *ngFor="let dr of drs$ | async" class="tab1">
             <a class="title">
-              {{ dr.productNameBold }}</a
+              {{ dr.productNameBold }} </a
             >
+            
+            
+            <button class="btn btn-success" (click)="paySaldo(dr)">Köp med saldo</button>
+            <button class="btn btn-success" (click)="GetToSwish(dr)">Köp med swish</button>
+            <div class="countBtns">
               
+              <button class="minus" mat-mini-fab color="warn" (click)="clickCountM()">-</button>
+            <button class="plus" mat-mini-fab color="green" (click)="clickCount()">+</button>
+            </div>
             <p class="location">{{ dr.price }}kr</p>
-
-    
+            
+              
             <ng-template >
               <p></p>
             </ng-template>
           </li>
         </ul>
+        
       </div>
+      <p class="quantity">Antal valda drycker: {{clickCounter}}</p>
     </mat-tab>
     
     <mat-tab label="Second">
       <ng-template mat-tab-label>
-        <span (click)="initializeFilterBeer()">Drycker</span>
+        <span (click)="initializeFilterCider()">Drycker</span>
     </ng-template>
-      <div class="info">
+      <div>
         <ul *ngIf="drs$">
-          <li *ngFor="let dr of drs$ | async" [routerLink]="['/drink', dr.id]">
+          <li *ngFor="let dr of drs$ | async">
+            <img class="card-img-top img-thumbnail" [src]="dr.image ? '../../../' + dr.image : '/assets/images/drink-images/default_drink.jpg'" />
+            
             <a class="title" [routerLink]="['/drink', dr.id]">
               {{ dr.productNameBold }}</a
             >
-    
-            <p class="location">Pris: {{ dr.price }}kr</p>
-    
-            <p class="location">Volym: {{ dr.volume }}cl</p>
-    
-            <p class="location">Kategori: {{ dr.category }}</p>
+            
+            <button class="btn btn-success" (click)="paySaldo(dr)">Köp med saldo</button>
+            <button class="btn btn-success" (click)="GetToSwish(dr)">Köp med swish</button>
+            <div class="countBtns">
+              
+              <button class="minus" mat-mini-fab color="warn" (click)="clickCountM(dr)">-</button>
+            <button class="plus" mat-mini-fab color="green" (click)="clickCount(dr)">+</button>
+            </div>
+            <p class="title">{{ dr.price }}kr</p>
+             
     
             
           </li>
         </ul>
       </div>
+      
     </mat-tab>
     
   </mat-tab-group>
 
+</div>
 
