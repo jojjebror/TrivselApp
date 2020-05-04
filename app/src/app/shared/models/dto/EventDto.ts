@@ -15,7 +15,7 @@ export class Event extends Base {
   public creatorId: number;
   public users?: User[];
   public posts?: Post[];
-  public offices?: string[];
+  //public offices?: string[];
   public status: string;
   public creatorName: string;
 }
