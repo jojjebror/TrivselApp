@@ -1,5 +1,10 @@
 <div class="container mt-5 border border-light p-5">
-  <form [formGroup]="eventEditForm" (ngSubmit)="updateEvent()" *ngIf="ev$">
+  <div class="">
+    <span class="material-icons backIcon" [routerLink]="['/event']">
+      keyboard_backspace
+    </span>
+  </div>
+  <form *ngIf="evt" [formGroup]="eventEditForm" (ngSubmit)="updateEvent()" >
     <button [disabled]="!eventEditForm.dirty || !eventEditForm.valid" type="submit" class="btn btn-success">
       Spara ändringar
     </button>
@@ -16,7 +21,7 @@
       <div class="col-sm-4">
         <div>
         <img class="card-img-top img-thumbnail" [src]="imageUrl ? 
-          '../../'+ imageUrl : '/assets/images/event-images/default_event.png'" />
+          imageUrl : '/assets/images/event-images/default_event.png'" />
           <input type="file" accept="image/*" autocomplete="off" formControlName="image" (change)="loadImage($event.target.files)" />
       </div>
         <div class="card">
@@ -105,3 +110,7 @@
     </div>
   </form>
 </div>
+
+<ng-template #stillLoading>
+  <p>Loading...</p>
+</ng-template>

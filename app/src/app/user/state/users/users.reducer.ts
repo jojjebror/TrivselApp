@@ -14,7 +14,6 @@ let initialState = adapter.getInitialState({
 
 export function reducer(state: UsersState = initialState, action: usersActions.Actions): UsersState {
   switch (action.type) {
-
     case usersActions.ActionTypes.GET_USERS_SUCCESS: {
       return adapter.addAll(action.payload, {
         ...state,

@@ -4,11 +4,9 @@ using Logic.Database.Entities;
 using Logic.Models;
 using Logic.Translators;
 using Microsoft.AspNet.Identity;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Logic.Services
@@ -79,7 +77,7 @@ namespace Logic.Services
                 dbUser.Credit = dbUser.Credit + amount;
                 await _context.SaveChangesAsync();
             }
-            return UserForUpdateTranslator.ToModel(dbUser);
+            return UserTranslator.ToUserForUpdateDto(dbUser);
         }
 
         public async Task<UserForUpdateDto> RemoveCredit(int id, UserForUpdateDto user)
@@ -92,7 +90,7 @@ namespace Logic.Services
 
             await _context.SaveChangesAsync();
 
-            return UserForUpdateTranslator.ToModel(dbUser);
+            return UserTranslator.ToUserForUpdateDto(dbUser);
         }
 
         public async Task<ICollection<UserDto>> GetCredit()
@@ -102,13 +100,11 @@ namespace Logic.Services
             return fetch.Select(UserTranslator.ToModel).ToList();
         }
 
-
-
         public async Task<ICollection<UserForListDto>> GetUsers()
         {
             var dbUsers = await _context.Users.ToListAsync();
 
-            return dbUsers.Select(UserForListTranslator.ToModel).ToList();
+            return dbUsers.Select(UserTranslator.ToUserForListDto).ToList();
         }
 
         public async Task<UserDto> Login(string email, string password)

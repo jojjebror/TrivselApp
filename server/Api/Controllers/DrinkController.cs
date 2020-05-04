@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Api.Models;
+using Logic.Models;
 using Logic.Services;
 using Microsoft.AspNetCore.Mvc;
-using Logic.Models;
 
 namespace Api.Controllers
 {

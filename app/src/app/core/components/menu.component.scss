@@ -1,4 +1,14 @@
 @import '../../../assets/stylesheets/variables';
+
+.icon {
+	vertical-align: middle;
+}
+
+.navbarExtra {
+	float: right;
+	padding-left: 1%;
+}
+
 @media (min-width: 414px) {
 
 
@@ -59,7 +69,7 @@
 }
 
 }
-@media (max-width: 414px) {
+@media (max-width: 992px) {
 	@import '../../../assets/stylesheets/variables';
 ul{
 	display: none;
@@ -96,4 +106,12 @@ ul{
 	background-color: red;
   }
 
+}
+
+@media (max-width: 410px) {
+	.logo {
+	width: 150px;
+	margin: 5px;
+	margin-right: 40px;
+}
 }
