@@ -46,6 +46,17 @@ let initialState = adapter.getInitialState({
         };
       }
 
+      case receiptsActions.ActionTypes.SAVE_IMAGE_SUCCESS: {
+        return adapter.updateOne(action.payload, state);
+      }
+  
+      case receiptsActions.ActionTypes.SAVE_IMAGE_ERROR: {
+        return {
+          ...state,
+          error: action.payload
+        };
+      }
+
       default:
         return state;
     }

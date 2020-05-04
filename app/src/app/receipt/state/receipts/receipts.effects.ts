@@ -41,9 +41,26 @@ export class ReceiptsEffects {
                 new receiptsActions.SaveImage(newReceipt.id, action.image),
                 new receiptsActions.CreateReceiptSuccess(newReceipt)
             ]),
-            tap(() => this.router.navigate(['/drink'])),
+            tap(() => this.router.navigate(['/receipt'])),
             catchError((err) => of(new receiptsActions.CreateReceiptError(err)))
         )
+    )
+  );
+
+  @Effect()
+  saveImage$: Observable<Action> = this.actions$.pipe(
+    ofType(receiptsActions.ActionTypes.SAVE_IMAGE),
+    switchMap((action: receiptsActions.SaveImage) =>
+      this.drinkResource.saveImageReceipt(action.id, action.payload).pipe(
+        map(
+          (newReceipt: Receipt) =>
+            new receiptsActions.SaveImageSuccess({
+              id: newReceipt.id,
+              changes: newReceipt
+            })
+        ),
+        catchError((err) => of(new receiptsActions.SaveImageError(err)))
+      )
     )
   );
   

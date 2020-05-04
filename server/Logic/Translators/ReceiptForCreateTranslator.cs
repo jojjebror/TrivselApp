@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace Logic.Translators
 {
-    public class ReceiptForListTranslator
+    public class ReceiptForCreateTranslator
     {
 
-        public static ReceiptForListDto ToModel(Receipt re)
+        public static ReceiptForListDto ToModel(Receipt ev)
         {
-            if (re == null)
+            if (ev == null)
                 return null;
 
             return new ReceiptForListDto
             {
-                Id = re.Id,
-                Image = re.Image,
-                Date = re.Date
+                Image = ev.Image,
+                Date = DateTime.Now
             };
         }
     }
+            
 }

@@ -44,12 +44,18 @@ export class DrinkResource extends ApiResource {
         return this.post2('drink/' + id + '/saveimage', formData);
     }
 
+    saveImageReceipt(id: number, image: File): Observable<Receipt> {
+        var formData = new FormData();
+        formData.append('image', image, image.name);
+        return this.post2('drink/' + id + '/saveImageReceipt', formData);
+    }
+
     loadReceipts(): Observable<Receipt[]> {
-        return this.get('drink/receipt/')
+        return this.get('Drink/receipts')
     }
 
     createReceipt(re: Receipt): Observable<Receipt> {
-        return this.post('receipt', re);
+        return this.post('Drink/createReceipt', re);
     }
     
 }

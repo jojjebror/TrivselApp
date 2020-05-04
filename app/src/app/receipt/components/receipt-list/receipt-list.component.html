@@ -1,6 +1,10 @@
-<div>
+<div class="container">
 <form [formGroup]="receiptForm" class="border border-light p-5" (ngSubmit)="createReceipt()">
-    <div class="form-group">
+
+  <h3 class="text-center"> Lägg till kvitto</h3>
+  <hr/>
+
+    <div>
       <!-- <mat-form-field appearance="outline">
         <mat-label>Bild-url</mat-label>
         <img [src]="imageUrl || ''" style="width: 50px;"> -->
@@ -8,12 +12,12 @@
           type="file"
           accept="image/*"
           autocomplete="off"
-          formControlName="Image"
-          
+          formControlName="image"
+          (change)="loadImage($event.target.files)"
+    
         />
         <!-- <mat-error *ngIf="eventForm.invalid">Fel filtyp</mat-error> -->
       <!-- </mat-form-field> -->
-      <div class="invalid-feedback">Du måste ange en bild-url</div>
     </div>
 
     <div class="form-group text-center">
@@ -33,9 +37,9 @@
     <ul *ngIf="res$">
       <li *ngFor="let re of res$ | async">
           
-        <a href={{re.Image}} class="btn clss" target="_self" download> Download</a>
+        <img class="card-img-top img-thumbnail" [src]="re.Image" />
 
-        <p class="location">{{ re.DateTime}}</p>
+        <h3 class="location">{{re.DateTime}}</h3>
         
         <ng-template >
           <p></p>

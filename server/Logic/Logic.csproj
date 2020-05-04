@@ -329,6 +329,7 @@
     <Compile Include="Translators\EventForUserListTranslator.cs" />
     <Compile Include="Translators\ExampleTranslator.cs" />
     <Compile Include="Translators\PostForCreateTranslator.cs" />
+    <Compile Include="Translators\ReceiptForCreateTranslator.cs" />
     <Compile Include="Translators\ReceiptForListTranslator.cs" />
     <Compile Include="Translators\UserForListTranslator.cs" />
     <Compile Include="Translators\UserForUpdateTranslator.cs" />

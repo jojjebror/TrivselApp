@@ -49,7 +49,7 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
-        [HttpPost("Receipt")]
+        [HttpPost("createReceipt")]
         public async Task<IActionResult> CreateReceipt([FromBody] ReceiptForListDto receipt)
         {
             var result = await _drinkService.CreateReceipt(receipt);
@@ -63,6 +63,17 @@ namespace Api.Controllers
             var image = httpRequest.Files["image"];
 
             var result = await _drinkService.SaveImage(id, image);
+
+            return new OkObjectResult(ApiResponse.Create(result));
+        }
+
+        [HttpPost("{id}/saveImageReceipt")]
+        public async Task<IActionResult> SaveImageReceipt(int id)
+        {
+            var httpRequest = Request.Form;
+            var image = httpRequest.Files["image"];
+
+            var result = await _drinkService.SaveImageReceipt(id, image);
 
             return new OkObjectResult(ApiResponse.Create(result));
         }

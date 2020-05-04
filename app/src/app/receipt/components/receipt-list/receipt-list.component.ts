@@ -8,9 +8,11 @@ import { Receipt } from "src/app/shared/models";
 
 import * as receiptsActions from "../../state/receipts";
 import * as fromReceipt from "../../state/receipts/receipts.selectors";
+import * as asReceipt from "../../state/receipts/receipts.actions";
 import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AlertifyService } from "src/app/core/services/alertify.service";
+import { MatSnackBar } from "@angular/material";
 
 
 @Component({
@@ -30,17 +32,19 @@ export class ReceiptListComponent implements OnInit {
     private store$: Store<AppState>,
     private router: Router,
     private rb: FormBuilder,
-    private alertify: AlertifyService
+    private alertify: AlertifyService,
+    private snackBar: MatSnackBar,
     ) 
     { }
 
   ngOnInit(): void {
+    this.createReceiptForm();
     this.initializeReceipts();
   }
 
   createReceiptForm() {
     this.receiptForm = this.rb.group({
-      Image: ['', Validators.required]
+      image: [''],
     });
   }
 
@@ -49,8 +53,8 @@ export class ReceiptListComponent implements OnInit {
 
       this.receipt = Object.assign({}, this.receiptForm.value);
 
-      this.store$.dispatch(new receiptsActions.CreateReceipt(this.receipt, this.fileUpload));
-      this.alertify.success("Drycken har lagts till!");
+      this.store$.dispatch(new asReceipt.CreateReceipt(this.receipt, this.fileUpload));
+      this.snackBar.open('Kvitto har uppladdats', '', { duration: 2500 });
     }
   }
 
