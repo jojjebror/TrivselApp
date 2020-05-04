@@ -216,16 +216,51 @@ ul {
 @media (max-width: 473px) {
   .comment-wrapper .panel-body {
     max-height: 650px;
-    width: 260px;
+    width: 285px;
   }
 
   #postContent {
-    width: 260px;
+    width: 285px;
     margin: 5px;
   }
 
   textarea {
-    width: 260px;
+    width: 285px;
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 411px) {
+.comment-wrapper .panel-body {
+    max-height: 650px;
+    width: 245px;
+  }
+
+  #postContent {
+    width: 245px;
+    margin: 5px;
+  }
+
+  textarea {
+    width: 245px;
+    margin-top: 20px;
+  
+  }
+}
+
+  @media (max-width: 340px) {
+  .comment-wrapper .panel-body {
+    max-height: 650px;
+    width: 190px;
+  }
+
+  #postContent {
+    width: 190px;
+    margin: 5px;
+  }
+
+  textarea {
+    width: 190px;
     margin-top: 20px;
   }
 }

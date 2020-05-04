@@ -15,7 +15,9 @@ import { guards } from './guards';
 import { reducers, effects } from './state';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BsDropdownModule, TimepickerModule } from 'ngx-bootstrap';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 /**
