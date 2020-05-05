@@ -205,7 +205,6 @@ li {
   margin-right: 2em;
   font-size: small;
   text-align: center;
-  
 }
 
 .countBtns {
@@ -216,13 +215,17 @@ li {
   
   
 }
+ .titel{
+   padding-top:4px;
+ }
 
-.title {
-  font-weight: bold;
-  font-size: 1rem;
-  color: white;
-  margin-bottom: 8px;
-}
+ .container{
+   margin-top: 0;
+ }
+ .quantity{
+   padding-bottom: 3%;
+ }
+
 
 
 }
