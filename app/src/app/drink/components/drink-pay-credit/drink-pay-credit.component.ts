@@ -14,6 +14,9 @@ export class DrinkPayCreditComponent implements OnInit {
   userId: number;
   amount: number;
   userCredit: number;
+  buttonDisable: boolean = true;
+  buttonDisable2: boolean = true;
+
   constructor(  private store$: Store<AppState>,) { }
 
   ngOnInit() {
@@ -36,7 +39,7 @@ export class DrinkPayCreditComponent implements OnInit {
 
          var newJSON = JSON.parse(decode);
 
-          var result = Object.values(newJSON).includes("paid");
+        //  var result = Object.values(newJSON).includes("paid");
 
           var res = newJSON.result;
 
@@ -46,7 +49,14 @@ export class DrinkPayCreditComponent implements OnInit {
           console.log(this.amount);
           
           if(res === 'paid'){
-            return console.log('Ser ut som att din betalning gick igenom!');
+            //add snackbar? "Ditt köp gick igenom, klicka på updatera saldo".
+            this.buttonDisable = false;
+            console.log('Ser ut som att din betalning gick igenom! Kul, köp en bira!');
+          }
+          else {
+            // snackBar 'Ditt köp gick inte igenom, klicka på försök igen'.
+            this.buttonDisable2 = false;
+            console.log('nej du..!');
           }
         
   }

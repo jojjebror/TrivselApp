@@ -103,6 +103,8 @@ export class DrinkCreditComponent implements OnInit {
                       let urlInput = httpUrl + encodedString;
 
                      document.location.replace(urlInput);
+
+                     // let callback = &callbackurl=http://localhost:8080/drink/pay&callbackresultparameter=paid add last 
   }
 
 
