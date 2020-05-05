@@ -11,6 +11,7 @@ import { DrinkCategoryComponent } from './components/drink-category/drink-catego
 import { DrinkCategory3Component } from './components/drink-category3/drink-category3.component';
 import { DrinkCategory2Component } from './components/drink-category2/drink-category2.component';
 import { DrinkCreditComponent } from './components/drink-credit/drink-credit.component';
+import { DrinkPayCreditComponent } from './components/drink-pay-credit/drink-pay-credit.component';
 
 
 
@@ -46,6 +47,10 @@ export const routes: Routes = [
       {
         path: 'credit',
         component: DrinkCreditComponent
+      },
+      {
+        path: 'pay',
+        component: DrinkPayCreditComponent
       },
       {
         path: ':id',
