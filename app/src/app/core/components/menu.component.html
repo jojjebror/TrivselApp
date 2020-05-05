@@ -16,7 +16,7 @@
         <a class="nav-link" [routerLink]="['/drink']">Drycker</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/drink/pay']">Betalning Test</a>
+        <a class="nav-link" [routerLink]="['/drink/pay']">BT</a>
       </li>
     </ul>
 
@@ -42,10 +42,8 @@
 
     <div class="dropdownM" dropdown>
       <a class="dropdown-toggle1 text-light" dropdownToggle>
-        <div class="container1" (click)="status=!status" [ngClass]="status ? 'change' : 'basic'">
-          <div class="bar1"></div>
-          <div class="bar2"></div>
-          <div class="bar3"></div>
+        <div class="container1" >
+         <a class="material-icons icon">menu</a>
         </div>
       </a>
 

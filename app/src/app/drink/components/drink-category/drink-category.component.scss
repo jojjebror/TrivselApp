@@ -144,13 +144,8 @@ li {
   width: 90%;
   height: 200px;
   margin-bottom: 1em;
-  flex-direction: column;
-
-  //text-align: center;
-  
+  flex-direction: column; 
 }
-
-
 
 .btn-success {
   float: right;
@@ -160,7 +155,6 @@ li {
   margin-right: 2em;
   font-size: small;
   text-align: center;
-  
 }
 
 .countBtns {
@@ -168,10 +162,17 @@ li {
   size: 0,5px;
   margin-right: 1em;
   margin-top: 1em;
-  
-  
 }
+ .titel{
+   padding-top:4px;
+ }
 
+ .container{
+   margin-top: 0;
+ }
+ .quantity{
+   padding-bottom: 3%;
+ }
 
 
 
