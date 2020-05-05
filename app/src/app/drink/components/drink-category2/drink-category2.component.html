@@ -12,7 +12,6 @@
   <button class="btn btn-primary" [routerLink]="['/drink/create']">
     Lägg till ny dryck
   </button>
-  <hr />
  
   <mat-tab-group>
     
@@ -25,12 +24,8 @@
         <ul *ngIf="drs$">
           <li *ngFor="let dr of drs$ | async">
             <a class="title">
-              {{ dr.productNameBold }}</a
-            >
-              
+              {{ dr.productNameBold }}</a>
             <p class="location">{{ dr.price }}kr</p>
-
-    
             <ng-template >
               <p></p>
             </ng-template>
