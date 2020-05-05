@@ -61,7 +61,7 @@ export class DrinkCreditComponent implements OnInit {
     console.log(this.user);
 
     var data = [this.userId, this.userCreditForm.get('credit').value]
-      
+      console.log(data);
     this.store$.dispatch(new fromUser.UpdateCredit(data));
     this.alertify.success("Värdet för ditt saldo har ändrats!");
     }

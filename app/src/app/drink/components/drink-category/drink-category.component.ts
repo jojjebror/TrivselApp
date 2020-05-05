@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from "@angular/core";
 import { Observable, Subscription } from "rxjs";
 import { Store, select } from "@ngrx/store";
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 import { AppState } from "src/app/core/state";
 import { Drink, User } from "src/app/shared/models";
 
@@ -63,7 +63,6 @@ export class DrinkCategoryComponent implements OnInit {
     this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
   }
 
-
   public initializeFilterCategory(): void {
 
     this.store$.dispatch(new drinksActions.FilterDrink("Kategori"));
@@ -71,12 +70,16 @@ export class DrinkCategoryComponent implements OnInit {
     this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
   }
 
-
   public getClickedId() {
     var id = Number(this.route.snapshot.paramMap.get("id"));
     this.id = id;
     console.log(id);
     return id;
+  }
+
+  editDrink(id: number) {
+    this.store$.dispatch(new drinksActions.LoadDrink(id));
+    console.log(id);
   }
 
   public clickCount() {

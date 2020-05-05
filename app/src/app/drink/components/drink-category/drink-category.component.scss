@@ -9,6 +9,21 @@
 
 }
 
+.declineIcon {
+  color: red;
+  vertical-align: middle;
+  float: right;
+  margin-right: 5px;
+  margin-top: 1em;
+}
+
+.editIcon {
+  color: white;
+  margin-right: 10px;
+  float: right;
+  margin-top: 1em;
+}
+
 .plus {
   background-color: rgb(75, 194, 75);
   color: white;
@@ -43,7 +58,7 @@ h2 {
   margin-top: 1em;
   size: 0,5px;
   margin-left: 1em;
-  margin-right: 3em;
+  margin-right: 2em;
   font-size: small;
   text-align: center;
   
@@ -73,6 +88,7 @@ li {
   height: 100px;
   margin-bottom: 1em;
   flex-direction: column;
+  width: auto;
   
   //text-align: center;
   
@@ -122,6 +138,17 @@ li {
 
 @media (max-width: 414px) {
 
+  .img-thumbnail {
+    max-width: 75px;
+    float: left;
+    object-fit: cover;
+    border-radius: 50%;
+    max-height: 75px;
+    margin-bottom: 40px;
+    margin-right: 2em;
+  
+  }
+
 .container{
 width: 100%;
 height: 600px;
@@ -135,6 +162,8 @@ flex-wrap: wrap;
 width: 100%;
 
 }
+
+
 
 .location{
   float: left;
@@ -150,11 +179,23 @@ li {
   margin-bottom: 1em;
   flex-direction: column;
 
-  //text-align: center;
+  text-align: center;
   
 }
 
+.declineIcon {
+  color: red;
+  vertical-align: middle;
+  float: right;
+  
+}
 
+.editIcon {
+  color: white;
+  margin-right: 10px;
+  float: right;
+  
+}
 
 .btn-success {
   float: right;
@@ -168,15 +209,20 @@ li {
 }
 
 .countBtns {
-  float: left;
+  float: right;
   size: 0,5px;
   margin-right: 1em;
-  margin-top: 1em;
+  margin-bottom: 10px;
   
   
 }
 
-
+.title {
+  font-weight: bold;
+  font-size: 1rem;
+  color: white;
+  margin-bottom: 8px;
+}
 
 
 }
