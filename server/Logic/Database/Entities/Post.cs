@@ -12,7 +12,7 @@ namespace Logic.Database.Entities
         public DateTime Created { get; set; }
         public int CreatorId { get; set; }
         public int EventId { get; set; }
-        public User Creator { get; set; }
-        public Event Event { get; set; }
+        public virtual User Creator { get; set; }
+        public virtual Event Event { get; set; }
     }
 }

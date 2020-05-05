@@ -43,7 +43,7 @@ namespace Logic.Translators
                         Description = e.Event.Description,
                         StartDate = e.Event.StartDate,
                         EndDate = e.Event.EndDate,
-                        Image = e.Event.Image,
+                        ImageUrl = e.Event.ImageUrl,
                         CreatorId = e.Event.CreatorId,
                         Status = e.Status,
                         Name = e.User.Name

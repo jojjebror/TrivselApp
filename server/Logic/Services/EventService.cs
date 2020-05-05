@@ -72,7 +72,7 @@ namespace Logic.Services
                 }
             }
 
-            if (ev.Users != null)
+            if (ev.Users.Any())
             {
                 foreach (var user in ev.Users)
                 {
@@ -123,74 +123,83 @@ namespace Logic.Services
             //Get all google events that has changed
             var googleEvents = _googleCalendarService.CheckForChangesInGoogleEvents();
 
-            foreach (var googleEv in googleEvents) 
+            try
             {
-                //Get the event from db that needs to be updated and all the eventparticipants for the event
-                var dbEvent = _context.Events.FirstOrDefault(e => e.GoogleEventId == googleEv.Id);
-                var dbEventParticipants = _context.EventParticipants.Include(u => u.User)
-                    .Where(ep => ep.EventId == dbEvent.Id).ToList();
-
-                //Check if the google event has been deleted == cancelled
-                if (googleEv.Status == "cancelled")
+                foreach (var googleEv in googleEvents)
                 {
-                    _context.Events.Remove(dbEvent);
+                    //Get the event from db that needs to be updated and all the eventparticipants for the event
+                    var dbEvent = _context.Events.FirstOrDefault(e => e.GoogleEventId == googleEv.Id);
+                    var dbEventParticipants = _context.EventParticipants.Include(u => u.User)
+                        .Where(ep => ep.EventId == dbEvent.Id).ToList();
 
-                    //Deletes the uploaded image
-                    _cloudinaryService.DeleteImage(dbEvent.ImageId);
-                }
-                else
-                {
-                    dbEvent.Title = googleEv.Summary;
-                    dbEvent.Location = googleEv.Location;
-                    dbEvent.Description = googleEv.Description;
-                    dbEvent.StartDate = googleEv.Start.DateTime.Value;
-                    dbEvent.EndDate = googleEv.End.DateTime.Value;
-
-                    var totalAttendees = googleEv.Attendees.Count;
-                    var totalEventParticipants = dbEventParticipants.Count;
-
-                    if (totalAttendees < totalEventParticipants)
+                    //Check if the google event has been deleted == cancelled
+                    if (googleEv.Status == "cancelled")
                     {
-                        //Not finished
-                        var dbEpsToBeDeleted = new List<EventParticipant>();
-                        
-                        _context.EventParticipants.RemoveRange(dbEpsToBeDeleted);
+                        //Deletes the event from db
+                        var deletedEvId = DeleteEvent(dbEvent.Id);
                     }
                     else
                     {
-                        foreach (var attendee in googleEv.Attendees)
-                        {
-                            var dbEp = dbEventParticipants.FirstOrDefault(ep => ep.User.Email == attendee.Email);
+                        dbEvent.Title = googleEv.Summary;
+                        dbEvent.Location = googleEv.Location;
+                        dbEvent.Description = googleEv.Description;
+                        dbEvent.StartDate = googleEv.Start.DateTime.Value;
+                        dbEvent.EndDate = googleEv.End.DateTime.Value;
 
-                            //Check if the ep does not exist
-                            if (dbEp == null)
+                        var totalAttendees = googleEv.Attendees.Count;
+                        var totalEventParticipants = dbEventParticipants.Count;
+
+                        //If the attendees are lesser than the db eventparticipants and greater than 0
+                        //then the ones that does not exist in the google event should be removed
+                        if (totalAttendees < totalEventParticipants && totalAttendees > 0)
+                        {
+                            var googleEps = new List<EventParticipant>();
+
+                            foreach (var attendee in googleEv.Attendees)
                             {
-                                //Check if attendee has been added later on to google event.
-                                if (totalAttendees > totalEventParticipants)
+                                googleEps.Add(dbEventParticipants.FirstOrDefault(ep => ep.User.Email == attendee.Email));
+                            }
+
+                            //Deletes all db eventparticipants except for the ones that is in the google event
+                            _context.EventParticipants.RemoveRange(dbEventParticipants.Except(googleEps));
+                        }
+                        else
+                        {
+                            foreach (var attendee in googleEv.Attendees)
+                            {
+                                var dbEp = dbEventParticipants.FirstOrDefault(ep => ep.User.Email == attendee.Email);
+
+                                //If the eventparticipant does not exist then create it
+                                if (dbEp == null)
                                 {
-                                    var newEp = new EventParticipant
+                                    dbEp = new EventParticipant
                                     {
                                         EventId = dbEvent.Id,
                                         UserId = _context.Users.FirstOrDefault(u =>
                                             u.Email == attendee.Email).Id
                                     };
+
+                                    _context.EventParticipants.Add(dbEp);
+                                }
+
+                                if (attendee.ResponseStatus == "accepted"
+                                            || attendee.ResponseStatus == "declined")
+                                {
+                                    dbEp.Status = attendee.ResponseStatus;
                                 }
                             }
-
-                            if (attendee.ResponseStatus == "accepted"
-                                        || attendee.ResponseStatus == "declined")
-                            {
-                                dbEp.Status = attendee.ResponseStatus;
-                            }
                         }
-                    }                 
+                    }
+                    _context.SaveChangesAsync();
                 }
             }
-
-            _context.SaveChangesAsync();
+            catch (Exception e)
+            {
+                e.Message.ToString();
+            }
         }
 
-        public async Task<int> DeleteEvent(int id, string googleEvId = null)
+        public async Task<int> DeleteEvent(int id)
         {
             var dbEvent = await _context.Events.FindAsync(id);
 
@@ -213,11 +222,7 @@ namespace Logic.Services
                 .FirstOrDefaultAsync(ep => ep.EventId == eventId && ep.UserId == userId);
 
             //Update participants answer if already answered
-            if (eventParticipant != null)
-            {
-                eventParticipant.Status = answer;
-            } 
-            else
+            if (eventParticipant == null)
             {
                 //Add participants answer to db if not answered earlier
                 var newEp = new EventParticipant
@@ -229,6 +234,8 @@ namespace Logic.Services
 
                 _context.EventParticipants.Add(newEp);
             }
+
+            eventParticipant.Status = answer;
 
             await _context.SaveChangesAsync();
 
@@ -264,10 +271,10 @@ namespace Logic.Services
         {
             var dbEvent = await _context.Events.FindAsync(id);
 
-            var uploadResult = _cloudinaryService.UploadImage(dbEvent.ImageId, image);
+            var uploadResult = _cloudinaryService.UploadImage(image, dbEvent.ImageId);
 
-            dbEvent.Image = uploadResult.Uri.ToString();
             dbEvent.ImageId = uploadResult.PublicId;
+            dbEvent.ImageUrl = uploadResult.Uri.ToString();
 
             await _context.SaveChangesAsync();
 

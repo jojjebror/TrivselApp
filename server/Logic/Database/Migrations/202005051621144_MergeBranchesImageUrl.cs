@@ -3,7 +3,7 @@ namespace Logic.Database.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class MergeBranches : DbMigration
+    public partial class MergeBranchesImageUrl : DbMigration
     {
         public override void Up()
         {
@@ -47,7 +47,7 @@ namespace Logic.Database.Migrations
                         Title = c.String(),
                         Description = c.String(),
                         ImageId = c.String(),
-                        Image = c.String(),
+                        ImageUrl = c.String(),
                         Location = c.String(),
                         StartDate = c.DateTime(nullable: false),
                         EndDate = c.DateTime(nullable: false),

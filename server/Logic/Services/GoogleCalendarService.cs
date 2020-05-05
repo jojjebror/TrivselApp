@@ -94,6 +94,7 @@ namespace Logic.Services
             try
             {
                 var googleEv = _calendarService.Events.Get(calendarId, googleEventId).Execute();
+
                 return googleEv;
             }
             catch (Exception e)
@@ -132,13 +133,16 @@ namespace Logic.Services
 
                 //Inserting many attendees into the event causes calendar usage exceed, 
                 //comment out the attendee lines if internal server error 500
-                googleEv.Attendees = attendees.Select(u =>
-                    new EventAttendee 
-                    { 
-                        DisplayName = u.Name, 
-                        Email = u.Email, 
+                if (attendees.Any())
+                {
+                    googleEv.Attendees = attendees.Select(u =>
+                    new EventAttendee
+                    {
+                        DisplayName = u.Name,
+                        Email = u.Email,
                         ResponseStatus = (u.Email == organizer.Email) ? "accepted" : null
                     }).ToList();
+                }
 
                 //Insert in primary(default) calendar for account and send email notification to all attendees
                 var insertRequest = _calendarService.Events.Insert(googleEv, calendarId);
@@ -189,16 +193,14 @@ namespace Logic.Services
                 if (ep.Status == "N/A")
                     status = "needsAction";
 
-                if (googleEv.Attendees.FirstOrDefault(a => a.Email == ep.User.Email) != null)
-                {
-                    googleEv.Attendees.FirstOrDefault(a =>
-                        a.Email == ep.User.Email).ResponseStatus = status;
-                }
-                else
+                if (googleEv.Attendees.FirstOrDefault(a => a.Email == ep.User.Email) == null)
                 {
                     googleEv.Attendees.Add(new EventAttendee
                     { DisplayName = ep.User.Name, Email = ep.User.Email, ResponseStatus = status });
                 }
+
+                googleEv.Attendees.FirstOrDefault(a =>
+                        a.Email == ep.User.Email).ResponseStatus = status;
 
                 var updateRequest = _calendarService.Events.Update(googleEv, calendarId, googleEventId);
                 updateRequest.SendUpdates = 0;
@@ -226,26 +228,38 @@ namespace Logic.Services
 
         public ICollection<Google.Apis.Calendar.v3.Data.Event> CheckForChangesInGoogleEvents()
         {
-            var syncTokenXml = new XDocument();
-            if (!File.Exists("synctoken.xml"))
+            try
             {
-                syncTokenXml = new XDocument(new XElement("synctoken", ""));
+                var syncTokenXml = new XDocument();
+
+                //Creates a new xml-file if it does not exist
+                if (!File.Exists("synctoken.xml"))
+                {
+                    syncTokenXml = new XDocument(new XElement("synctoken"));
+                    syncTokenXml.Save("synctoken.xml");
+                }
+
+                //Gets the synctoken from the xml-file
+                syncTokenXml = XDocument.Load("synctoken.xml");
+                var nextSyncToken = syncTokenXml.Root.Value;
+
+                var request = _calendarService.Events.List(calendarId);
+                request.SyncToken = (nextSyncToken != "") ? nextSyncToken : null;
+                var googleEvents = request.Execute();
+
+                //Assigns and saves the next synctoken
+                nextSyncToken = googleEvents.NextSyncToken;
+                syncTokenXml.Root.Value = nextSyncToken;
                 syncTokenXml.Save("synctoken.xml");
+
+                return googleEvents.Items;
             }
-            
-            syncTokenXml = XDocument.Load("synctoken.xml");
-            var nextSyncToken = syncTokenXml.Root.Value;
+            catch (Exception e)
+            {
+                e.Message.ToString();
+            }
 
-            var request = _calendarService.Events.List(calendarId);
-            request.SyncToken = nextSyncToken != "" ? nextSyncToken : null;
-            var googleEvents = request.Execute();
-
-            //syncToken = "CNCkyreJkOkCENCkyreJkOkCGAU="
-            nextSyncToken = googleEvents.NextSyncToken;
-            syncTokenXml.Root.Value = nextSyncToken;
-            syncTokenXml.Save("synctoken.xml");
-
-            return googleEvents.Items;
+            return null;
         }
     }
 }

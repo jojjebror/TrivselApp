@@ -23,12 +23,6 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
-        [HttpGet("/syncevents")]
-        public void SyncEvents()
-        {
-            _eventService.SyncEventsWithGoogleEvents();
-        }
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEvent(int id)
         {
