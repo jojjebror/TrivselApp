@@ -77,17 +77,17 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     this.declinedParticipants$ = this.store$.pipe(select(fromEvents.getDeclinedParticipants));
   }
 
-  updateParticpantsToEvent(id: number, answer: string) {
+  updateParticpantsToEvent(id: number, answer: string, title: string) {
     var data = [id, +this.userId, answer];
     this.store$.dispatch(new fromEvents.AddEventParticipant(data));
 
     this.subscription.add(
       this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.ADD_EVENT_PARTICIPANT_SUCCESS)).subscribe((action) => {
         if (answer == 'accepted') {
-          this.snackBar.open('Du är tillagd i evenemanget', '', { duration: 2500 });
+          this.snackBar.open('Du är tillagd i evenemanget ' + title, '', { duration: 2500 });
         }
         if (answer == 'declined') {
-          this.snackBar.open('Du är borttagen ur evenemanget', '', { duration: 2500 });
+          this.snackBar.open('Du är borttagen ur evenemanget ' + title, '', { duration: 2500 });
         }
       })
     );

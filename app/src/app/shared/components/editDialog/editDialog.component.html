@@ -3,10 +3,21 @@
 </h1>
 
 <div mat-dialog-content>
-  <p>{{message}}</p>
+  {{message}} <br>
+
+  <mat-form-field style="margin-top: 30px">
+    <mat-select [(value)]="selectedOffice">
+      <mat-option *ngFor="let office of offices" [value]="office">
+        {{ office }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+  <p>Valt kontor: {{selectedOffice}}</p>
+  
 </div>
 
 <div mat-dialog-actions>
-  <button mat-raised-button tabindex="-1" color="primary" (click)="onConfirm()">Ja</button>
-  <button mat-button tabindex="-1" (click)="onDismiss()" style="background-color: grey; color: white;">Nej</button>
+  <button mat-raised-button tabindex="-1" color="primary" (click)="onConfirm()">Spara ändring</button>
+  <button mat-button tabindex="-1" (click)="onDismiss()" style="background-color: grey; color: white;">Avbryt</button>
 </div>

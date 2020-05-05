@@ -80,6 +80,17 @@ namespace Logic.Services
             return UserTranslator.ToUserForUpdateDto(dbUser);
         }
 
+        public async Task<UserForUpdateDto> UpdateOffice(int id, string newOffice)
+        {
+            var dbUser = await _context.Users
+                .FirstOrDefaultAsync(x => x.Id == id);
+            
+                dbUser.Office = newOffice;
+                await _context.SaveChangesAsync();
+            
+            return UserTranslator.ToUserForUpdateDto(dbUser);
+        }
+
         public async Task<UserForUpdateDto> RemoveCredit(int id, UserForUpdateDto user)
         {
 

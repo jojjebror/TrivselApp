@@ -20,7 +20,7 @@ export class UserResource extends ApiResource {
     return this.get('user');
   }
 
- /*  addCredit(u: User): Observable<User> {
+  /*  addCredit(u: User): Observable<User> {
     return this.put('user/' + u.id, u );
   } */
 
@@ -28,10 +28,14 @@ export class UserResource extends ApiResource {
     return this.put('user/' + data[0] + '/' + data[1], {});
   }
 
-  removeCredit(u: User): Observable<User> {
-    return this.put('user/' + u.id, u)
+  updateOffice(data: number[]): Observable<User> {
+    return this.put('user/UpdateOffice/' + data[0] + '/' + data[1], {});
   }
- 
+
+  removeCredit(u: User): Observable<User> {
+    return this.put('user/' + u.id, u);
+  }
+
   /* updateParticipantStatus(data: any[]): Observable<User> {
     return this.post('user/' + data[0] + '/' + data[1], data[2]);
   } */
