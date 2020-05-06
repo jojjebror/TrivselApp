@@ -33,6 +33,7 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   fileUpload: File = null;
   imageUrl: string;
 
+  currentDate = new Date();
   starttime: Date;
   endtime: Date;
 

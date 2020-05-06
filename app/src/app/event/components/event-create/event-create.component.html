@@ -41,7 +41,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Startdatum</mat-label>
           <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage('startdate') }}</mat-error>
-          <input matInput (focus)="picker.open()" [matDatepicker]="picker" formControlName="startdate" autocomplete="off" readonly />
+          <input matInput [min]="currentDate" (focus)="picker.open()" [matDatepicker]="picker" formControlName="startdate" autocomplete="off" readonly />
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
@@ -70,7 +70,7 @@
       <div class="endDateInput">
         <mat-form-field appearance="outline">
           <mat-label>Slutdatum</mat-label>
-          <input matInput (focus)="picker.open()" [matDatepicker]="picker" formControlName="enddate" autocomplete="off" />
+          <input matInput [min]="eventForm.get('startdate').value" (focus)="picker.open()" [matDatepicker]="picker" formControlName="enddate" autocomplete="off" />
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
