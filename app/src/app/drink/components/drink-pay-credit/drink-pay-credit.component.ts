@@ -31,18 +31,17 @@ export class DrinkPayCreditComponent implements OnInit {
 
   getUrl(){
     var newUrl = 'https://mobile-app-007.web.app/?paid=%7B%22result%22:%22paid%22,%22amount%22:1,%22message%22:%22Hälsningar%20Martin%20Loord%22,%22payee%22:%220700914195%22,%22version%22:2%7D';
-
      //window.location.href;
+    
      var splice = newUrl.slice(37);
 
-        var decode = decodeURI(splice);
+      var decode = decodeURI(splice);
 
-         var newJSON = JSON.parse(decode);
-
-        //  var result = Object.values(newJSON).includes("paid");
+        var newJSON = JSON.parse(decode);
 
           var res = newJSON.result;
-           this.amount = newJSON.amount;
+            
+            this.amount = newJSON.amount;
           console.log(res);
           console.log(this.amount);
           
@@ -50,6 +49,9 @@ export class DrinkPayCreditComponent implements OnInit {
             //add snackbar? "Ditt köp gick igenom, klicka på updatera saldo".
             this.buttonDisable = false;
             console.log('Ser ut som att din betalning gick igenom! Kul, köp en bira!');
+            var x =  [this.userId, this.amount];
+            console.log(x);
+             this.store$.dispatch(new fromUser.UpdateCredit(x));
           }
           else {
             // snackBar 'Ditt köp gick inte igenom, klicka på försök igen'.
@@ -59,10 +61,10 @@ export class DrinkPayCreditComponent implements OnInit {
         
   }
 
-  addCredit(){ 
-   var x =  [this.userId, this.amount];
-    console.log(x);
-     this.store$.dispatch(new fromUser.UpdateCredit(x));
+ // addCredit(){ 
+ //  var x =  [this.userId, this.amount];
+ //   console.log(x);
+ //    this.store$.dispatch(new fromUser.UpdateCredit(x));
      // add route back to credit? or category
-  }
+ // }
 }
