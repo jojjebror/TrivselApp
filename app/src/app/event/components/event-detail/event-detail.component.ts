@@ -14,6 +14,7 @@ import { MatSnackBar, MatDialog } from '@angular/material';
 import { AuthenticationService } from 'src/app/core/services';
 import { filter } from 'rxjs/operators';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/components/confirmDialog/confirmDialog.component';
+import { ParticipantsDialogModel, ParticipantsDialogComponent } from 'src/app/shared/components/participantsDialog/participantsDialog.component';
 
 @Component({
   selector: 'ex-event-detail',
@@ -61,7 +62,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
 
   loadEvent() {
     this.store$.dispatch(new fromEvents.LoadEvent(+this.eventId));
-    
+
     this.subscription.add(
       this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.LOAD_EVENT_ERROR)).subscribe((action) => {
         this.snackBar.open('Evenemanget kunde inte laddas', '', { duration: 10000 });
@@ -141,7 +142,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
       this.post = Object.assign({}, this.postForm.value);
       this.store$.dispatch(new fromEvents.AddPostToEvent(this.post));
 
-       this.subscription.add(
+      this.subscription.add(
         this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.ADD_POST_EVENT_SUCCESS)).subscribe((action) => {
           this.snackBar.open('Kommentar postad', '', { duration: 2500 });
         })
@@ -214,6 +215,21 @@ export class EventDetailComponent implements OnInit, OnDestroy {
         }
       })
     );
+  }
+
+  viewParticipants(): void {
+    const dialogData = new ParticipantsDialogModel(
+      'Deltagarlista',
+      this.attendedParticipants$,
+      this.invitedParticipants$,
+      this.declinedParticipants$
+    );
+    this.dialog.open(ParticipantsDialogComponent, {
+      maxWidth: '700px',
+      minHeight: '400px',
+      maxHeight: '900px',
+      data: dialogData,
+    });
   }
 
   ngOnDestroy() {

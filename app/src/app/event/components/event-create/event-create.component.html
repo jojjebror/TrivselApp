@@ -1,5 +1,8 @@
 <div class="registerEventMain">
   <form [formGroup]="eventForm" [ngClass]="{'mainForm': toggleFormHeight, 'fixedForm': !toggleFormHeight}" class="mainForm border border-light p-5" (ngSubmit)="createEvent()">
+    <button mat-icon-button class="close-button" [routerLink]="['/event']">
+      <mat-icon class="close-icon" color="white">close</mat-icon>
+    </button>
     <h3 class="text-center">Evenemangets detaljer</h3>
     <hr />
 

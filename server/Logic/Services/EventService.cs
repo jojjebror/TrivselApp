@@ -56,8 +56,9 @@ namespace Logic.Services
 
             _context.Events.Add(newEvent);
 
-            var eventParticipants = new List<EventParticipant>() { new EventParticipant 
-                { EventId = ev.Id, UserId = ev.CreatorId, Status = "accepted" } };
+            var eventParticipants = new List<EventParticipant>() { 
+                new EventParticipant {
+                    EventId = ev.Id, UserId = ev.CreatorId, Status = "accepted" } };
 
             if (ev.Offices.First() != "")
             {
@@ -108,6 +109,22 @@ namespace Logic.Services
                 ev.StartDate.Day, ev.StartTime.Hour, ev.StartTime.Minute, 0);
             dbEvent.EndDate = new DateTime(ev.EndDate.Year, ev.EndDate.Month, 
                 ev.EndDate.Day, ev.EndTime.Hour, ev.EndTime.Minute, 0);
+
+            var dbEventParticipants = await _context.EventParticipants.Where(e => e.EventId == id).ToListAsync();
+            var newEventParticipants = new List<EventParticipant>();
+
+            if (ev.Users != null)
+            {
+                foreach (var user in ev.Users)
+                {
+                    if (!dbEventParticipants.Exists(ep => ep.EventId == id && ep.UserId == user.Id))
+                    {
+                        newEventParticipants.Add(new EventParticipant { EventId = id, UserId = user.Id });
+                    }
+                }
+            }
+
+            _context.EventParticipants.AddRange(newEventParticipants);
 
             await _context.SaveChangesAsync();
 

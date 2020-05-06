@@ -16,5 +16,7 @@ namespace Logic.Models
         public DateTime StartTime { get; set; }
         public DateTime EndDate { get; set; }
         public DateTime EndTime { get; set; }
+        public ICollection<EventParticipantsDto> Users { get; set; }
+
     }
 }

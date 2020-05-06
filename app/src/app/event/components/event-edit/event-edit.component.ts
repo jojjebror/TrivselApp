@@ -1,10 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
 
 import { Store, select, ActionsSubject } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 import { Observable, Subscription } from 'rxjs';
-import { Event } from 'src/app/shared/models';
+import { Event, User } from 'src/app/shared/models';
 import * as fromEvents from '../../state/events';
+import * as fromUsers from '../../../user/state/users';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DateAdapter, MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,10 +20,13 @@ import { ActionTypes } from '../../state/events';
   styleUrls: ['./event-edit.component.scss'],
 })
 export class EventEditComponent implements OnInit, OnDestroy {
+  private subscription = new Subscription();
   ev$: Observable<Event>;
   evt: Event;
+  users$: Observable<User[]>;
+  invitedParticipants$: Observable<User[]>;
+  users: User[];
   eventEditForm: FormGroup;
-  private subscription = new Subscription();
 
   eventId: number;
   currentDate = new Date();
@@ -38,13 +42,15 @@ export class EventEditComponent implements OnInit, OnDestroy {
     private dateAdapter: DateAdapter<Date>,
     private activatedRoute: ActivatedRoute,
     private actionsSubject$: ActionsSubject,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {
     dateAdapter.setLocale('sv');
   }
 
   ngOnInit() {
     this.loadData();
+    this.loadUsers();
   }
 
   loadData() {
@@ -73,6 +79,7 @@ export class EventEditComponent implements OnInit, OnDestroy {
         starttime: [new Date(this.evt.startDate), Validators.required],
         enddate: [new Date(this.evt.endDate), Validators.required],
         endtime: [new Date(this.evt.endDate), Validators.required],
+        users: [null]
       },
       { validator: this.DateValidation }
     );
@@ -152,6 +159,13 @@ export class EventEditComponent implements OnInit, OnDestroy {
       }
     }
   }
+
+  private loadUsers() {
+    this.store$.dispatch(new fromUsers.GetUsers());
+    this.users$ = this.store$.pipe(select(fromUsers.getUsers));
+
+    this.invitedParticipants$ = this.store$.pipe(select(fromEvents.getInvitedParticipants))
+    }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();

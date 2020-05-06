@@ -2,6 +2,21 @@
   background-color: rgb(37, 2, 48);
 }
 
+.close-button{
+  float: right;
+  top:-24px;
+  right:-24px;
+}
+
+.close-icon {
+  transition: 1s ease-in-out;
+}
+
+.close-icon:hover {
+  transform: rotate(180deg);
+}
+
+
 .img-thumbnail {
   display: block;
   margin-left: 25px;
@@ -81,17 +96,17 @@ h4 {
 }
 
 .mat-list {
-  margin-top: 10px;
+  //margin-top: 10px;
   margin-bottom: 20px;
   min-height: 250px;
-  max-height: 460px;
+  max-height: 560px;
   //width: 200px;
   overflow: auto;
   margin-right: 20px;
 }
 
 textarea {
-  width: 400px;
+  width: 500px;
   margin-top: 20px;
 }
 
@@ -106,6 +121,7 @@ textarea::placeholder {
   resize: none;
   outline: none;
   padding-left: 10px;
+  height: 100px;
 }
 
 .postBox {
@@ -142,7 +158,7 @@ textarea::placeholder {
 
 .comment-wrapper .panel-body {
   max-height: 650px;
-  width: 400px;
+  width: 500px;
   //overflow:auto;
 }
 
@@ -157,7 +173,7 @@ ul {
 
 #postContent {
   word-wrap: break-word;
-  width: 400px;
+  width: 500px;
   margin: 5px;
 }
 
@@ -178,27 +194,64 @@ ul {
   margin-left: 15px;
   outline: none;
 }
-
+/* 
 .invitesList {
   float: left;
   padding-right: 12px;
 }
+
+.invitesList ::ng-deep.mat-pseudo-checkbox {
+      display: none !important;
+    }
+.invitesList ::ng-deep.mat-list-text {
+      cursor: none !important;
+    }
+
+  .mat-selection-list {
+  border: 1px solid white;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  min-height: 250px;
+  max-height: 250px;
+  overflow: auto;
+  margin-right: 15px;
+} */
+
+@media (max-width: 1200px) {
+   .comment-wrapper .panel-body {
+    max-height: 550px;
+    width: 400px;
+  }
+
+  #postContent {
+    width: 400px;
+    margin: 5px;
+  }
+
+  textarea {
+    width: 400px;
+    margin-top: 20px;
+  }
+}
+
+
+
 @media (max-width: 1076px) {
-  .invitesList {
+  /* .invitesList {
     clear: both;
     margin: 20px;
     padding-right: 220px;
-  }
+  } */
   .tab-panel {
-    height: 500px;
-    margin-left: 0px;
+    height: 600px;
+    margin-left: 70px;
   }
 
   .mat-list {
     min-height: 0;
   }
   .comment-wrapper .panel-body {
-    max-height: 650px;
+    max-height: 550px;
     width: 350px;
   }
 
@@ -213,9 +266,27 @@ ul {
   }
 }
 
+@media (max-width: 990px) {
+  .comment-wrapper .panel-body {
+    max-height: 550px;
+    width: 290px;
+  }
+
+  #postContent {
+    width: 290px;
+    margin: 5px;
+  }
+
+  textarea {
+    width: 290px;
+    margin-top: 20px;
+  }
+}
+
+
 @media (max-width: 473px) {
   .comment-wrapper .panel-body {
-    max-height: 650px;
+    max-height: 550px;
     width: 285px;
   }
 
@@ -232,7 +303,7 @@ ul {
 
 @media (max-width: 411px) {
 .comment-wrapper .panel-body {
-    max-height: 650px;
+    max-height: 550px;
     width: 245px;
   }
 
@@ -250,7 +321,7 @@ ul {
 
   @media (max-width: 340px) {
   .comment-wrapper .panel-body {
-    max-height: 650px;
+    max-height: 550px;
     width: 190px;
   }
 
