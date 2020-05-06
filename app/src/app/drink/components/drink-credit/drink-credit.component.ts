@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
 import { User } from '../../../shared/models';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
@@ -9,14 +9,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertifyService } from 'src/app/core/services/alertify.service';
 import * as fromUser from '../../../user/state/users/users.actions';
 import * as fromSession from '../../../core/state/session'
+import { AuthenticationService } from 'src/app/core/services';
 
 @Component({
   selector: 'ex-drink-credit',
   templateUrl: './drink-credit.component.html',
   styleUrls: ['./drink-credit.component.scss']
 })
-export class DrinkCreditComponent implements OnInit {
-
+export class DrinkCreditComponent implements OnInit, OnDestroy {
+  subscription = new Subscription();
   usr$: Observable<User>;
   userId: number;
   userCreditForm: FormGroup;
@@ -32,15 +33,21 @@ export class DrinkCreditComponent implements OnInit {
     private route: ActivatedRoute,
     private alertify: AlertifyService,
     private fb: FormBuilder,
-    private router: Router
-  ) { }
+    private router: Router,
+    public authService: AuthenticationService
+  ) {
+    this.subscription.add(
+      authService.getUserId().subscribe((user) => {
+        this.userId = user.sub;
+      })
+    );
+   }
 
 
   ngOnInit() {
-    this.store$.select(fromSession.selectUser).subscribe((currentuser ) => (this.userId = currentuser.id));
-    this.store$.select(fromSession.selectUser).subscribe((currentuser ) => (this.userCredit = currentuser.credit));
-    console.log(this.userId);
-    console.log(this.userCredit);
+    setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 500);
+    console.log('userid' + this.userId);
+    console.log('credit' + this.userCredit);
      this.createCreditForm();
      
   }
@@ -107,6 +114,8 @@ export class DrinkCreditComponent implements OnInit {
                      // let callback = &callbackurl=http://localhost:8080/drink/pay&callbackresultparameter=paid add last 
   }
 
-
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 
 }

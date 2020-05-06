@@ -1,6 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, Input, OnDestroy } from "@angular/core";
 import { Observable, Subscription } from "rxjs";
-import { Store, select } from "@ngrx/store";
+import { Store, select, ActionsSubject } from "@ngrx/store";
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { AppState } from "src/app/core/state";
 import { Drink, User } from "src/app/shared/models";
@@ -12,6 +12,7 @@ import { FormGroup } from "@angular/forms";
 import { AlertifyService } from "src/app/core/services/alertify.service";
 import * as fromUser from '../../../user/state/users/users.actions';
 import { ActivatedRoute } from "@angular/router";
+import { AuthenticationService } from "src/app/core/services";
 
 @Component({
   selector: "ex-drink",
@@ -19,7 +20,8 @@ import { ActivatedRoute } from "@angular/router";
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ["./drink-category.component.scss"],
 })
-export class DrinkCategoryComponent implements OnInit {
+export class DrinkCategoryComponent implements OnInit, OnDestroy {
+  subscription = new Subscription();
   drs$: Observable<Drink[]>;
   userCreditForm: FormGroup;
   usr$: Observable<User>;
@@ -38,57 +40,44 @@ export class DrinkCategoryComponent implements OnInit {
   constructor(
     private store$: Store<AppState>,
     private alertify: AlertifyService,
-    private route: ActivatedRoute,
-    ) {}
-
- 
+    private route: ActivatedRoute, private actionsSubject$: ActionsSubject, public authService: AuthenticationService
+    ) {    this.subscription.add(
+      authService.getUserId().subscribe((user) => {
+        this.userId = user.sub;
+      })
+    );}
 
   ngOnInit(): void {
-    
     this.initializeFilterCategory();
-    
-    this.store$
-      .select(fromSession.selectUser)
-      .subscribe((currentuser) => (this.userCredit = currentuser.credit));
-      this.store$
-      .select(fromSession.selectUser)
-      .subscribe((currentuser) => (this.userId = currentuser.id));
+    setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 500);
     this.getClickedId();
-    
   }
 
   public initializeFilterBeer(): void {
     this.store$.dispatch(new drinksActions.FilterDrink("Öl"));
-    
-    this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
+      this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
   }
 
   public initializeFilterCategory(): void {
-
     this.store$.dispatch(new drinksActions.FilterDrink("Kategori"));
-    
-    this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
+      this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
   }
 
   public getClickedId() {
     var id = Number(this.route.snapshot.paramMap.get("id"));
-    this.id = id;
-    console.log(id);
-    return id;
+     this.id = id;
+         return id;
   }
 
   editDrink(id: number) {
     this.store$.dispatch(new drinksActions.LoadDrink(id));
-    console.log(id);
   }
 
   public clickCount() {
-    
     this.clickCounter += 1;
     console.log(this.clickCounter);
   }
   public clickCountM() {
-    
     if (this.clickCounter > 1) this.clickCounter -= 1;
     console.log(this.clickCounter);
   }
@@ -102,13 +91,10 @@ export class DrinkCategoryComponent implements OnInit {
     this.totalSum += this.clickCounter * drink.price;
     var sum = this.clickCounter * drink.price;
     console.log(this.totalSum);
-    
-      if (
-        confirm("Du kommer skickas vidare till swish och betala " + sum + "kr.")
+      if (confirm("Du kommer skickas vidare till swish och betala " + sum + "kr.")
       ) {
         this.addEncodedUrl(drink);
       }
-    
   }
 
   paySaldo(drink: Drink) {
@@ -119,14 +105,12 @@ export class DrinkCategoryComponent implements OnInit {
     var data = [this.userId, this.totalSum];
     console.log(this.totalSum);
     if (this.userCredit >= sum) {
-      if (
-        confirm("Total summa som dras från saldo är " + sum + "kr, fortsätta?")
+      if (confirm("Total summa som dras från saldo är " + sum + "kr, fortsätta?")
       ) {
         this.store$.dispatch(new fromUser.UpdateCredit(data));
-
-        this.alertify.success("Värdet för ditt saldo har ändrats!");
-      }
-    } else this.alertify.error("Du har för lite pengar på ditt saldo!");
+        this.alertify.success("Värdet för ditt saldo har ändrats!");}
+    } 
+    else this.alertify.error("Du har för lite pengar på ditt saldo!");
   }
 
   addEncodedUrl(drink: Drink) {
@@ -159,6 +143,9 @@ export class DrinkCategoryComponent implements OnInit {
     var httpUrl = "swish://payment?data=";
 
     console.log(httpUrl + encodedString);
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
 }

@@ -1,6 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, Input, OnDestroy } from "@angular/core";
 import { Observable, Subscription } from "rxjs";
-import { Store, select } from "@ngrx/store";
+import { Store, select, ActionsSubject } from "@ngrx/store";
 
 import { AppState } from "src/app/core/state";
 import { Drink, User } from "src/app/shared/models";
@@ -12,6 +12,7 @@ import { FormGroup } from "@angular/forms";
 import { AlertifyService } from "src/app/core/services/alertify.service";
 import * as fromUser from '../../../user/state/users/users.actions';
 import { ActivatedRoute } from "@angular/router";
+import { AuthenticationService } from "src/app/core/services";
 
 @Component({
   selector: "ex-drink",
@@ -19,7 +20,8 @@ import { ActivatedRoute } from "@angular/router";
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ["./drink-category2.component.scss"],
 })
-export class DrinkCategory2Component implements OnInit {
+export class DrinkCategory2Component implements OnInit, OnDestroy {
+  subscription = new Subscription();
   drs$: Observable<Drink[]>;
   userCreditForm: FormGroup;
   usr$: Observable<User>;
@@ -38,21 +40,19 @@ export class DrinkCategory2Component implements OnInit {
   constructor(
     private store$: Store<AppState>,
     private alertify: AlertifyService,
-    private route: ActivatedRoute,
-    ) {}
+    private route: ActivatedRoute, private actionsSubject$: ActionsSubject, public authService: AuthenticationService
+    ) {    this.subscription.add(
+      authService.getUserId().subscribe((user) => {
+        this.userId = user.sub;
+      })
+    );}
 
  
 
   ngOnInit(): void {
     
     this.initializeFilterCategory();
-    
-    this.store$
-      .select(fromSession.selectUser)
-      .subscribe((currentuser) => (this.userCredit = currentuser.credit));
-      this.store$
-      .select(fromSession.selectUser)
-      .subscribe((currentuser) => (this.userId = currentuser.id));
+    setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 500);
     this.getClickedId();
     
   }
@@ -156,6 +156,9 @@ export class DrinkCategory2Component implements OnInit {
     var httpUrl = "swish://payment?data=";
 
     console.log(httpUrl + encodedString);
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
 }
