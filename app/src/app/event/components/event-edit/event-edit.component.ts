@@ -25,6 +25,7 @@ export class EventEditComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   eventId: number;
+  currentDate = new Date();
   starttime: Date;
   endtime: Date;
   fileUpload: File = null;
@@ -48,10 +49,10 @@ export class EventEditComponent implements OnInit, OnDestroy {
 
   loadData() {
     this.subscription.add(
-    this.store$.pipe(select(fromEvents.getCurrentEvent)).subscribe((data) => {
-      this.evt = data;
-    })
-  );
+      this.store$.pipe(select(fromEvents.getCurrentEvent)).subscribe((data) => {
+        this.evt = data;
+      })
+    );
     if (this.evt != undefined) {
       this.createEventEditForm();
     } else {
