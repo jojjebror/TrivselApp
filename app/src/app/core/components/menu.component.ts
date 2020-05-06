@@ -57,8 +57,6 @@ export class MenuComponent implements OnDestroy {
     var office = user.office;
     const message = 'Nedan har du möjlighet att ändra ditt nuvarande kontor. Ditt nuvarande kontor är ' + office;
     const dialogData = new EditDialogModel('Ändra tillhörande kontor', message, offices, office);
-    /* const message = 'Här här du möjlighet att ändra vilket kontor du tillhör.';
-    const dialogData = new EditDialogModel('Nuvarande kontor: ' + office, message, offices, office); */
 
     const dialogRef = this.dialog.open(EditDialogComponent, {
       maxWidth: '350px',
@@ -78,7 +76,7 @@ export class MenuComponent implements OnDestroy {
 
     this.subscription.add(
       this.actionsSubject$.pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_OFFICE_SUCCESS)).subscribe((action) => {
-        this.snackBar.open('Ändring slutförd, nuvarande kontor: ' + newOffice, '', { duration: 3500 });
+        this.snackBar.open('Ändring slutförd. Ditt valda kontor: ' + newOffice, '', { duration: 3500 });
       })
     );
   }

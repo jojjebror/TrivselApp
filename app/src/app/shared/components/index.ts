@@ -3,6 +3,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { LoaderComponent } from './loader/loader.component';
 import { ConfirmDialogComponent } from './confirmDialog/confirmDialog.component';
 import { EditDialogComponent } from './editDialog/editDialog.component';
+import { AddDialogComponent } from './addDialog/addDialog.component';
 
 
 
@@ -14,5 +15,6 @@ export const components: any[] = [
 	NavbarComponent,
 	LoaderComponent,
 	ConfirmDialogComponent,
-	EditDialogComponent
+	EditDialogComponent,
+	AddDialogComponent
 ];

@@ -10,7 +10,6 @@ import * as fromUsers from '../../../user/state/users';
 import { Observable, Subscription } from 'rxjs';
 import { DateAdapter, MatSnackBar } from '@angular/material';
 
-import * as fromSession from '../../../core/state/session';
 import { ActionTypes } from '../../state/events';
 import { filter } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services';
