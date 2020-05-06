@@ -43,41 +43,33 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
     );
    }
 
-
   ngOnInit() {
     setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 500);
     console.log('userid' + this.userId);
     console.log('credit' + this.userCredit);
      this.createCreditForm();
-     
   }
 
   createCreditForm() {
-    
-   // this.usr$.subscribe((user) => {
       this.userCreditForm = this.fb.group({
         id: [this.userId],
         credit: ['', Validators.required],
       });
-    
   }
+
   addCredit() {
     var creditInput = [this.userCreditForm.get('credit').value]
     if(confirm("Swisha " + creditInput + "kr till saldo?")) {
       this.user = Object.assign({}, this.userCreditForm.value);
-    console.log(this.user);
-
-    var data = [this.userId, this.userCreditForm.get('credit').value]
-      console.log(data);
-    this.store$.dispatch(new fromUser.UpdateCredit(data));
-    this.alertify.success("Värdet för ditt saldo har ändrats!");
+        console.log(this.user);
+           var data = [this.userId, this.userCreditForm.get('credit').value]
+             console.log(data);
     }
     this.addEncodedUrl();
   }
 
   addEncodedUrl(){
     var creditInput = this.userCreditForm.get('credit').value
-    
     
     var initField = {
       "version":1,
@@ -94,19 +86,15 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
      }
   
      console.log(initField);
-  
       var newEncode = JSON.stringify(initField);
   
          console.log(newEncode);
-  
             var encodedString = encodeURI(newEncode);
   
                 console.log(encodedString);
-  
                   var httpUrl = 'swish://payment?data=';
   
                      console.log(httpUrl + encodedString);
-
                       let urlInput = httpUrl + encodedString;
 
                      document.location.replace(urlInput);

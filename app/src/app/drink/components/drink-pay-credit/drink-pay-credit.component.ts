@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ex-drink-pay-credit',
@@ -19,7 +20,8 @@ export class DrinkPayCreditComponent implements OnInit, OnDestroy {
   amount: number;
   userCredit: number;
 
-  constructor(private store$: Store<AppState>, private snackBar: MatSnackBar, private actionsSubject$: ActionsSubject, public authService: AuthenticationService) {
+  constructor(private store$: Store<AppState>, private snackBar: MatSnackBar, private router: Router,
+  private actionsSubject$: ActionsSubject, public authService: AuthenticationService,) {
     this.subscription.add(
     authService.getUserId().subscribe((user) => {
       this.userId = user.sub;
@@ -47,30 +49,28 @@ export class DrinkPayCreditComponent implements OnInit, OnDestroy {
           console.log(res);
           console.log(this.amount);
           
-          if(res === 'paid'){
-            //add snackbar? "Ditt köp gick igenom, klicka på updatera saldo".
+          if(res === 'notpaid'){
             console.log('Ser ut som att din betalning gick igenom! Kul, köp en bira!');
             var x =  [this.userId, this.amount];
             console.log(x);
              this.store$.dispatch(new fromUser.UpdateCredit(x));
-
              this.subscription.add(
               this.actionsSubject$.pipe(filter((action: any) => action.type === fromUser.ActionTypes.UPDATE_CREDIT_SUCCESS)).subscribe((action) => {
                 this.snackBar.open('Ditt saldo har uppdaterats', '', { duration: 3000 });
               }) ); }
           else {
-            // snackBar 'Ditt köp gick inte igenom, klicka på försök igen'.
             console.log('nej du..!');
+            this.store$.dispatch(new fromUser.UpdateCreditError('Error'));
+             this.subscription.add(
+              this.actionsSubject$.pipe(filter((action: any) => action.type === fromUser.ActionTypes.UPDATE_CREDIT_ERROR)).subscribe((action) => {
+                setTimeout(() => {  this.snackBar.open('Din betalning gick inte igenom, var god försök igen', '', { duration: 12000 }) }, 500);
+                this.router.navigate(['/drink/credit']);
+              }) );
           }
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
- // addCredit(){ 
- //  var x =  [this.userId, this.amount];
- //   console.log(x);
- //    this.store$.dispatch(new fromUser.UpdateCredit(x));
-     // add route back to credit? or category
- // }
+
 }
