@@ -314,7 +314,7 @@ namespace Logic.Database.Migrations
             //var post1 = new Post()
             //{
             //    Id = 1,
-            //    Content = "Detta blir j�ttekul!!",
+            //    Content = "Detta blir jättekul!!",
             //    Created = DateTime.Now,
             //    CreatorId = 1,
             //    EventId = 1
@@ -323,7 +323,7 @@ namespace Logic.Database.Migrations
             //var post2 = new Post()
             //{
             //    Id = 2,
-            //    Content = "J�klar vad �sigt!!",
+            //    Content = "Jäklar vad ösigt!!",
             //    Created = DateTime.Now,
             //    CreatorId = 3,
             //    EventId = 2
@@ -332,7 +332,7 @@ namespace Logic.Database.Migrations
             //var post3 = new Post()
             //{
             //    Id = 3,
-            //    Content = "Jag har k�pt nya dojor ;)",
+            //    Content = "Jag har köpt nya dojor ;)",
             //    Created = DateTime.Now,
             //    CreatorId = 2,
             //    EventId = 3

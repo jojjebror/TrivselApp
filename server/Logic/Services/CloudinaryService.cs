@@ -23,7 +23,7 @@ namespace Logic.Services
             _cloudinaryService = new Cloudinary(account);
         }
         
-        public ImageUploadResult UploadImage(IFormFile image, string publicId = null)
+        public ImageUploadResult UploadImage(IFormFile image, string folder, string publicId = null)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace Logic.Services
                         {
                             PublicId = publicId,
                             File = new FileDescription(image.Name, stream),
-                            Folder = (publicId == null) ? "event-images" : null,
+                            Folder = (publicId == null) ? folder : null,
                             Transformation = new Transformation().Width(200).Height(200).Crop("fill"),
                             Overwrite = (publicId == null) ? false : true
                         };

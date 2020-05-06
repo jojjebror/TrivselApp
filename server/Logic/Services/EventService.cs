@@ -27,14 +27,14 @@ namespace Logic.Services
         public async Task<EventForDetailedDto> GetEvent(int id)
         {
             var dbEvent = await _context.Events.Include(e => e.EventParticipants.Select(u => u.User))
-                .Include(p => p.Posts.Select(po => po.Creator)).Include(e => e.Creator).FirstOrDefaultAsync(e => e.Id == id);
+                .Include(e => e.Posts.Select(p => p.Creator)).Include(e => e.Creator).FirstOrDefaultAsync(e => e.Id == id);
 
             return EventTranslator.ToEventForDetailedDto(dbEvent);
         }
 
         public async Task<ICollection<EventForListDto>> GetEvents()
         {
-            SyncEventsWithGoogleEvents();
+            //SyncEventsWithGoogleEvents();
 
             var dbEvents = await _context.Events.Include(e => e.Creator).ToListAsync();
 
@@ -58,16 +58,19 @@ namespace Logic.Services
 
             _context.Events.Add(newEvent);
 
-            var eventParticipants = new List<EventParticipant>() { new EventParticipant 
-                { EventId = ev.Id, UserId = ev.CreatorId, Status = "accepted" } };
+            var eventParticipants = new List<EventParticipant>() 
+            { 
+                new EventParticipant { EventId = ev.Id, UserId = ev.CreatorId, Status = "accepted" } 
+            };
 
             if (ev.Offices.First() != "")
             {
                 foreach (var office in ev.Offices)
                 {
-                    var usersToAdd = await _context.Users.Where(u => u.Office == office && u.Id != ev.CreatorId).ToListAsync();
+                    var usersInOffice = await _context.Users
+                        .Where(u => u.Office == office && u.Id != ev.CreatorId).ToListAsync();
 
-                    eventParticipants.AddRange(usersToAdd.Select(u =>
+                    eventParticipants.AddRange(usersInOffice.Select(u =>
                         new EventParticipant { EventId = ev.Id, UserId = u.Id }).ToList());
                 }
             }
@@ -76,6 +79,7 @@ namespace Logic.Services
             {
                 foreach (var user in ev.Users)
                 {
+                    //Add user to the eventParticipants list if it does not already exist
                     if (!eventParticipants.Exists(ep => ep.EventId == ev.Id && ep.UserId == user.Id))
                     {
                         eventParticipants.Add(new EventParticipant { EventId = ev.Id, UserId = user.Id });
@@ -88,7 +92,7 @@ namespace Logic.Services
             await _context.SaveChangesAsync();
             
             var attendees = await _context.EventParticipants.Include(ep => ep.User)
-                .Where(u => u.EventId == newEvent.Id).Select(u => u.User).ToListAsync();
+                .Where(ep => ep.EventId == newEvent.Id).Select(u => u.User).ToListAsync();
 
             //Create a google calendar event and returns Google Event Id
             var googleEventId = _googleCalendarService.CreateGoogleEvent(newEvent, attendees);
@@ -129,7 +133,7 @@ namespace Logic.Services
                 {
                     //Get the event from db that needs to be updated and all the eventparticipants for the event
                     var dbEvent = _context.Events.FirstOrDefault(e => e.GoogleEventId == googleEv.Id);
-                    var dbEventParticipants = _context.EventParticipants.Include(u => u.User)
+                    var dbEventParticipants = _context.EventParticipants.Include(ep => ep.User)
                         .Where(ep => ep.EventId == dbEvent.Id).ToList();
 
                     //Check if the google event has been deleted == cancelled
@@ -220,58 +224,57 @@ namespace Logic.Services
             //Check if participant already exist and has answered to the event
             var eventParticipant = await _context.EventParticipants
                 .FirstOrDefaultAsync(ep => ep.EventId == eventId && ep.UserId == userId);
-
-            //Update participants answer if already answered
+   
             if (eventParticipant == null)
             {
                 //Add participants answer to db if not answered earlier
-                var newEp = new EventParticipant
-                {
-                    EventId = eventId,
-                    UserId = userId,
+                var newEp = new EventParticipant 
+                { 
+                    EventId = eventId, 
+                    UserId = userId, 
                     Status = answer
                 };
 
                 _context.EventParticipants.Add(newEp);
             }
 
+            //Update participants answer if already answered
             eventParticipant.Status = answer;
 
             await _context.SaveChangesAsync();
 
             //Update the participants status for the google calendar event
-            var updatedEp = await _context.EventParticipants.Include(u => u.User).Include(e => e.Event)
+            var updatedEp = await _context.EventParticipants.Include(ep => ep.User).Include(ep => ep.Event)
                 .FirstOrDefaultAsync(ep => ep.EventId == eventId && ep.UserId == userId);
             
             _googleCalendarService.UpdateGoogleEventParticipantStatus(updatedEp);
 
             var dbEvent = await _context.Events.Include(e => e.EventParticipants.Select(u => u.User))
-                .Include(p => p.Posts.Select(po => po.Creator)).Include(e => e.Creator).FirstOrDefaultAsync(e => e.Id == eventId);
+                .Include(e => e.Posts.Select(p => p.Creator)).Include(e => e.Creator).FirstOrDefaultAsync(e => e.Id == eventId);
 
             return EventTranslator.ToEventForDetailedDto(dbEvent);
         }
 
-        public async Task<ICollection<EventForUserListDto>> UpdateParticipantStatus(int eventId, int userId, string answer)
+        public async Task<ICollection<EventForUserListDto>> UpdateEventParticipantStatus(int eventId, int userId, string answer)
         {
-            var participant = await _context.EventParticipants
+            var eventParticipant = await _context.EventParticipants
                 .FirstOrDefaultAsync(ep => ep.EventId == eventId && ep.UserId == userId);
 
-            participant.Status = answer;
+            eventParticipant.Status = answer;
 
             await _context.SaveChangesAsync();
 
-            var dbEvents = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId)
-                .Include(us => us.Event.Creator).ToListAsync();
+            var dbEvents = await _context.EventParticipants.Include(ep => ep.Event).Where(ep => ep.UserId == userId)
+                .Include(ep => ep.Event.Creator).ToListAsync();
 
             return dbEvents.Select(EventTranslator.ToEventForUserListDto).ToList();
-
         }
 
         public async Task<EventForCreateDto> UploadImage(int id, IFormFile image)
         {
             var dbEvent = await _context.Events.FindAsync(id);
 
-            var uploadResult = _cloudinaryService.UploadImage(image, dbEvent.ImageId);
+            var uploadResult = _cloudinaryService.UploadImage(image, "event-images", dbEvent.ImageId);
 
             dbEvent.ImageId = uploadResult.PublicId;
             dbEvent.ImageUrl = uploadResult.Uri.ToString();
@@ -284,8 +287,8 @@ namespace Logic.Services
         public async Task<ICollection<EventForUserListDto>> GetCurrentUserEvents(int userId)
         {
             // old one, keep.... var dbEvent = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId).ToListAsync();
-            var dbEvents = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId)
-                .Include(us => us.Event.Creator).ToListAsync();
+            var dbEvents = await _context.EventParticipants.Include(ep => ep.Event).Where(ep => ep.UserId == userId)
+                .Include(ep => ep.Event.Creator).ToListAsync();
 
             return dbEvents.Select(EventTranslator.ToEventForUserListDto).ToList();
         }

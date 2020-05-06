@@ -61,7 +61,7 @@ namespace Api.Controllers
         [HttpPost("{eventId}/{userId}/update")]
         public async Task<IActionResult> UpdateParticipantStatus(int eventId, int userId, [FromBody]string answer)
         {
-            var result = await _eventService.UpdateParticipantStatus(eventId, userId, answer);
+            var result = await _eventService.UpdateEventParticipantStatus(eventId, userId, answer);
             return new OkObjectResult(ApiResponse.Create(result));
         }
 

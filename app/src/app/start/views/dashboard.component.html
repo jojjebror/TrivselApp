@@ -12,3 +12,17 @@
 <script src="https://apps.elfsight.com/p/platform.js" defer></script>
 </body>
 </html> -->
+
+<audio id="player" controls>
+  <source id="player-source" src="" type="audio/mpeg" />
+  Your browser does not support the audio element.
+</audio>
+
+<mat-list>
+  <mat-list-item *ngFor="let episode of podcastFeed" (click)="playEpisode(episode)">
+    <img matListAvatar src="{{ episode.imageUrl }}" />
+    <p matLine>{{ episode.title }}</p>
+    <p matLine>{{ episode.summary }}</p>
+    <p matLine>{{ episode.published | date: 'd MMM, y' }}</p>
+  </mat-list-item>
+</mat-list>
