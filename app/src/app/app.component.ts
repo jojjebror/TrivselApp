@@ -6,17 +6,15 @@ import * as session from './core/state/session';
 import { AppState } from './core/state';
 
 @Component({
-	selector: 'ex-app',
-	templateUrl: './app.component.html'
+  selector: 'ex-app',
+  templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
+  initialized$: Observable<boolean>;
 
-	initialized$: Observable<boolean>;
+  constructor(private store$: Store<AppState>) {}
 
-	constructor(private store$: Store<AppState>) { }
-
-	ngOnInit(): void {
-		this.initialized$ = this.store$.select(session.selectInitialized);
-	}
-
+  ngOnInit(): void {
+    this.initialized$ = this.store$.select(session.selectInitialized);
+  }
 }

@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class LoaderComponent {
   
-  @Input() loading: boolean;
+  /* @Input() loading: boolean;
 
-  @Input() text: string;
+  @Input() text: string; */
 }

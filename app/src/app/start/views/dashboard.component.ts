@@ -31,15 +31,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     let currentUser: User;
 
-    this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.SetUserSuccess)).subscribe((action) => {
+    this.subscription.add(this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.SetUserSuccess)).subscribe((action) => {
       this.user$ = this.store$.pipe(select(fromSession.selectUser));
 	  this.user$.subscribe((data) => (currentUser = data));
 
 	  if (currentUser.office === null) {
       this.addOfficeDialog(currentUser);
     }
-
-    });  
+    })
+    );  
   }
 
   addOfficeDialog(user: User): void {
@@ -53,11 +53,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
       data: dialogData,
     });
 
-    dialogRef.afterClosed().subscribe((dialogResult) => {
+    this.subscription.add(dialogRef.afterClosed().subscribe((dialogResult) => {
       if (dialogResult == true) {
         this.addOffice(user.id, dialogData.office);
       }
-    });
+    })
+    );
   }
 
   addOffice(userId: number, newOffice: string) {

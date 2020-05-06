@@ -1,4 +1,4 @@
-@import '../../../../assets/stylesheets/variables';
+/* @import '../../../../assets/stylesheets/variables';
 
 @keyframes spin {
 	0% { transform: rotate(0deg); }
@@ -25,4 +25,120 @@
 		color: #666;
 		margin-top: 10px;
 	}
+} */
+
+@import '../../../../assets/stylesheets/variables';
+
+
+.roller-coaster-loader {
+	position: absolute;
+	left: calc(50% - 64px);
+	top: calc(50% - 32px);
+
+    --diameter: 4em;
+    --width: calc(var(--diameter) * 2);
+    --stroke-width: calc(var(--diameter) / 20);
+    --dot-diameter: calc(var(--diameter) / 9);
+    width: var(--width);
+    height: var(--diameter);
+    // position: relative;
+	color: $ex-secondary;
+    overflow: hidden;
+    z-index: 100;
+}
+
+.roller-coaster-loader::before,
+.roller-coaster-loader::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+}
+
+.roller-coaster-loader::before {
+    width: inherit;
+    height: var(--stroke-width);
+    // background-color: none;
+    background-color: #0C3D55;
+}
+
+.roller-coaster-loader::after {
+    box-sizing: border-box;
+    width: var(--diameter);
+    height: var(--diameter);
+    border: var(--stroke-width) solid;
+    border-radius: 50%;
+    left: 25%;
+}
+
+.roller-coaster-loader span {
+    position: absolute;
+    width: var(--dot-diameter);
+    height: var(--dot-diameter);
+    background-color: currentColor;
+    border-radius: 50%;
+    bottom: var(--stroke-width);
+    left: calc(var(--dot-diameter) * -1);
+    animation:
+        run 2s linear infinite,
+        rotating 2s linear infinite;
+    --vertical-center: calc((var(--diameter) / 2 - var(--stroke-width) - var(--dot-diameter)) * -1);
+    transform-origin: 50% var(--vertical-center);
+}
+
+.roller-coaster-loader span:nth-child(1) {
+     color: $ex-primary; //$ex-blue-light
+}
+
+.roller-coaster-loader span:nth-child(2) {
+    animation-delay: 0.075s;
+    color: $ex-primary;
+}
+
+.roller-coaster-loader span:nth-child(3) {
+   animation-delay: 0.15s;
+   color: $ex-primary;
+}
+
+.roller-coaster-loader span:nth-child(4) {
+   animation-delay: 0.225s;
+   color: $ex-primary;
+}
+
+.roller-coaster-loader span:nth-child(5) {
+   animation-delay: 0.3s;
+   color: $ex-primary;
+}
+
+.roller-coaster-loader span:nth-child(6) {
+   animation-delay: 0.375s;
+   color: $ex-primary;
+}
+
+.roller-coaster-loader span:nth-child(7) {
+   animation-delay: 0.450s;
+   color: $ex-primary;
+}
+
+@keyframes run {
+    0% {
+        left: calc(var(--dot-diameter) * -1);
+    }
+
+    10%, 60% {
+        left: calc((var(--width) - var(--dot-diameter)) / 2);
+    }
+
+    70%, 100% {
+        left: var(--width);
+    }
+}
+
+@keyframes rotating {
+    0%, 10% {
+        transform: rotate(0deg);
+    }
+
+    60%, 100% {
+        transform: rotate(-1turn);
+    }
 }
