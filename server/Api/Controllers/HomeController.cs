@@ -9,9 +9,9 @@ namespace Api.Controllers
     {
         private readonly PodcastService _podcastService;
 
-        public HomeController(PodcastService eventService)
+        public HomeController(PodcastService podcastService)
         {
-            _podcastService = eventService;
+            _podcastService = podcastService;
         }
 
         [HttpGet]

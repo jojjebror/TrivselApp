@@ -21,15 +21,17 @@ namespace Logic.Services
 
                 foreach (var item in podcastFeed.Items)
                 {
-                    //var el = item.ElementExtensions.FirstOrDefault(e => e.OuterName == "summary").GetObject<XElement>().Value;
+                    var summary = item.ElementExtensions.FirstOrDefault(e => e.OuterName == "summary")?
+                        .GetObject<XElement>().Value;
+                    var imageUrl = item.ElementExtensions.FirstOrDefault(i => i.OuterName == "image")?
+                            .GetObject<XElement>().Attribute("href").Value;
 
                     var episode = new PodcastEpisodeDto
                     {
                         Id = item.Id,
                         Title = item.Title.Text,
-                        Summary = item.Summary.Text,
-                        ImageUrl = item.ElementExtensions.FirstOrDefault(i => i.OuterName == "image")
-                            .GetObject<XElement>().Attribute("href").Value,
+                        Summary = summary,
+                        ImageUrl = imageUrl,
                         EpisodeUrl = item.Links.Last().Uri.AbsoluteUri,
                         Published = item.PublishDate.DateTime
                     };
