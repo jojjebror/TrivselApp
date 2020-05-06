@@ -1,4 +1,6 @@
 .img-thumbnail {
+  position: absolute;
+  right: 600px;
   max-width: 75px;
   float: left;
   //object-fit: cover;
@@ -63,11 +65,19 @@ h2 {
   text-align: center;
   
 }
-
+.titleProductCategory{
+text-align: center;
+}
 
 .quantity {
   text-align: center;
   font-size: xx-large;
+}
+.countBtns1 {
+  float: left;
+  size: 0,5px;
+  margin-right: 4em;
+  margin-top: 1em;
 }
 
 .countBtns {
@@ -75,7 +85,6 @@ h2 {
   size: 0,5px;
   margin-right: 4em;
   margin-top: 1em;
-  
 }
 
 li {
@@ -139,11 +148,12 @@ li {
 @media (max-width: 414px) {
 
   .img-thumbnail {
+    position: static;
     max-width: 75px;
     float: left;
     object-fit: cover;
-    border-radius: 50%;
-    max-height: 75px;
+    border-radius: 5%;
+    max-height: 80px;
     margin-bottom: 40px;
     margin-right: 2em;
   
@@ -163,10 +173,18 @@ width: 100%;
 
 }
 
-
+.location1{
+  position: relative;
+  top: 15%;
+  left: -4%;
+  font-size: 35px;
+}
 
 .location{
-  float: left;
+  position: relative;
+  top: 60%;
+  left: -30%;
+  font-size: 20px;
 }
 
 li {
@@ -192,12 +210,14 @@ li {
 
 .editIcon {
   color: white;
-  margin-right: 10px;
   float: right;
-  
+  margin-top: 0px;
+  margin-right: 0px;
 }
 
 .btn-success {
+  position: relative;
+  top: 1%;
   float: right;
   margin-top: 1em;
   size: 0,5px;
@@ -206,14 +226,21 @@ li {
   font-size: small;
   text-align: center;
 }
-
+.countBtns1{
+  position: relative;
+  top:-5%;
+  right: 0%;
+}
 .countBtns {
+  position: relative;
+  top:50%;
   float: right;
   size: 0,5px;
-  margin-right: 1em;
-  margin-bottom: 10px;
-  
-  
+  margin-right: 25px;
+  margin-bottom: 1px;
+}
+.plus {
+  margin-left: 45px;
 }
  .titel{
    padding-top:4px;
@@ -225,7 +252,17 @@ li {
  .quantity{
    padding-bottom: 3%;
  }
-
-
-
+ .titleProduct{
+  margin-right: 0px;
+}
+.titleProductCategory{
+position: relative;
+top:2%;
+right: 30%;
+font-size: 20px;
+  }
+  .btnBuy{
+    position: relative;
+top:2%;
+  }
 }

@@ -1,8 +1,7 @@
 <div class="container justify-content-center">
   <h2 class="titel">
-    Öl
+    Vin
   </h2>
-<hr />
 <p class="quantity">Antal valda drycker: {{clickCounter}}</p>
   <button
     class="btn btn-default"
@@ -14,6 +13,7 @@
   <button class="btn btn-primary" [routerLink]="['/drink/create']">
     Lägg till ny dryck
   </button>
+  <hr />
  
   <mat-tab-group>
     
@@ -21,26 +21,24 @@
         <ng-template mat-tab-label>
           <span (click)="initializeFilterCategory()">Kategorier</span>
       </ng-template>
-        <div class="info">
-          
-        </div>
+        
         <br>
       <div class="info">
         <ul *ngIf="drs$">
           <li *ngFor="let dr of drs$ | async" class="tab1">
-            <a class="title">
-              {{ dr.productNameBold }} </a
-            >
+            <p class="titleProductCategory">
+              {{ dr.productNameBold }} </p>
             
-            
-            <button class="btn btn-success" (click)="paySaldo(dr)">Köp med saldo</button>
-            <button class="btn btn-success" (click)="GetToSwish(dr)">Köp med swish</button>
-            <div class="countBtns">
+                
+                  <button class="btn btn-success" (click)="paySaldo(dr)">Köp med saldo</button>
+                  <button class="btn btn-success" (click)="GetToSwish(dr)">Köp med swish</button>
               
+
+            <div class="countBtns1">
               <button class="minus" mat-mini-fab color="warn" (click)="clickCountM()" matTooltip="Ta bort">-</button>
             <button class="plus" mat-mini-fab color="green" (click)="clickCount()" matTooltip="Lägg till">+</button>
             </div>
-            <p class="location">{{ dr.price }}kr</p>
+            <p class="location1">{{ dr.price }}kr</p>
             
               
             <ng-template >
@@ -52,35 +50,34 @@
       </div>
     </mat-tab>
     
-    <mat-tab label="Second">
+    <mat-tab label="Second" > 
       <ng-template mat-tab-label>
         <span (click)="initializeFilterWine()">Drycker</span>
     </ng-template>
-      <div>
-        <ul *ngIf="drs$">
-          <li *ngFor="let dr of drs$ | async">
-            <img class="card-img-top img-thumbnail" [src]="dr.image ? '../../../' + dr.image : '/assets/images/drink-images/default_drink.jpg'" />
-            
-            <a class="title" [routerLink]="['/drink', dr.id]">
-              {{ dr.productNameBold }}</a
-            >
-            
-            <button class="btn btn-success" (click)="paySaldo(dr)">Köp med saldo</button>
-            <button class="btn btn-success" (click)="GetToSwish(dr)">Köp med swish</button>
-            <div class="countBtns">
-              
-              <button class="minus" mat-mini-fab color="warn" (click)="clickCountM(dr)" matTooltip="Ta bort">-</button>
-            <button class="plus" mat-mini-fab color="green" (click)="clickCount(dr)" matTooltip="Lägg till">+</button>
-            </div>
-            <p class="title">{{ dr.price }}kr</p>
-             
-    
-            
-          </li>
-        </ul>
-      </div>
       
-    </mat-tab>
+      <br>
+    <div class="info">
+      <ul *ngIf="drs$">
+        <li *ngFor="let dr of drs$ | async" class="tab1">
+          <img class="card-img-top img-thumbnail" [src]="dr.image ? '../../../' + dr.image : '/assets/images/drink-images/default_drink.jpg'" />
+          <a class="titleProduct">
+            {{ dr.productNameBold }} </a> <mat-icon matSuffix class="editIcon" matTooltip="Redigera dryck" (click)="editDrink(dr.id)" [routerLink] = "['/drink/', dr.id]"> edit</mat-icon>
+          
+          <button class="btn btn-success" (click)="paySaldo(dr)">Köp med saldo</button>
+          <button class="btn btn-success" (click)="GetToSwish(dr)">Köp med swish</button>
+       
+          <div class="countBtns">
+            <button class="minus" mat-mini-fab color="warn" (click)="clickCountM()" matTooltip="Ta bort">-</button>
+          <button class="plus" mat-mini-fab color="green" (click)="clickCount()" matTooltip="Lägg till">+</button>
+          </div>
+          
+          <p class="location">{{ dr.price }}kr</p>
+            
+
+        </li>
+      </ul>
+    </div>
+  </mat-tab>
     
   </mat-tab-group>
 

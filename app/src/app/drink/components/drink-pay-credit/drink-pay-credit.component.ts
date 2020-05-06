@@ -42,8 +42,6 @@ export class DrinkPayCreditComponent implements OnInit {
         //  var result = Object.values(newJSON).includes("paid");
 
           var res = newJSON.result;
-
-          // or let result = newJSON.result. if(result == 'paid'){do this};
            this.amount = newJSON.amount;
           console.log(res);
           console.log(this.amount);

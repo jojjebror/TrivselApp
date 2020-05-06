@@ -31,7 +31,7 @@ export class DrinkCategory3Component implements OnInit {
   id: number;
   isShown: boolean = false; // hidden by default
 
-  clickCounter: number = 1;
+  clickCounter: number = 0;
   totalSum: number = 0;
   userCredit: number;
 
