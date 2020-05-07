@@ -73,7 +73,7 @@ export class EventEditComponent implements OnInit, OnDestroy {
         id: [this.evt.id],
         title: [this.evt.title, Validators.required],
         description: [this.evt.description, Validators.required],
-        image: [null],
+        imageurl: [null],
         location: [this.evt.location, Validators.required],
         startdate: [new Date(this.evt.startDate), Validators.required],
         starttime: [new Date(this.evt.startDate), Validators.required],
@@ -86,7 +86,7 @@ export class EventEditComponent implements OnInit, OnDestroy {
     this.starttime = this.evt.startDate;
     this.endtime = this.evt.endDate;
     this.eventId = this.evt.id;
-    this.imageUrl = this.evt.image;
+    this.imageUrl = this.evt.imageUrl;
   }
 
   updateEvent() {

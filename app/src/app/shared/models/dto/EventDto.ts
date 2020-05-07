@@ -5,7 +5,7 @@ import { Post } from './PostDto';
 export class Event extends Base {
   public title: string;
   public description: string;
-  public image: string;
+  public imageUrl: string;
   public location: string;
   public startDate: Date;
   public startTime: Date;

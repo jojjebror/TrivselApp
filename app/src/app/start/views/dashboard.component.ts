@@ -10,7 +10,9 @@ import { AddDialogComponent, AddDialogModel } from 'src/app/shared/components/ad
 import { MatDialog, MatSnackBar } from '@angular/material';
 import * as fromUsers from '../../user/state/users';
 
-
+import { HomeResource } from 'src/app/core/resources';
+import { PodcastEpisode } from 'src/app/shared/models';
+import * as fromPodcast from '../state/podcast';
 
 @Component({
   selector: 'ex-dashboard',
@@ -20,26 +22,44 @@ import * as fromUsers from '../../user/state/users';
 export class DashboardComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
   user$: Observable<User>;
+  podcastFeed$: Observable<PodcastEpisode[]>;
+  podcastFeed: PodcastEpisode[];
+  episode: PodcastEpisode;
 
   constructor(
     private store$: Store<AppState>,
     private actionsSubject$: ActionsSubject,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private homeResource: HomeResource
   ) {}
 
   ngOnInit(): void {
+    this.store$.dispatch(new fromPodcast.LoadPodcastEpisodes());
+    this.podcastFeed$ = this.store$.pipe(select(fromPodcast.getPodcastEpisodes));
+    console.log(this.podcastFeed$);
+
+    this.homeResource.getPodcastEpisodes().subscribe((res) => (this.podcastFeed = res));
+
     let currentUser: User;
 
-    this.subscription.add(this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.SetUserSuccess)).subscribe((action) => {
-      this.user$ = this.store$.pipe(select(fromSession.selectUser));
-	  this.user$.subscribe((data) => (currentUser = data));
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.SetUserSuccess)).subscribe((action) => {
+        this.user$ = this.store$.pipe(select(fromSession.selectUser));
+        this.user$.subscribe((data) => (currentUser = data));
 
-	  if (currentUser.office === null) {
-      this.addOfficeDialog(currentUser);
-    }
-    })
-    );  
+        if (currentUser.office === null) {
+          this.addOfficeDialog(currentUser);
+        }
+      })
+    );
+  }
+
+  playEpisode(episode: PodcastEpisode) {
+    (document.getElementById('player') as HTMLAudioElement).src = episode.episodeUrl;
+    (document.getElementById('player') as HTMLAudioElement).play();
+    document.getElementById('audioPlayerDiv').style.display = 'block';
+    this.episode = episode;
   }
 
   addOfficeDialog(user: User): void {
@@ -53,25 +73,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
       data: dialogData,
     });
 
-    this.subscription.add(dialogRef.afterClosed().subscribe((dialogResult) => {
-      if (dialogResult == true) {
-        this.addOffice(user.id, dialogData.office);
-      }
-    })
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe((dialogResult) => {
+        if (dialogResult == true) {
+          this.addOffice(user.id, dialogData.office);
+        }
+      })
     );
   }
 
   addOffice(userId: number, newOffice: string) {
-	var data = [userId, newOffice];
+    var data = [userId, newOffice];
     this.store$.dispatch(new fromUsers.UpdateOffice(data));
 
     this.subscription.add(
-      this.actionsSubject$
-        .pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_OFFICE_SUCCESS))
-        .subscribe((action) => {
-          this.snackBar.open('Ditt valda kontor: ' + newOffice, '', { duration: 3500 });
-        })
-    ); 
+      this.actionsSubject$.pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_OFFICE_SUCCESS)).subscribe((action) => {
+        this.snackBar.open('Ditt valda kontor: ' + newOffice, '', { duration: 3500 });
+      })
+    );
   }
 
   ngOnDestroy() {

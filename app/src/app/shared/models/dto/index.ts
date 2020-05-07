@@ -8,3 +8,4 @@ export * from './LoginResponseDto';
 export * from './UserDto';
 export * from './PostDto';
 export * from './DrinkDto';
+export * from './PodcastEpisodeDto';

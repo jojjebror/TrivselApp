@@ -23,10 +23,8 @@ namespace Logic.Services
             _cloudinaryService = new Cloudinary(account);
         }
         
-        public ImageUploadResult UploadImage(string publicId, IFormFile image)
+        public ImageUploadResult UploadImage(IFormFile image, string folder, string publicId = null)
         {
-            var uploadResult = new ImageUploadResult();
-
             try
             {
                 if (image.Length > 0)
@@ -35,14 +33,16 @@ namespace Logic.Services
                     {
                         var uploadParams = new ImageUploadParams()
                         {
-                            PublicId = (publicId == null) ? null : publicId,
+                            PublicId = publicId,
                             File = new FileDescription(image.Name, stream),
-                            Folder = (publicId == null) ? "event-images" : null,
+                            Folder = (publicId == null) ? folder : null,
                             Transformation = new Transformation().Width(200).Height(200).Crop("fill"),
                             Overwrite = (publicId == null) ? false : true
                         };
 
-                        uploadResult = _cloudinaryService.Upload(uploadParams);
+                        var uploadResult = _cloudinaryService.Upload(uploadParams);
+
+                        return uploadResult;
                     }
                 }
             } 
@@ -51,7 +51,7 @@ namespace Logic.Services
                 e.Message.ToString();
             }
             
-            return uploadResult;
+            return null;
         }
 
         public void DeleteImage(string publicId)

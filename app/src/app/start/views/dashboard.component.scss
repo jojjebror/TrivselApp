@@ -1,4 +1,62 @@
+#audioPlayerDiv {
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  float: left;
+  border: 3px solid white;
+}
 
+#audioPlayerDiv img {
+  width: 100px; 
+  height: 100px; float: left;
+}
+
+#audioPlayerDiv p {
+  margin-bottom: 0.5rem;
+}
+
+#player {
+  width: 100%;
+  border-radius: 0;
+}
+
+.iconLeft {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.iconRight {
+  vertical-align: middle;
+  margin-left: 5px;
+  float: right;
+}
+
+.mat-card {
+  width: 32%;
+  padding: 10px;
+  margin-bottom: 30px;
+  margin-right: 1%;
+  float: left;
+  color: white;
+  cursor: pointer;
+  background-color: rgb(37, 2, 48);
+}
+
+.maxTitle {
+  max-width: 85%;
+  word-wrap: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mat-card-title {
+  width: 100%;
+  font-size: 1rem;
+  margin-bottom: 0px;
+}
+
+/* ---------------------- */
 .portfolio {
   background-color: #edf6ff;
   padding-bottom: 0;

@@ -31,7 +31,6 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   endDateMode = false;
   toggleFormHeight: boolean = true;
   fileUpload: File = null;
-  imageUrl: string;
 
   currentDate = new Date();
   starttime: Date;
@@ -77,7 +76,7 @@ export class EventCreateComponent implements OnInit, OnDestroy {
       {
         title: ['', Validators.required],
         description: ['', Validators.required],
-        image: [null],
+        imageurl: [null],
         location: ['', Validators.required],
         startdate: ['', Validators.required],
         starttime: ['', Validators.required],
