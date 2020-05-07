@@ -125,17 +125,6 @@ export class DrinkDetailComponent implements OnInit {
     } else this.alertify.error("Du har för lite pengar på ditt saldo!");
   }
 
-  /* changeImage(drink: Drink) {
-    if (drink.category == "cider") {
-      this.photo = "/beer3.jpg";
-      console.log(this.photo);
-    } else if (drink.category == "vin") {
-      this.photo = "/beer2.jpg";
-      console.log(this.photo);
-    } else {
-      return this.photo;
-    }
-  } */
 
   addEncodedUrl(drink: Drink) {
     var sumPriceToSwish = this.clickCounter * drink.price;
@@ -166,6 +155,6 @@ export class DrinkDetailComponent implements OnInit {
 
     var httpUrl = "swish://payment?data=";
 
-    console.log(httpUrl + encodedString);
+    console.log(httpUrl + encodedString); // add callbackUrl and callbackResultParameter
   }
 }

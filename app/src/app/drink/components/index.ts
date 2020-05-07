@@ -6,6 +6,7 @@ import { DrinkCategory2Component } from './drink-category2/drink-category2.compo
 import { DrinkCategory3Component } from './drink-category3/drink-category3.component';
 import { DrinkEditComponent } from './drink-edit/drink-edit.component';
 import { DrinkCreditComponent } from './drink-credit/drink-credit.component';
+import { DrinkPayCreditComponent } from './drink-pay-credit/drink-pay-credit.component';
 
 export const components = [
     DrinkCreateComponent,
@@ -15,5 +16,6 @@ export const components = [
     DrinkCategory2Component,
     DrinkCategory3Component,
     DrinkEditComponent,
-    DrinkCreditComponent
+    DrinkCreditComponent,
+    DrinkPayCreditComponent
 ];

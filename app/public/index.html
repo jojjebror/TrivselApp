@@ -33,16 +33,28 @@
   </head>
   <body>
     <br />
-      <button><a href="swish://payment?data=%7B%22version%22%3A1%2C%22payee%22%3A%7B%22value%22%3A%220700419195%22%7D%2C%22amount%22%3A%7B%22value%22%3A200%7D%2C%22message%22%3A%7B%22value%22%3A%22H%C3%A4lsningar+Martin+%5C%22the+King%5C%22+Loord%22%2C%22editable%22%3Atrue%7D%7D"> köp med swish</a></button>
+      <button onclick="addUrl()">Klicka här</button>
+      <p>hejhej</p>
 
     <div id="message">
       <h2>Exsitec</h2>
       <h1>Betala din djuping och macksmörgås direkt i mobilen</h1>
       <p>Glmö inte att du kan fylla på ditt saldo under filken "hantera saldo"</p>
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+    <mat-tab-group>
+      <mat-tab label="First"> Content 1 </mat-tab>
+      <mat-tab label="Second"> Content 2 </mat-tab>
+      <mat-tab label="Third"> Content 3 </mat-tab>
+    </mat-tab-group>
 
+    <p id="load">Firebase SDK Loading&hellip;</p>
+    <input type="file" accept="image/*" capture="camera">
     <script>
+      function addUrl() {
+        var urlll = "swish://payment?data=%7B%22version%22%3A1%2C%22payee%22%3A%7B%22value%22%3A%220700419195%22%7D%2C%22amount%22%3A%7B%22value%22%3A200%7D%2C%22message%22%3A%7B%22value%22%3A%22H%C3%A4lsningar+Martin+%5C%22the+King%5C%22+Loord%22%2C%22editable%22%3Atrue%7D%7D";
+        document.location.replace(urlll);
+      };
+
       document.addEventListener('DOMContentLoaded', function() {
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
         // // The Firebase SDK is initialized and available here!
