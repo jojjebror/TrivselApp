@@ -34,7 +34,7 @@
   }
   
   li {
-    background: rgb(37, 2, 48);
+    //background: rgb(37, 2, 48);
     padding: 1em;
     margin-right: 10px;
     width: 32.3%;
@@ -155,7 +155,7 @@
     }
 
     li {
-      background-color: rgb(37, 2, 48); 
+      //background-color: rgb(37, 2, 48); 
       padding: 1em;
       margin-right: 10px;
       margin-left: 10px;
@@ -163,7 +163,7 @@
       height: 150px;
       margin-bottom: 1em;
       flex-direction: column;
-      border-radius: 10px;
+      
       text-align: center;
       
     }
@@ -174,6 +174,10 @@
     ul img{
       width: 25%;
       height: 60%;
+    }
+
+    .headline {
+      text-align: center;
     }
   }
   
