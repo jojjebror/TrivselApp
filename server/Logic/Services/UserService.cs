@@ -4,6 +4,7 @@ using Logic.Database.Entities;
 using Logic.Models;
 using Logic.Translators;
 using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -78,6 +79,17 @@ namespace Logic.Services
                 await _context.SaveChangesAsync();
             }
             return UserTranslator.ToUserForUpdateDto(dbUser);
+        }
+
+        public string GetSwishNumber(string kontor)
+        {
+            if (kontor == "Linköping")
+            {
+                string swishNummer = "0705469891";
+                return swishNummer;
+            }
+            string Error = "Error";
+            return Error;
         }
 
         public async Task<UserForUpdateDto> RemoveCredit(int id, UserForUpdateDto user)
@@ -157,7 +169,6 @@ namespace Logic.Services
 
             return UserTranslator.ToModel(dbUser);
         }
-
 
     }
 }

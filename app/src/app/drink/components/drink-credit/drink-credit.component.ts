@@ -44,7 +44,7 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
    }
 
   ngOnInit() {
-    setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 500);
+    setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 1000);
     console.log('userid' + this.userId);
     console.log('credit' + this.userCredit);
      this.createCreditForm();
