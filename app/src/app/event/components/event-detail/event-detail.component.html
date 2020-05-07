@@ -41,7 +41,7 @@
           </div>
           <div>
             <strong>{{ countParticipants(invitedParticipants$) }} personer inbjudna</strong>
-            <p style="cursor: pointer" (click)="viewParticipants()">Se deltagare</p>
+            <p style="cursor: pointer;" (click)="viewParticipants()">Se deltagare</p>
           </div>
           <div>
             <strong>Status:</strong>
@@ -80,7 +80,7 @@
     </div>
     <div class="col-xs-8 col-sm-12 col-md-8 col-lg-8">
       <div class="tab-panel">
-        <mat-tab-group animationDuration="0ms" dynamicHeight>
+        <mat-tab-group [(selectedIndex)]="index" dynamicHeight>
           <mat-tab label="Evenemangsöversikt">
             <mat-list>
               <form [formGroup]="postForm" (ngSubmit)="createPost()">
@@ -136,6 +136,49 @@
                 </div>
               </div>
             </mat-list>
+          </mat-tab>
+          <mat-tab label="Deltagare">
+            <mat-tab-group *ngIf="index == 1" [selectedIndex]="1">
+              <mat-tab label="Inbjudna ({{ countParticipants(invitedParticipants$) }})">
+                <mat-selection-list class="invitesList">
+                  <mat-list-option class="white" *ngIf="countParticipants(declinedParticipants$) == 0"
+                    >Det finns inga inbjudna till evenemanget.</mat-list-option
+                  >
+                  <mat-list-option class="participants" *ngFor="let user of invitedParticipants$ | async">
+                    <mat-icon matListIcon class="white">account_box</mat-icon>
+                    <p>
+                      {{ user.name }}
+                    </p>
+                  </mat-list-option>
+                </mat-selection-list>
+              </mat-tab>
+              <mat-tab label="Accepterat ({{ countParticipants(attendedParticipants$) }})">
+                <mat-selection-list class="invitesList">
+                  <mat-list-option class="white" *ngIf="countParticipants(attendedParticipants$) == 0"
+                    >Ingen har accepterat deltagande i evenemanget.</mat-list-option
+                  >
+                  <mat-list-option class="participants" *ngFor="let user of attendedParticipants$ | async">
+                    <mat-icon matListIcon class="white">account_box</mat-icon>
+                    <p>
+                      {{ user.name }}
+                    </p>
+                  </mat-list-option>
+                </mat-selection-list>
+              </mat-tab>
+              <mat-tab label="Avböjt ({{ countParticipants(declinedParticipants$) }})">
+                <mat-selection-list class="invitesList">
+                  <mat-list-option class="white" *ngIf="countParticipants(declinedParticipants$) == 0"
+                    >Ingen har avböjt sitt deltagande i evenemanget.</mat-list-option
+                  >
+                  <mat-list-option class="participants" *ngFor="let user of declinedParticipants$ | async">
+                    <mat-icon matListIcon class="white">account_box</mat-icon>
+                    <p>
+                      {{ user.name }}
+                    </p>
+                  </mat-list-option>
+                </mat-selection-list>
+              </mat-tab>
+            </mat-tab-group>
           </mat-tab>
         </mat-tab-group>
       </div>

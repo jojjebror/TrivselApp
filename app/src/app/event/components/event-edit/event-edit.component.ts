@@ -12,7 +12,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ActionTypes } from '../../state/events';
 
-
 @Component({
   selector: 'ex-event-edit',
   templateUrl: './event-edit.component.html',
@@ -79,7 +78,7 @@ export class EventEditComponent implements OnInit, OnDestroy {
         starttime: [new Date(this.evt.startDate), Validators.required],
         enddate: [new Date(this.evt.endDate), Validators.required],
         endtime: [new Date(this.evt.endDate), Validators.required],
-        users: [null]
+        users: [null],
       },
       { validator: this.DateValidation }
     );
@@ -99,18 +98,7 @@ export class EventEditComponent implements OnInit, OnDestroy {
 
       const ev = Object.assign({}, this.eventEditForm.value);
       this.store$.dispatch(new fromEvents.UpdateEvent(ev, this.fileUpload));
-
-      this.subscription.add(
-        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_EVENT_SUCCESS)).subscribe((action) => {
-          this.snackBar.open('Evenemanget är nu uppdaterat', '', { duration: 2500 });
-        })
-      );
-
-      this.subscription.add(
-        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_EVENT_ERROR)).subscribe((action) => {
-          this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
-        })
-      );
+      this.showSnackbarUpdateEvent();
     }
   }
 
@@ -164,8 +152,22 @@ export class EventEditComponent implements OnInit, OnDestroy {
     this.store$.dispatch(new fromUsers.GetUsers());
     this.users$ = this.store$.pipe(select(fromUsers.getUsers));
 
-    this.invitedParticipants$ = this.store$.pipe(select(fromEvents.getInvitedParticipants))
-    }
+    this.invitedParticipants$ = this.store$.pipe(select(fromEvents.getInvitedParticipants));
+  }
+
+  showSnackbarUpdateEvent() {
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_EVENT_SUCCESS)).subscribe((action) => {
+        this.snackBar.open('Evenemanget är nu uppdaterat', '', { duration: 2500 });
+      })
+    );
+
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_EVENT_ERROR)).subscribe((action) => {
+        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
+      })
+    );
+  }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
