@@ -35,12 +35,6 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
-        [HttpGet("swishNummer")]
-        public string GetSwishNumber(string kontor)
-        {
-            var result = _userService.GetSwishNumber(kontor);
-            return result;
-        }
 
         [HttpGet("credit")]
         public async Task<IActionResult> GetCredit()
