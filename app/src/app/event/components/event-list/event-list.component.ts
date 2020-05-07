@@ -66,22 +66,10 @@ export class EventListComponent implements OnInit, OnDestroy {
   }
 
   private loadEvents() {
-    //this.subscription.add(this.store$.select(fromSession.selectUser).subscribe((response) => (this.userId = response.id)));
-
     this.store$.dispatch(new fromEvents.GetCurrentUserEvent(+this.userId));
     this.store$.dispatch(new fromEvents.LoadEvents());
 
-    this.subscription.add(
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.GET_USER_EVENT_ERROR)).subscribe((action) => {
-        this.snackBar.open('Evenemangen kunde inte laddas, försök igen', '', { duration: 10000 });
-      })
-    );
-
-    this.subscription.add(
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.LOAD_EVENTS_ERROR)).subscribe((action) => {
-        this.snackBar.open('Evenemangen kunde inte laddas, försök igen', '', { duration: 10000 });
-      })
-    );
+    this.showSnackbarLoadEvents();
 
     //All events
     this.subscription.add(
@@ -117,20 +105,8 @@ export class EventListComponent implements OnInit, OnDestroy {
   }
 
   deleteEvent(id: number) {
-      this.store$.dispatch(new fromEvents.DeleteEvent(id));
-
-      this.subscription.add(
-        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.DELETE_EVENT_SUCCESS)).subscribe((action) => {
-          this.snackBar.open('Evenemanget borttaget', '', { duration: 2500 });
-          this.store$.dispatch(new fromEvents.GetCurrentUserEvent(+this.userId));
-        })
-      );
-      this.subscription.add(
-        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.DELETE_EVENT_ERROR)).subscribe((action) => {
-          this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
-          this.loadEvents();
-        })
-      );
+    this.store$.dispatch(new fromEvents.DeleteEvent(id));
+    this.showSnackbarDeleteEvent();
   }
 
   editEvent(id: number) {
@@ -142,25 +118,7 @@ export class EventListComponent implements OnInit, OnDestroy {
     this.store$.dispatch(new fromEvents.UpdateUserParticipant(data));
 
     this.refreshData();
-
-    this.subscription.add(
-      this.actionsSubject$
-        .pipe(filter((action: any) => action.type === ActionTypes.UPDATE_USER_PARTICIPANT_SUCCESS))
-        .subscribe((action) => {
-          if (answer == 'accepted') {
-            this.snackBar.open('Du är tillagd i evenemanget', '', { duration: 2500 });
-          }
-          if (answer == 'declined') {
-            this.snackBar.open('Du är borttagen ur evenemanget', '', { duration: 2500 });
-          }
-        })
-    );
-
-    this.subscription.add(
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_USER_PARTICIPANT_ERROR)).subscribe((action) => {
-        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 2500 });
-      })
-    );
+    this.showSnackbarUpdateParticipants(answer);
   }
 
   refreshData() {
@@ -223,11 +181,63 @@ export class EventListComponent implements OnInit, OnDestroy {
       data: dialogData,
     });
 
-    this.subscription.add(dialogRef.afterClosed().subscribe((dialogResult) => {
-      if(dialogResult == true)  {
-        this.deleteEvent(id);
-      }
-    }));
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe((dialogResult) => {
+        if (dialogResult == true) {
+          this.deleteEvent(id);
+        }
+      })
+    );
+  }
+
+  showSnackbarLoadEvents() {
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.GET_USER_EVENT_ERROR)).subscribe((action) => {
+        this.snackBar.open('Evenemangen kunde inte laddas, försök igen', '', { duration: 10000 });
+      })
+    );
+
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.LOAD_EVENTS_ERROR)).subscribe((action) => {
+        this.snackBar.open('Evenemangen kunde inte laddas, försök igen', '', { duration: 10000 });
+      })
+    );
+  }
+
+  showSnackbarDeleteEvent() {
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.DELETE_EVENT_SUCCESS)).subscribe((action) => {
+        this.snackBar.open('Evenemanget borttaget', '', { duration: 2500 });
+        this.store$.dispatch(new fromEvents.GetCurrentUserEvent(+this.userId));
+      })
+    );
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.DELETE_EVENT_ERROR)).subscribe((action) => {
+        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
+        this.loadEvents();
+      })
+    );
+  }
+
+  showSnackbarUpdateParticipants(answer: string) {
+    this.subscription.add(
+      this.actionsSubject$
+        .pipe(filter((action: any) => action.type === ActionTypes.UPDATE_USER_PARTICIPANT_SUCCESS))
+        .subscribe((action) => {
+          if (answer == 'accepted') {
+            this.snackBar.open('Du är tillagd i evenemanget', '', { duration: 2500 });
+          }
+          if (answer == 'declined') {
+            this.snackBar.open('Du är borttagen ur evenemanget', '', { duration: 2500 });
+          }
+        })
+    );
+
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_USER_PARTICIPANT_ERROR)).subscribe((action) => {
+        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 2500 });
+      })
+    );
   }
 
   ngOnDestroy() {

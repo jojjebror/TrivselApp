@@ -75,7 +75,7 @@ namespace Logic.Services
                 }
             }
 
-            if (ev.Users.Any())
+            if (ev.Users != null)
             {
                 foreach (var user in ev.Users)
                 {
@@ -253,9 +253,11 @@ namespace Logic.Services
 
                 _context.EventParticipants.Add(newEp);
             }
-
-            //Update participants answer if already answered
-            eventParticipant.Status = answer;
+            else
+            {
+                //Update participants answer if already answered
+                eventParticipant.Status = answer;
+            }
 
             await _context.SaveChangesAsync();
 

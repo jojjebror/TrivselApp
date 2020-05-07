@@ -107,19 +107,7 @@ export class EventCreateComponent implements OnInit, OnDestroy {
       this.event = Object.assign({}, this.eventForm.value);
 
       this.store$.dispatch(new fromEvents.CreateEvent(this.event, this.fileUpload));
-
-      this.subscription.add(
-        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.CREATE_EVENT_SUCCESS)).subscribe((action) => {
-          var title = action.payload.title;
-          this.snackBar.open(title + ' är nu tillagt i evenemangslistan', '', { duration: 2500 });
-        })
-      );
-
-      this.subscription.add(
-        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPLOAD_IMAGE_SUCCESS)).subscribe((action) => {
-          this.snackBar.open('Evenemanget är nu tillagt i listan', '', { duration: 2500 });
-        })
-      );
+      this.showSnackbar();
     }
   }
 
@@ -217,6 +205,28 @@ export class EventCreateComponent implements OnInit, OnDestroy {
         return 'Du måste ange ett startdatum';
       }
     }
+  }
+
+  showSnackbar() {
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.CREATE_EVENT_SUCCESS)).subscribe((action) => {
+        var title = action.payload.title;
+        this.snackBar.open(title + ' är nu tillagt i evenemangslistan', '', { duration: 2500 });
+      })
+    );
+
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.CREATE_EVENT_ERROR)).subscribe((action) => {
+        var title = action.payload.title;
+        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
+      })
+    );
+
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPLOAD_IMAGE_SUCCESS)).subscribe((action) => {
+        this.snackBar.open('Evenemanget är nu tillagt i listan', '', { duration: 2500 });
+      })
+    );
   }
 
   ngOnDestroy() {

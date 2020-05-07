@@ -86,10 +86,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
     var data = [userId, newOffice];
     this.store$.dispatch(new fromUsers.UpdateOffice(data));
 
+    this.showSnackbarAddOffice(newOffice)
+  }
+
+  showSnackbarAddOffice(newOffice: string) {
     this.subscription.add(
-      this.actionsSubject$.pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_OFFICE_SUCCESS)).subscribe((action) => {
-        this.snackBar.open('Ditt valda kontor: ' + newOffice, '', { duration: 3500 });
-      })
+      this.actionsSubject$
+        .pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_OFFICE_SUCCESS))
+        .subscribe((action) => {
+          this.snackBar.open('Ditt valda kontor: ' + newOffice, '', { duration: 3500 });
+        })
     );
   }
 
