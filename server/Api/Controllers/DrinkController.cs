@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Api.Models;
+using Logic.Models;
 using Logic.Services;
 using Microsoft.AspNetCore.Mvc;
-using Logic.Models;
 
 namespace Api.Controllers
 {
@@ -49,13 +46,13 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
-        [HttpPost("{id}/saveimage")]
-        public async Task<IActionResult> SaveImage(int id)
+        [HttpPost("{id}/uploadDrinkImage")]
+        public async Task<IActionResult> UploadDrinkImage(int id)
         {
             var httpRequest = Request.Form;
             var image = httpRequest.Files["image"];
 
-            var result = await _drinkService.SaveImage(id, image);
+            var result = await _drinkService.UploadDrinkImage(id, image);
 
             return new OkObjectResult(ApiResponse.Create(result));
         }
@@ -69,6 +66,7 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
 
         }*/
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDrink(int id)
         {

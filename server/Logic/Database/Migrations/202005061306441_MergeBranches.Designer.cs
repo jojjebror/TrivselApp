@@ -13,7 +13,7 @@ namespace Logic.Database.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202005040933159_MergeBranches"; }
+            get { return "202005061306441_MergeBranches"; }
         }
         
         string IMigrationMetadata.Source

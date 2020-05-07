@@ -1,0 +1,97 @@
+<br/>
+<br/>
+<div class="container">
+<form [formGroup]="receiptForm" class="border border-light p-5" (ngSubmit)="createReceipt()">
+
+  <h3 class="text-center"> Lägg till kvitto</h3>
+  <hr/>
+
+    <div>
+   
+        <input
+          type="file"
+          accept="image/*"
+          autocomplete="off"
+          formControlName="image"
+          (change)="loadImage($event.target.files)"
+    
+        />
+    </div>
+
+    <div class="form-group text-center">
+      <button
+        class="btn btn-success"
+        type="submit"
+      >
+        Lägg till kvitto
+      </button>
+    </div>
+</form>
+</div>
+
+<br/>
+<br/>
+
+  <!------------------ TAB1 ------------------------>
+<div class="container justify-content-center">
+  <div class="tab-panel">
+    <mat-tab-group animationDuration="0ms" dynamicHeight>
+      <mat-tab label="Alla kvitton">
+        <span (click)="loadReceipts()"></span>
+        <div class="mat-card-div">
+          <mat-card *ngFor="let re of res$ | async">
+            <mat-card-header>
+              <mat-card-title>{{re.creatorName}}</mat-card-title> 
+            </mat-card-header>
+            <mat-card-content>
+              <div>
+                <a href={{re.image}}>
+                  {{re.date | date : 'shortDate'}}
+                </a>
+              </div>
+            </mat-card-content>
+
+          </mat-card>
+
+        </div>
+      </mat-tab>
+    
+ <!------------------- TAB2 ----------------------->
+
+ <div class="tab-panel">
+    <mat-tab label="Dina kvitton">
+      <span (click)="loadUserReceipt()"></span>
+          <div class="mat-card-div">
+            <mat-card *ngFor="let re of res$ | async">
+              <mat-card-header>
+                <mat-card-title>{{re.creatorName}}</mat-card-title> 
+              </mat-card-header>
+              <mat-card-content>
+                <div>
+                  <a href={{re.image}}>
+                    {{re.date | date : 'shortDate'}}
+                  </a>
+                </div>
+
+                <label
+                  type="button"
+                  mat-icon-button
+                  #tooltip="matTooltip"
+                  matTooltip="Ta bort evenemang"
+                  matTooltipPosition="right"
+                  (click)="confirmDialog(re.id, re.creatorName)"
+                >
+                  <span class="material-icons" id="declineIcon">
+                    delete_outline
+                  </span>
+                </label>
+                
+              </mat-card-content>
+  
+            </mat-card>
+          </div>
+       </mat-tab>
+     </div>
+    </mat-tab-group>
+  </div>
+</div>

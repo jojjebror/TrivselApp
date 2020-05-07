@@ -1,4 +1,5 @@
-﻿using Logic.Database;
+﻿using Google.Apis.Calendar.v3.Data;
+using Logic.Database;
 using Logic.Database.Entities;
 using Logic.Models;
 using Logic.Translators;
@@ -15,11 +16,13 @@ namespace Logic.Services
     public class DrinkService
     {
         private readonly DatabaseContext _context;
+        private readonly CloudinaryService _cloudinaryService;
 
 
         public DrinkService(DatabaseContext context)
         {
             _context = context;
+            _cloudinaryService = new CloudinaryService();
         }
 
 
@@ -120,21 +123,23 @@ namespace Logic.Services
             return DrinkForListTranslator.ToModel(dr);
         }
 
-        public async Task<DrinkForListDto> DeleteDrink(int id)
+
+
+        public async Task<int> DeleteDrink(int id)
         {
-            var result = await _context.Drinks.FirstOrDefaultAsync(e => e.Id == id);
+            var dbDrink = await _context.Drinks.FirstOrDefaultAsync(e => e.Id == id);
 
-            _context.Drinks.Remove(result);
-
-
-
+            _context.Drinks.Remove(dbDrink);
             await _context.SaveChangesAsync();
 
-            return DrinkForListTranslator.ToModel(result);
+
+            //Deletes the uploaded image
+            _cloudinaryService.DeleteImage(dbDrink.ImageId);
+
+            return id;
         }
 
-        
-
+       
         public async Task<DrinkForUpdateDto> Update(int id, DrinkForUpdateDto dr)
         {
             var dbDrink = await _context.Drinks
@@ -151,44 +156,20 @@ namespace Logic.Services
             return DrinkForUpdateTranslator.ToModel(dbDrink);
         }
 
-        public void DeleteImageFiles(int id, string path)
-        {
-            var files = Directory.GetFiles(path, id.ToString() + ".*");
-            if (files.Length > 0)
-            {
-                foreach (var file in files)
-                {
-                    File.Delete(file);
-                }
-            }
-        }
-
-        public async Task<DrinkForListDto> SaveImage(int id, IFormFile image)
+        public async Task<DrinkForListDto> UploadDrinkImage(int id, IFormFile image)
         {
             var dbDrink = await _context.Drinks.FindAsync(id);
 
-            if (image.Length > 0)
-            {
-                var folderName = Path.Combine("assets", "images", "drink-images");
-                var pathToSave = Path.GetFullPath(folderName).Replace("server\\Api", "app\\src");
+            var uploadResult = _cloudinaryService.UploadDrinkImage(dbDrink.ImageId, image);
 
-                var fileName = id.ToString() + Path.GetExtension(image.FileName);
-                var fullPath = Path.Combine(pathToSave, fileName);
-                var dbPath = Path.Combine(folderName, fileName);
+            dbDrink.Image = uploadResult.Uri.ToString();
+            dbDrink.ImageId = uploadResult.PublicId;
 
-                DeleteImageFiles(id, pathToSave);
-
-                using (var stream = new FileStream(fullPath, FileMode.Create))
-                {
-                    image.CopyTo(stream);
-                }
-
-                dbDrink.Image = dbPath;
-
-                await _context.SaveChangesAsync();
-            }
+            await _context.SaveChangesAsync();
 
             return DrinkForListTranslator.ToModel(dbDrink);
         }
+
+
     }
 }
