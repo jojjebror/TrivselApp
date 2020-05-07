@@ -3,10 +3,11 @@
   right: 600px;
   max-width: 75px;
   float: left;
-  //object-fit: cover;
-  border-radius: 50%;
+  object-fit: cover;
+  border-radius: 5%;
   max-height: 80px;
-  margin-bottom: 40px;
+  min-height: 80px;
+  
   margin-right: 2em;
 
 }
@@ -63,8 +64,15 @@ h2 {
   margin-right: 2em;
   font-size: small;
   text-align: center;
+ 
   
 }
+
+#btnSwish {
+  display: none;
+}
+
+
 .titleProductCategory{
 text-align: center;
 }
@@ -154,6 +162,7 @@ li {
     object-fit: cover;
     border-radius: 5%;
     max-height: 80px;
+    min-height: 80px;
     margin-bottom: 40px;
     margin-right: 2em;
   
@@ -225,6 +234,10 @@ li {
   margin-right: 2em;
   font-size: small;
   text-align: center;
+}
+
+#btnSwish {
+  display: inherit;
 }
 .countBtns1{
   position: relative;
