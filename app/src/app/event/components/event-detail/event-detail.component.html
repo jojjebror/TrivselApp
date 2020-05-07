@@ -40,8 +40,8 @@
             <p>{{ ev.creatorName }}</p>
           </div>
           <div>
-            <strong>{{ countParticipants(invitedParticipants$) }} personer inbjudna</strong>
-            <p style="cursor: pointer;" (click)="viewParticipants()">Se deltagare</p>
+            <strong>Inbjudna</strong>
+            <p style="cursor: pointer;" (click)="viewParticipants()">{{ countParticipants(invitedParticipants$) }} personer</p>
           </div>
           <div>
             <strong>Status:</strong>
