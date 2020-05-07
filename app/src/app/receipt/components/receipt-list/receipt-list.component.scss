@@ -1,0 +1,24 @@
+.mat-card {
+    width: 32%;
+    margin-bottom: 30px;
+    margin-right: 1%;
+    float: left;
+    color: white;
+    cursor: pointer;
+    background-color: rgb(37, 2, 48);
+  } 
+  
+.container {
+    margin-top: 60px;
+  }
+
+  .mat-card-title {
+    font-size: 1.2rem;
+  }
+
+  .mat-header-cell {
+    background-color: rgb(37, 2, 48);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+  }

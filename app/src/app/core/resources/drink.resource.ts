@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 
-import { Drink, Receipt } from '../../shared/models';
+import { Drink } from '../../shared/models';
 import { text } from "@angular/core/src/render3";
 
 
@@ -15,7 +15,7 @@ export class DrinkResource extends ApiResource {
     }
 
     loadDrinks(): Observable<Drink[]> {
-        return this.get('drink/');
+        return this.get('drink');
     }
 
     loadDrink(id: number): Observable<Drink> {
@@ -38,25 +38,9 @@ export class DrinkResource extends ApiResource {
         return this.get('drink/' + 'filter?filter=' + dr);
     }
     
-    saveImage(id: number, image: File): Observable<Drink> {
+    uploadDrinkImage(id: number, image: File): Observable<Drink> {
         var formData = new FormData();
         formData.append('image', image, image.name);
-        return this.post2('drink/' + id + '/saveimage', formData);
+        return this.post2('drink/' + id + '/uploadDrinkImage', formData);    
     }
-
-    saveImageReceipt(id: number, image: File): Observable<Receipt> {
-        var formData = new FormData();
-        formData.append('image', image, image.name);
-        return this.post2('drink/' + id + '/saveImageReceipt', formData);
-    }
-
-    loadReceipts(): Observable<Receipt[]> {
-        return this.get('Drink/receipts')
-    }
-
-    createReceipt(re: Receipt): Observable<Receipt> {
-        return this.post('Drink/createReceipt', re);
-    }
-    
 }
-

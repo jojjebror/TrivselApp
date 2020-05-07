@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Logic.Models
 {
-    public class ReceiptForListDto :  BaseDto
+    public class ReceiptForCreateDto : BaseDto
     {
-        
+
         public string Image { get; set; }
         public DateTime Date { get; set; }
         public int CreatorId { get; set; }
-        public string CreatorName { get; set; }
-        
+        public ICollection<UserDto> Users { get; set; }
+
     }
 }

@@ -1,3 +1,5 @@
+<br/>
+<br/>
 <div class="container">
 <form [formGroup]="receiptForm" class="border border-light p-5" (ngSubmit)="createReceipt()">
 
@@ -5,9 +7,7 @@
   <hr/>
 
     <div>
-      <!-- <mat-form-field appearance="outline">
-        <mat-label>Bild-url</mat-label>
-        <img [src]="imageUrl || ''" style="width: 50px;"> -->
+   
         <input
           type="file"
           accept="image/*"
@@ -16,8 +16,6 @@
           (change)="loadImage($event.target.files)"
     
         />
-        <!-- <mat-error *ngIf="eventForm.invalid">Fel filtyp</mat-error> -->
-      <!-- </mat-form-field> -->
     </div>
 
     <div class="form-group text-center">
@@ -25,27 +23,75 @@
         class="btn btn-success"
         type="submit"
       >
-        Lägg till dryck
+        Lägg till kvitto
       </button>
     </div>
 </form>
 </div>
 
+<br/>
+<br/>
+
+  <!------------------ TAB1 ------------------------>
 <div class="container justify-content-center">
+  <div class="tab-panel">
+    <mat-tab-group animationDuration="0ms" dynamicHeight>
+      <mat-tab label="Alla kvitton">
+        <span (click)="loadReceipts()"></span>
+        <div class="mat-card-div">
+          <mat-card *ngFor="let re of res$ | async">
+            <mat-card-header>
+              <mat-card-title>{{re.creatorName}}</mat-card-title> 
+            </mat-card-header>
+            <mat-card-content>
+              <div>
+                <a href={{re.image}}>
+                  {{re.date | date : 'shortDate'}}
+                </a>
+              </div>
+            </mat-card-content>
 
-  <div class="info">
-    <ul *ngIf="res$">
-      <li *ngFor="let re of res$ | async">
-          
-        <img class="card-img-top img-thumbnail" [src]="re.Image" />
+          </mat-card>
 
-        <h3 class="location">{{re.DateTime}}</h3>
-        
-        <ng-template >
-          <p></p>
-        </ng-template>
-      </li>
-    </ul>
+        </div>
+      </mat-tab>
+    
+ <!------------------- TAB2 ----------------------->
+
+ <div class="tab-panel">
+    <mat-tab label="Dina kvitton">
+      <span (click)="loadUserReceipt()"></span>
+          <div class="mat-card-div">
+            <mat-card *ngFor="let re of res$ | async">
+              <mat-card-header>
+                <mat-card-title>{{re.creatorName}}</mat-card-title> 
+              </mat-card-header>
+              <mat-card-content>
+                <div>
+                  <a href={{re.image}}>
+                    {{re.date | date : 'shortDate'}}
+                  </a>
+                </div>
+
+                <label
+                  type="button"
+                  mat-icon-button
+                  #tooltip="matTooltip"
+                  matTooltip="Ta bort evenemang"
+                  matTooltipPosition="right"
+                  (click)="confirmDialog(re.id, re.creatorName)"
+                >
+                  <span class="material-icons" id="declineIcon">
+                    delete_outline
+                  </span>
+                </label>
+                
+              </mat-card-content>
+  
+            </mat-card>
+          </div>
+       </mat-tab>
+     </div>
+    </mat-tab-group>
   </div>
-
 </div>

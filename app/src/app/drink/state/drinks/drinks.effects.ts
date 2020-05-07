@@ -22,18 +22,18 @@ export class DrinksEffects {
   
   
   @Effect()
-  saveImage$: Observable<Action> = this.actions$.pipe(
-    ofType(drinksActions.ActionTypes.SAVE_IMAGE),
-    switchMap((action: drinksActions.SaveImage) =>
-      this.drinkResource.saveImage(action.id, action.payload).pipe(
+  uploadImage$: Observable<Action> = this.actions$.pipe(
+    ofType(drinksActions.ActionTypes.UPLOAD_IMAGE),
+    switchMap((action: drinksActions.UploadImage) =>
+      this.drinkResource.uploadDrinkImage(action.id, action.image).pipe(
         map(
           (newDrink: Drink) =>
-            new drinksActions.SaveImageSuccess({
+            new drinksActions.UploadImageSuccess({
               id: newDrink.id,
               changes: newDrink
             })
         ),
-        catchError((err) => of(new drinksActions.SaveImageError(err)))
+        catchError((err) => of(new drinksActions.UploadImageError(err)))
       )
     )
   );
@@ -68,11 +68,13 @@ export class DrinksEffects {
     ofType(drinksActions.ActionTypes.CREATE_DRINK),
     switchMap((action: drinksActions.CreateDrink) =>
       this.drinkResource.create(action.payload).pipe(
-        switchMap((newDrink: Drink) =>
-        [
-          new drinksActions.SaveImage(newDrink.id, action.image),
+        map((newDrink: Drink) => {
+          if(action.image !== null) {
+            return new drinksActions.UploadImage(newDrink.id, action.image);
+          }
+
           new drinksActions.CreateDrinkSuccess(newDrink)
-        ]),
+        }),
         tap(() => this.router.navigate(["/drink"])),
         catchError((err) => of(new drinksActions.CreateDrinkError(err)))
       )
@@ -82,9 +84,9 @@ export class DrinksEffects {
   // delete drink
   @Effect()
   deleteDrink$: Observable<Action> = this.actions$.pipe(
-    ofType<drinksActions.DeleteDrink>(drinksActions.ActionTypes.DELETE_DRINK),
+    ofType(drinksActions.ActionTypes.DELETE_DRINK),
     map((action: drinksActions.DeleteDrink) => action.payload),
-    mergeMap((id: number) =>
+    switchMap((id: number) =>
       this.drinkResource.deleteDrink(id).pipe(
         map(() => new drinksActions.DeleteDrinkSuccess(id)),
         tap(() => this.router.navigate(["/drink"])),
@@ -98,18 +100,22 @@ export class DrinksEffects {
     ofType(drinksActions.ActionTypes.UPDATE_DRINK),
     switchMap((action: drinksActions.UpdateDrink) =>
       this.drinkResource.updateDrink(action.payload).pipe(
-        switchMap((updatedDrink: Drink) => [
-          new drinksActions.UpdateDrinkSuccess({
+        map((updatedDrink: Drink) => {
+          if(action.image !== null) {
+            return new drinksActions.UploadImage(updatedDrink.id, action.image);
+          }
+
+          return new drinksActions.UpdateDrinkSuccess({
             id: updatedDrink.id,
-            changes: updatedDrink
-          }),
-          new drinksActions.SaveImage(updatedDrink.id, action.image),
-        ]),
-        tap(() => this.router.navigate(["/drink/" + action.payload.id])),
-        catchError((err) => of(new drinksActions.UpdateDrinkError(err)))
+            changes: updatedDrink,
+          });
+        }),
+        tap(() => this.router.navigate(['/drink/' + action.payload.id])),
+        catchError((err) => of( new drinksActions.UpdateDrinkError(err)))
       )
     )
   );
+
 
   @Effect()
   filterDrink$: Observable<Action> = this.actions$.pipe(

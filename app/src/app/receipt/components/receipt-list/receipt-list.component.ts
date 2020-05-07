@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from "@angular/core";
 import { Observable, Subscription } from "rxjs";
-import { Store, select } from "@ngrx/store";
+import { Store, select, ActionsSubject } from "@ngrx/store";
 
 
 import { AppState } from "src/app/core/state";
-import { Receipt } from "src/app/shared/models";
+import { Receipt, User} from "src/app/shared/models";
 
 import * as receiptsActions from "../../state/receipts";
 import * as fromReceipt from "../../state/receipts/receipts.selectors";
@@ -12,8 +12,12 @@ import * as asReceipt from "../../state/receipts/receipts.actions";
 import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AlertifyService } from "src/app/core/services/alertify.service";
-import { MatSnackBar } from "@angular/material";
-
+import { MatSnackBar, MatTableDataSource, MatDialog } from "@angular/material";
+import * as fromSession from '../../../core/state/session'
+import { AuthenticationService } from "src/app/core/services";
+import { filter } from "rxjs/operators";
+import { ActionTypes } from '../../state/receipts';
+import { ConfirmDialogModel, ConfirmDialogComponent } from "src/app/shared/components/confirmDialog/confirmDialog.component";
 
 @Component({
   selector: 'ex-receipt-list',
@@ -22,29 +26,60 @@ import { MatSnackBar } from "@angular/material";
   styleUrls: ['./receipt-list.component.scss']
 })
 export class ReceiptListComponent implements OnInit {
+
   res$: Observable<Receipt[]>;
   fileUpload: File = null;
   imageUrl: string;
   receiptForm: FormGroup;
   receipt: Receipt;
+  subscription = new Subscription();
+  allReceipts = new MatTableDataSource<Receipt>();
+  userId: number;
+  cres$: Observable<Receipt[]>;
 
   constructor(
     private store$: Store<AppState>,
     private router: Router,
     private rb: FormBuilder,
-    private alertify: AlertifyService,
     private snackBar: MatSnackBar,
+    private actionsSubject$: ActionsSubject,
+    public authService: AuthenticationService,
+    public dialog: MatDialog
     ) 
-    { }
+    {
+      this.subscription.add(
+        authService.getUserId().subscribe((user) => {
+          this.userId = user.sub;
+        })
+      );
+    }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.createReceiptForm();
-    this.initializeReceipts();
+    this.loadReceipts();
   }
+
+
+   public loadReceipts(): void {
+    this.store$.dispatch(new receiptsActions.LoadReceipts());
+    this.res$ = this.store$.pipe(select(fromReceipt.getReceipts));
+
+  }
+
+  public loadUserReceipt(){
+
+    this.store$.dispatch(new asReceipt.LoadUserReceipts(this.userId));
+    this.res$ =  this.store$.pipe(select(fromReceipt.getReceiptCreatedByUser(this.userId)));
+}
+
+  
+  
 
   createReceiptForm() {
     this.receiptForm = this.rb.group({
-      image: [''],
+      image: [null],
+      creatorId: [+this.userId],
+      users: [null]
     });
   }
 
@@ -52,9 +87,21 @@ export class ReceiptListComponent implements OnInit {
     if (this.receiptForm.valid) {
 
       this.receipt = Object.assign({}, this.receiptForm.value);
-
       this.store$.dispatch(new asReceipt.CreateReceipt(this.receipt, this.fileUpload));
-      this.snackBar.open('Kvitto har uppladdats', '', { duration: 2500 });
+
+      this.subscription.add(
+        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.CREATE_RECEIPT_SUCCESS)).subscribe((action) => {
+          var title = action.payload.title;
+          this.snackBar.open('Kvitto uppladdat', '', { duration: 2500 });
+        })
+      );
+
+      this.subscription.add(
+        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPLOAD_IMAGE_SUCCESS)).subscribe((action) => {
+          this.snackBar.open('Kvittot är nu tillagt', '', { duration: 2500 });
+        })
+      );
+
     }
   }
 
@@ -74,13 +121,45 @@ export class ReceiptListComponent implements OnInit {
     }
   }
   
-  public initializeReceipts(): void {
-    this.store$.dispatch(new receiptsActions.LoadReceipts);
-    this.res$ = this.store$.select(fromReceipt.getReceipts);
-  }
-
   loadImage(file: FileList) {
     this.fileUpload = file.item(0);
   }
+
+  deleteReceipt(id: number) {
+    this.store$.dispatch(new receiptsActions.DeleteReceipt(id));
+
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.DELETE_RECEIPT_SUCCESS)).subscribe((action) => {
+        this.snackBar.open('Kvittot borttaget', '', { duration: 2500 });
+        this.store$.dispatch(new asReceipt.LoadUserReceipts(+this.userId));
+      })
+    );
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.DELETE_RECEIPT_ERROR)).subscribe((action) => {
+        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
+        this.loadReceipts();
+      })
+    );
+
+  }
+
+  confirmDialog(id: number, title: string): void {
+    const message = 'Vill du ta bort evenemanget ' + title + '?';
+    const dialogData = new ConfirmDialogModel('Bekräfta', message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: '400px',
+      data: dialogData,
+    });
+
+    this.subscription.add(dialogRef.afterClosed().subscribe((dialogResult) => {
+      if(dialogResult == true)  {
+        this.deleteReceipt(id);
+      }
+    }));
+  }
+
+
+
   
 }

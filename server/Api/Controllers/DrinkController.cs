@@ -46,31 +46,13 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
-        [HttpPost("createReceipt")]
-        public async Task<IActionResult> CreateReceipt([FromBody] ReceiptForListDto receipt)
-        {
-            var result = await _drinkService.CreateReceipt(receipt);
-            return new ObjectResult(ApiResponse.Create(result));
-        }
-
-        [HttpPost("{id}/saveimage")]
-        public async Task<IActionResult> SaveImage(int id)
+        [HttpPost("{id}/uploadDrinkImage")]
+        public async Task<IActionResult> UploadDrinkImage(int id)
         {
             var httpRequest = Request.Form;
             var image = httpRequest.Files["image"];
 
-            var result = await _drinkService.SaveImage(id, image);
-
-            return new OkObjectResult(ApiResponse.Create(result));
-        }
-
-        [HttpPost("{id}/saveImageReceipt")]
-        public async Task<IActionResult> SaveImageReceipt(int id)
-        {
-            var httpRequest = Request.Form;
-            var image = httpRequest.Files["image"];
-
-            var result = await _drinkService.SaveImageReceipt(id, image);
+            var result = await _drinkService.UploadDrinkImage(id, image);
 
             return new OkObjectResult(ApiResponse.Create(result));
         }
@@ -84,6 +66,7 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
 
         }*/
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDrink(int id)
         {
@@ -96,13 +79,6 @@ namespace Api.Controllers
         {
             var result = await _drinkService.Update(id, dr);
 
-            return new OkObjectResult(ApiResponse.Create(result));
-        }
-
-        [HttpGet("receipts")]
-        public async Task<IActionResult> GetReceipts()
-        {
-            var result = await _drinkService.GetReceipt();
             return new OkObjectResult(ApiResponse.Create(result));
         }
 

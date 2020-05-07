@@ -24,6 +24,13 @@ let initialState = adapter.getInitialState({
           loaded: true,
         });
       }
+      case receiptsActions.ActionTypes.LOAD_RECEIPTS: {
+        return {
+          ...state,
+          loading: true,
+          loaded: false
+        };
+      }
 
       case receiptsActions.ActionTypes.LOAD_RECEIPTS_ERROR: {
         return {
@@ -46,16 +53,41 @@ let initialState = adapter.getInitialState({
         };
       }
 
-      case receiptsActions.ActionTypes.SAVE_IMAGE_SUCCESS: {
+      case receiptsActions.ActionTypes.UPLOAD_IMAGE_SUCCESS: {
         return adapter.updateOne(action.payload, state);
       }
   
-      case receiptsActions.ActionTypes.SAVE_IMAGE_ERROR: {
+      case receiptsActions.ActionTypes.UPLOAD_IMAGE_ERROR: {
         return {
           ...state,
           error: action.payload
         };
       }
+
+      case receiptsActions.ActionTypes.DELETE_RECEIPT: {
+        return adapter.removeOne(action.payload, state);
+      }
+
+      case receiptsActions.ActionTypes.DELETE_RECEIPT_ERROR: {
+        return {
+          ...state,
+          error: action.payload
+        };
+      }
+
+       case receiptsActions.ActionTypes.LOAD_USER_RECEIPTS_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+      };
+    }
+    case receiptsActions.ActionTypes.LOAD_USER_RECEIPTS_ERROR: {
+      return {
+        ...state,
+        error: action.payload
+      };
+    }
 
       default:
         return state;

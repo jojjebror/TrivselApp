@@ -5,21 +5,29 @@ import { Receipt } from "../../../shared/models";
 
 export enum ActionTypes {
 
-    LOAD_RECEIPTS = "[Drinks view] Load Receipts",
-    LOAD_RECEIPTS_SUCCESS = "[API: /drink] Load Receipts success",
-    LOAD_RECEIPTS_ERROR = "[API: /drink] Load Receipts error",
+    LOAD_RECEIPTS = "[Receipts view] Load Receipts",
+    LOAD_RECEIPTS_SUCCESS = "[API: /receipts] Load Receipts success",
+    LOAD_RECEIPTS_ERROR = "[API: /receipts] Load Receipts error",
 
-    SAVE_IMAGE = '[Drinks view] Save Image',
-    SAVE_IMAGE_SUCCESS = '[API: /drink] Save Image success',
-    SAVE_IMAGE_ERROR = '[API: /drink] Save Image error',
+    LOAD_USER_RECEIPTS ="[Receipts view] Load User Receipts",
+    LOAD_USER_RECEIPTS_SUCCESS ="[API: /receipts] Load User Receipts success",
+    LOAD_USER_RECEIPTS_ERROR ="[Receipts view] Load User Receipts error",
 
-    UPDATE_IMAGE = '[Drinks view] Update Image',
-    UPDATE_IMAGE_SUCCESS = '[API: /drink] Update Image success',
-    UPDATE_IMAGE_ERROR = '[API: /drink] Update Image error',
+    UPLOAD_IMAGE = '[Receipts view] Save Image',
+    UPLOAD_IMAGE_SUCCESS = '[API: /receipts] Save Image success',
+    UPLOAD_IMAGE_ERROR = '[API: /receipts] Save Image error',
+
+    UPDATE_IMAGE = '[Receipts view] Update Image',
+    UPDATE_IMAGE_SUCCESS = '[API: /receipts] Update Image success',
+    UPDATE_IMAGE_ERROR = '[API: /receipts] Update Image error',
     
-    CREATE_RECEIPT_SUCCESS = '[API: /drink] Create Receipt success',
-    CREATE_RECEIPT_ERROR = '[API: /drink] Create Receipt error',
-    CREATE_RECEIPT = '[API: /drink] Create Receipt ',
+    CREATE_RECEIPT_SUCCESS = '[API: /receipts] Create Receipt success',
+    CREATE_RECEIPT_ERROR = '[API: /receipts] Create Receipt error',
+    CREATE_RECEIPT = '[Receipts view] Create Receipt ',
+
+    DELETE_RECEIPT = '[Receipts view] Delete Receipt',
+    DELETE_RECEIPT_SUCCESS = '[API: /receipts] Delete Receipt success',
+    DELETE_RECEIPT_ERROR = '[API: /receipts] Delete Receipt error',
 }
 
 /*--------------LoadAllReceipts--------------*/
@@ -39,28 +47,47 @@ export class LoadReceipts implements Action {
   
     constructor(public payload: string) {}
   }
-/*--------------SaveImage--------------*/
 
-export class SaveImage implements Action {
-    readonly type = ActionTypes.SAVE_IMAGE;
   
-    constructor(public id: number, public payload: File) {
-      console.log("Save Image " + id + " " + payload)
-    }
-  }
-  export class SaveImageSuccess implements Action {
-    readonly type = ActionTypes.SAVE_IMAGE_SUCCESS;
+/*--------------LoadUserReceipts--------------*/
+
+  export class LoadUserReceipts implements Action {
+    readonly type = ActionTypes.LOAD_USER_RECEIPTS;
   
-    constructor(public payload: Update<Receipt>) {
-      console.log('Save Image Success ' + payload);
-    }
+    constructor(public payload: number) {}
   }
   
-  export class SaveImageError implements Action {
-    readonly type = ActionTypes.SAVE_IMAGE_ERROR;
+  export class LoadUserReceiptsSuccess implements Action {
+    readonly type = ActionTypes.LOAD_USER_RECEIPTS_SUCCESS;
+  
+    constructor(public payload: Receipt[]) {}
+  }
+  
+  export class LoadUserReceiptsError implements Action {
+    readonly type = ActionTypes.LOAD_USER_RECEIPTS_ERROR;
   
     constructor(public payload: string) {}
-  }
+  } 
+
+/*--------------UploadImage--------------*/
+
+export class UploadImage implements Action {
+  readonly type = ActionTypes.UPLOAD_IMAGE;
+
+  constructor(public id: number, public image: File) {}
+}
+
+export class UploadImageSuccess implements Action {
+  readonly type = ActionTypes.UPLOAD_IMAGE_SUCCESS;
+
+  constructor(public payload: Update<Receipt>) {}
+}
+
+export class UploadImageError implements Action {
+  readonly type = ActionTypes.UPLOAD_IMAGE_ERROR;
+
+  constructor(public payload: string) {}
+}
 
   /*--------------CreateReceipt--------------*/
 
@@ -83,16 +110,49 @@ export class CreateReceipt implements Action {
   }
   
   
+/*--------------RemoveReceipt--------------*/
+
+export class DeleteReceipt implements Action {
+  readonly type = ActionTypes.DELETE_RECEIPT;
+
+  constructor(public payload: number) {}
+}
+
+export class DeleteReceiptSuccess implements Action {
+  readonly type = ActionTypes.DELETE_RECEIPT_SUCCESS;
+
+  constructor(public payload: number) {}
+}
+
+export class DeleteReceiptError implements Action {
+  readonly type = ActionTypes.DELETE_RECEIPT_ERROR;
+
+  constructor(public payload: string) {}
+}
+  
 
 export type Actions = 
     | LoadReceipts
     | LoadReceiptsSuccess
     | LoadReceiptsError
 
-    | SaveImage
-    | SaveImageSuccess
-    | SaveImageError
+    | UploadImage
+    | UploadImageSuccess
+    | UploadImageError
     
-    |CreateReceipt
-    |CreateReceiptError
-    |CreateReceiptSuccess;
+    | CreateReceipt
+    | CreateReceiptError
+    | CreateReceiptSuccess
+
+    | DeleteReceipt
+    | DeleteReceiptSuccess
+    | DeleteReceiptError
+
+    | LoadUserReceipts
+    | LoadUserReceiptsSuccess
+    | LoadUserReceiptsError
+
+    | DeleteReceipt
+    | DeleteReceiptSuccess
+    | DeleteReceiptError;
+  

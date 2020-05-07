@@ -16,3 +16,6 @@ export const getReceiptsLoading = createSelector(selectState, state => state.loa
 export const getReceiptsLoaded = createSelector(selectState, state => state.loaded);
 
 export const getError = createSelector(selectState, state => state.error);
+
+export const getReceiptCreatedByUser = (userid: number) =>
+    createSelector(getReceipts, (receipts) => receipts.filter((receipts) => receipts.id === userid));

@@ -7,15 +7,15 @@ import { switchMap, map, mergeMap, catchError, tap } from "rxjs/operators";
 import { Router } from "@angular/router";
 
 import * as receiptsActions from "./receipts.actions";
-import { DrinkResource } from "src/app/core/resources/drink.resource";
 import { Receipt } from "src/app/shared/models";
+import { ReceiptResource } from '../../../core/resources/receipt.resource';
 
 
 @Injectable()
 export class ReceiptsEffects {
   constructor(
     private actions$: Actions,
-    private drinkResource: DrinkResource,
+    private receiptResource: ReceiptResource,
     private router: Router
   ) {}
   
@@ -23,11 +23,22 @@ export class ReceiptsEffects {
   @Effect()
   loadReceipts$: Observable<Action> = this.actions$.pipe(
       ofType(receiptsActions.ActionTypes.LOAD_RECEIPTS),
-      mergeMap((actions: receiptsActions.LoadReceipts) => 
-        this.drinkResource.loadReceipts().pipe(
-            map((receipts: Receipt[]) => new receiptsActions.LoadReceiptsSuccess(receipts)),
-            catchError((err) => of(new receiptsActions.LoadReceiptsError(err)))
-        )
+      switchMap(() => {
+        return this.receiptResource.loadReceipts().pipe(
+          map((receipts: Receipt[]) => new receiptsActions.LoadReceiptsSuccess(receipts)),
+          catchError((err) => of(new receiptsActions.LoadReceiptsError(err)))
+        );
+      })
+  );
+
+  @Effect()
+  loadUsersReceipts$: Observable<Action> = this.actions$.pipe(
+    ofType(receiptsActions.ActionTypes.LOAD_USER_RECEIPTS),
+    switchMap((actions: receiptsActions.LoadUserReceipts) =>
+      this.receiptResource.loadCurrentReceipts(actions.payload).pipe(
+        map((receipt: Receipt[]) => new receiptsActions.LoadUserReceiptsSuccess(receipt)),
+        catchError((err) => of(new receiptsActions.LoadUserReceiptsError(err)))
+      )
     )
   );
 
@@ -35,31 +46,46 @@ export class ReceiptsEffects {
   createReceipt$:Observable<Action> = this.actions$.pipe(
       ofType(receiptsActions.ActionTypes.CREATE_RECEIPT),
       switchMap((action: receiptsActions.CreateReceipt) =>
-        this.drinkResource.createReceipt(action.payload).pipe(
-            switchMap((newReceipt: Receipt) =>
-            [
-                new receiptsActions.SaveImage(newReceipt.id, action.image),
-                new receiptsActions.CreateReceiptSuccess(newReceipt)
-            ]),
-            tap(() => this.router.navigate(['/receipt'])),
+        this.receiptResource.createReceipt(action.payload).pipe(
+            map((newReceipt: Receipt) => {
+              if (action.image !== null) {
+                return new receiptsActions.UploadImage(newReceipt.id, action.image);
+              }
+            
+               new receiptsActions.CreateReceiptSuccess(newReceipt)
+            }),
+            tap(() => this.router.navigate(['/Receipt'])),
             catchError((err) => of(new receiptsActions.CreateReceiptError(err)))
         )
     )
   );
 
   @Effect()
-  saveImage$: Observable<Action> = this.actions$.pipe(
-    ofType(receiptsActions.ActionTypes.SAVE_IMAGE),
-    switchMap((action: receiptsActions.SaveImage) =>
-      this.drinkResource.saveImageReceipt(action.id, action.payload).pipe(
+  deleteReceipt$: Observable<Action> = this.actions$.pipe(
+    ofType(receiptsActions.ActionTypes.DELETE_RECEIPT),
+    map((action: receiptsActions.DeleteReceipt) => action.payload),
+    switchMap((id: number) =>
+      this.receiptResource.deleteReceipt(id).pipe(
+        map(() => new receiptsActions.DeleteReceiptSuccess(id)),
+        tap(() => this.router.navigate(['/Receipt'])),
+        catchError((err) => of(new receiptsActions.DeleteReceiptError(err)))
+      )
+    )
+  );
+
+  @Effect()
+  uploadImage$: Observable<Action> = this.actions$.pipe(
+    ofType(receiptsActions.ActionTypes.UPLOAD_IMAGE),
+    switchMap((action: receiptsActions.UploadImage) =>
+      this.receiptResource.uploadImageReceipt(action.id, action.image).pipe(
         map(
           (newReceipt: Receipt) =>
-            new receiptsActions.SaveImageSuccess({
+            new receiptsActions.UploadImageSuccess({
               id: newReceipt.id,
               changes: newReceipt
             })
         ),
-        catchError((err) => of(new receiptsActions.SaveImageError(err)))
+        catchError((err) => of(new receiptsActions.UploadImageError(err)))
       )
     )
   );

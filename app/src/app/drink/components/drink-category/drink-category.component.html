@@ -61,7 +61,7 @@
       <div>
         <ul *ngIf="drs$">
           <li *ngFor="let dr of drs$ | async">
-            <img class="card-img-top img-thumbnail" [src]="dr.image ? '../../../' + dr.image : '/assets/images/drink-images/default_drink.jpg'" />
+            <img class="card-img-top img-thumbnail" [src]="dr.image ? dr.image : '/assets/images/drink-images/default_drink.jpg'" />
             
             <a class="title" [routerLink]="['/drink', dr.id]">
               {{ dr.productNameBold }}</a
