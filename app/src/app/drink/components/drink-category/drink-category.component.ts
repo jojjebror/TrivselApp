@@ -37,6 +37,16 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   totalSum: number = 0;
   userCredit: number;
 
+  category = [{name:'Budget',price: 10,}, {name:'Standard',price: 15,}, {name:'Luxury',price: 20,}];
+  
+  category2 = [{
+    B : {name: 'Budget', price: 10},
+    S : {name: 'Standard', price: 15},
+    L : {name: 'Luxury', price: 20},
+    
+}];
+  
+
   constructor(
     private store$: Store<AppState>,
     private alertify: AlertifyService,
@@ -55,6 +65,16 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
 
   public initializeFilterBeer(): void {
     this.store$.dispatch(new drinksActions.FilterDrink("Öl"));
+      this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
+  }
+
+  public initializeFilterWine(): void {
+    this.store$.dispatch(new drinksActions.FilterDrink("Vin"));
+      this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
+  }
+
+  public initializeFilterCider(): void {
+    this.store$.dispatch(new drinksActions.FilterDrink("Cider"));
       this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
   }
 
@@ -98,10 +118,11 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   }
 
   paySaldo(drink: Drink) {
+    
     this.totalSum = 0;
-    this.totalSum += this.clickCounter * drink.price;
+    this.totalSum += this.clickCounter * this.dr.price;
     this.totalSum = -this.totalSum;
-    var sum = this.clickCounter * drink.price;
+    var sum = this.clickCounter * this.dr.price;
     var data = [this.userId, this.totalSum];
     console.log(this.totalSum);
     if (this.userCredit >= sum) {
