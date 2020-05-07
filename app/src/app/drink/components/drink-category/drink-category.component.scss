@@ -64,8 +64,15 @@ h2 {
   margin-right: 2em;
   font-size: small;
   text-align: center;
+ 
   
 }
+
+#btnSwish {
+  display: none;
+}
+
+
 .titleProductCategory{
 text-align: center;
 }
@@ -227,6 +234,10 @@ li {
   margin-right: 2em;
   font-size: small;
   text-align: center;
+}
+
+#btnSwish {
+  display: inherit;
 }
 .countBtns1{
   position: relative;

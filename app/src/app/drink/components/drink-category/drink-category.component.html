@@ -31,7 +31,7 @@
             
                 
                   <button class="btn btn-success" (click)="paySaldo(dr)">Köp med saldo</button>
-                  <button class="btn btn-success" (click)="GetToSwish(dr)">Köp med swish</button>
+                  <button class="btn btn-success" id="btnSwish" #btnSwish (click)="GetToSwish(dr)">Köp med swish</button>
               
 
             <div class="countBtns1">
@@ -64,7 +64,7 @@
             {{ dr.productNameBold }} </a> <mat-icon matSuffix class="editIcon" matTooltip="Redigera dryck" (click)="editDrink(dr.id)" [routerLink] = "['/drink/', dr.id]"> edit</mat-icon>
           
           <button class="btn btn-success" (click)="paySaldo(dr)">Köp med saldo</button>
-          <button class="btn btn-success" (click)="GetToSwish(dr)">Köp med swish</button>
+          <button class="btn btn-success" id="btnSwish" (click)="GetToSwish(dr)">Köp med swish</button>
        
           <div class="countBtns">
             <button class="minus" mat-mini-fab color="warn" (click)="clickCountM()" matTooltip="Ta bort">-</button>
