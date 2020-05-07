@@ -14,7 +14,7 @@ namespace Api.Controllers
             _podcastService = podcastService;
         }
 
-        [HttpGet]
+        [HttpGet("podcast")]
         public IActionResult GetPodcastFeed()
         {
             var result = _podcastService.GetPodcastFeed();

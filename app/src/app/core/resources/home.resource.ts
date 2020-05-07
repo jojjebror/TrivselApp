@@ -12,6 +12,6 @@ export class HomeResource extends ApiResource {
   }
 
   getPodcastEpisodes(): Observable<PodcastEpisode[]> {
-    return this.get('home');
+    return this.get('home/podcast');
   }
 }

@@ -2,9 +2,9 @@
 
 namespace Logic.Models
 {
-    public class PodcastEpisodeDto
+    public class PodcastEpisodeDto : BaseDto
     {
-        public string Id { get; set; }
+        public string EpisodeId { get; set; }
         public string Title { get; set; } 
         public string Summary { get; set; }
         public string ImageUrl { get; set; }

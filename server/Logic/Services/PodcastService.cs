@@ -17,6 +17,7 @@ namespace Logic.Services
 
             using (var reader = XmlReader.Create(podcastUrl))
             {
+                var id = 1;
                 var podcastFeed = SyndicationFeed.Load(reader);
 
                 foreach (var item in podcastFeed.Items)
@@ -28,7 +29,8 @@ namespace Logic.Services
 
                     var episode = new PodcastEpisodeDto
                     {
-                        Id = item.Id,
+                        Id = id,
+                        EpisodeId = item.Id,
                         Title = item.Title.Text,
                         Summary = summary,
                         ImageUrl = imageUrl,
@@ -36,6 +38,11 @@ namespace Logic.Services
                         Published = item.PublishDate.DateTime
                     };
                     podcastEpisodes.Add(episode);
+
+                    if (id == 3)
+                        break;
+
+                    id++;
                 }
             }
 
