@@ -32,6 +32,11 @@ export class MenuComponent {
       title: 'Drycker',
       icon: 'grade',
       route: ['/drink']
+    },
+    {
+      title: 'Kvitton',
+      icon: 'grade',
+      route: ['/drink/receipts']
     }
   ];
 

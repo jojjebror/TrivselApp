@@ -40,6 +40,10 @@ export const routes: Routes = [
                loadChildren: './user/user.module#UserModule'
              },
              {
+               path: 'receipt',
+              loadChildren: './receipt/receipt.module#ReceiptModule'
+              },
+             {
                path: '',
                redirectTo: 'start',
                pathMatch: 'full'

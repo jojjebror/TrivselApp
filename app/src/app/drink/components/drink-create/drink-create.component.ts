@@ -1,12 +1,17 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Store, select } from '@ngrx/store';
+import { Store, select, ActionsSubject } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 import { AlertifyService } from 'src/app/core/services/alertify.service';
 
 import { Drink } from "../../../shared/models";
 import * as fromDrink from "../../state/drinks/drinks.actions";
+import { MatSnackBar } from '@angular/material';
+import { filter } from 'rxjs/operators';
+import { ActionTypes } from '../../state/drinks';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: "ex-drink-create",
@@ -20,12 +25,15 @@ export class DrinkCreateComponent implements OnInit {
   drinkForm: FormGroup;
   fileUpload: File = null;
   imageUrl: string;
+  subscription = new Subscription();
+
 
   constructor(
     private store$: Store<AppState>,
     private router: Router,
     private fb: FormBuilder,
-    private alertify: AlertifyService
+    private snackBar: MatSnackBar,
+    private actionsSubject$: ActionsSubject,
   ) {}
 
   ngOnInit() {
@@ -40,7 +48,7 @@ export class DrinkCreateComponent implements OnInit {
       taste: ['', Validators.required],
       volume: ['', Validators.required],
       category: ['', Validators.required],
-      image: [''],
+      image: [null],
     });
   }
 
@@ -48,7 +56,19 @@ export class DrinkCreateComponent implements OnInit {
     if (this.drinkForm.valid) {
       this.drink = Object.assign({}, this.drinkForm.value);
       this.store$.dispatch(new fromDrink.CreateDrink(this.drink, this.fileUpload));
-      this.alertify.success("Drycken har lagts till!");
+
+      this.subscription.add(
+        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.CREATE_DRINK_SUCCESS)).subscribe((action) => {
+          var title = action.payload.title;
+          this.snackBar.open(title + ' är nu tillagt i evenemangslistan', '', { duration: 2500 });
+        })
+      );
+    
+      this.subscription.add(
+        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPLOAD_IMAGE_SUCCESS)).subscribe((action) => {
+          this.snackBar.open('Drycken är nu tillagt i listan', '', { duration: 2500 });
+        })
+      );
     }
   }
 
