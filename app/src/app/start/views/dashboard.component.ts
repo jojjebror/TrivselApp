@@ -24,7 +24,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   user$: Observable<User>;
   podcastFeed$: Observable<PodcastEpisode[]>;
   podcastFeed: PodcastEpisode[];
-  episode: PodcastEpisode;
+
+  title: string;
+  summary: string;
+  episodeUrl: string;
+  imageUrl: string;
+  published: Date;
+  showAudioPlayer = false;
+  autoPlay = true;
 
   constructor(
     private store$: Store<AppState>,
@@ -35,9 +42,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    //Works but gives error because lazy load
     this.store$.dispatch(new fromPodcast.LoadPodcastEpisodes());
-    this.podcastFeed$ = this.store$.pipe(select(fromPodcast.getPodcastEpisodes));
-    console.log(this.podcastFeed$);
+    this.store$.pipe(select(fromPodcast.getPodcastEpisodes)).subscribe(res => this.podcastFeed = res);
 
     this.homeResource.getPodcastEpisodes().subscribe((res) => (this.podcastFeed = res));
 
@@ -55,11 +62,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
 
+  toggleAudioPlayer() {
+    this.showAudioPlayer = !this.showAudioPlayer;
+  }
+
   playEpisode(episode: PodcastEpisode) {
-    (document.getElementById('player') as HTMLAudioElement).src = episode.episodeUrl;
-    (document.getElementById('player') as HTMLAudioElement).play();
-    document.getElementById('audioPlayerDiv').style.display = 'block';
-    this.episode = episode;
+    this.title = episode.title;
+    this.summary = episode.summary;
+    this.episodeUrl = episode.episodeUrl;    
+    this.imageUrl = episode.imageUrl;
+    this.published = episode.published;
+
+    this.showAudioPlayer = true;
   }
 
   addOfficeDialog(user: User): void {
@@ -86,16 +100,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     var data = [userId, newOffice];
     this.store$.dispatch(new fromUsers.UpdateOffice(data));
 
-    this.showSnackbarAddOffice(newOffice)
+    this.showSnackbarAddOffice(newOffice);
   }
 
   showSnackbarAddOffice(newOffice: string) {
     this.subscription.add(
-      this.actionsSubject$
-        .pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_OFFICE_SUCCESS))
-        .subscribe((action) => {
-          this.snackBar.open('Ditt valda kontor: ' + newOffice, '', { duration: 3500 });
-        })
+      this.actionsSubject$.pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_OFFICE_SUCCESS)).subscribe((action) => {
+        this.snackBar.open('Ditt valda kontor: ' + newOffice, '', { duration: 3500 });
+      })
     );
   }
 

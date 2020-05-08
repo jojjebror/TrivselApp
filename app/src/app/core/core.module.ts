@@ -17,6 +17,7 @@ import { reducers, effects } from './state';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { NgxAudioPlayerModule } from 'ngx-audio-player';
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
@@ -36,6 +37,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
     TimepickerModule.forRoot(),
+    NgxAudioPlayerModule
   ],
   exports: [],
   declarations: [...views, ...components],

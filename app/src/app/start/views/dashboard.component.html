@@ -1,24 +1,22 @@
 <div class="mat-card-div">
-  <mat-card *ngFor="let episode of podcastFeed" (click)="playEpisode(episode)">
+  <mat-card *ngFor="let episode of podcastFeed" (click)="playEpisode(episode)" fxFlex="100">
     <mat-card-header class="maxTitle">
       <mat-card-title>
         <i class="material-icons iconLeft">rss_feed</i>
         {{ episode.title }}
-      </mat-card-title>     
+      </mat-card-title>
     </mat-card-header>
     <i class="material-icons iconRight"> play_circle_outline</i>
   </mat-card>
 </div>
 
-<div id="audioPlayerDiv" style="display: none;">
-  <div id="audioPlayerInfo">
-    <img [src]="episode?.imageUrl" />
-    <p><strong>Nu spelas: </strong>{{ episode?.title }}</p>
-    <p><strong>Om: </strong>{{ episode?.summary }}</p>
-    <p><strong>Publicerad: </strong>{{ episode?.published | date: 'd MMM, y' }}</p>
-  </div>
-  <audio id="player" controls>
-    <source id="player-source" src="" type="audio/mpeg" />
-    Your browser does not support the audio element.
-  </audio>
+<div id="audioPlayerDiv" *ngIf="showAudioPlayer">
+  <!-- <img [src]="imageUrl" alt=""> -->
+  <div id="audioplayerInfo">
+    <p class="maxTitle">{{ title }}</p>
+    <button mat-icon-button class="close-button" (click)="toggleAudioPlayer()">
+      <mat-icon class="close-icon" color="white">close</mat-icon>
+    </button>
+  <div id="audioPlayer">
+    <mat-basic-audio-player [autoPlay]="autoPlay" [audioUrl]="episodeUrl"></mat-basic-audio-player>
 </div>

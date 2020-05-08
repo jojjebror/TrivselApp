@@ -160,7 +160,7 @@ namespace Logic.Services
             return null;
         }
 
-        public void UpdateGoogleEvent(Database.Entities.Event ev)
+        public void UpdateGoogleEvent(Database.Entities.Event ev, List<User> attendees = null)
         {
             try
             {
@@ -171,6 +171,18 @@ namespace Logic.Services
                 googleEv.Location = ev.Location;
                 googleEv.Start.DateTime = ev.StartDate;
                 googleEv.End.DateTime = ev.EndDate;
+
+                if (attendees.Any())
+                {
+                    foreach (var attendee in attendees)
+                    {
+                        googleEv.Attendees.Add(new EventAttendee
+                        {
+                            DisplayName = attendee.Name,
+                            Email = attendee.Email
+                        });
+                    }             
+                }
 
                 var updateRequest = _calendarService.Events.Update(googleEv, calendarId, ev.GoogleEventId);
                 updateRequest.SendUpdates = 0;
