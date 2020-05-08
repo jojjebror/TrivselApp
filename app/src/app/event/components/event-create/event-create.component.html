@@ -1,5 +1,10 @@
 <div class="registerEventMain">
-  <form [formGroup]="eventForm" [ngClass]="{'mainForm': toggleFormHeight, 'fixedForm': !toggleFormHeight}" class="mainForm border border-light p-5" (ngSubmit)="createEvent()">
+  <form
+    [formGroup]="eventForm"
+    [ngClass]="{ mainForm: toggleFormHeight, fixedForm: !toggleFormHeight }"
+    class="mainForm border border-light p-5"
+    (ngSubmit)="createEvent()"
+  >
     <button mat-icon-button class="close-button" [routerLink]="['/event']">
       <mat-icon class="close-icon" color="white">close</mat-icon>
     </button>
@@ -31,10 +36,11 @@
     </div>
 
     <div>
-      <!-- <mat-form-field appearance="outline">
-        <mat-label>Bild-url</mat-label>
-        <img [src]="imageUrl || ''" style="width: 50px;"> -->
-      <input type="file" accept="image/*" autocomplete="off" formControlName="imageurl" (change)="loadImage($event.target.files)" />
+      <input type="file" accept="image/*" autocomplete="off" formControlName="imageurl" (change)="fileProgress($event)" />
+
+      <div *ngIf="imageUrl">
+        <img [src]="imageUrl" style="width: 100px; margin-top: 15px;" />
+      </div>
       <!-- <mat-error *ngIf="eventForm.invalid">Fel filtyp</mat-error> -->
       <!-- </mat-form-field> -->
     </div>
@@ -44,27 +50,24 @@
         <mat-form-field appearance="outline">
           <mat-label>Startdatum</mat-label>
           <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage('startdate') }}</mat-error>
-          <input matInput [min]="currentDate" (focus)="picker.open()" [matDatepicker]="picker" formControlName="startdate" autocomplete="off" readonly />
+          <input
+            matInput
+            [min]="currentDate"
+            (focus)="picker.open()"
+            [matDatepicker]="picker"
+            formControlName="startdate"
+            autocomplete="off"
+            readonly
+          />
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
 
-      <ng-template #popTemplate>
-        <timepicker formControlName="starttime" [(ngModel)]="starttime" [showMeridian]="false"></timepicker>
-      </ng-template>
-        <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4" style="margin-top: 6.5px;">
-          <input
-          class="hoursTxt"
-          value="{{ starttime | date: 'HH:mm' }}"
-          placeholder="00:00"
-          [popover]="popTemplate"
-          [outsideClick]="true"
-          placement="bottom"
-          readonly
-        />
+      <div class="timepicker">
+        <timepicker formControlName="starttime" [showMeridian]="false" [hoursPlaceholder]="'00'" [minutesPlaceholder]="'00'"></timepicker>
       </div>
 
-        <div *ngIf="!endDateMode" class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2 mt-3">
+      <div *ngIf="!endDateMode" style="margin-left: 10px" class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2 mt-3">
         <a (click)="endDateToggle()">+ Sluttid</a>
       </div>
     </div>
@@ -73,26 +76,24 @@
       <div class="endDateInput">
         <mat-form-field appearance="outline">
           <mat-label>Slutdatum</mat-label>
-          <input matInput [min]="eventForm.get('startdate').value" (focus)="picker.open()" [matDatepicker]="picker" formControlName="enddate" autocomplete="off" />
+          <input
+            matInput
+            [min]="eventForm.get('startdate').value"
+            (focus)="picker.open()"
+            [matDatepicker]="picker"
+            formControlName="enddate"
+            autocomplete="off"
+          />
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
 
-      <ng-template #popTemplate>
-        <timepicker formControlName="endtime" [(ngModel)]="endtime" [showMeridian]="false"></timepicker>
-      </ng-template>
-      <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4" style="margin-top: 6.5px;">
-        <input
-          class="hoursTxt"
-          value="{{ endtime | date: 'HH:mm' }}"
-          placeholder="00:00"
-          [popover]="popTemplate"
-          [outsideClick]="true"
-          placement="bottom"
-          readonly
-        />
+      <div class="timepicker">
+        <timepicker class="timepickerInvalid" formControlName="endtime" [showMeridian]="false" [hoursPlaceholder]="'00'" [minutesPlaceholder]="'00'">
+        </timepicker>
       </div>
-      <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2" style="margin-top: 15px;">
+
+      <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2" style="margin-top: 15px; margin-left: 10px;">
         <a (click)="endDateToggle()">- Ångra</a>
       </div>
     </div>
@@ -118,7 +119,7 @@
       </div>
     </div>
 
-    <div [ngClass]="{'mainBtnGroup': toggleFormHeight, 'fixedBtnGroup': !toggleFormHeight}" class="form-group text-center mainBtnGroup">
+    <div [ngClass]="{ mainBtnGroup: toggleFormHeight, fixedBtnGroup: !toggleFormHeight }" class="form-group text-center mainBtnGroup">
       <button class="btn btn-success" [disabled]="!eventForm.valid" type="submit">
         Skapa evenemang
       </button>

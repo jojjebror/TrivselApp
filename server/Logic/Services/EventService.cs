@@ -36,7 +36,7 @@ namespace Logic.Services
         {
             //SyncEventsWithGoogleEvents();
 
-            var dbEvents = await _context.Events.Include(e => e.Creator).ToListAsync();
+            var dbEvents = await _context.Events.Where(ev => ev.StartDate >= DateTime.Today).Include(e => e.Creator).ToListAsync();
 
             return dbEvents.Select(EventTranslator.ToEventForListDto).ToList();
         }
@@ -311,8 +311,7 @@ namespace Logic.Services
 
         public async Task<ICollection<EventForUserListDto>> GetCurrentUserEvents(int userId)
         {
-            // old one, keep.... var dbEvent = await _context.EventParticipants.Include(e => e.Event).Where(u => u.UserId == userId).ToListAsync();
-            var dbEvents = await _context.EventParticipants.Include(ep => ep.Event).Where(ep => ep.UserId == userId)
+            var dbEvents = await _context.EventParticipants.Include(ep => ep.Event).Where(ep => ep.UserId == userId && ep.Event.StartDate >= DateTime.Today)
                 .Include(ep => ep.Event.Creator).ToListAsync();
 
             return dbEvents.Select(EventTranslator.ToEventForUserListDto).ToList();

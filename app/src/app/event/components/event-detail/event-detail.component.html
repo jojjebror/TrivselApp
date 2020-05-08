@@ -138,7 +138,7 @@
             </mat-list>
           </mat-tab>
           <mat-tab label="Deltagare">
-            <mat-tab-group *ngIf="index == 1" [selectedIndex]="1">
+            <mat-tab-group class="under-tab" *ngIf="index == 1" [selectedIndex]="1">
               <mat-tab label="Inbjudna ({{ countParticipants(invitedParticipants$) }})">
                 <mat-selection-list class="invitesList">
                   <mat-list-option class="white" *ngIf="countParticipants(invitedParticipants$) == 0"
