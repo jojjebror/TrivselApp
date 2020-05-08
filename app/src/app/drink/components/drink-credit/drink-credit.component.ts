@@ -21,6 +21,10 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
   user: User;
   userCredit: number;
   userInput: number;
+  kontor: string;
+  category = [{kontor:'Linköping', swishNumber: '0768658080'},
+  {kontor:'Örebro', swishNumber: '099999999999'}, 
+  {kontor:'Stockholm', swishNumber: '04847575'}];
 
   constructor(
     private store$: Store<AppState>,
@@ -36,9 +40,15 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 1000);
+    this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.kontor = currentuser.office));
     console.log('userid' + this.userId);
     console.log('credit' + this.userCredit);
      this.createCreditForm();
+     console.log(this.kontor);
+     for (let element of this.category) {
+      if (this.kontor == element.kontor) 
+           console.log(element.swishNumber);
+     }
   }
 
   createCreditForm() {
