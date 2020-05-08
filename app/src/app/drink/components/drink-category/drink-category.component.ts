@@ -30,6 +30,7 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   userId: number;
   user: User;
   dr: Drink;
+  kontor: string;
 
   dr$: Observable<Drink>;
   id: number;
@@ -39,7 +40,10 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   totalSum: number = 0;
   userCredit: number;
   category = [{name:'Budget',price: 10,}, {name:'Standard',price: 15,}, {name:'Luxury',price: 20,}];
-  
+  officeList = [{kontor:'Linköping', swishNumber: '0768658080'}, {kontor:'Örebro', swishNumber: '0735469891'},
+  {kontor:'Uppsala', swishNumber: '070'}, {kontor:'Helsingborg', swishNumber: '073'}, {kontor:'Göteborg', swishNumber: '0735'},
+  {kontor:'Malmö', swishNumber: '07045'}, {kontor:'Söderhamn', swishNumber: '07309'}, {kontor:'Borlänge', swishNumber: '0730922'},
+  {kontor:'Karlstad', swishNumber: '0703345'}, {kontor:'Stockholm', swishNumber: '04847575'}];
   
 
   constructor(
@@ -53,8 +57,9 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     );}
 
   ngOnInit(): void {
+    setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.kontor = currentuser.office)) }, 1000);
+    setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 100);
     this.initializeFilterCategory();
-    setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 500);
     this.getClickedId();
   }
 
@@ -132,10 +137,16 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   addEncodedUrl(drink: Drink) {
     var sumPriceToSwish = this.clickCounter * drink.price;
 
+    for (let element of this.officeList) {
+      if (this.kontor == element.kontor) 
+      var numToSwish = element.swishNumber;
+           console.log(element.swishNumber);
+     }
+
     var initField = {
       version: 1,
       payee: {
-        value: "+46707662691",
+        value: numToSwish,
       },
       amount: {
         value: sumPriceToSwish,
