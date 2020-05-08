@@ -22,9 +22,10 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
   userCredit: number;
   userInput: number;
   kontor: string;
-  category = [{kontor:'Linköping', swishNumber: '0768658080'},
-  {kontor:'Örebro', swishNumber: '099999999999'}, 
-  {kontor:'Stockholm', swishNumber: '04847575'}];
+  offices = [{kontor:'Linköping', swishNumber: '0768658080'}, {kontor:'Örebro', swishNumber: '0735469891'},
+  {kontor:'Uppsala', swishNumber: '070'}, {kontor:'Helsingborg', swishNumber: '073'}, {kontor:'Göteborg', swishNumber: '0735'},
+  {kontor:'Malmö', swishNumber: '07045'}, {kontor:'Söderhamn', swishNumber: '07309'}, {kontor:'Borlänge', swishNumber: '0730922'},
+  {kontor:'Karlstad', swishNumber: '0703345'}, {kontor:'Stockholm', swishNumber: '04847575'}];
 
   constructor(
     private store$: Store<AppState>,
@@ -45,7 +46,7 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
     console.log('credit' + this.userCredit);
      this.createCreditForm();
      console.log(this.kontor);
-     for (let element of this.category) {
+     for (let element of this.offices) {
       if (this.kontor == element.kontor) 
            console.log(element.swishNumber);
      }
