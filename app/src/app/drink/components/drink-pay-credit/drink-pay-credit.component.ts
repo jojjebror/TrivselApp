@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services';
 import { Router } from '@angular/router';
+import { User } from 'src/app/shared/models';
 
 @Component({
   selector: 'ex-drink-pay-credit',
@@ -19,7 +20,8 @@ export class DrinkPayCreditComponent implements OnInit, OnDestroy {
   userId: number;
   amount: number;
   userCredit: number;
-
+  user: User;
+  
   constructor(private store$: Store<AppState>, private snackBar: MatSnackBar, private router: Router,
   private actionsSubject$: ActionsSubject, public authService: AuthenticationService,) {
     this.subscription.add(

@@ -53,14 +53,12 @@
                     <mat-icon matSuffix> attach_money</mat-icon>
                   </mat-form-field>
                 </div>
-                <p>knappen tar dig vidare till swish!</p>
+                <p>Knappen tar dig vidare till swish!</p>
                 <hr />
-
-                <button
+                <button title="Använd din mobil för att lägga till saldo."
                   class="btn btn-success"
                   type="submit"
-                  [disabled]="selectedValue.empty"
-                >
+                  [disabled]="selectedValue.empty">
                   Lägg till saldo
                 </button>
               </div>
