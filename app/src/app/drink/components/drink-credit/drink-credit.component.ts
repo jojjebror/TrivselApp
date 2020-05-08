@@ -22,9 +22,10 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
   userCredit: number;
   userInput: number;
   kontor: string;
-  category = [{kontor:'Linköping', swishNumber: '0768658080'},
-  {kontor:'Örebro', swishNumber: '099999999999'}, 
-  {kontor:'Stockholm', swishNumber: '04847575'}];
+  officeList = [{kontor:'Linköping', swishNumber: '0768658080'}, {kontor:'Örebro', swishNumber: '0735469891'},
+  {kontor:'Uppsala', swishNumber: '070'}, {kontor:'Helsingborg', swishNumber: '073'}, {kontor:'Göteborg', swishNumber: '0735'},
+  {kontor:'Malmö', swishNumber: '07045'}, {kontor:'Söderhamn', swishNumber: '07309'}, {kontor:'Borlänge', swishNumber: '0730922'},
+  {kontor:'Karlstad', swishNumber: '0703345'}, {kontor:'Stockholm', swishNumber: '04847575'}];
 
   constructor(
     private store$: Store<AppState>,
@@ -40,15 +41,10 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 1000);
-    this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.kontor = currentuser.office));
+    setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.kontor = currentuser.office)) }, 1000);
     console.log('userid' + this.userId);
     console.log('credit' + this.userCredit);
      this.createCreditForm();
-     console.log(this.kontor);
-     for (let element of this.category) {
-      if (this.kontor == element.kontor) 
-           console.log(element.swishNumber);
-     }
   }
 
   createCreditForm() {
@@ -71,11 +67,16 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
 
   addEncodedUrl(){
     var creditInput = this.userCreditForm.get('credit').value
+    for (let element of this.officeList) {
+      if (this.kontor == element.kontor) 
+      var numToSwish = element.swishNumber;
+           console.log(element.swishNumber);
+     }
     
     var initField = {
       "version":1,
       "payee":{
-      "value":"+46700914195"
+      "value": numToSwish
       },
       "amount":{
       "value": creditInput
