@@ -20,7 +20,7 @@ namespace Logic.Translators
             {
                 Id = ev.Id,
                 Image = ev.Image,
-                Date = DateTime.Now,
+                Date = ev.Date,
                 CreatorId = ev.CreatorId,
                 CreatorName = ev.Creator.Name
             };
@@ -35,7 +35,7 @@ namespace Logic.Translators
             {
                 Id = ev.Id,
                 Image = ev.Image,
-                Date = ev.Date,
+                Date = DateTime.Now,
                 CreatorId = ev.CreatorId
             };
         }
