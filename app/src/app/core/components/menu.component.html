@@ -12,11 +12,15 @@
         <a class="nav-link" [routerLink]="['/event']">Evenemang</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/drink']">Drycker</a>
+        <a class="nav-link" [routerLink]="['/drink/category']">Drycker</a>
       </li>
-      <!--       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/test']">Poängtabeller</a>
-      </li> -->
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/receipt']">Kvitton</a>
+      </li>
+
+      <li>
+        <a class="nav-link" [routerLink]="['/drink/pay']">BT</a>
+      </li>
     </ul>
 
     <a class="navbarExtra cursor" [routerLink]="['/drink/credit']"
@@ -45,10 +49,8 @@
     </div>
     <div class="dropdownM" dropdown>
       <a class="dropdown-toggle1 text-light" dropdownToggle>
-        <div class="container1" (click)="status = !status" [ngClass]="status ? 'change' : 'basic'">
-          <div class="bar1"></div>
-          <div class="bar2"></div>
-          <div class="bar3"></div>
+        <div class="container1" >
+         <a class="material-icons icon">menu</a>
         </div>
       </a>
 
@@ -57,7 +59,8 @@
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" [routerLink]="['/event']"><i class="fa fa-sign-out"></i> Evenemang</a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" [routerLink]="['/drink']"><i class="fa fa-sign-out"></i> Drycker</a>
+        <a class="dropdown-item"   [routerLink]="['/drink/category']"><i class="fa fa-sign-out"></i> Drycker</a>
+
       </div>
     </div>
   </div>

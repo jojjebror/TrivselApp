@@ -9,42 +9,38 @@ export enum ActionTypes {
   LOAD_DRINKS = "[Drinks view] Load Drinks",
   LOAD_DRINKS_SUCCESS = "[API: /drink] Load Drinks success",
   LOAD_DRINKS_ERROR = "[API: /drink] Load Drinks error",
+  
   LOAD_DRINK = "[Drinks view] Load Drink",
   LOAD_DRINK_SUCCESS = "[API: /drink] Load Drink success",
   LOAD_DRINK_ERROR = "[API: /drink] Load Drink error",
+
   CREATE_DRINK = "[Drinks view] Create Drink",
   CREATE_DRINK_SUCCESS = "[API: /drink] Create Drink success",
   CREATE_DRINK_ERROR = "[API: /drink] Create Drink error",
+
   UPDATE_DRINK = "[Drinks view] Update Drink",
   UPDATE_DRINK_SUCCESS = "[API: /drink] Update Drink success",
   UPDATE_DRINK_ERROR = "[API: /drink] Update Drink error",
+
   DELETE_DRINK = "[Drinks view] Delete Drink",
   DELETE_DRINK_SUCCESS = "[API: /drink] Delete Drink success",
   DELETE_DRINK_ERROR = "[API: /drink] Delete Drink error",
+
   FILTER_DRINK = "[Drinks view] Filter Drink",
   FILTER_DRINK_SUCCESS = "[API: /drink] Filter Drink success",
   FILTER_DRINK_ERROR = "[API: /drink] Filter Drink error",
 
-  SAVE_IMAGE = '[Drinks view] Save Image',
-  SAVE_IMAGE_SUCCESS = '[API: /drink] Save Image success',
-  SAVE_IMAGE_ERROR = '[API: /drink] Save Image error',
+  UPLOAD_IMAGE = '[Drinks view] Save Image',
+  UPLOAD_IMAGE_SUCCESS = '[API: /drink] Save Image success',
+  UPLOAD_IMAGE_ERROR = '[API: /drink] Save Image error',
 
-  UPDATE_IMAGE = '[Events view] Update Image',
-  UPDATE_IMAGE_SUCCESS = '[API: /event] Update Image success',
-  UPDATE_IMAGE_ERROR = '[API: /event] Update Image error',
+  UPDATE_IMAGE = '[Drinks view] Update Image',
+  UPDATE_IMAGE_SUCCESS = '[API: /drink] Update Image success',
+  UPDATE_IMAGE_ERROR = '[API: /drink] Update Image error',
 
 
 }
 
-/*--------------SaveImage--------------*/
-
-export class SaveImage implements Action {
-  readonly type = ActionTypes.SAVE_IMAGE;
-
-  constructor(public id: number, public payload: File) {
-    console.log("Save Image " + id + " " + payload)
-  }
-}
 
 /*--------------UpdateImage--------------*/
 
@@ -66,16 +62,23 @@ export class UpdateImageError implements Action {
   constructor(public payload: string) {}
 }
 
-export class SaveImageSuccess implements Action {
-  readonly type = ActionTypes.SAVE_IMAGE_SUCCESS;
 
-  constructor(public payload: Update<Drink>) {
-    console.log('Save Image Success ' + payload);
-  }
+/*--------------UploadImage--------------*/
+
+export class UploadImage implements Action {
+  readonly type = ActionTypes.UPLOAD_IMAGE;
+
+  constructor(public id: number, public image: File) {}
 }
 
-export class SaveImageError implements Action {
-  readonly type = ActionTypes.SAVE_IMAGE_ERROR;
+export class UploadImageSuccess implements Action {
+  readonly type = ActionTypes.UPLOAD_IMAGE_SUCCESS;
+
+  constructor(public payload: Update<Drink>) {}
+}
+
+export class UploadImageError implements Action {
+  readonly type = ActionTypes.UPLOAD_IMAGE_ERROR;
 
   constructor(public payload: string) {}
 }
@@ -224,6 +227,6 @@ export type Actions =
   | LoadDrinkError
   | LoadDrinkSuccess
 
-  | SaveImage
-  | SaveImageSuccess
-  | SaveImageError;
+  | UploadImage
+  | UploadImageSuccess
+  | UploadImageError;

@@ -1,18 +1,19 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 
 import { AppState } from "src/app/core/state";
-import { Store, select } from "@ngrx/store";
+import { Store, select, ActionsSubject } from "@ngrx/store";
 import * as fromSession from "../../../core/state/session";
-import * as fromUser from "../../../user/state/users/users.actions";
 
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { Drink } from "src/app/shared/models";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AlertifyService } from "src/app/core/services/alertify.service";
 
 import * as fromDrink from "../../state/drinks";
 import * as drinksActions from "../../state/drinks";
-import { Url } from "url";
+import { filter } from "rxjs/operators";
+import { MatSnackBar } from "@angular/material";
+import { AuthenticationService } from "src/app/core/services";
 
 @Component({
   selector: "ex-drink-detail",
@@ -21,6 +22,8 @@ import { Url } from "url";
   styleUrls: ["./drink-detail.component.scss"],
 })
 export class DrinkDetailComponent implements OnInit {
+  subscription = new Subscription();
+  
   dr$: Observable<Drink>;
   id: number;
   isShown: boolean = false; // hidden by default
@@ -34,17 +37,22 @@ export class DrinkDetailComponent implements OnInit {
     private store$: Store<AppState>,
     private alertify: AlertifyService,
     private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
+    private actionsSubject$: ActionsSubject,
+    public authService: AuthenticationService,
     private router: Router
-  ) {}
+  ) {
+    this.subscription.add(
+      authService.getUserId().subscribe((user) => {
+        this.userId = user.sub;
+      })
+    );
+  }
 
   ngOnInit() {
     this.LoadDrink();
-    this.store$
-      .select(fromSession.selectUser)
-      .subscribe((currentuser) => (this.userId = currentuser.id));
-    this.store$
-      .select(fromSession.selectUser)
-      .subscribe((currentuser) => (this.userCredit = currentuser.credit));
+    setTimeout(() => { this.store$.select(fromSession.selectUser)
+    .subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 500);
 
     if (this.userCredit < 60) {
       this.alertify.warning(
@@ -71,7 +79,7 @@ export class DrinkDetailComponent implements OnInit {
     console.log(id);
     if (confirm("Are You Sure You want to Delete the drink?")) {
       this.store$.dispatch(new drinksActions.DeleteDrink(id));
-      this.alertify.warning("Dryck pantad!");
+      this.showSnackbar();
     }
   }
   
@@ -87,85 +95,17 @@ export class DrinkDetailComponent implements OnInit {
   editDrink(drink: Drink) {
     this.store$.dispatch(new drinksActions.LoadDrink(drink.id));
   }
+  showSnackbar() {
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === fromDrink.ActionTypes.DELETE_DRINK_SUCCESS)).subscribe((action) => {
+        this.snackBar.open('Drycken är pantad', '', { duration: 3000 });
+      }) );}
 
   toggleShow() {
     this.isShown = !this.isShown;
   }
-
-  //
-  GetToSwish(drink: Drink) {
-    this.totalSum = 0;
-    this.totalSum += this.clickCounter * drink.price;
-    var sum = this.clickCounter * drink.price;
-    console.log(this.totalSum);
-    if (this.userCredit >= sum) {
-      if (
-        confirm("Du kommer skickas vidare till swish och betala " + sum + "kr.")
-      ) {
-        this.addEncodedUrl(drink);
-      }
-    } else this.alertify.error("Du har för lite pengar på ditt saldo!");
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
-  paySaldo(drink: Drink) {
-    this.totalSum = 0;
-    this.totalSum += this.clickCounter * drink.price;
-    this.totalSum = -this.totalSum;
-    var sum = this.clickCounter * drink.price;
-    var data = [this.userId, this.totalSum];
-    console.log(this.totalSum);
-    if (this.userCredit >= sum) {
-      if (
-        confirm("Total summa som dras från saldo är " + sum + "kr, fortsätta?")
-      ) {
-        this.store$.dispatch(new fromUser.UpdateCredit(data));
-
-        this.alertify.success("Värdet för ditt saldo har ändrats!");
-      }
-    } else this.alertify.error("Du har för lite pengar på ditt saldo!");
-  }
-
-  /* changeImage(drink: Drink) {
-    if (drink.category == "cider") {
-      this.photo = "/beer3.jpg";
-      console.log(this.photo);
-    } else if (drink.category == "vin") {
-      this.photo = "/beer2.jpg";
-      console.log(this.photo);
-    } else {
-      return this.photo;
-    }
-  } */
-
-  addEncodedUrl(drink: Drink) {
-    var sumPriceToSwish = this.clickCounter * drink.price;
-
-    var initField = {
-      version: 1,
-      payee: {
-        value: "+46707662691",
-      },
-      amount: {
-        value: sumPriceToSwish,
-      },
-      message: {
-        value: "",
-        editable: true,
-      },
-    };
-
-    console.log(initField);
-
-    var newEncode = JSON.stringify(initField);
-
-    console.log(newEncode);
-
-    var encodedString = encodeURI(newEncode);
-
-    console.log(encodedString);
-
-    var httpUrl = "swish://payment?data=";
-
-    console.log(httpUrl + encodedString);
-  }
 }

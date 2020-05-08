@@ -15,10 +15,6 @@ export enum ActionTypes {
   UPDATE_OFFICE = '[User view] Update Office',
   UPDATE_OFFICE_SUCCESS = '[API: /user] Update Office success',
   UPDATE_OFFICE_ERROR = '[API: /user] Update Office error',
-
-  REMOVE_CREDIT = '[User view] Remove Credit',
-  REMOVE_CREDIT_SUCCESS = '[API: /user] Remove Credit success',
-  REMOVE_CREDIT_ERROR = '[API: /user] Remove Credit error',
 }
 
 /*--------------GetAllUsers--------------*/
@@ -79,26 +75,6 @@ export class UpdateOfficeError implements Action {
   constructor(public payload: string) {}
 }
 
-/*--------------RemoveCredit--------------*/
-
-export class removeCredit implements Action {
-  readonly type = ActionTypes.REMOVE_CREDIT;
-
-  constructor(public payload: User) {}
-}
-
-export class removeCreditkSuccess implements Action {
-  readonly type = ActionTypes.REMOVE_CREDIT_SUCCESS;
-
-  constructor(public payload: Update<User>) {}
-}
-
-export class removeCreditError implements Action {
-  readonly type = ActionTypes.REMOVE_CREDIT_ERROR;
-
-  constructor(public payload: string) {}
-}
-
 
 export type Actions =
   | GetUsers
@@ -111,9 +87,5 @@ export type Actions =
 
   | UpdateOffice
   | UpdateOfficeSuccess
-  | UpdateOfficeError
-
-  | removeCredit
-  | removeCreditkSuccess
-  | removeCreditError
+  | UpdateOfficeError;
   

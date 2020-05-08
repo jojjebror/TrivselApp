@@ -1,14 +1,36 @@
 .img-thumbnail {
+  position: absolute;
+  right: 600px;
   max-width: 75px;
   float: left;
   object-fit: cover;
-  border-radius: 30%;
+  border-radius: 5%;
   max-height: 80px;
-  margin-bottom: 40px;
+  min-height: 80px;
+  
   margin-right: 2em;
 
 }
 
+.declineIcon {
+  color: red;
+  vertical-align: middle;
+  float: right;
+  margin-right: 5px;
+  margin-top: 1em;
+}
+
+.editIcon {
+  color: white;
+  margin-right: 10px;
+  float: right;
+  margin-top: 1em;
+}
+
+.plus {
+  background-color: rgb(75, 194, 75);
+  color: white;
+}
   /* ink bar */
   ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary {
     background-color: white !important;
@@ -39,16 +61,31 @@ h2 {
   margin-top: 1em;
   size: 0,5px;
   margin-left: 1em;
-  margin-right: 3em;
+  margin-right: 2em;
   font-size: small;
   text-align: center;
+ 
   
 }
 
+#btnSwish {
+  display: none;
+}
+
+
+.titleProductCategory{
+text-align: center;
+}
 
 .quantity {
   text-align: center;
   font-size: xx-large;
+}
+.countBtns1 {
+  float: left;
+  size: 0,5px;
+  margin-right: 4em;
+  margin-top: 1em;
 }
 
 .countBtns {
@@ -56,7 +93,6 @@ h2 {
   size: 0,5px;
   margin-right: 4em;
   margin-top: 1em;
-  
 }
 
 li {
@@ -69,6 +105,7 @@ li {
   height: 100px;
   margin-bottom: 1em;
   flex-direction: column;
+  width: auto;
   
   //text-align: center;
   
@@ -118,6 +155,19 @@ li {
 
 @media (max-width: 414px) {
 
+  .img-thumbnail {
+    position: static;
+    max-width: 75px;
+    float: left;
+    object-fit: cover;
+    border-radius: 5%;
+    max-height: 80px;
+    min-height: 80px;
+    margin-bottom: 40px;
+    margin-right: 2em;
+  
+  }
+
 .container{
 width: 100%;
 height: 600px;
@@ -132,8 +182,18 @@ width: 100%;
 
 }
 
+.location1{
+  position: relative;
+  top: 15%;
+  left: -4%;
+  font-size: 35px;
+}
+
 .location{
-  float: left;
+  position: relative;
+  top: 60%;
+  left: -30%;
+  font-size: 20px;
 }
 
 li {
@@ -146,13 +206,27 @@ li {
   margin-bottom: 1em;
   flex-direction: column;
 
-  //text-align: center;
+  text-align: center;
   
 }
 
+.declineIcon {
+  color: red;
+  vertical-align: middle;
+  float: right;
+  
+}
 
+.editIcon {
+  color: white;
+  float: right;
+  margin-top: 0px;
+  margin-right: 0px;
+}
 
 .btn-success {
+  position: relative;
+  top: 1%;
   float: right;
   margin-top: 1em;
   size: 0,5px;
@@ -160,19 +234,48 @@ li {
   margin-right: 2em;
   font-size: small;
   text-align: center;
-  
 }
 
+#btnSwish {
+  display: inherit;
+}
+.countBtns1{
+  position: relative;
+  top:-5%;
+  right: 0%;
+}
 .countBtns {
-  float: left;
+  position: relative;
+  top:50%;
+  float: right;
   size: 0,5px;
-  margin-right: 1em;
-  margin-top: 1em;
-  
-  
+  margin-right: 25px;
+  margin-bottom: 1px;
 }
+.plus {
+  margin-left: 45px;
+}
+ .titel{
+   padding-top:4px;
+ }
 
-
-
-
+ .container{
+   margin-top: 0;
+ }
+ .quantity{
+   padding-bottom: 3%;
+ }
+ .titleProduct{
+  margin-right: 0px;
+}
+.titleProductCategory{
+position: relative;
+top:2%;
+right: 30%;
+font-size: 20px;
+  }
+  .btnBuy{
+    position: relative;
+top:2%;
+  }
 }

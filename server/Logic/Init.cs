@@ -24,6 +24,7 @@ namespace Logic
             services.AddScoped<DrinkService>();
             services.AddScoped<PostService>();
             services.AddScoped<PodcastService>();
+            services.AddScoped<ReceiptService>();
         }
     }
 }

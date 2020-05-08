@@ -16,6 +16,7 @@ namespace Logic.Database.Entities
         public string Usage { get; set; }
         public string Taste { get; set; }
         public string BeverageDescriptionShort { get; set; }
+        public string ImageId { get; set; }
         public string Image { get; set; }
     }
 }

@@ -41,8 +41,13 @@ export class MenuComponent implements OnDestroy {
     {
       title: 'Drycker',
       icon: 'grade',
-      route: ['/drink'],
+      route: ['/drink']
     },
+    {
+      title: 'Kvitton',
+      icon: 'grade',
+      route: ['/drink/receipts']
+    }
   ];
 
   constructor(
