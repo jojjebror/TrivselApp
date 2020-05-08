@@ -190,6 +190,32 @@ export class EventListComponent implements OnInit, OnDestroy {
     );
   }
 
+  getDayOfWeek(date: Date) {
+    const dayOfWeek = new Date(date).getDay();
+    return isNaN(dayOfWeek) ? null : ['Söndag', 'Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag'][dayOfWeek];
+  }
+
+  checkDates(startdate: Date, enddate: Date) {
+    let startD = new Date(startdate);
+    let endD = new Date(enddate);
+
+    if (startD.toDateString() === endD.toDateString()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  checkEndTime(enddate: Date) {
+    let endD = new Date(enddate);
+
+    if (endD.getHours() != 23 && endD.getMinutes() != 59) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   showSnackbarLoadEvents() {
     this.subscription.add(
       this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.GET_USER_EVENT_ERROR)).subscribe((action) => {

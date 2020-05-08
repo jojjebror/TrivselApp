@@ -61,12 +61,24 @@
               <mat-card-title>{{ ev.title }}</mat-card-title>
             </mat-card-header>
             <mat-card-content>
+              <div *ngIf="checkDates(ev.startDate, ev.endDate)">
+                <p>
+                  <i class="material-icons iconMargin">date_range</i>
+                  {{ ev.startDate | date: 'd/M/yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }}
+                  <span *ngIf="checkEndTime(ev.endDate)"> - {{ ev.endDate | date: 'HH:mm' }} </span>
+                </p>
+              </div>
+              <div *ngIf="!checkDates(ev.startDate, ev.endDate)">
+
+                <p>
+                  <i class="material-icons iconMargin">date_range</i>
+                   {{ ev.startDate | date: 'd/M/yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }} <br />
+                  <!-- <i class="material-icons iconMargin">date_range</i>
+                  {{ ev.endDate | date: 'd/M/yyyy' }} kl. {{ ev.endDate | date: 'HH:mm' }} -->
+                </p>
+              </div>
               <p>
-                <i class="material-icons iconMargin">calendar_today</i>
-                {{ ev.startDate | date: 'd MMM, y' }}
-              </p>
-              <p>
-                <i class="material-icons iconMargin">location_on</i>
+                <i class="material-icons iconMargin">pin_drop</i>
                 {{ ev.location }}
               </p>
             </mat-card-content>

@@ -45,6 +45,25 @@
   color: white;
 }
 
+::ng-deep .bs-timepicker-field {
+  color: white!important;
+  width: 50px!important;
+  background: transparent!important;
+  padding: 0!important;
+}
+
+.timepicker {
+  margin-left: 16px;
+}
+
+.startDateInput {
+  margin-top: 12px;
+}
+
+.endDateInput {
+  margin-top: 12px;
+}
+
 .form-row {
   margin-top: 15px;
 }

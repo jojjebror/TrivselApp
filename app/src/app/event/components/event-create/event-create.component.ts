@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store, select, ActionsSubject } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 
@@ -31,6 +31,7 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   endDateMode = false;
   toggleFormHeight: boolean = true;
   fileUpload: File = null;
+  imageUrl: any = null;
 
   currentDate = new Date();
   starttime: Date;
@@ -111,8 +112,23 @@ export class EventCreateComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadImage(file: FileList) {
-    this.fileUpload = file.item(0);
+  fileProgress(fileInput: any) {
+    this.fileUpload = <File>fileInput.target.files[0];
+    this.imagePreview();
+  }
+
+  imagePreview() {
+    // Show preview
+    var mimeType = this.fileUpload.type;
+    if (mimeType.match(/image\/*/) == null) {
+      return;
+    }
+
+    var reader = new FileReader();
+    reader.readAsDataURL(this.fileUpload);
+    reader.onload = (_event) => {
+      this.imageUrl = reader.result;
+    };
   }
 
   private loadUsers() {

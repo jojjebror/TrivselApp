@@ -88,6 +88,11 @@ h4 {
   margin-left: 100px;
 }
 
+.under-tab ::ng-deep .mat-tab-label .mat-tab-label-content {
+  color: white;
+  font-size: 15px;
+}
+
 /* ink bar */
 ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,
 .mat-tab-nav-bar.mat-primary {
