@@ -49,28 +49,31 @@ export class DrinkPayCreditComponent implements OnInit, OnDestroy {
           console.log(res);
           console.log(this.amount);
           
-          if(res === 'notpaid'){
+          if(res === 'paid'){
             console.log('Ser ut som att din betalning gick igenom! Kul, köp en bira!');
             var x =  [this.userId, this.amount];
             console.log(x);
-             this.store$.dispatch(new fromUser.UpdateCredit(x));
-             this.subscription.add(
-              this.actionsSubject$.pipe(filter((action: any) => action.type === fromUser.ActionTypes.UPDATE_CREDIT_SUCCESS)).subscribe((action) => {
-                this.snackBar.open('Ditt saldo har uppdaterats', '', { duration: 3000 });
-              }) ); }
+             this.store$.dispatch(new fromUser.UpdateCredit(x)); }
           else {
             console.log('nej du..!');
             this.store$.dispatch(new fromUser.UpdateCreditError('Error'));
-             this.subscription.add(
-              this.actionsSubject$.pipe(filter((action: any) => action.type === fromUser.ActionTypes.UPDATE_CREDIT_ERROR)).subscribe((action) => {
-                setTimeout(() => {  this.snackBar.open('Din betalning gick inte igenom, var god försök igen', '', { duration: 12000 }) }, 500);
-                this.router.navigate(['/drink/credit']);
-              }) );
+            this.router.navigate(['/drink/credit']);
           }
+            this.showSnackbar();
   }
 
+  showSnackbar() {
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === fromUser.ActionTypes.UPDATE_CREDIT_SUCCESS)).subscribe((action) => {
+        this.snackBar.open('Ditt saldo har uppdaterats', '', { duration: 3000 });
+      }) );
+
+      this.subscription.add(
+        this.actionsSubject$.pipe(filter((action: any) => action.type === fromUser.ActionTypes.UPDATE_CREDIT_ERROR)).subscribe((action) => {
+          setTimeout(() => {  this.snackBar.open('Din betalning gick inte igenom, var god försök igen', '', { duration: 12000 }) }, 500);
+        }) );
+  }
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
 }

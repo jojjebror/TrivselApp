@@ -5,9 +5,6 @@ import { Observable, Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AlertifyService } from 'src/app/core/services/alertify.service';
-import * as fromUser from '../../../user/state/users/users.actions';
 import * as fromSession from '../../../core/state/session'
 import { AuthenticationService } from 'src/app/core/services';
 
@@ -25,15 +22,9 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
   userCredit: number;
   userInput: number;
 
-
-
-   
   constructor(
     private store$: Store<AppState>,
-    private route: ActivatedRoute,
-    private alertify: AlertifyService,
     private fb: FormBuilder,
-    private router: Router,
     public authService: AuthenticationService
   ) {
     this.subscription.add(

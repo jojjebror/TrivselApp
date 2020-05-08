@@ -9,10 +9,12 @@ import * as fromSession from "../../../core/state/session";
 import * as drinksActions from "../../state/drinks";
 import * as fromDrink from "../../state/drinks/drinks.selectors";
 import { FormGroup } from "@angular/forms";
+import { MatSnackBar } from '@angular/material';
 import { AlertifyService } from "src/app/core/services/alertify.service";
 import * as fromUser from '../../../user/state/users/users.actions';
 import { ActivatedRoute } from "@angular/router";
 import { AuthenticationService } from "src/app/core/services";
+import { filter } from "rxjs/operators";
 
 @Component({
   selector: "ex-drink",
@@ -36,22 +38,15 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   clickCounter: number = 0;
   totalSum: number = 0;
   userCredit: number;
-
   category = [{name:'Budget',price: 10,}, {name:'Standard',price: 15,}, {name:'Luxury',price: 20,}];
   
-  category2 = [{
-    B : {name: 'Budget', price: 10},
-    S : {name: 'Standard', price: 15},
-    L : {name: 'Luxury', price: 20},
-    
-}];
   
 
   constructor(
-    private store$: Store<AppState>,
+    private store$: Store<AppState>, private snackBar: MatSnackBar,
     private alertify: AlertifyService,
     private route: ActivatedRoute, private actionsSubject$: ActionsSubject, public authService: AuthenticationService
-    ) {    this.subscription.add(
+    ) {this.subscription.add(
       authService.getUserId().subscribe((user) => {
         this.userId = user.sub;
       })
@@ -120,18 +115,18 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   paySaldo(drink: Drink) {
     
     this.totalSum = 0;
-    this.totalSum += this.clickCounter * this.dr.price;
+    this.totalSum += this.clickCounter * drink.price;
     this.totalSum = -this.totalSum;
-    var sum = this.clickCounter * this.dr.price;
+    var sum = this.clickCounter * drink.price;
     var data = [this.userId, this.totalSum];
     console.log(this.totalSum);
     if (this.userCredit >= sum) {
-      if (confirm("Total summa som dras från saldo är " + sum + "kr, fortsätta?")
-      ) {
+      if (confirm("Total summa som dras från saldo är " + sum + "kr, fortsätta?")){
         this.store$.dispatch(new fromUser.UpdateCredit(data));
-        this.alertify.success("Värdet för ditt saldo har ändrats!");}
+        }
     } 
-    else this.alertify.error("Du har för lite pengar på ditt saldo!");
+    else { this.store$.dispatch(new fromUser.UpdateCreditError('Error'));}
+    this.showSnackbarSaldo();
   }
 
   addEncodedUrl(drink: Drink) {
@@ -165,6 +160,19 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
 
     console.log(httpUrl + encodedString);
   }
+
+  showSnackbarSaldo() {
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === fromUser.ActionTypes.UPDATE_CREDIT_SUCCESS)).subscribe((action) => {
+        this.snackBar.open('Ditt saldo har uppdaterats', '', { duration: 3000 });
+      }) );
+
+      this.subscription.add(
+        this.actionsSubject$.pipe(filter((action: any) => action.type === fromUser.ActionTypes.UPDATE_CREDIT_ERROR)).subscribe((action) => {
+          setTimeout(() => {  this.snackBar.open('Du har för lite pengar på ditt saldo! ', '', { duration: 12000 }) }, 500);
+        }) );
+  }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
