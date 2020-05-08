@@ -1,6 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, Input, HostBinding, EventEmitter, Output, HostListener, Directive } from "@angular/core";
 import { Observable, Subscription } from "rxjs";
 import { Store, select, ActionsSubject } from "@ngrx/store";
+
 
 
 import { AppState } from "src/app/core/state";
@@ -34,8 +35,15 @@ export class ReceiptListComponent implements OnInit {
   receipt: Receipt;
   subscription = new Subscription();
   allReceipts = new MatTableDataSource<Receipt>();
+  allUsersReceipts = new MatTableDataSource<Receipt>();
   userId: number;
   cres$: Observable<Receipt[]>;
+  maxFilesize: 100;  
+  acceptedFiles: 'image/jpg,image/png,image/jpeg/*';
+  files: any = [];
+
+  displayedColumnAllReceipts = ['title', 'date', 'invited', 'actions'];
+  displayedColumnAllUsersReceipts = ['title1', 'date1', 'invited1', 'actions1'];
 
   constructor(
     private store$: Store<AppState>,
@@ -57,24 +65,99 @@ export class ReceiptListComponent implements OnInit {
   ngOnInit() {
     this.createReceiptForm();
     this.loadReceipts();
+    this.loadUserReceipt();
+  }
+
+ /**
+   * on file drop handler
+   */
+  onFileDropped($event) {
+    this.prepareFilesList($event);
+  }
+
+  /**
+   * handle file from browsing
+   */
+  fileBrowseHandler(files) {
+    this.prepareFilesList(files);
+  }
+
+  /**
+   * Delete file from files list
+   * @param index (File index)
+   */
+  deleteFile(index: number) {
+    this.files.splice(index, 1);
+  }
+
+  /**
+   * Simulate the upload process
+   */
+  uploadFilesSimulator(index: number) {
+    setTimeout(() => {
+      if (index === this.files.length) {
+        return;
+      } else {
+        const progressInterval = setInterval(() => {
+          if (this.files[index].progress === 100) {
+            clearInterval(progressInterval);
+            this.uploadFilesSimulator(index + 1);
+          } else {
+            this.files[index].progress += 5;
+          }
+        }, 200);
+      }
+    }, 1000);
+  }
+
+  /**
+   * Convert Files list to normal array list
+   * @param files (Files List)
+   */
+  prepareFilesList(files: Array<any>) {
+    for (const item of files) {
+      item.progress = 0;
+      this.files.push(item);
+    }
+    this.uploadFilesSimulator(0);
+  }
+
+  /**
+   * format bytes
+   * @param bytes (File size in bytes)
+   * @param decimals (Decimals point)
+   */
+  formatBytes(bytes, decimals) {
+    if (bytes === 0) {
+      return '0 Bytes';
+    }
+    const k = 1024;
+    const dm = decimals <= 0 ? 0 : decimals || 2;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
 
 
    public loadReceipts(): void {
     this.store$.dispatch(new receiptsActions.LoadReceipts());
-    this.res$ = this.store$.pipe(select(fromReceipt.getReceipts));
+
+    this.store$.pipe(select(fromReceipt.getReceipts)).subscribe((data: Receipt[]) => {
+      this.allReceipts.data = data;
+    })
 
   }
 
-  public loadUserReceipt(){
-
-    this.store$.dispatch(new asReceipt.LoadUserReceipts(this.userId));
-    this.res$ =  this.store$.pipe(select(fromReceipt.getReceiptCreatedByUser(this.userId)));
-}
+  public loadUserReceipt(): void {
+    this.store$.dispatch(new asReceipt.LoadUserReceipts(+this.userId));
+    this.subscription.add(this.store$.pipe(select(fromReceipt.getReceiptCreatedByUser(+this.userId))).subscribe((data: Receipt[])=> {
+      this.allUsersReceipts.data = data;
+    })
+   );
+    console.log(this.allUsersReceipts);
+  }
 
   
-  
-
   createReceiptForm() {
     this.receiptForm = this.rb.group({
       image: [null],
@@ -159,7 +242,6 @@ export class ReceiptListComponent implements OnInit {
     }));
   }
 
-
-
+ 
   
 }
