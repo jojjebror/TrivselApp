@@ -133,14 +133,14 @@ namespace Logic.Services
 
             await _context.SaveChangesAsync();
 
-            var dbUsers = new List<User>();
+            var attendees = new List<User>();
             foreach (var newEp in newEventParticipants)
             {
-                dbUsers.Add(_context.EventParticipants.Include(ep => ep.User).FirstOrDefault(ep => 
+                attendees.Add(_context.EventParticipants.Include(ep => ep.User).FirstOrDefault(ep => 
                     ep.UserId == newEp.UserId && ep.EventId == newEp.EventId).User);
             }
 
-            _googleCalendarService.UpdateGoogleEvent(dbEvent, dbUsers);
+            _googleCalendarService.UpdateGoogleEvent(dbEvent, attendees);
 
             return EventTranslator.ToEventForUpdateDto(dbEvent);
         }

@@ -160,7 +160,7 @@ namespace Logic.Services
             return null;
         }
 
-        public void UpdateGoogleEvent(Database.Entities.Event ev, List<User> attendees = null)
+        public void UpdateGoogleEvent(Database.Entities.Event ev, List<User> attendees)
         {
             try
             {
