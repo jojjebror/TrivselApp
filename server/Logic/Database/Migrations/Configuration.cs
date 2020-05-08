@@ -311,32 +311,6 @@ namespace Logic.Database.Migrations
                 Status = "N/A"
             };
 
-            //var post1 = new Post()
-            //{
-            //    Id = 1,
-            //    Content = "Detta blir j�ttekul!!",
-            //    Created = DateTime.Now,
-            //    CreatorId = 1,
-            //    EventId = 1
-            //};
-
-            //var post2 = new Post()
-            //{
-            //    Id = 2,
-            //    Content = "J�klar vad �sigt!!",
-            //    Created = DateTime.Now,
-            //    CreatorId = 3,
-            //    EventId = 2
-            //};
-
-            //var post3 = new Post()
-            //{
-            //    Id = 3,
-            //    Content = "Jag har k�pt nya dojor ;)",
-            //    Created = DateTime.Now,
-            //    CreatorId = 2,
-            //    EventId = 3
-            //};
 
             var testBeer = new Drink()
             {
@@ -377,44 +351,6 @@ namespace Logic.Database.Migrations
                 BeverageDescriptionShort = "Läskande",
             };
 
-            var kategori = new Drink()
-            {
-                Id = 4,
-                ProductNameBold = "Budget",
-                Category = "Kategori",
-                AlcoholPercentage = 4,
-                Volume = 50,
-                Price = 10,
-                Taste = "",
-                Usage = "",
-                BeverageDescriptionShort = "",
-            };
-
-            var kategori2 = new Drink()
-            {
-                Id = 5,
-                ProductNameBold = "Standard",
-                Category = "Kategori",
-                AlcoholPercentage = 4,
-                Volume = 50,
-                Price = 15,
-                Taste = "",
-                Usage = "",
-                BeverageDescriptionShort = "",
-            };
-
-            var kategori3 = new Drink()
-            {
-                Id = 6,
-                ProductNameBold = "Luxury",
-                Category = "Kategori",
-                AlcoholPercentage = 4,
-                Volume = 50,
-                Price = 20,
-                Taste = "",
-                Usage = "",
-                BeverageDescriptionShort = "",
-            };
 
             context.Users.AddOrUpdate(testUser);
             context.Users.AddOrUpdate(testUser1);
@@ -446,16 +382,11 @@ namespace Logic.Database.Migrations
             context.EventParticipants.AddOrUpdate(testEp8);
             context.EventParticipants.AddOrUpdate(testEp9);
 
-            //context.Posts.AddOrUpdate(post1);
-            //context.Posts.AddOrUpdate(post2);
-            //context.Posts.AddOrUpdate(post3);
 
             context.Drinks.AddOrUpdate(testBeer);
             context.Drinks.AddOrUpdate(testWine);
             context.Drinks.AddOrUpdate(testCider);
-            context.Drinks.AddOrUpdate(kategori);
-            context.Drinks.AddOrUpdate(kategori2);
-            context.Drinks.AddOrUpdate(kategori3);
+
 
             context.SaveChanges();
         }
