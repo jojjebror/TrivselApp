@@ -54,7 +54,7 @@ export class ReceiptsEffects {
             
                new receiptsActions.CreateReceiptSuccess(newReceipt)
             }),
-            tap(() => this.router.navigate(['/Receipt'])),
+            tap(() => this.router.navigate(['/receipt'])),
             catchError((err) => of(new receiptsActions.CreateReceiptError(err)))
         )
     )
