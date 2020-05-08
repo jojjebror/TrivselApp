@@ -11,10 +11,6 @@ export enum ActionTypes {
   UPDATE_CREDIT = "[User view] Update Credit",
   UPDATE_CREDIT_SUCCESS = "[API: /user] Update Credit success",
   UPDATE_CREDIT_ERROR = "[API: /user] Update Credit error",
-
-  REMOVE_CREDIT = "[User view] Remove Credit",
-  REMOVE_CREDIT_SUCCESS = "[API: /user] Remove Credit success",
-  REMOVE_CREDIT_ERROR = "[API: /user] Remove Credit error",
 }
 
 /*--------------GetAllUsers--------------*/
@@ -55,27 +51,6 @@ export class UpdateCreditError implements Action {
   constructor(public payload: string) {}
 }
 
-/*--------------RemoveCredit--------------*/
-
-export class removeCredit implements Action {
-  readonly type = ActionTypes.REMOVE_CREDIT;
-
-  constructor(public payload: User) {}
-}
-
-export class removeCreditkSuccess implements Action {
-  readonly type = ActionTypes.REMOVE_CREDIT_SUCCESS;
-
-  constructor(public payload: Update<User>) {}
-}
-
-export class removeCreditError implements Action {
-  readonly type = ActionTypes.REMOVE_CREDIT_ERROR;
-
-  constructor(public payload: string) {}
-}
-
-
 export type Actions =
   | GetUsers
   | GetUsersSuccess
@@ -83,7 +58,5 @@ export type Actions =
   | UpdateCredit
   | UpdateCreditSuccess
   | UpdateCreditError
-  | removeCredit
-  | removeCreditkSuccess
-  | removeCreditError
+
   

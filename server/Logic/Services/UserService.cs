@@ -4,6 +4,7 @@ using Logic.Database.Entities;
 using Logic.Models;
 using Logic.Translators;
 using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -79,6 +80,7 @@ namespace Logic.Services
             }
             return UserTranslator.ToUserForUpdateDto(dbUser);
         }
+
 
         public async Task<UserForUpdateDto> RemoveCredit(int id, UserForUpdateDto user)
         {
@@ -157,7 +159,6 @@ namespace Logic.Services
 
             return UserTranslator.ToModel(dbUser);
         }
-
 
     }
 }
