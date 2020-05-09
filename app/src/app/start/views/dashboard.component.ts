@@ -46,9 +46,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     //Works but gives error because lazy load
     this.store$.dispatch(new fromPodcast.LoadPodcastEpisodes());
-    this.store$.pipe(select(fromPodcast.getPodcastEpisodes)).subscribe((res) => (this.podcastFeed = res));
+    this.subscription.add(this.store$.pipe(select(fromPodcast.getPodcastEpisodes)).subscribe((res) => (this.podcastFeed = res)));
 
-    this.homeResource.getPodcastEpisodes().subscribe((res) => (this.podcastFeed = res));
+    this.subscription.add(this.homeResource.getPodcastEpisodes().subscribe((res) => (this.podcastFeed = res)));
 
     let currentUser: User;
 

@@ -40,6 +40,10 @@
   right: 0;
 }
 
+::ng-deep .mat-spinner circle, .mat-spinner circle {   
+    stroke: white !important;
+}
+
 .close-button{
   float: right;
   top:-24px;

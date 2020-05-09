@@ -47,6 +47,10 @@ h3 {
   right: 0;
 }
 
+::ng-deep .mat-spinner circle, .mat-spinner circle {   
+    stroke: white !important;
+}
+
 .btnReadMore {
   width: 100%;
   text-align: right;

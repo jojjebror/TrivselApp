@@ -32,6 +32,10 @@
   right: 0;
 }
 
+::ng-deep .mat-spinner circle, .mat-spinner circle {   
+    stroke: white !important;
+}
+
 .mat-selection-list {
   border: 2px solid white;
   border-radius: 7px;
