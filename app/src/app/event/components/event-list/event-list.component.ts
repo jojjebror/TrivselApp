@@ -12,6 +12,7 @@ import { AuthenticationService } from 'src/app/core/services';
 import { ActionTypes } from '../../state/events';
 import { filter } from 'rxjs/operators';
 import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/shared/components/confirmDialog/confirmDialog.component';
+import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
 
 @Component({
   selector: 'ex-event-list',
@@ -25,6 +26,7 @@ export class EventListComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
   evs$: Observable<Event[]>;
+  loadings$ = this.store$.pipe(select(getLoadingData));
   userId: number;
 
   createdEvents = new MatTableDataSource<Event>();

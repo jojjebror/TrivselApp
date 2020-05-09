@@ -20,6 +20,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { NgxAudioPlayerModule } from 'ngx-audio-player';
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { LoadingModule } from './state/loading';
 
 /**
  * Contains all core functionality of the application.
@@ -32,6 +33,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     SharedModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot(effects),
+    LoadingModule,
     StoreDevtoolsModule.instrument(),
 
     BrowserAnimationsModule,
@@ -49,8 +51,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthenticationInterceptor,
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class CoreModule {}

@@ -8,6 +8,7 @@ import { Event, User, Post } from 'src/app/shared/models';
 
 import { ActivatedRoute } from '@angular/router';
 import * as fromSession from '../../../core/state/session';
+import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
 import { ActionTypes } from '../../state/events';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatSnackBar, MatDialog } from '@angular/material';
@@ -29,6 +30,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
   postForm: FormGroup;
   post: Post;
+  loadings$ = this.store$.pipe(select(getLoadingData));
   eventId: any;
   userId: number;
   ev$: Observable<Event>;
@@ -67,11 +69,11 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   loadEvent() {
     this.store$.dispatch(new fromEvents.LoadEvent(+this.eventId));
     this.showSnackbarLoadEvent();
-    
+
     this.ev$ = this.store$.pipe(select(fromEvents.getCurrentEvent));
 
     this.loadPosts();
-    this.loadParticipants()
+    this.loadParticipants();
   }
 
   loadPosts() {
@@ -223,11 +225,11 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   }
 
   showSnackbarLoadEvent() {
-     this.subscription.add(
-       this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.LOAD_EVENT_ERROR)).subscribe((action) => {
-         this.snackBar.open('Evenemanget kunde inte laddas', '', { duration: 10000 });
-       })
-     );
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.LOAD_EVENT_ERROR)).subscribe((action) => {
+        this.snackBar.open('Evenemanget kunde inte laddas', '', { duration: 10000 });
+      })
+    );
   }
 
   showSnackBarCreatePost() {

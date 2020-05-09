@@ -139,7 +139,7 @@
           </mat-tab>
           <mat-tab label="Deltagare">
             <mat-tab-group class="under-tab" *ngIf="index == 1" [selectedIndex]="1">
-              <mat-tab label="Inbjudna ({{ countParticipants(invitedParticipants$) }})">
+              <mat-tab label="Inbjudna [ {{ countParticipants(invitedParticipants$) }} ]">
                 <mat-selection-list class="invitesList">
                   <mat-list-option class="white" *ngIf="countParticipants(invitedParticipants$) == 0"
                     >Det finns inga inbjudna till evenemanget.</mat-list-option
@@ -152,7 +152,7 @@
                   </mat-list-option>
                 </mat-selection-list>
               </mat-tab>
-              <mat-tab label="Accepterat ({{ countParticipants(attendedParticipants$) }})">
+              <mat-tab label="Accepterat [ {{ countParticipants(attendedParticipants$) }} ]">
                 <mat-selection-list class="invitesList">
                   <mat-list-option class="white" *ngIf="countParticipants(attendedParticipants$) == 0"
                     >Ingen har accepterat deltagande i evenemanget.</mat-list-option
@@ -165,7 +165,7 @@
                   </mat-list-option>
                 </mat-selection-list>
               </mat-tab>
-              <mat-tab label="Avböjt ({{ countParticipants(declinedParticipants$) }})">
+              <mat-tab label="Avböjt [ {{ countParticipants(declinedParticipants$) }} ]">
                 <mat-selection-list class="invitesList">
                   <mat-list-option class="white" *ngIf="countParticipants(declinedParticipants$) == 0"
                     >Ingen har avböjt sitt deltagande i evenemanget.</mat-list-option
@@ -184,4 +184,11 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="loader">
+  <h2 class="mat-h3">
+    <mat-spinner *ngIf="(loadings$ | async)?.length" style="display: inline;" color="accent" [diameter]="50">
+    </mat-spinner>
+  </h2>
 </div>

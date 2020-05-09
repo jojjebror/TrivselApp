@@ -7,6 +7,7 @@ import { Observable, Subscription } from 'rxjs';
 import { User } from 'src/app/shared/models';
 import { AppState } from 'src/app/core/state';
 import { AddDialogComponent, AddDialogModel } from 'src/app/shared/components/addDialog/addDialog.component';
+import { getLoadingData, getLoadingByKey } from '../../core/state/loading';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import * as fromUsers from '../../user/state/users';
 
@@ -21,6 +22,7 @@ import * as fromPodcast from '../state/podcast';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
+  loadings$ = this.store$.pipe(select(getLoadingData));
   user$: Observable<User>;
   podcastFeed$: Observable<PodcastEpisode[]>;
   podcastFeed: PodcastEpisode[];
@@ -44,7 +46,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     //Works but gives error because lazy load
     this.store$.dispatch(new fromPodcast.LoadPodcastEpisodes());
-    this.store$.pipe(select(fromPodcast.getPodcastEpisodes)).subscribe(res => this.podcastFeed = res);
+    this.store$.pipe(select(fromPodcast.getPodcastEpisodes)).subscribe((res) => (this.podcastFeed = res));
 
     this.homeResource.getPodcastEpisodes().subscribe((res) => (this.podcastFeed = res));
 
@@ -69,7 +71,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   playEpisode(episode: PodcastEpisode) {
     this.title = episode.title;
     this.summary = episode.summary;
-    this.episodeUrl = episode.episodeUrl;    
+    this.episodeUrl = episode.episodeUrl;
     this.imageUrl = episode.imageUrl;
     this.published = episode.published;
 
@@ -105,9 +107,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   showSnackbarAddOffice(newOffice: string) {
     this.subscription.add(
-      this.actionsSubject$.pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_OFFICE_SUCCESS)).subscribe((action) => {
-        this.snackBar.open('Ditt valda kontor: ' + newOffice, '', { duration: 3500 });
-      })
+      this.actionsSubject$
+        .pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_OFFICE_SUCCESS))
+        .subscribe((action) => {
+          this.snackBar.open('Ditt valda kontor: ' + newOffice, '', { duration: 3500 });
+        })
     );
   }
 

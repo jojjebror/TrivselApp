@@ -41,7 +41,14 @@
               (keyup)="doFilter($event.target.value, '')"
               placeholder="Datum"
             />
-            <button mat-button mat-icon-button matSuffix (click)="clearField('calendarField')" (click)="picker.close()" *ngIf="calendarField">
+            <button
+              mat-button
+              mat-icon-button
+              matSuffix
+              (click)="clearField('calendarField')"
+              (click)="picker.close()"
+              *ngIf="calendarField"
+            >
               <mat-icon>close</mat-icon>
             </button>
             <mat-icon matSuffix *ngIf="!calendarField">event</mat-icon>
@@ -69,10 +76,9 @@
                 </p>
               </div>
               <div *ngIf="!checkDates(ev.startDate, ev.endDate)">
-
                 <p>
                   <i class="material-icons iconMargin">date_range</i>
-                   {{ ev.startDate | date: 'd/M/yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }} <br />
+                  {{ ev.startDate | date: 'd/M/yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }} <br />
                   <!-- <i class="material-icons iconMargin">date_range</i>
                   {{ ev.endDate | date: 'd/M/yyyy' }} kl. {{ ev.endDate | date: 'HH:mm' }} -->
                 </p>
@@ -266,9 +272,16 @@
             <ng-container matColumnDef="actions">
               <mat-header-cell *matHeaderCellDef>Hantera</mat-header-cell>
               <mat-cell *matCellDef="let ev">
-                <label type="button" mat-icon-button #tooltip="matTooltip" matTooltip="Redigera evenemang" matTooltipPosition="left" (click)="editEvent(ev.id)">
+                <label
+                  type="button"
+                  mat-icon-button
+                  #tooltip="matTooltip"
+                  matTooltip="Redigera evenemang"
+                  matTooltipPosition="left"
+                  (click)="editEvent(ev.id)"
+                >
                   <!-- (click)="editEvent(ev.id)" -->
-<!--                   [routerLink]="['/event/edit/', ev.id]"
+                  <!--                   [routerLink]="['/event/edit/', ev.id]"
  -->
                   <span class="material-icons" id="editIcon">
                     edit
@@ -309,4 +322,10 @@
       </mat-tab>
     </mat-tab-group>
   </div>
+</div>
+
+<div class="loader">
+  <h2 class="mat-h3">
+    <mat-spinner *ngIf="(loadings$ | async)?.length" style="display: inline;" color="accent" [diameter]="50"> </mat-spinner>
+  </h2>
 </div>

@@ -13,6 +13,8 @@ import { DateAdapter, MatSnackBar } from '@angular/material';
 import { ActionTypes } from '../../state/events';
 import { filter } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services';
+import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
+
 
 @Component({
   selector: 'ex-event-create',
@@ -23,6 +25,7 @@ import { AuthenticationService } from 'src/app/core/services';
 export class EventCreateComponent implements OnInit, OnDestroy {
   @Output() cancelNewEvent = new EventEmitter();
   subscription = new Subscription();
+  loadings$ = this.store$.pipe(select(getLoadingData));
   event: Event;
   users$: Observable<User[]>;
   users: User[];

@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
-
 import { User, LoginRequest, Error } from '../../../shared/models';
+import { LoadingAction } from '../../../core/state/loading';
+
 
 export enum ActionTypes {
   Initialize = '[Initializer] Initialize',
@@ -27,6 +28,7 @@ export class Initialize implements Action {
  */
 export class SetUser implements Action {
   readonly type = ActionTypes.SetUser;
+  fxLoading = { add: ActionTypes.SetUser };
 }
 
 export class SetUserNull implements Action {
@@ -35,6 +37,7 @@ export class SetUserNull implements Action {
 
 export class SetUserSuccess implements Action {
   readonly type = ActionTypes.SetUserSuccess;
+  fxLoading = { remove: ActionTypes.SetUser };
 
   constructor(public user: User) {}
 }

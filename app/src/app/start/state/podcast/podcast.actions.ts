@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { PodcastEpisode } from '../../../shared/models';
-import { Update } from '@ngrx/entity';
+import { LoadingAction } from '../../../core/state/loading';
+
 
 export enum ActionTypes {
   LOAD_PODCAST_EPISODES = '[Podcast view] Load Podcast Episodes',
@@ -12,10 +13,13 @@ export enum ActionTypes {
 
 export class LoadPodcastEpisodes implements Action {
   readonly type = ActionTypes.LOAD_PODCAST_EPISODES;
+  fxLoading = { add: ActionTypes.LOAD_PODCAST_EPISODES };
+
 }
 
 export class LoadPodcastEpisodesSuccess implements Action {
   readonly type = ActionTypes.LOAD_PODCAST_EPISODES_SUCCESS;
+  fxLoading = { remove: ActionTypes.LOAD_PODCAST_EPISODES };
 
   constructor(public payload: PodcastEpisode[]) {}
 }

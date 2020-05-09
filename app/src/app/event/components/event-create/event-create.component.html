@@ -67,7 +67,7 @@
         <timepicker formControlName="starttime" [showMeridian]="false" [hoursPlaceholder]="'00'" [minutesPlaceholder]="'00'"></timepicker>
       </div>
 
-      <div *ngIf="!endDateMode" style="margin-left: 10px" class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2 mt-3">
+      <div *ngIf="!endDateMode" style="margin-left: 10px;" class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2 mt-3">
         <a (click)="endDateToggle()">+ Sluttid</a>
       </div>
     </div>
@@ -89,7 +89,13 @@
       </div>
 
       <div class="timepicker">
-        <timepicker class="timepickerInvalid" formControlName="endtime" [showMeridian]="false" [hoursPlaceholder]="'00'" [minutesPlaceholder]="'00'">
+        <timepicker
+          class="timepickerInvalid"
+          formControlName="endtime"
+          [showMeridian]="false"
+          [hoursPlaceholder]="'00'"
+          [minutesPlaceholder]="'00'"
+        >
         </timepicker>
       </div>
 
@@ -127,5 +133,13 @@
         Gå tillbaka
       </button>
     </div>
+
+    <div class="loader">
+      <h2 class="mat-h3">
+        <mat-spinner *ngIf="(loadings$ | async)?.length" style="display: inline;" color="accent" [diameter]="50">
+        </mat-spinner>
+      </h2>
+    </div>
+
   </form>
 </div>

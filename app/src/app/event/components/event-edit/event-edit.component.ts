@@ -11,6 +11,7 @@ import { DateAdapter, MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ActionTypes } from '../../state/events';
+import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
 
 @Component({
   selector: 'ex-event-edit',
@@ -20,6 +21,7 @@ import { ActionTypes } from '../../state/events';
 })
 export class EventEditComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
+  loadings$ = this.store$.pipe(select(getLoadingData));
   ev$: Observable<Event>;
   evt: Event;
   users$: Observable<User[]>;
