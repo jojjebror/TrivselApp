@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-
+import { LoadingAction } from '../../../core/state/loading';
 import { User, Error } from '../../../shared/models';
 import { Update } from '@ngrx/entity';
 
@@ -21,10 +21,12 @@ export enum ActionTypes {
 
 export class GetUsers implements Action {
   readonly type = ActionTypes.GET_USERS;
+  fxLoading = { add: ActionTypes.GET_USERS };
 }
 
 export class GetUsersSuccess implements Action {
   readonly type = ActionTypes.GET_USERS_SUCCESS;
+  fxLoading = { remove: ActionTypes.GET_USERS };
 
   constructor(public payload: User[]) {}
 }
@@ -58,13 +60,15 @@ export class UpdateCreditError implements Action {
 /*--------------UpdateOffice--------------*/
 
 export class UpdateOffice implements Action {
-         readonly type = ActionTypes.UPDATE_OFFICE;
+  readonly type = ActionTypes.UPDATE_OFFICE;
+  fxLoading = { add: ActionTypes.UPDATE_OFFICE };
 
-            constructor(public payload: any[]) {}
-       }
+  constructor(public payload: any[]) {}
+}
 
 export class UpdateOfficeSuccess implements Action {
   readonly type = ActionTypes.UPDATE_OFFICE_SUCCESS;
+  fxLoading = { remove: ActionTypes.UPDATE_OFFICE };
 
   constructor(public payload: Update<User>) {}
 }

@@ -74,6 +74,10 @@ a {
   cursor: pointer;
 }
 
+.fieldDescription {
+  margin-bottom: 15px;
+}
+
 :host /deep/ .mat-select-value-text {
   color: white !important;
 }
@@ -144,6 +148,10 @@ textarea {
 
 ::ng-deep .mat-spinner circle, .mat-spinner circle {   
     stroke: white !important;
+}
+
+::ng-deep .mat-hint {
+    color: white!important;
 }
 
 // mat-icon-stepper selected color change 

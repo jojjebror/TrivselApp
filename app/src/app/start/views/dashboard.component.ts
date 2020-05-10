@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import * as fromSession from '../../core/state/session';
 import { ActionsSubject, Store, select } from '@ngrx/store';
 import { filter } from 'rxjs/operators';
@@ -46,10 +46,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     //Works but gives error because lazy load
     this.store$.dispatch(new fromPodcast.LoadPodcastEpisodes());
-    this.subscription.add(this.store$.pipe(select(fromPodcast.getPodcastEpisodes)).subscribe((res) => (this.podcastFeed = res)));
+    //this.subscription.add(this.store$.pipe(select(fromPodcast.getPodcastEpisodes)).subscribe((res) => (this.podcastFeed = res)));
 
     this.subscription.add(this.homeResource.getPodcastEpisodes().subscribe((res) => (this.podcastFeed = res)));
-
     let currentUser: User;
 
     this.subscription.add(

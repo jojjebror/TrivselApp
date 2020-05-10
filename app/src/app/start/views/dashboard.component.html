@@ -1,4 +1,4 @@
-<div class="mat-card-div">
+<div class="mat-card-div" *ngIf="podcastFeed">
   <mat-card *ngFor="let episode of podcastFeed" (click)="playEpisode(episode)" fxFlex="100">
     <mat-card-header class="maxTitle">
       <mat-card-title>
@@ -12,8 +12,7 @@
 
 <div class="loader">
   <h2 class="mat-h3">
-    <mat-spinner *ngIf="(loadings$ | async)?.length" style="display: inline;" [diameter]="50">
-    </mat-spinner>
+    <mat-spinner *ngIf="(loadings$ | async)?.length" style="display: inline;" [diameter]="50"> </mat-spinner>
   </h2>
 </div>
 
@@ -24,6 +23,8 @@
     <button mat-icon-button class="close-button" (click)="toggleAudioPlayer()">
       <mat-icon class="close-icon" color="white">close</mat-icon>
     </button>
-  <div id="audioPlayer">
-    <mat-basic-audio-player [autoPlay]="autoPlay" [audioUrl]="episodeUrl"></mat-basic-audio-player>
+    <div id="audioPlayer">
+      <mat-basic-audio-player [autoPlay]="autoPlay" [audioUrl]="episodeUrl"></mat-basic-audio-player>
+    </div>
+  </div>
 </div>

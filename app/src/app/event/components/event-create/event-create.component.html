@@ -15,7 +15,7 @@
       <mat-form-field appearance="outline" style="width: 100%;">
         <mat-label>Titel</mat-label>
         <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage('title') }}</mat-error>
-        <input type="text" matInput formControlName="title" autocomplete="off" />
+        <input matInput matInput formControlName="title" [maxLength]="30" autocomplete="off" />
       </mat-form-field>
     </div>
 
@@ -23,15 +23,16 @@
       <mat-form-field appearance="outline">
         <mat-label>Plats</mat-label>
         <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage('location') }}</mat-error>
-        <input type="text" matInput formControlName="location" autocomplete="off" />
+        <input matInput formControlName="location" [maxLength]="35" id="searchLocation" onkeyup="mySearch(this.value)" autocomplete="off"/>
       </mat-form-field>
     </div>
 
     <div>
-      <mat-form-field appearance="outline" class="fieldDescription">
+      <mat-form-field appearance="outline" class="fieldDescription" hintLabel="Max 200 tecken">
         <mat-label>Beskrivning</mat-label>
         <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage('description') }}</mat-error>
-        <textarea matInput formControlName="description" autocomplete="off"></textarea>
+        <textarea #txtarea matInput formControlName="description" [maxLength]="200" autocomplete="off"></textarea>
+        <mat-hint style="color: white" align="end">{{txtarea.value?.length || 0}}/200</mat-hint>
       </mat-form-field>
     </div>
 
@@ -133,7 +134,6 @@
         Gå tillbaka
       </button>
     </div>
-
     <div class="loader">
       <h2 class="mat-h3">
         <mat-spinner *ngIf="(loadings$ | async)?.length" style="display: inline;" [diameter]="50"> </mat-spinner>
