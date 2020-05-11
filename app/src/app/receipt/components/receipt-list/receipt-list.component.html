@@ -13,7 +13,7 @@
     #fileDropRef id="fileDropRef" 
     multiple (change)="fileBrowseHandler($event.target.files)" />
 
-  <div class="invalid-feedback">Du måste ange ett namn för drycken</div>
+  <div class="invalid-feedback">Du måste välja en bild</div>
 
 	<svg xmlns="http://www.w3.org/2000/svg" width="63" height="64" viewBox="0 0 63 64">
 		<g fill="#3B454F" fill-rule="nonzero">
@@ -72,20 +72,22 @@
 	</div>
 
 
-<div class="form-group text-center">
+<div class="form-group2 text-center">
   <button
-    class="btn btn-success"
+    class="btn btn-success" 
     [disabled]="!receiptForm.valid"
     type="submit"
   >
-    Lägg till dryck
+    Ladda upp kvitto
   </button>
 </div>
 </div>
 </form>
 </div>
 
-
+<br/>
+<br/>
+<br/>
 <br/>
 <br/>
 <br/>
