@@ -41,7 +41,14 @@
               (keyup)="doFilter($event.target.value, '')"
               placeholder="Datum"
             />
-            <button mat-button mat-icon-button matSuffix (click)="clearField('calendarField')" (click)="picker.close()" *ngIf="calendarField">
+            <button
+              mat-button
+              mat-icon-button
+              matSuffix
+              (click)="clearField('calendarField')"
+              (click)="picker.close()"
+              *ngIf="calendarField"
+            >
               <mat-icon>close</mat-icon>
             </button>
             <mat-icon matSuffix *ngIf="!calendarField">event</mat-icon>
@@ -61,12 +68,23 @@
               <mat-card-title>{{ ev.title }}</mat-card-title>
             </mat-card-header>
             <mat-card-content>
+              <div *ngIf="checkDates(ev.startDate, ev.endDate)">
+                <p>
+                  <i class="material-icons iconMargin">date_range</i>
+                  {{ ev.startDate | date: 'd/M/yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }}
+                  <span *ngIf="checkEndTime(ev.endDate)"> - {{ ev.endDate | date: 'HH:mm' }} </span>
+                </p>
+              </div>
+              <div *ngIf="!checkDates(ev.startDate, ev.endDate)">
+                <p>
+                  <i class="material-icons iconMargin">date_range</i>
+                  {{ ev.startDate | date: 'd/M/yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }} <br />
+                  <!-- <i class="material-icons iconMargin">date_range</i>
+                  {{ ev.endDate | date: 'd/M/yyyy' }} kl. {{ ev.endDate | date: 'HH:mm' }} -->
+                </p>
+              </div>
               <p>
-                <i class="material-icons iconMargin">calendar_today</i>
-                {{ ev.startDate | date: 'd MMM, y' }}
-              </p>
-              <p>
-                <i class="material-icons iconMargin">location_on</i>
+                <i class="material-icons iconMargin">pin_drop</i>
                 {{ ev.location }}
               </p>
             </mat-card-content>
@@ -110,7 +128,7 @@
               <ng-container matColumnDef="date2">
                 <mat-header-cell *matHeaderCellDef>Datum</mat-header-cell>
                 <mat-cell class="description-cell" *matCellDef="let element"
-                  >{{ element.startDate | date: 'dd/M' }} - {{ element.endDate | date: 'dd/M/yyyy' }}</mat-cell
+                  >{{ element.startDate | date: 'd/M' }} - {{ element.endDate | date: 'd/M/yyyy' }}</mat-cell
                 >
               </ng-container>
 
@@ -175,7 +193,7 @@
               <ng-container matColumnDef="date3">
                 <mat-header-cell *matHeaderCellDef>Datum</mat-header-cell>
                 <mat-cell class="description-cell" *matCellDef="let element"
-                  >{{ element.startDate | date: 'dd/M' }} - {{ element.endDate | date: 'dd/M/yyyy' }}</mat-cell
+                  >{{ element.startDate | date: 'd/M' }} - {{ element.endDate | date: 'd/M/yyyy' }}</mat-cell
                 >
               </ng-container>
 
@@ -247,16 +265,23 @@
             <ng-container matColumnDef="date">
               <mat-header-cell *matHeaderCellDef>Datum</mat-header-cell>
               <mat-cell class="description-cell" *matCellDef="let ev"
-                >{{ ev.startDate | date: 'dd/M' }} - {{ ev.endDate | date: 'dd/M/yyyy' }}</mat-cell
+                >{{ ev.startDate | date: 'd/M' }} - {{ ev.endDate | date: 'd/M/yyyy' }}</mat-cell
               >
             </ng-container>
 
             <ng-container matColumnDef="actions">
               <mat-header-cell *matHeaderCellDef>Hantera</mat-header-cell>
               <mat-cell *matCellDef="let ev">
-                <label type="button" mat-icon-button #tooltip="matTooltip" matTooltip="Redigera evenemang" matTooltipPosition="left" (click)="editEvent(ev.id)">
+                <label
+                  type="button"
+                  mat-icon-button
+                  #tooltip="matTooltip"
+                  matTooltip="Redigera evenemang"
+                  matTooltipPosition="left"
+                  (click)="editEvent(ev.id)"
+                >
                   <!-- (click)="editEvent(ev.id)" -->
-<!--                   [routerLink]="['/event/edit/', ev.id]"
+                  <!--                   [routerLink]="['/event/edit/', ev.id]"
  -->
                   <span class="material-icons" id="editIcon">
                     edit
@@ -297,4 +322,10 @@
       </mat-tab>
     </mat-tab-group>
   </div>
+</div>
+
+<div class="loader">
+  <h2 class="mat-h3">
+    <mat-spinner *ngIf="(loadings$ | async)?.length" style="display: inline;" [diameter]="50"> </mat-spinner>
+  </h2>
 </div>

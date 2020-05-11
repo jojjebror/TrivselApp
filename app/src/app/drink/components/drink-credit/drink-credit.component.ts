@@ -23,9 +23,9 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
   userInput: number;
   kontor: string;
   officeList = [{kontor:'Linköping', swishNumber: '0768658080'}, {kontor:'Örebro', swishNumber: '0735469891'},
-  {kontor:'Uppsala', swishNumber: '070'}, {kontor:'Helsingborg', swishNumber: '073'}, {kontor:'Göteborg', swishNumber: '0735'},
+  {kontor:'Uppsala', swishNumber: '0767606702'}, {kontor:'Helsingborg', swishNumber: '073'}, {kontor:'Göteborg', swishNumber: '0735'},
   {kontor:'Malmö', swishNumber: '07045'}, {kontor:'Söderhamn', swishNumber: '07309'}, {kontor:'Borlänge', swishNumber: '0730922'},
-  {kontor:'Karlstad', swishNumber: '0703345'}, {kontor:'Stockholm', swishNumber: '04847575'}];
+  {kontor:'Karlstad', swishNumber: '0703345'}, {kontor:'Stockholm', swishNumber: '0767606702'}];
 
   constructor(
     private store$: Store<AppState>,

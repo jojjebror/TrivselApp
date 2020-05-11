@@ -1,0 +1,21 @@
+.mat-dialog-actions {
+    justify-content: center;
+}
+
+:host /deep/ .mat-select-value-text {
+  color: black !important;
+}
+
+.close-button{
+  float: right;
+  top:-24px;
+  right:-24px;
+}
+
+.close-icon {
+  transition: 1s ease-in-out;
+}
+
+.close-icon:hover {
+  transform: rotate(180deg);
+}

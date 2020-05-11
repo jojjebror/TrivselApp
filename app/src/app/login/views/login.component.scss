@@ -4,7 +4,7 @@
     height: 100%;
 
     .ex-login-bg {
-		background: url(../../../assets/images/login-bg.jpg);
+		//background: url(../../../assets/images/login-bg.jpg);
 		//background: url(../../../assets/images/exsitec-bg2.png);
         background-size: cover;
         background-position: center;
@@ -50,7 +50,7 @@
 				
 				img {
 					height: 20px;
-					padding: 10px;
+					padding: 2px;
 					background: white;
 					border-radius: 1px;
 					margin-left: 5px;
@@ -66,9 +66,9 @@
 					background: #4285F4;
 					color: white;
 	
-					img {
+					/* img {
 						padding-left: 11px;
-					}
+					} */
 				}
 			}
 		}

@@ -16,12 +16,9 @@
   </button>
   <hr />
  
-  <mat-tab-group>
+  <mat-tab-group (selectedTabChange)="onLinkClick($event)">
     
-      <mat-tab label="First" > 
-        <ng-template mat-tab-label>
-          <span (click)="initializeFilterCategory()">Kategorier</span>
-      </ng-template>
+      <mat-tab label="Kategorier" > 
         
         <br>
       <div class="info">
@@ -32,8 +29,8 @@
               {{ dr.name }} </p>
             
                 
-                  <button class="btn btn-success" (click)="paySaldo(dr)">Köp med saldo</button>
-                  <button class="btn btn-success" id="btnSwish" #btnSwish (click)="GetToSwish(dr)">Köp med swish</button>
+                  <button class="btn btn-success" (click)="confirmPurchase(dr)">Köp med saldo</button>
+                  <button class="btn btn-success" id="btnSwish" #btnSwish (click)="confirmPurchaseSwish(dr)">Köp med swish</button>
               
 
             <div class="countBtns1">
@@ -52,10 +49,7 @@
       </div>
     </mat-tab>
     
-    <mat-tab label="Second" > 
-      <ng-template mat-tab-label>
-        <span (click)="initializeFilterBeer()">Öl</span>
-    </ng-template>
+    <mat-tab label="Öl" > 
       
       <br>
     <div class="info">
@@ -65,8 +59,8 @@
           <a class="titleProduct">
             {{ dr.productNameBold }} </a> <mat-icon matSuffix class="editIcon" matTooltip="Redigera dryck" (click)="editDrink(dr.id)" [routerLink] = "['/drink/', dr.id]"> edit</mat-icon>
           
-          <button class="btn btn-success" (click)="paySaldo(dr)">Köp med saldo</button>
-          <button class="btn btn-success" id="btnSwish" (click)="GetToSwish(dr)">Köp med swish</button>
+          <button class="btn btn-success" (click)="confirmPurchase(dr)">Köp med saldo</button>
+          <button class="btn btn-success" id="btnSwish" (click)="confirmPurchaseSwish(dr)">Köp med swish</button>
        
           <div class="countBtns">
             <button class="minus" mat-mini-fab color="warn" (click)="clickCountM()" matTooltip="Ta bort">-</button>
@@ -81,10 +75,7 @@
     </div>
   </mat-tab>
 
-  <mat-tab label="Third" > 
-    <ng-template mat-tab-label>
-      <span (click)="initializeFilterWine()">Vin</span>
-  </ng-template>
+  <mat-tab label="Vin" > 
     
     <br>
   <div class="info">
@@ -94,8 +85,8 @@
         <a class="titleProduct">
           {{ dr.productNameBold }} </a> <mat-icon matSuffix class="editIcon" matTooltip="Redigera dryck" (click)="editDrink(dr.id)" [routerLink] = "['/drink/', dr.id]"> edit</mat-icon>
         
-        <button class="btn btn-success" (click)="paySaldo(dr)">Köp med saldo</button>
-        <button class="btn btn-success" id="btnSwish" (click)="GetToSwish(dr)">Köp med swish</button>
+        <button class="btn btn-success" (click)="confirmPurchase(dr)">Köp med saldo</button>
+        <button class="btn btn-success" id="btnSwish" (click)="confirmPurchaseSwish(dr)">Köp med swish</button>
      
         <div class="countBtns">
           <button class="minus" mat-mini-fab color="warn" (click)="clickCountM()" matTooltip="Ta bort">-</button>
@@ -110,11 +101,8 @@
   </div>
 </mat-tab>
 
-<mat-tab label="Fourth" > 
-  <ng-template mat-tab-label>
-    <span (click)="initializeFilterCider()">Cider</span>
-</ng-template>
-  
+<mat-tab label="Cider" > 
+
   <br>
 <div class="info">
   <ul *ngIf="drs$">
@@ -123,8 +111,8 @@
       <a class="titleProduct">
         {{ dr.productNameBold }} </a> <mat-icon matSuffix class="editIcon" matTooltip="Redigera dryck" (click)="editDrink(dr.id)" [routerLink] = "['/drink/', dr.id]"> edit</mat-icon>
       
-      <button class="btn btn-success" (click)="paySaldo(dr)">Köp med saldo</button>
-      <button class="btn btn-success" id="btnSwish" (click)="GetToSwish(dr)">Köp med swish</button>
+      <button class="btn btn-success" (click)="confirmPurchase(dr)">Köp med saldo</button>
+      <button class="btn btn-success" id="btnSwish" (click)="confirmPurchaseSwish(dr)">Köp med swish</button>
    
       <div class="countBtns">
         <button class="minus" mat-mini-fab color="warn" (click)="clickCountM()" matTooltip="Ta bort">-</button>
@@ -139,7 +127,6 @@
 </div>
 </mat-tab>
     
-  </mat-tab-group>
-
+</mat-tab-group>
 </div>
 

@@ -1,11 +1,9 @@
 <div class="base" *ngIf="dr$ | async; let dr">
-  <div class="container justify-content-center">
     <br />
-    <form class="border border-light p-6">
-
-        <br />
+    
         <div class="drinkInfo">
-          <h1>Detaljer</h1>
+          <h2 class="titelAndra">Ändra info</h2>
+          <mat-icon matTooltip="Gå tillbaka" matTooltipPosition="left" class="getBackIcon" [routerLink]="['/drink/category']">close</mat-icon>
           <label
           class="deleteIcon"
                   type="button"
@@ -13,7 +11,7 @@
                   #tooltip="matTooltip"
                   matTooltip="Ta bort dryck"
                   matTooltipPosition="right"
-                  (click)="confirmDialog(dr.id)"
+                  (click)="confirmDelete(dr.id)"
                 >
                   <span class="material-icons" id="declineIcon">
                     delete_outline
@@ -25,20 +23,12 @@
             matTooltip="Redigera dryck"
             matTooltipPosition="left"
             (click)="editDrink(dr)"
-            [routerLink]="['/drink/edit']"
-          >
-            edit</mat-icon
-          >
+            [routerLink]="['/drink/edit']">
+            edit</mat-icon>
           <br />
-          <hr />
-          <img
-            class="img-thumbnail"
-            [src]="
-              dr.image
-                ? '../../../' + dr.image
-                : '/assets/images/drink-images/default_drink.jpg'
-            "
-          />
+          <img class="img-thumbnail"
+            [src]=" dr.image ? '../../../' + dr.image
+            : '/assets/images/drink-images/default_drink.jpg'"/>
           
           <h3>{{ dr.productNameBold }}</h3>
 
@@ -46,9 +36,6 @@
 
           <p style="color: white;">{{ dr.volume }}cl</p>
 
-          <p style="color: white;">{{ dr.taste }}</p>
-          
+          <p style="color: white;">{{ dr.taste }}</p> 
         </div>
-    </form>
-  </div>
 </div>

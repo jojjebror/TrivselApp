@@ -7,6 +7,7 @@ import { ExampleState } from '../../example/state';
 import { EventState } from '../../event/state';
 import { DrinkState } from '../../drink/state';
 import { UserState } from '../../user/state';
+import { HomeState } from '../../start/state'
 import { ReceiptState } from '../../receipt/state';
 
 
@@ -29,7 +30,7 @@ export interface AppState {
 
 	user?: UserState;
 
-	receipt?: ReceiptState;
+	home?: HomeState;
 
-	
+	receipt?: ReceiptState;	
 }

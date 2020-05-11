@@ -62,6 +62,7 @@ export class EventsEffects {
       this.eventResource.createEvent(action.payload).pipe(
         map((newEvent: Event) => {
           if (action.image !== null) {
+            console.log("Image: " + action.image)
             return new eventsActions.UploadImage(newEvent.id, action.image);
           }
           

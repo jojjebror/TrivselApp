@@ -42,7 +42,11 @@ export class DrinkDetailComponent implements OnInit {
     private actionsSubject$: ActionsSubject,
     public authService: AuthenticationService,
     private router: Router,
+<<<<<<< HEAD
     public dialog: MatDialog
+=======
+    private dialog: MatDialog
+>>>>>>> 75189505b62f9ff05c9514ab1706273b89f2fbda
   ) {
     this.subscription.add(
       authService.getUserId().subscribe((user) => {
@@ -53,8 +57,7 @@ export class DrinkDetailComponent implements OnInit {
 
   ngOnInit() {
     this.LoadDrink();
-    setTimeout(() => { this.store$.select(fromSession.selectUser)
-    .subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 500);
+    setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 500);
 
     if (this.userCredit < 60) {
       this.alertify.warning(
@@ -79,14 +82,13 @@ export class DrinkDetailComponent implements OnInit {
 
   deleteDrink(id: number) {
     console.log(id);
-    
       this.store$.dispatch(new drinksActions.DeleteDrink(id));
       this.showSnackbar();
     
   }
 
-  confirmDialog(id: number): void {
-    const message = 'Vill du ta bort drycken?';
+  confirmDelete(id: number): void {
+    const message = 'Är du säker på att du vill ta bort drycken?';
     const dialogData = new ConfirmDialogModel('Bekräfta', message);
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -116,7 +118,7 @@ export class DrinkDetailComponent implements OnInit {
   showSnackbar() {
     this.subscription.add(
       this.actionsSubject$.pipe(filter((action: any) => action.type === fromDrink.ActionTypes.DELETE_DRINK_SUCCESS)).subscribe((action) => {
-        this.snackBar.open('Drycken är pantad', '', { duration: 3000 });
+        this.snackBar.open('Drycken har tagits bort!', '', { duration: 3000 });
       }) );}
 
   toggleShow() {

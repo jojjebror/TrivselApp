@@ -20,6 +20,10 @@ export class UserResource extends ApiResource {
     return this.get('user');
   }
 
+  updateOffice(data: number[]): Observable<User> {
+    return this.put('user/UpdateOffice/' + data[0] + '/' + data[1], {});
+  }
+
   addCredit(data: number[]): Observable<User> {
     return this.put('user/' + data[0] + '/' + data[1], {});
   }

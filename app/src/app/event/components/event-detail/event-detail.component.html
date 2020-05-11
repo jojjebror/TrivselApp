@@ -1,19 +1,17 @@
 <div class="container mt-5 border border-light p-5" *ngIf="ev$ | async; let ev">
-  <div class="">
-    <span class="material-icons backIcon" [routerLink]="['/event']">
-      keyboard_backspace
-    </span>
-  </div>
-  <div class="row">
-    <h1 class="mb-4" style="margin-left: 35px;">{{ ev.title }}</h1>
-  </div>
+  <button mat-icon-button class="close-button" [routerLink]="['/event']">
+    <mat-icon class="close-icon" color="white">close</mat-icon>
+  </button>
   <div class="row">
     <div class="col-xs-4 col-sm-12 col-md-4 col-lg-4">
       <div>
-        <img class="card-img-top img-thumbnail" [src]="ev.image ? ev.image : '/assets/images/event-images/default_event.png'" />
+        <img class="card-img-top img-thumbnail" [src]="ev.imageUrl ? ev.imageUrl : '/assets/images/event-images/default_event.png'" />
       </div>
       <div class="card">
         <div class="card-body">
+          <div class="row">
+            <h1 class="mb-4" style="margin-left: 15px;">{{ ev.title }}</h1>
+          </div>
           <div>
             <strong>Information:</strong>
             <p>{{ ev.description }}</p>
@@ -26,20 +24,24 @@
             <strong>När:</strong>
             <p>
               {{ getDayOfWeek(ev.startDate) }}
-              {{ ev.startDate | date: 'dd/M/yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }}
+              {{ ev.startDate | date: 'd/M/yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }}
               <span *ngIf="checkEndTime(ev.endDate)"> - {{ ev.endDate | date: 'HH:mm' }} </span>
             </p>
           </div>
           <div *ngIf="!checkDates(ev.startDate, ev.endDate)">
             <strong>När:</strong>
             <p>
-              Starttid: {{ ev.startDate | date: 'dd/M/yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }} <br />
-              Sluttid: {{ ev.endDate | date: 'dd/M/yyyy' }} kl. {{ ev.endDate | date: 'HH:mm' }}
+              Starttid: {{ ev.startDate | date: 'd/M/yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }} <br />
+              Sluttid: {{ ev.endDate | date: 'd/M/yyyy' }} kl. {{ ev.endDate | date: 'HH:mm' }}
             </p>
           </div>
           <div>
             <strong>Skapad av:</strong>
             <p>{{ ev.creatorName }}</p>
+          </div>
+          <div>
+            <strong>Inbjudna</strong>
+            <p style="cursor: pointer;" (click)="viewParticipants()">{{ countParticipants(invitedParticipants$) }} personer</p>
           </div>
           <div>
             <strong>Status:</strong>
@@ -54,7 +56,7 @@
               class="btn btn-success w-100"
               *ngIf="!checkAttendedUsers()"
               id="accept"
-              (click)="updateParticpantsToEvent(ev.id, 'accepted')"
+              (click)="updateParticpantsToEvent(ev.id, 'accepted', ev.title)"
               #tooltip="matTooltip"
               matTooltip="Bekräfta deltagande i evenemang"
               matTooltipPosition="below"
@@ -65,7 +67,7 @@
               class="btn btn-danger w-100"
               *ngIf="!checkDeclinedUsers()"
               id="decline"
-              (click)="updateParticpantsToEvent(ev.id, 'declined')"
+              (click)="updateParticpantsToEvent(ev.id, 'declined', ev.title)"
               #tooltip="matTooltip"
               matTooltip="Avböj deltagande i evenemang"
               matTooltipPosition="below"
@@ -78,8 +80,8 @@
     </div>
     <div class="col-xs-8 col-sm-12 col-md-8 col-lg-8">
       <div class="tab-panel">
-        <mat-tab-group animationDuration="0ms" dynamicHeight>
-          <mat-tab label="Om evenemang">
+        <mat-tab-group [(selectedIndex)]="index" dynamicHeight>
+          <mat-tab label="Evenemangsöversikt">
             <mat-list>
               <form [formGroup]="postForm" (ngSubmit)="createPost()">
                 <div class="postBox">
@@ -135,34 +137,58 @@
               </div>
             </mat-list>
           </mat-tab>
-          <mat-tab label="Inbjudningar ({{ countParticipants(invitedParticipants$) }})">
-            <mat-list class="invitesList">
-              <p class="pHeader">Inbjudna: ({{ countParticipants(invitedParticipants$) }})</p>
-              <mat-list-item class="participants" *ngFor="let user of invitedParticipants$ | async">
-                <p>
-                  {{ user.name }}
-                </p>
-              </mat-list-item>
-            </mat-list>
-            <mat-list class="invitesList">
-              <p class="pHeader">Accepterat: ({{ countParticipants(attendedParticipants$) }})</p>
-              <mat-list-item class="participants" *ngFor="let user of attendedParticipants$ | async">
-                <p>
-                  {{ user.name }}
-                </p>
-              </mat-list-item>
-            </mat-list>
-            <mat-list class="invitesList">
-              <p class="pHeader">Avböjt: ({{ countParticipants(declinedParticipants$) }})</p>
-              <mat-list-item class="participants" *ngFor="let user of declinedParticipants$ | async">
-                <p>
-                  {{ user.name }}
-                </p>
-              </mat-list-item>
-            </mat-list>
+          <mat-tab label="Deltagare">
+            <mat-tab-group class="under-tab" *ngIf="index == 1" [selectedIndex]="1">
+              <mat-tab label="Inbjudna [ {{ countParticipants(invitedParticipants$) }} ]">
+                <mat-selection-list class="invitesList">
+                  <mat-list-option class="white" *ngIf="countParticipants(invitedParticipants$) == 0"
+                    >Det finns inga inbjudna till evenemanget.</mat-list-option
+                  >
+                  <mat-list-option class="participants" *ngFor="let user of invitedParticipants$ | async">
+                    <mat-icon matListIcon class="white">account_box</mat-icon>
+                    <p>
+                      {{ user.name }}
+                    </p>
+                  </mat-list-option>
+                </mat-selection-list>
+              </mat-tab>
+              <mat-tab label="Accepterat [ {{ countParticipants(attendedParticipants$) }} ]">
+                <mat-selection-list class="invitesList">
+                  <mat-list-option class="white" *ngIf="countParticipants(attendedParticipants$) == 0"
+                    >Ingen har accepterat deltagande i evenemanget.</mat-list-option
+                  >
+                  <mat-list-option class="participants" *ngFor="let user of attendedParticipants$ | async">
+                    <mat-icon matListIcon class="white">account_box</mat-icon>
+                    <p>
+                      {{ user.name }}
+                    </p>
+                  </mat-list-option>
+                </mat-selection-list>
+              </mat-tab>
+              <mat-tab label="Avböjt [ {{ countParticipants(declinedParticipants$) }} ]">
+                <mat-selection-list class="invitesList">
+                  <mat-list-option class="white" *ngIf="countParticipants(declinedParticipants$) == 0"
+                    >Ingen har avböjt sitt deltagande i evenemanget.</mat-list-option
+                  >
+                  <mat-list-option class="participants" *ngFor="let user of declinedParticipants$ | async">
+                    <mat-icon matListIcon class="white">account_box</mat-icon>
+                    <p>
+                      {{ user.name }}
+                    </p>
+                  </mat-list-option>
+                </mat-selection-list>
+              </mat-tab>
+            </mat-tab-group>
           </mat-tab>
         </mat-tab-group>
       </div>
     </div>
   </div>
+</div>
+
+<div class="loader">
+  <h2 class="mat-h3">
+    <mat-spinner *ngIf="(loadings$ | async)?.length" style="display: inline;" [diameter]="50">
+    </mat-spinner>
+  </h2>
 </div>

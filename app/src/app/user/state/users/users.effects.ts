@@ -38,8 +38,25 @@ export class UsersEffects {
           }),
           new sessionActions.SetUser(),
         ]),
-          tap(() => this.router.navigate(['/drink/credit'])),
-          catchError((err) => of(new usersActions.UpdateCreditError(err)))
+        tap(() => this.router.navigate(['/drink/credit'])),
+        catchError((err) => of(new usersActions.UpdateCreditError(err)))
+      )
+    )
+  );
+
+  @Effect()
+  updateOffice$: Observable<Action> = this.actions$.pipe(
+    ofType(usersActions.ActionTypes.UPDATE_OFFICE),
+    switchMap((action: usersActions.UpdateOffice) =>
+      this.userResource.updateOffice(action.payload).pipe(
+        switchMap((updatedUser: User) => [
+          new usersActions.UpdateOfficeSuccess({
+            id: updatedUser.id,
+            changes: updatedUser,
+          }),
+          new sessionActions.SetUser(),
+        ]),
+          catchError((err) => of(new usersActions.UpdateOfficeError(err)))
       )
     )
   );
