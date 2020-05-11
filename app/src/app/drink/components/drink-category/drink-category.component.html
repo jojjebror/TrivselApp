@@ -16,12 +16,9 @@
   </button>
   <hr />
  
-  <mat-tab-group>
+  <mat-tab-group (selectedTabChange)="onLinkClick($event)">
     
-      <mat-tab label="First" > 
-        <ng-template mat-tab-label>
-          <span (click)="initializeFilterCategory()">Kategorier</span>
-      </ng-template>
+      <mat-tab label="Kategorier" > 
         
         <br>
       <div class="info">
@@ -52,10 +49,7 @@
       </div>
     </mat-tab>
     
-    <mat-tab label="Second" > 
-      <ng-template mat-tab-label>
-        <span (click)="initializeFilterBeer()">Öl</span>
-    </ng-template>
+    <mat-tab label="Öl" > 
       
       <br>
     <div class="info">
@@ -81,10 +75,7 @@
     </div>
   </mat-tab>
 
-  <mat-tab label="Third" > 
-    <ng-template mat-tab-label>
-      <span (click)="initializeFilterWine()">Vin</span>
-  </ng-template>
+  <mat-tab label="Vin" > 
     
     <br>
   <div class="info">
@@ -110,11 +101,8 @@
   </div>
 </mat-tab>
 
-<mat-tab label="Fourth" > 
-  <ng-template mat-tab-label>
-    <span (click)="initializeFilterCider()">Cider</span>
-</ng-template>
-  
+<mat-tab label="Cider" > 
+
   <br>
 <div class="info">
   <ul *ngIf="drs$">
@@ -139,7 +127,6 @@
 </div>
 </mat-tab>
     
-  </mat-tab-group>
-
+</mat-tab-group>
 </div>
 

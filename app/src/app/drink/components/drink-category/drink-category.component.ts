@@ -9,7 +9,7 @@ import * as fromSession from "../../../core/state/session";
 import * as drinksActions from "../../state/drinks";
 import * as fromDrink from "../../state/drinks/drinks.selectors";
 import { FormGroup } from "@angular/forms";
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatTabChangeEvent } from '@angular/material';
 import { AlertifyService } from "src/app/core/services/alertify.service";
 import * as fromUser from '../../../user/state/users/users.actions';
 import { ActivatedRoute } from "@angular/router";
@@ -63,6 +63,28 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     this.getClickedId();
   }
 
+
+  onLinkClick(event: MatTabChangeEvent) {
+
+    if(event.index == 1)
+    {
+    console.log({ event });
+    this.initializeFilterBeer();
+    }
+
+    if(event.index == 2)
+    {
+      this.initializeFilterWine();
+      console.log({event});
+    }
+    
+    if(event.index == 3)
+    {
+      this.initializeFilterCider();
+      console.log({event});
+    }
+    
+  }
   public initializeFilterBeer(): void {
     this.store$.dispatch(new drinksActions.FilterDrink("Öl"));
       this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
