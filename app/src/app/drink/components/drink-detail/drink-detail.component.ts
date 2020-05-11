@@ -42,11 +42,7 @@ export class DrinkDetailComponent implements OnInit {
     private actionsSubject$: ActionsSubject,
     public authService: AuthenticationService,
     private router: Router,
-<<<<<<< HEAD
-    public dialog: MatDialog
-=======
     private dialog: MatDialog
->>>>>>> 75189505b62f9ff05c9514ab1706273b89f2fbda
   ) {
     this.subscription.add(
       authService.getUserId().subscribe((user) => {
