@@ -182,14 +182,14 @@ width: 100%;
 
 }
 
-.location1{
+.price1{
   position: relative;
-  top: 15%;
+  top: 18%;
   left: -4%;
   font-size: 35px;
 }
 
-.location{
+.price{
   position: relative;
   top: 60%;
   left: -30%;
@@ -241,8 +241,9 @@ li {
 }
 .countBtns1{
   position: relative;
-  top:-5%;
-  right: 0%;
+  bottom: -5%;
+  left: 52%;
+  margin-top: 12.5%;
 }
 .countBtns {
   position: relative;
@@ -250,7 +251,8 @@ li {
   float: right;
   size: 0,5px;
   margin-right: 25px;
-  margin-bottom: 1px;
+  
+  margin-top: 5%;
 }
 .plus {
   margin-left: 45px;
@@ -268,12 +270,13 @@ li {
  .titleProduct{
   margin-right: 0px;
 }
-.titleProductCategory{
-position: relative;
-top:2%;
-right: 30%;
-font-size: 20px;
-  }
+
+.titleProductCategory {
+  position: relative;
+  left: -4%;
+  top: -20;
+}
+
   .btnBuy{
     position: relative;
 top:2%;
