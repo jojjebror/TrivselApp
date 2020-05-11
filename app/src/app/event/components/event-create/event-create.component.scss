@@ -164,6 +164,16 @@ textarea {
     color: white!important;
 }
 
+::ng-deep .mat-form-field-underline {
+    background-color: white!important;
+}
+
+::ng-deep .mat-form-field.mat-focused {
+    .mat-form-field-ripple {
+        background-color: white!important;
+    }
+}
+
 //mat-input focused color
 ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
     color: white!important;
@@ -244,6 +254,12 @@ textarea {
   border-radius: 5px;
   border: 1px solid white;
   padding: 16px;  
+}
+
+#userSearchbar {
+  color: white;
+  font-size: 16px;
+  width: 230px !important;
 }
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */

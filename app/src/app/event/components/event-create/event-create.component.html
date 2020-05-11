@@ -107,7 +107,7 @@
 
     <div class="inviteContainer">
       <div class="officeContainer">
-        <p>Välj kontor att bjuda in</p>
+        <p style="margin-top:20px; margin-bottom: 23px;">Välj kontor att bjuda in</p>
         <mat-selection-list class="form-group" #selectedOffices formControlName="offices">
           <mat-list-option *ngFor="let office of offices" [value]="office">
             {{ office }}
@@ -116,9 +116,18 @@
         <p>Inbjudna kontor: {{ selectedOffices.selectedOptions.selected.length }}</p>
       </div>
       <div class="userContainer">
-        <p>Välj specifika användare</p>
-        <mat-selection-list class="form-group" #selectedUsers formControlName="users">
-          <mat-list-option *ngFor="let user of users$ | async" [value]="user">
+        <!-- <p>Välj specifika användare</p> -->
+        <!-- <input matInput [formControl]="search" placeholder="Sök specifika användare" autocomplete="off"> -->
+        <mat-form-field appearance="legacy" id="userSearchbar">
+          <input matInput [formControl]="search" placeholder="Välj specifika användare" autocomplete="off" [(ngModel)]="searchField" />
+          <button mat-button mat-icon-button matSuffix (click)="clearField()" *ngIf="searchField">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-icon matSuffix *ngIf="!searchField">search</mat-icon>
+        </mat-form-field>
+
+        <mat-selection-list class="form-group" #selectedUsers formControlName="users" (selectionChange)="selectionChange($event.option)">
+          <mat-list-option *ngFor="let user of users$ | async" [value]="user" [selected]="usersControl.value && usersControl.value?.indexOf(user)>=0">
             {{ user.name }}
           </mat-list-option>
         </mat-selection-list>

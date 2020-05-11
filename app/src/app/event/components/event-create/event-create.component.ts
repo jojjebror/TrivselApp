@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Store, select, ActionsSubject } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 
@@ -7,11 +7,11 @@ import { Event, User } from 'src/app/shared/models';
 import * as fromEvents from '../../state/events';
 import * as fromUsers from '../../../user/state/users';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import { DateAdapter, MatSnackBar } from '@angular/material';
 
 import { ActionTypes } from '../../state/events';
-import { filter } from 'rxjs/operators';
+import { filter, startWith, debounceTime, switchMap } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services';
 import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
 
@@ -28,6 +28,7 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   loadings$ = this.store$.pipe(select(getLoadingData));
   event: Event;
   users$: Observable<User[]>;
+  allUsers: User[];
   users: User[];
   userId: number;
   eventForm: FormGroup;
@@ -35,6 +36,10 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   toggleFormHeight: boolean = true;
   fileUpload: File = null;
   imageUrl: any = null;
+
+  search = new FormControl();
+  searchField;
+  usersControl = new FormControl();
 
   currentDate = new Date();
   starttime: Date;
@@ -153,9 +158,29 @@ export class EventCreateComponent implements OnInit, OnDestroy {
 
     setTimeout(() => {
       this.store$.dispatch(new fromUsers.GetUsers());
-      this.users$ = this.store$.pipe(select(fromUsers.getUsers));
+      /* this.users$ = this.store$.pipe(select(fromUsers.getUsers)); */
+      this.store$.pipe(select(fromUsers.getUsers)).subscribe((data: User[]) => {
+        this.allUsers = data;
+      });
       this.cd.detectChanges();
     }, 120);
+
+    this.users$ = this.search.valueChanges.pipe(
+      startWith(null),
+      debounceTime(200),
+      switchMap((res: string) => {
+        if (!res) return of(this.allUsers);
+        res = res.toLowerCase();
+        return of(this.allUsers.filter((x) => x.name.toLowerCase().indexOf(res) >= 0));
+      })
+    );
+  }
+
+  selectionChange(option: any) {
+    let value = this.usersControl.value || [];
+    if (option.selected) value.push(option.value);
+    else value = value.filter((x: any) => x != option.value);
+    this.usersControl.setValue(value);
   }
 
   endDateToggle() {
@@ -224,6 +249,10 @@ export class EventCreateComponent implements OnInit, OnDestroy {
         return 'Du måste ange ett startdatum';
       }
     }
+  }
+
+  clearField() {
+    this.searchField = '';
   }
 
   showSnackbar() {

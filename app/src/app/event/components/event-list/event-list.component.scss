@@ -152,6 +152,16 @@ h3 {
     height: 80px;
 }
 
+::ng-deep .mat-form-field-underline {
+    background-color: white!important;
+}
+
+::ng-deep .mat-form-field.mat-focused {
+    .mat-form-field-ripple {
+        background-color: white!important;
+    }
+}
+
 #searchbar {
   font-size: 14px;
   width: 160px !important;
