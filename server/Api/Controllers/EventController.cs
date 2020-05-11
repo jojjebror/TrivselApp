@@ -23,12 +23,6 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
-        [HttpGet("/syncevents")]
-        public void SyncEvents()
-        {
-            _eventService.SyncEventsWithGoogleEvents();
-        }
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEvent(int id)
         {
@@ -67,7 +61,7 @@ namespace Api.Controllers
         [HttpPost("{eventId}/{userId}/update")]
         public async Task<IActionResult> UpdateParticipantStatus(int eventId, int userId, [FromBody]string answer)
         {
-            var result = await _eventService.UpdateParticipantStatus(eventId, userId, answer);
+            var result = await _eventService.UpdateEventParticipantStatus(eventId, userId, answer);
             return new OkObjectResult(ApiResponse.Create(result));
         }
 

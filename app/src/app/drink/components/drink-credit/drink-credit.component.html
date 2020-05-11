@@ -1,3 +1,4 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <div class="container justify-content-center">
   
   <!-- Tab current balance -->
@@ -27,7 +28,6 @@
 
       <!-- Tab add balance -->
       <mat-tab label="Fyll på saldo">
-        <mat-list>
           <form class="border border-light p-6" [formGroup]="userCreditForm" (ngSubmit)="addCredit()">
             <div class="mat-div-card">
               <div class="addCreditForm">
@@ -52,20 +52,17 @@
                     <mat-icon matSuffix> attach_money</mat-icon>
                   </mat-form-field>
                 </div>
-                <p>knappen tar dig vidare till swish!</p>
+                <p>Knappen tar dig vidare till swish!</p>
                 <hr />
-
-                <button
+                <button title="Använd din mobil för att lägga till saldo."
                   class="btn btn-success"
                   type="submit"
-                  [disabled]="selectedValue.empty"
-                >
+                  [disabled]="selectedValue.empty">
                   Lägg till saldo
                 </button>
               </div>
             </div>
           </form>
-        </mat-list>
       </mat-tab>
     </mat-tab-group>
   </div>

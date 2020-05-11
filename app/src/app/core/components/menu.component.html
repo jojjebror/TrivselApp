@@ -1,4 +1,3 @@
-
 <nav class="navbar navbar-expand-md navbar-dark bg-nav">
   <div class="container">
     <div class="logo float-left">
@@ -13,7 +12,7 @@
         <a class="nav-link" [routerLink]="['/event']">Evenemang</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/drink']">Drycker</a>
+        <a class="nav-link" [routerLink]="['/drink/category']">Drycker</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/receipt']">Kvitton</a>
@@ -24,26 +23,30 @@
       </li>
     </ul>
 
-    <a class="navbarExtra"><span class="material-icons icon">
+    <a class="navbarExtra cursor" [routerLink]="['/drink/credit']"
+      ><span class="material-icons icon" style="cursor: pointer">
         attach_money
-      </span> {{user?.credit}} kr</a>
-    <a class="navbarExtra"><span class="material-icons icon">
+      </span>
+      {{ user?.credit }} kr</a
+    >
+    <a class="navbarExtra cursor" (click)="editDialog(user)"
+      ><span class="material-icons icon">
         pin_drop
-      </span> {{user?.office}}</a>
+      </span>
+      {{ user?.office }}</a
+    >
 
     <div class="dropdown navbarExtra" dropdown>
       <a class="dropdown-toggle text-light" dropdownToggle>
-      {{ user?.name }}
+        {{ user?.name }}
       </a>
-      
+
       <div class="dropdown-menu mt-3" *dropdownMenu>
         <a class="dropdown-item" [routerLink]="['/drink/credit']"><i class="fa fa-user"></i>Hantera saldo</a>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" (click)="$event.preventDefault(); logout.emit()"><i class="fa fa-sign-out"></i> Logga ut</a>
       </div>
     </div>
-   
-
     <div class="dropdownM" dropdown>
       <a class="dropdown-toggle1 text-light" dropdownToggle>
         <div class="container1" >
@@ -54,13 +57,11 @@
       <div class="dropdown-menu mt-3" *dropdownMenu>
         <a class="dropdown-item" [routerLink]="['/start']"><i class="fa fa-user"></i> Hem</a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item"  [routerLink]="['/event']"><i class="fa fa-sign-out"></i> Evenemang</a>
+        <a class="dropdown-item" [routerLink]="['/event']"><i class="fa fa-sign-out"></i> Evenemang</a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item"   [routerLink]="['/drink']"><i class="fa fa-sign-out"></i> Drycker</a>
+        <a class="dropdown-item"   [routerLink]="['/drink/category']"><i class="fa fa-sign-out"></i> Drycker</a>
 
       </div>
     </div>
   </div>
 </nav>
-
-         

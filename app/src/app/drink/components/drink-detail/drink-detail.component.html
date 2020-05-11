@@ -1,11 +1,8 @@
 <div class="base" *ngIf="dr$ | async; let dr">
-  <div class="container justify-content-center">
     <br />
-    <form class="border border-light p-6">
-
-        <br />
+    
         <div class="drinkInfo">
-          <h1>Detaljer</h1>
+          <h1 class="titelAndra">Ändra info</h1>
           <mat-icon
             matSuffix
             class="declineIcon"
@@ -19,30 +16,19 @@
             class="editIcon"
             matTooltip="Redigera dryck"
             (click)="editDrink(dr)"
-            [routerLink]="['/drink/edit']"
-          >
-            edit</mat-icon
-          >
+            [routerLink]="['/drink/edit']">
+            edit</mat-icon>
           <br />
-          <hr />
-          <img
-            class="img-thumbnail"
-            [src]="
-              dr.image
-                ? '../../../' + dr.image
-                : '/assets/images/drink-images/default_drink.jpg'
-            "
-          />
-          <br>
+          <img class="img-thumbnail"
+            [src]=" dr.image ? '../../../' + dr.image
+            : '/assets/images/drink-images/default_drink.jpg'"/>
+          
           <h3>{{ dr.productNameBold }}</h3>
 
-          <p style="color: white;">Pris: {{ dr.price }}kr</p>
+          <p style="color: white;">{{ dr.price }}kr</p>
 
-          <p style="color: white;">Volym: {{ dr.volume }}cl</p>
+          <p style="color: white;">{{ dr.volume }}cl</p>
 
-          <p style="color: white;">Smak: {{ dr.taste }}</p>
-          <hr />
+          <p style="color: white;">{{ dr.taste }}</p> <button  class="btn btn-default" type="button" style="color: white;" [routerLink]="['/drink/category']" > Gå tillbaka </button>
         </div>
-    </form>
-  </div>
 </div>

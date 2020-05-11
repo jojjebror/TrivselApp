@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { DrinkCategory3Component } from './drink-category3.component';
+import { EditDialogComponent } from './editDialog.component';
 
-describe('DrinkCategory3Component', () => {
-  let component: DrinkCategory3Component;
-  let fixture: ComponentFixture<DrinkCategory3Component>;
+describe('EditDialogComponent', () => {
+  let component: EditDialogComponent;
+  let fixture: ComponentFixture<EditDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DrinkCategory3Component ]
+      declarations: [ EditDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DrinkCategory3Component);
+    fixture = TestBed.createComponent(EditDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

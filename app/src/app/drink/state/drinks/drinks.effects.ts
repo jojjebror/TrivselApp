@@ -75,7 +75,7 @@ export class DrinksEffects {
 
           new drinksActions.CreateDrinkSuccess(newDrink)
         }),
-        tap(() => this.router.navigate(["/drink"])),
+        tap(() => this.router.navigate(["/drink/category"])),
         catchError((err) => of(new drinksActions.CreateDrinkError(err)))
       )
     )
@@ -89,7 +89,7 @@ export class DrinksEffects {
     switchMap((id: number) =>
       this.drinkResource.deleteDrink(id).pipe(
         map(() => new drinksActions.DeleteDrinkSuccess(id)),
-        tap(() => this.router.navigate(["/drink"])),
+        tap(() => this.router.navigate(["/drink/category"])),
         catchError((err) => of(new drinksActions.DeleteDrinkError(err)))
       )
     )

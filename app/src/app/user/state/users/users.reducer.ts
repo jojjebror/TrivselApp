@@ -45,10 +45,10 @@ export function reducer(state: UsersState = initialState, action: usersActions.A
       };
     }
 
-    case usersActions.ActionTypes.REMOVE_CREDIT_SUCCESS: {
+    case usersActions.ActionTypes.UPDATE_OFFICE_SUCCESS: {
       return adapter.updateOne(action.payload, state);
     }
-    case usersActions.ActionTypes.REMOVE_CREDIT_ERROR: {
+    case usersActions.ActionTypes.UPDATE_OFFICE_ERROR: {
       return {
         ...state,
         entities: {},

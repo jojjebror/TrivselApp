@@ -35,6 +35,7 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
+
         [HttpGet("credit")]
         public async Task<IActionResult> GetCredit()
         {
@@ -47,6 +48,13 @@ namespace Api.Controllers
         {
             var fetch = await _userService.AddCredit(id, amount);
             return new OkObjectResult(ApiResponse.Create(fetch));
+        }
+
+        [HttpPut("UpdateOffice/{id}/{office}")]
+        public async Task<IActionResult> UpdateOffice(int id, string office)
+        {
+            var result = await _userService.UpdateOffice(id, office);
+            return new OkObjectResult(ApiResponse.Create(result));
         }
     }
 }

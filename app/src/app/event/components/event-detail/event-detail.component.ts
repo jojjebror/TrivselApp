@@ -8,12 +8,17 @@ import { Event, User, Post } from 'src/app/shared/models';
 
 import { ActivatedRoute } from '@angular/router';
 import * as fromSession from '../../../core/state/session';
+import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
 import { ActionTypes } from '../../state/events';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { AuthenticationService } from 'src/app/core/services';
 import { filter } from 'rxjs/operators';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/components/confirmDialog/confirmDialog.component';
+import {
+  ParticipantsDialogModel,
+  ParticipantsDialogComponent,
+} from 'src/app/shared/components/participantsDialog/participantsDialog.component';
 
 @Component({
   selector: 'ex-event-detail',
@@ -25,6 +30,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
   postForm: FormGroup;
   post: Post;
+  loadings$ = this.store$.pipe(select(getLoadingData));
   eventId: any;
   userId: number;
   ev$: Observable<Event>;
@@ -32,6 +38,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   attendedParticipants$: Observable<User[]>;
   invitedParticipants$: Observable<User[]>;
   declinedParticipants$: Observable<User[]>;
+  index = 0;
 
   constructor(
     private store$: Store<AppState>,
@@ -61,36 +68,29 @@ export class EventDetailComponent implements OnInit, OnDestroy {
 
   loadEvent() {
     this.store$.dispatch(new fromEvents.LoadEvent(+this.eventId));
-    
-    this.subscription.add(
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.LOAD_EVENT_ERROR)).subscribe((action) => {
-        this.snackBar.open('Evenemanget kunde inte laddas', '', { duration: 10000 });
-      })
-    );
+    this.showSnackbarLoadEvent();
 
     this.ev$ = this.store$.pipe(select(fromEvents.getCurrentEvent));
 
-    this.posts$ = this.store$.pipe(select(fromEvents.getEventPosts));
+    this.loadPosts();
+    this.loadParticipants();
+  }
 
+  loadPosts() {
+    this.posts$ = this.store$.pipe(select(fromEvents.getEventPosts));
+  }
+
+  loadParticipants() {
     this.attendedParticipants$ = this.store$.pipe(select(fromEvents.getAttendedParticipants));
     this.invitedParticipants$ = this.store$.pipe(select(fromEvents.getInvitedParticipants));
     this.declinedParticipants$ = this.store$.pipe(select(fromEvents.getDeclinedParticipants));
   }
 
-  updateParticpantsToEvent(id: number, answer: string) {
+  updateParticpantsToEvent(id: number, answer: string, title: string) {
     var data = [id, +this.userId, answer];
     this.store$.dispatch(new fromEvents.AddEventParticipant(data));
 
-    this.subscription.add(
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.ADD_EVENT_PARTICIPANT_SUCCESS)).subscribe((action) => {
-        if (answer == 'accepted') {
-          this.snackBar.open('Du är tillagd i evenemanget', '', { duration: 2500 });
-        }
-        if (answer == 'declined') {
-          this.snackBar.open('Du är borttagen ur evenemanget', '', { duration: 2500 });
-        }
-      })
-    );
+    this.showSnackBarUpdateParticipants(answer, title);
   }
 
   checkAttendedUsers() {
@@ -141,16 +141,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
       this.post = Object.assign({}, this.postForm.value);
       this.store$.dispatch(new fromEvents.AddPostToEvent(this.post));
 
-       this.subscription.add(
-        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.ADD_POST_EVENT_SUCCESS)).subscribe((action) => {
-          this.snackBar.open('Kommentar postad', '', { duration: 2500 });
-        })
-      );
-      this.subscription.add(
-        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.ADD_POST_EVENT_ERROR)).subscribe((action) => {
-          this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
-        })
-      );
+      this.showSnackBarCreatePost();
       this.postForm.reset();
     }
   }
@@ -158,18 +149,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   deletePost(id: number, postId: number) {
     var data = [id, postId];
     this.store$.dispatch(new fromEvents.DeletePost(data));
-
-    this.subscription.add(
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.REMOVE_POST_EVENT)).subscribe((action) => {
-        this.snackBar.open('Kommentar borttagen', '', { duration: 2500 });
-      })
-    );
-
-    this.subscription.add(
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.REMOVE_POST_EVENT_ERROR)).subscribe((action) => {
-        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
-      })
-    );
+    this.showSnackbarDeletePost();
   }
 
   getDayOfWeek(date: Date) {
@@ -212,6 +192,69 @@ export class EventDetailComponent implements OnInit, OnDestroy {
         if (dialogResult == true) {
           this.deletePost(id, postId);
         }
+      })
+    );
+  }
+
+  viewParticipants(): void {
+    const dialogData = new ParticipantsDialogModel(
+      'Deltagarlista',
+      this.attendedParticipants$,
+      this.invitedParticipants$,
+      this.declinedParticipants$
+    );
+    this.dialog.open(ParticipantsDialogComponent, {
+      maxWidth: '700px',
+      minHeight: '400px',
+      maxHeight: '900px',
+      data: dialogData,
+    });
+  }
+
+  showSnackBarUpdateParticipants(answer: string, title: string) {
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.ADD_EVENT_PARTICIPANT_SUCCESS)).subscribe((action) => {
+        if (answer == 'accepted') {
+          this.snackBar.open('Du är tillagd i evenemanget ' + title, '', { duration: 2500 });
+        }
+        if (answer == 'declined') {
+          this.snackBar.open('Du är borttagen ur evenemanget ' + title, '', { duration: 2500 });
+        }
+      })
+    );
+  }
+
+  showSnackbarLoadEvent() {
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.LOAD_EVENT_ERROR)).subscribe((action) => {
+        this.snackBar.open('Evenemanget kunde inte laddas', '', { duration: 10000 });
+      })
+    );
+  }
+
+  showSnackBarCreatePost() {
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.ADD_POST_EVENT_SUCCESS)).subscribe((action) => {
+        this.snackBar.open('Kommentaren postad', '', { duration: 2500 });
+      })
+    );
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.ADD_POST_EVENT_ERROR)).subscribe((action) => {
+        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
+      })
+    );
+  }
+
+  showSnackbarDeletePost() {
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.REMOVE_POST_EVENT)).subscribe((action) => {
+        this.snackBar.open('Kommentaren borttagen', '', { duration: 2500 });
+      })
+    );
+
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.REMOVE_POST_EVENT_ERROR)).subscribe((action) => {
+        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
       })
     );
   }

@@ -1,0 +1,45 @@
+.mat-dialog-actions {
+    justify-content: center;
+}
+
+.close-button{
+  float: right;
+  top:-24px;
+  right:-24px;
+}
+
+.close-icon {
+  transition: 1s ease-in-out;
+}
+
+.close-icon:hover {
+  transform: rotate(180deg);
+}
+
+/* active tab */
+.invitedTab ::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+  background-color: white !important;
+  color: black;
+  font-size: 18px;
+  opacity: 1;
+}
+
+
+/* ink bar */
+.invitedTab ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary {
+  background-color: black !important;
+}
+
+.invitedTab ::ng-deep .mat-tab-label .mat-tab-label-content {
+  color: black;
+  font-size: 18px;
+}
+
+.invitedTab :host /deep/ .mat-list .mat-list-item {
+  height: 25px !important;
+}
+
+.invitesList ::ng-deep.mat-pseudo-checkbox{
+      display: none !important;
+    }

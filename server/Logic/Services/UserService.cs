@@ -4,6 +4,7 @@ using Logic.Database.Entities;
 using Logic.Models;
 using Logic.Translators;
 using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -77,6 +78,17 @@ namespace Logic.Services
                 dbUser.Credit = dbUser.Credit + amount;
                 await _context.SaveChangesAsync();
             }
+            return UserTranslator.ToUserForUpdateDto(dbUser);
+        }
+
+        public async Task<UserForUpdateDto> UpdateOffice(int id, string newOffice)
+        {
+            var dbUser = await _context.Users
+                .FirstOrDefaultAsync(x => x.Id == id);
+            
+                dbUser.Office = newOffice;
+                await _context.SaveChangesAsync();
+            
             return UserTranslator.ToUserForUpdateDto(dbUser);
         }
 
@@ -157,7 +169,6 @@ namespace Logic.Services
 
             return UserTranslator.ToModel(dbUser);
         }
-
 
     }
 }

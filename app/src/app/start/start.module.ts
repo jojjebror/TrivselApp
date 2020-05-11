@@ -5,16 +5,23 @@ import { SharedModule } from '../shared';
 import { StartRoutingModule } from './start-routing.module';
 
 import { views } from './views';
+import { reducers, effects } from './state';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { NgxAudioPlayerModule } from 'ngx-audio-player';
 
 @NgModule({
-	imports: [ 
-		SharedModule,
-		StartRoutingModule
-	],
-	exports: [],
-	declarations: [ 
-		...views
-	],
-	providers: [],
+  imports: [
+    SharedModule,
+    StartRoutingModule,
+    StoreModule.forFeature('podcast', reducers),
+    EffectsModule.forFeature(effects),
+    StoreDevtoolsModule.instrument(),
+    NgxAudioPlayerModule,
+  ],
+  exports: [],
+  declarations: [...views],
+  providers: [],
 })
-export class StartModule { }
+export class StartModule {}

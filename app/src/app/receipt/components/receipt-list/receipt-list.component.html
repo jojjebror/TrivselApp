@@ -93,12 +93,8 @@
 
   <!------------------ TAB1 ------------------------>
   
-  <div class="tab-panel">
-    <mat-tab-group animationDuration="0ms" dynamicHeight>
-    <mat-tab label="Alla kvitton">
-      <ng-template mat-tab-label>
-        <span (click)="loadReceipts()">Alla kvitton</span>
-    </ng-template>
+    <mat-tab-group animationDuration="0ms" dynamicHeight (selectedTabChange)="onLinkClick($event)">
+    <mat-tab  label="Alla kvitton">
       
       <mat-table class="lessons-table mat-elevation-z8" [dataSource]="allReceipts" *ngIf="allReceipts.data.length > 0">
         <ng-container matColumnDef="title">
@@ -148,11 +144,10 @@
 
  <!------------------- TAB2 ----------------------->
 
- <mat-tab>
-  <ng-template mat-tab-label>
-    <span (click)="loadUserReceipt(this.userId)">Dina Kvitton</span>
-  </ng-template>
-  
+
+
+
+ <mat-tab label="Dina kvitton">
  
   <mat-table class="lessons-table mat-elevation-z8" [dataSource]="allUsersReceipts" *ngIf="allUsersReceipts.data.length > 0">
     <ng-container matColumnDef="title1">
@@ -214,4 +209,4 @@
   </mat-tab>
     </mat-tab-group>
   </div>
-</div>
+

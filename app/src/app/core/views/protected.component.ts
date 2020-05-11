@@ -18,13 +18,14 @@ export class ProtectedComponent implements OnInit {
   user$: Observable<User>;
 
   isMenuVisible$: Observable<boolean>;
+  initialized$: Observable<boolean>;
 
   constructor(private store$: Store<AppState>) {}
 
   ngOnInit(): void {
-	this.user$ = this.store$.select(fromSession.selectUser);
-	
-    this.isMenuVisible$ = this.store$.select(fromLayout.selectMenuVisible);
+  this.user$ = this.store$.select(fromSession.selectUser);
+  this.initialized$ = this.store$.select(fromSession.selectInitialized);
+  this.isMenuVisible$ = this.store$.select(fromLayout.selectMenuVisible);
   }
 
   toggleMenu(): void {

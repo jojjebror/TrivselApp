@@ -256,6 +256,7 @@
     <Reference Include="System.Security.Principal.Windows, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Principal.Windows.4.4.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
     </Reference>
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Text.Encodings.Web, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\CloudinaryDotNet.1.10.0\lib\net45\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
@@ -285,9 +286,9 @@
     <Compile Include="Database\Migrations\201802051252482_Init.Designer.cs">
       <DependentUpon>201802051252482_Init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\Migrations\202005061306441_MergeBranches.cs" />
-    <Compile Include="Database\Migrations\202005061306441_MergeBranches.Designer.cs">
-      <DependentUpon>202005061306441_MergeBranches.cs</DependentUpon>
+    <Compile Include="Database\Migrations\202005081437109_MergeBranchesReceipt.cs" />
+    <Compile Include="Database\Migrations\202005081437109_MergeBranchesReceipt.Designer.cs">
+      <DependentUpon>202005081437109_MergeBranchesReceipt.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Helpers\PagedList.cs" />
@@ -305,6 +306,7 @@
     <Compile Include="Models\EventForUserListDto.cs" />
     <Compile Include="Models\EventParticipantsDto.cs" />
     <Compile Include="Models\ExampleDto.cs" />
+    <Compile Include="Models\PodcastEpisodeDto.cs" />
     <Compile Include="Models\PostDto.cs" />
     <Compile Include="Models\ReceiptForCreateDto.cs" />
     <Compile Include="Models\ReceiptForListDto.cs" />
@@ -318,6 +320,7 @@
     <Compile Include="Services\EventService.cs" />
     <Compile Include="Services\ExampleService.cs" />
     <Compile Include="Services\GoogleCalendarService.cs" />
+    <Compile Include="Services\PodcastService.cs" />
     <Compile Include="Services\PostService.cs" />
     <Compile Include="Services\ReceiptService.cs" />
     <Compile Include="Services\UserService.cs" />
@@ -343,8 +346,8 @@
     <EmbeddedResource Include="Database\Migrations\201802051252482_Init.resx">
       <DependentUpon>201802051252482_Init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Database\Migrations\202005061306441_MergeBranches.resx">
-      <DependentUpon>202005061306441_MergeBranches.cs</DependentUpon>
+    <EmbeddedResource Include="Database\Migrations\202005081437109_MergeBranchesReceipt.resx">
+      <DependentUpon>202005081437109_MergeBranchesReceipt.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
