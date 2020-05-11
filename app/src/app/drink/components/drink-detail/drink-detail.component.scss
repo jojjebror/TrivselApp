@@ -8,11 +8,19 @@
   color: red;
   
 }
+
+.getBackIcon {
+  float: left;
+  padding-right: 5px;
+  margin-left: 10px;
+  cursor: pointer;
+}
 button{
   float: right;
 }
 .editIcon{
   float: right;
+  cursor: pointer;
 }
 h3{
   padding-top: 10px;
