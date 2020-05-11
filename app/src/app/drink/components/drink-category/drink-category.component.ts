@@ -9,12 +9,13 @@ import * as fromSession from "../../../core/state/session";
 import * as drinksActions from "../../state/drinks";
 import * as fromDrink from "../../state/drinks/drinks.selectors";
 import { FormGroup } from "@angular/forms";
-import { MatSnackBar, MatTabChangeEvent } from '@angular/material';
+import { MatSnackBar, MatTabChangeEvent, MatDialog } from '@angular/material';
 import { AlertifyService } from "src/app/core/services/alertify.service";
 import * as fromUser from '../../../user/state/users/users.actions';
 import { ActivatedRoute } from "@angular/router";
 import { AuthenticationService } from "src/app/core/services";
 import { filter } from "rxjs/operators";
+import { ConfirmDialogModel, ConfirmDialogComponent } from "src/app/shared/components/confirmDialog/confirmDialog.component";
 
 @Component({
   selector: "ex-drink",
@@ -49,6 +50,7 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   constructor(
     private store$: Store<AppState>, private snackBar: MatSnackBar,
     private alertify: AlertifyService,
+    private dialog: MatDialog,
     private route: ActivatedRoute, private actionsSubject$: ActionsSubject, public authService: AuthenticationService
     ) {this.subscription.add(
       authService.getUserId().subscribe((user) => {
@@ -133,8 +135,7 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     this.totalSum += this.clickCounter * drink.price;
     var sum = this.clickCounter * drink.price;
     console.log(this.totalSum);
-      if (confirm("Du kommer skickas vidare till swish och betala " + sum + "kr.")
-      ) {
+       {
         this.addEncodedUrl(drink);
       }
   }
@@ -148,12 +149,52 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     var data = [this.userId, this.totalSum];
     console.log(this.totalSum);
     if (this.userCredit >= sum) {
-      if (confirm("Total summa som dras från saldo är " + sum + "kr, fortsätta?")){
+    
         this.store$.dispatch(new fromUser.UpdateCredit(data));
-        }
+        
     } 
     else { this.store$.dispatch(new fromUser.UpdateCreditError('Error'));}
     this.showSnackbarSaldo();
+  }
+
+  confirmPurchase(dr: Drink): void {
+    this.totalSum = 0;
+    this.totalSum += this.clickCounter * dr.price;
+    this.totalSum = -this.totalSum;
+    var sum = this.clickCounter * dr.price;
+    const message = sum + ' kronor kommer dras från ditt saldo, ok?';
+    const dialogData = new ConfirmDialogModel('Bekräfta köp', message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: '400px',
+      data: dialogData,
+    });
+
+    this.subscription.add(dialogRef.afterClosed().subscribe((dialogResult) => {
+      if(dialogResult == true)  {
+        this.paySaldo(dr);
+      }
+    }));
+  }
+
+  confirmPurchaseSwish(dr: Drink): void {
+    this.totalSum = 0;
+    this.totalSum += this.clickCounter * dr.price;
+    this.totalSum = -this.totalSum;
+    var sum = this.clickCounter * dr.price;
+    const message = 'Du kommer att skickas till swish och betala ' + sum + ' kr, ok?';
+    const dialogData = new ConfirmDialogModel('Bekräfta köp', message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: '400px',
+      data: dialogData,
+    });
+
+    this.subscription.add(dialogRef.afterClosed().subscribe((dialogResult) => {
+      if(dialogResult == true)  {
+        this.GetToSwish(dr);
+      }
+    }));
   }
 
   addEncodedUrl(drink: Drink) {
