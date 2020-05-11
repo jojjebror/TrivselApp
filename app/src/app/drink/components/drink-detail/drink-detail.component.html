@@ -35,14 +35,7 @@
       <span class="material-icons">edit</span>
     </label>
     <br />
-    <img
-      class="img-thumbnail"
-      [src]="
-        dr.image
-          ? '../../../' + dr.image
-          : '/assets/images/drink-images/default_drink.jpg'
-      "
-    />
+    <img class="card-img-top img-thumbnail" [src]="dr.image ? dr.image : '/assets/images/drink-images/default_drink.jpg'" />
 
     <h3>{{ dr.productNameBold }}</h3>
 
