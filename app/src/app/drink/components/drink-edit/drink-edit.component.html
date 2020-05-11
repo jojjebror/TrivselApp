@@ -98,7 +98,8 @@
         <div>
           <a>Bild</a>
           <div>
-            
+            <img class="card-img-top img-thumbnail" [src]="imageUrl ? 
+              '../../'+ imageUrl : '/assets/images/drink-images/default_drink.jpg'" />
               <input type="file" accept="image/*" autocomplete="off" formControlName="image" (change)="loadImage($event.target.files)" />
           </div>
         </div>
