@@ -1,12 +1,14 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
-import { User } from '../../../shared/models';
+import { User, Drink } from '../../../shared/models';
 import { Observable, Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 import * as fromSession from '../../../core/state/session'
 import { AuthenticationService } from 'src/app/core/services';
+import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/components/confirmDialog/confirmDialog.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'ex-drink-credit',
@@ -30,7 +32,8 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
   constructor(
     private store$: Store<AppState>,
     private fb: FormBuilder,
-    public authService: AuthenticationService
+    public authService: AuthenticationService,
+    private dialog: MatDialog,
   ) {
     this.subscription.add(
       authService.getUserId().subscribe((user) => {
@@ -56,13 +59,30 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
 
   addCredit() {
     var creditInput = [this.userCreditForm.get('credit').value]
-    if(confirm("Swisha " + creditInput + "kr till saldo?")) {
+    
       this.user = Object.assign({}, this.userCreditForm.value);
         console.log(this.user);
            var data = [this.userId, this.userCreditForm.get('credit').value]
              console.log(data);
-    }
+    
     this.addEncodedUrl();
+  }
+
+  confirmCredit(): void {
+    var creditInput = [this.userCreditForm.get('credit').value]
+    const message = 'Är du säker på att du vill sätta in ' + creditInput + 'kr?' ;
+    const dialogData = new ConfirmDialogModel('Bekräfta insättning', message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: '400px',
+      data: dialogData,
+    });
+
+    this.subscription.add(dialogRef.afterClosed().subscribe((dialogResult) => {
+      if(dialogResult == true)  {
+        this.addCredit();
+      }
+    }));
   }
 
   addEncodedUrl(){
