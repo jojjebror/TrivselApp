@@ -1,0 +1,42 @@
+
+<button mat-icon-button tabindex="-1" class="close-button" [mat-dialog-close]="true">
+  <mat-icon class="close-icon" color="black">close</mat-icon>
+</button>
+
+<h1 mat-dialog-title>
+  {{title}}
+</h1>
+<mat-tab-group class="invitedTab" dynamicHeight>
+  <mat-tab label="Inbjudna ({{ countInvited(invitedParticipants) }})"
+>
+    <mat-selection-list class="invitesList">
+      <mat-list-option class="participants" *ngFor="let user of invitedParticipants | async">
+       <mat-icon matListIcon>account_box</mat-icon>
+        <p>
+          {{ user.name }}
+        </p>
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-tab>
+  <mat-tab label="Accepterat ({{ countInvited(attendedParticipants) }})"
+  >
+    <mat-selection-list class="invitesList">
+      <mat-list-option class="participants" *ngFor="let user of attendedParticipants | async">
+        <mat-icon matListIcon>account_box</mat-icon>
+        <p>
+          {{ user.name }}
+        </p>
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-tab>
+  <mat-tab label="Avböjt ({{ countInvited(declinedParticipants) }})">
+  <mat-selection-list class="invitesList">
+    <mat-list-option class="participants" *ngFor="let user of declinedParticipants | async">
+     <mat-icon matListIcon>account_box</mat-icon>
+      <p>
+        {{ user.name }}
+      </p>
+    </mat-list-option>
+  </mat-selection-list>
+</mat-tab>
+</mat-tab-group>

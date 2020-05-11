@@ -1,0 +1,27 @@
+
+<button mat-icon-button tabindex="-1" class="close-button" [mat-dialog-close]="false">
+  <mat-icon class="close-icon" color="black">close</mat-icon>
+</button>
+
+<h1 mat-dialog-title>
+  {{title}}
+</h1>
+
+<div mat-dialog-content>
+  {{message}} <br>
+
+  <mat-form-field style="margin-top: 30px">
+    <mat-select [(value)]="selectedOffice">
+      <mat-option *ngFor="let office of offices" [value]="office">
+        {{ office }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+  <p>Valt kontor: {{selectedOffice}}</p>
+  
+</div>
+
+<div mat-dialog-actions>
+  <button mat-raised-button tabindex="-1" color="primary" (click)="onConfirm()">Spara ändring</button>
+</div>

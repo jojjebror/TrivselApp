@@ -51,8 +51,7 @@ export class DrinkDetailComponent implements OnInit {
 
   ngOnInit() {
     this.LoadDrink();
-    setTimeout(() => { this.store$.select(fromSession.selectUser)
-    .subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 500);
+    setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 500);
 
     if (this.userCredit < 60) {
       this.alertify.warning(

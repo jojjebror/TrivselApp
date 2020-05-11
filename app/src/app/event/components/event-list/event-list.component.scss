@@ -34,6 +34,23 @@ h3 {
   font-size: 1.2rem;
 }
 
+.loader {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: visible;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+::ng-deep .mat-spinner circle, .mat-spinner circle {   
+    stroke: white !important;
+}
+
 .btnReadMore {
   width: 100%;
   text-align: right;
@@ -127,18 +144,6 @@ h3 {
 ::ng-deep .mat-option {
   color: grey;
 }
-::ng-deep .mat-paginator-icon {
-  color: white;
-}
-
-::ng-deep .mat-paginator-navigation-previous {
-  color: white !important;
-}
-
-::ng-deep .mat-paginator-navigation-next {
-  color: white !important;
-}
-
 ::ng-deep .mat-paginator-range-label {
   color: white;
 }

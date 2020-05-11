@@ -111,6 +111,7 @@
         [disabled]="!drinkEditForm.dirty"
         type="submit"
         class="btn btn-success"
+        [routerLink]="['/drink/category']"
       >
         Spara ändringar
       </button>
@@ -118,7 +119,7 @@
         class="btn btn-default"
         type="button"
         style="color: white;"
-        [routerLink]="['/drink']"
+        [routerLink]="['/drink/category']"
       >
         Gå tillbaka
       </button>

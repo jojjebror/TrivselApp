@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store, select, ActionsSubject } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 
@@ -10,10 +10,11 @@ import * as fromUsers from '../../../user/state/users';
 import { Observable, Subscription } from 'rxjs';
 import { DateAdapter, MatSnackBar } from '@angular/material';
 
-import * as fromSession from '../../../core/state/session';
 import { ActionTypes } from '../../state/events';
 import { filter } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services';
+import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
+
 
 @Component({
   selector: 'ex-event-create',
@@ -24,6 +25,7 @@ import { AuthenticationService } from 'src/app/core/services';
 export class EventCreateComponent implements OnInit, OnDestroy {
   @Output() cancelNewEvent = new EventEmitter();
   subscription = new Subscription();
+  loadings$ = this.store$.pipe(select(getLoadingData));
   event: Event;
   users$: Observable<User[]>;
   users: User[];
@@ -32,8 +34,9 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   endDateMode = false;
   toggleFormHeight: boolean = true;
   fileUpload: File = null;
-  imageUrl: string;
+  imageUrl: any = null;
 
+  currentDate = new Date();
   starttime: Date;
   endtime: Date;
 
@@ -77,7 +80,7 @@ export class EventCreateComponent implements OnInit, OnDestroy {
       {
         title: ['', Validators.required],
         description: ['', Validators.required],
-        image: [null],
+        imageurl: [null],
         location: ['', Validators.required],
         startdate: ['', Validators.required],
         starttime: ['', Validators.required],
@@ -108,24 +111,27 @@ export class EventCreateComponent implements OnInit, OnDestroy {
       this.event = Object.assign({}, this.eventForm.value);
 
       this.store$.dispatch(new fromEvents.CreateEvent(this.event, this.fileUpload));
-
-      this.subscription.add(
-        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.CREATE_EVENT_SUCCESS)).subscribe((action) => {
-          var title = action.payload.title;
-          this.snackBar.open(title + ' är nu tillagt i evenemangslistan', '', { duration: 2500 });
-        })
-      );
-
-      this.subscription.add(
-        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPLOAD_IMAGE_SUCCESS)).subscribe((action) => {
-          this.snackBar.open('Evenemanget är nu tillagt i listan', '', { duration: 2500 });
-        })
-      );
+      this.showSnackbar();
     }
   }
 
-  loadImage(file: FileList) {
-    this.fileUpload = file.item(0);
+  fileProgress(fileInput: any) {
+    this.fileUpload = <File>fileInput.target.files[0];
+    this.imagePreview();
+  }
+
+  imagePreview() {
+    // Show preview
+    var mimeType = this.fileUpload.type;
+    if (mimeType.match(/image\/*/) == null) {
+      return;
+    }
+
+    var reader = new FileReader();
+    reader.readAsDataURL(this.fileUpload);
+    reader.onload = (_event) => {
+      this.imageUrl = reader.result;
+    };
   }
 
   private loadUsers() {
@@ -218,6 +224,28 @@ export class EventCreateComponent implements OnInit, OnDestroy {
         return 'Du måste ange ett startdatum';
       }
     }
+  }
+
+  showSnackbar() {
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.CREATE_EVENT_SUCCESS)).subscribe((action) => {
+        var title = action.payload.title;
+        this.snackBar.open(title + ' är nu tillagt i evenemangslistan', '', { duration: 2500 });
+      })
+    );
+
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.CREATE_EVENT_ERROR)).subscribe((action) => {
+        var title = action.payload.title;
+        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
+      })
+    );
+
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPLOAD_IMAGE_SUCCESS)).subscribe((action) => {
+        this.snackBar.open('Evenemanget är nu tillagt i listan', '', { duration: 2500 });
+      })
+    );
   }
 
   ngOnDestroy() {

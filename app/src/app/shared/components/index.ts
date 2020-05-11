@@ -2,6 +2,9 @@ import { commonComponents } from './common';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoaderComponent } from './loader/loader.component';
 import { ConfirmDialogComponent } from './confirmDialog/confirmDialog.component';
+import { EditDialogComponent } from './editDialog/editDialog.component';
+import { AddDialogComponent } from './addDialog/addDialog.component';
+import { ParticipantsDialogComponent } from './participantsDialog/participantsDialog.component';
 
 
 
@@ -12,5 +15,8 @@ export const components: any[] = [
 	...commonComponents,
 	NavbarComponent,
 	LoaderComponent,
-	ConfirmDialogComponent
+	ConfirmDialogComponent,
+	EditDialogComponent,
+	AddDialogComponent,
+	ParticipantsDialogComponent
 ];
