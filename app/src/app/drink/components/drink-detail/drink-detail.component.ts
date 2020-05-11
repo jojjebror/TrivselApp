@@ -12,8 +12,9 @@ import { AlertifyService } from "src/app/core/services/alertify.service";
 import * as fromDrink from "../../state/drinks";
 import * as drinksActions from "../../state/drinks";
 import { filter } from "rxjs/operators";
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar, MatDialog } from "@angular/material";
 import { AuthenticationService } from "src/app/core/services";
+import { ConfirmDialogModel, ConfirmDialogComponent } from "src/app/shared/components/confirmDialog/confirmDialog.component";
 
 @Component({
   selector: "ex-drink-detail",
@@ -40,7 +41,8 @@ export class DrinkDetailComponent implements OnInit {
     private snackBar: MatSnackBar,
     private actionsSubject$: ActionsSubject,
     public authService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) {
     this.subscription.add(
       authService.getUserId().subscribe((user) => {
@@ -75,12 +77,28 @@ export class DrinkDetailComponent implements OnInit {
     return id;
   }
 
-  deleteDrink(id) {
+  deleteDrink(id: number) {
     console.log(id);
-    if (confirm("Are You Sure You want to Delete the drink?")) {
+    
       this.store$.dispatch(new drinksActions.DeleteDrink(id));
       this.showSnackbar();
-    }
+    
+  }
+
+  confirmDialog(id: number): void {
+    const message = 'Vill du ta bort drycken?';
+    const dialogData = new ConfirmDialogModel('Bekräfta', message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: '400px',
+      data: dialogData,
+    });
+
+    this.subscription.add(dialogRef.afterClosed().subscribe((dialogResult) => {
+      if(dialogResult == true)  {
+        this.deleteDrink(id);
+      }
+    }));
   }
   
   clickCount() {

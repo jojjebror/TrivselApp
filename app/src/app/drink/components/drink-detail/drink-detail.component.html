@@ -6,18 +6,24 @@
         <br />
         <div class="drinkInfo">
           <h1>Detaljer</h1>
-          <mat-icon
-            matSuffix
-            class="declineIcon"
-            matTooltip="Ta bort dryck"
-            (click)="deleteDrink(dr.id)"
-          >
-            delete_icon</mat-icon
-          >
+          <label
+          class="deleteIcon"
+                  type="button"
+                  mat-icon-button
+                  #tooltip="matTooltip"
+                  matTooltip="Ta bort dryck"
+                  matTooltipPosition="right"
+                  (click)="confirmDialog(dr.id)"
+                >
+                  <span class="material-icons" id="declineIcon">
+                    delete_outline
+                  </span>
+                </label>
           <mat-icon
             matSuffix
             class="editIcon"
             matTooltip="Redigera dryck"
+            matTooltipPosition="left"
             (click)="editDrink(dr)"
             [routerLink]="['/drink/edit']"
           >
