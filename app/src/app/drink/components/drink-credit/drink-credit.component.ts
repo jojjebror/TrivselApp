@@ -84,19 +84,22 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
       }
     }));
   }
-
-  addEncodedUrl(){
-    var creditInput = this.userCreditForm.get('credit').value
+  addOfficeSwish(){
     for (let element of this.officeList) {
       if (this.kontor == element.kontor) 
       var numToSwish = element.swishNumber;
            console.log(element.swishNumber);
      }
+     return numToSwish;
+  }
+
+  addEncodedUrl(){
+    var creditInput = this.userCreditForm.get('credit').value
     
     var initField = {
       "version":1,
       "payee":{
-      "value": numToSwish
+      "value": this.addOfficeSwish()
       },
       "amount":{
       "value": creditInput
