@@ -128,21 +128,17 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   }
 
   loadUsers() {
-    setTimeout(() => {
-      this.store$.dispatch(new fromUsers.GetUsers());
-      this.subscription.add(this.store$.pipe(select(fromUsers.getRelevantUsers(+this.userId))).subscribe((data) => (this.allUsers = data)));
-      this.cd.detectChanges();
-    }, 0);
+    this.store$.dispatch(new fromUsers.GetUsers());
+    this.subscription.add(this.store$.pipe(select(fromUsers.getRelevantUsers(+this.userId))).subscribe((data) => (this.allUsers = data)));
+    this.cd.detectChanges();
 
     this.filterUsers();
   }
 
   loadOffices() {
-    setTimeout(() => {
-      this.store$.dispatch(new fromOffices.LoadOffices());
+    this.store$.dispatch(new fromOffices.LoadOffices());
       this.offices$ = this.store$.pipe(select(fromOffices.getOffices));
       this.cd.detectChanges();
-    }, 0);
   }
 
   filterUsers() {

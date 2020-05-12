@@ -1,10 +1,12 @@
 ﻿using Logic.Database;
 using Logic.Models;
 using Logic.Translators;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.ServiceModel.Syndication;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +31,7 @@ namespace Logic.Services
             return dbOffices.Select(OfficeTranslator.ToOfficeDto).ToList();
         }
 
-        public async Task<ICollection<PodcastEpisodeDto>> GetPodcastFeed()
+        public ICollection<PodcastEpisodeDto> GetPodcast()
         {
             string podcastUrl = "http://exsitecpodden.libsyn.com/rss";
 
@@ -63,7 +65,16 @@ namespace Logic.Services
                 }
             }
 
-            return await Task.Run(() => podcastEpisodes);
+            return podcastEpisodes;
+        }
+
+        public ICollection<InstagramPostDto> GetInstagram()
+        {
+            string instagramUrl = "https://www.instagram.com/exsitec/?__a=1";
+
+            var instagramPosts = new List<InstagramPostDto>();
+
+            return instagramPosts;
         }
     }
 }
