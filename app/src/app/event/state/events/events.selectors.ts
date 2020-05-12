@@ -4,21 +4,11 @@ import { AppState } from '../../../core/state';
 
 import { adapter } from './events.adapter';
 
-/* var currentDate = Date.now();
-var year = new Date(currentDate).getFullYear();
-var month = new Date(currentDate).getMonth();
-var date = new Date(currentDate).getDate();
-
-var today = new Date(year, month, date) */
-
 const { selectAll } = adapter.getSelectors();
 
 export const selectState = (state: AppState) => state.event.evs;
 
 export const getEvents = createSelector(selectState, selectAll);
-
-/* export const getIncomingEvents = createSelector(getEvents, (events) => events.filter((val) => getDate(val.startDate) >= today )
-); */
 
 export const getEventsLoading = createSelector(selectState, (state) => state.loading);
 
@@ -59,6 +49,11 @@ export const getCurrentEvent = createSelector(selectEntities, getCurrentEventId,
   return entities[currentEventId];
 });
 
+
+/* export const getIncomingEvents = createSelector(getEvents, (events) => events.filter((val) => getDate(val.startDate) >= today )
+); */
+
+
 /* function getDate(date: Date) {
   var eYear = new Date(date).getFullYear();
   var eMonth = new Date(date).getMonth();
@@ -67,5 +62,12 @@ export const getCurrentEvent = createSelector(selectEntities, getCurrentEventId,
   var eventDate = new Date(eYear, eMonth, eDate);
   return eventDate;
 } */
+
+/* var currentDate = Date.now();
+var year = new Date(currentDate).getFullYear();
+var month = new Date(currentDate).getMonth();
+var date = new Date(currentDate).getDate();
+
+var today = new Date(year, month, date) */
 
 //export const getCurrentEvent = createSelector(selectState, getCurrentEventId, state => state.entities[state.selectedEventId]);

@@ -33,7 +33,7 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   userId: number;
   eventForm: FormGroup;
   endDateMode = false;
-  toggleFormHeight: boolean = true;
+  //toggleFormHeight: boolean = true;
   fileUpload: File = null;
   imageUrl: any = null;
 
@@ -140,31 +140,18 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   }
 
   private loadUsers() {
-    /*     ----------------------Spara, måste hitta en bättre lösning än timeout... ------------------------*/
-
-    /* this.subscription.add(this.store$.select(fromSession.selectInitialized).subscribe((response) => (this.initialized = response)));
-    console.log(this.initialized); */
-
-    /* if (this.initialized == true) {
-      this.store$.dispatch(new fromUsers.GetUsers());
-      this.users$ = this.store$.pipe(select(fromUsers.getUsers));
-    } else {
-      setTimeout(() => {
-        this.store$.dispatch(new fromUsers.GetUsers());
-        this.users$ = this.store$.pipe(select(fromUsers.getUsers));
-        this.cd.detectChanges();
-      }, 300);
-    }  */
-
     setTimeout(() => {
       this.store$.dispatch(new fromUsers.GetUsers());
-      /* this.users$ = this.store$.pipe(select(fromUsers.getUsers)); */
-      this.store$.pipe(select(fromUsers.getUsers)).subscribe((data: User[]) => {
+      this.store$.pipe(select(fromUsers.getRelevantUsers(+this.userId))).subscribe((data: User[]) => {
         this.allUsers = data;
       });
       this.cd.detectChanges();
     }, 120);
 
+    this.filterUsers();
+  }
+
+  filterUsers() {
     this.users$ = this.search.valueChanges.pipe(
       startWith(null),
       debounceTime(200),
@@ -185,7 +172,7 @@ export class EventCreateComponent implements OnInit, OnDestroy {
 
   endDateToggle() {
     this.endDateMode = !this.endDateMode;
-    this.toggleFormHeight = !this.toggleFormHeight;
+    //this.toggleFormHeight = !this.toggleFormHeight;
 
     //this.endDateMode ? (this.endDateMode = false) : (this.endDateMode = true);
     if (this.endDateMode == true) {

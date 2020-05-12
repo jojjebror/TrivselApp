@@ -42,7 +42,6 @@ export class EventListComponent implements OnInit, OnDestroy {
   searchFieldUserEvents;
   calendarField;
 
-  //isLoaded$: Observable<Boolean>;
 
   constructor(
     private store$: Store<AppState>,

@@ -23,7 +23,7 @@ import { AuthenticationService } from 'src/app/core/services';
 export class EventEditComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   loadings$ = this.store$.pipe(select(getLoadingData));
-  ev$: Observable<Event>;
+  //ev$: Observable<Event>;
   evt: Event;
   users$: Observable<User[]>;
   invitedParticipants$: Observable<User[]>;
@@ -43,10 +43,10 @@ export class EventEditComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private dateAdapter: DateAdapter<Date>,
-    private activatedRoute: ActivatedRoute,
+    //private activatedRoute: ActivatedRoute,
     private actionsSubject$: ActionsSubject,
     private router: Router,
-    private cd: ChangeDetectorRef,
+    //private cd: ChangeDetectorRef,
     public authService: AuthenticationService
   ) {
     dateAdapter.setLocale('sv');
@@ -58,11 +58,10 @@ export class EventEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loadData();
-    this.loadUsers();
+    this.loadEvent();
   }
 
-  loadData() {
+  loadEvent() {
     this.subscription.add(
       this.store$.pipe(select(fromEvents.getCurrentEvent)).subscribe((data) => {
         this.evt = data;
@@ -73,6 +72,15 @@ export class EventEditComponent implements OnInit, OnDestroy {
     } else {
       this.router.navigate(['/event']);
     }
+
+    this.loadUsers();
+  }
+
+  private loadUsers() {
+    this.store$.dispatch(new fromUsers.GetUsers());
+    this.users$ = this.store$.pipe(select(fromUsers.getRelevantUsers(+this.userId)));
+
+    this.invitedParticipants$ = this.store$.pipe(select(fromEvents.getInvitedParticipants));
   }
 
   createEventEditForm() {
@@ -122,7 +130,6 @@ export class EventEditComponent implements OnInit, OnDestroy {
   }
 
   imagePreview() {
-    // Show preview
     var mimeType = this.fileUpload.type;
     if (mimeType.match(/image\/*/) == null) {
       return;
@@ -175,14 +182,6 @@ export class EventEditComponent implements OnInit, OnDestroy {
         return 'Du måste ange ett slutdatum';
       }
     }
-  }
-
-  private loadUsers() {
-    this.store$.dispatch(new fromUsers.GetUsers());
-    /* this.users$ = this.store$.pipe(select(fromUsers.getUsers)); */
-    this.users$ = this.store$.pipe(select(fromUsers.getRelevantUsers(+this.userId)));
-
-    this.invitedParticipants$ = this.store$.pipe(select(fromEvents.getInvitedParticipants));
   }
 
   showSnackbarUpdateEvent() {

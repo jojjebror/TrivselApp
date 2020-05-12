@@ -1,9 +1,8 @@
 <div class="registerEventMain">
   <form
     [formGroup]="eventForm"
-    [ngClass]="{ mainForm: toggleFormHeight, fixedForm: !toggleFormHeight }"
-    class="mainForm border border-light p-5"
-    (ngSubmit)="createEvent()"
+    
+    class="mainForm border border-light p-5" (ngSubmit)="createEvent()"
   >
     <button mat-icon-button class="close-button" [routerLink]="['/event']">
       <mat-icon class="close-icon" color="white">close</mat-icon>
@@ -135,7 +134,7 @@
       </div>
     </div>
 
-    <div [ngClass]="{ mainBtnGroup: toggleFormHeight, fixedBtnGroup: !toggleFormHeight }" class="form-group text-center mainBtnGroup">
+    <div class="form-group text-center mainBtnGroup">
       <button class="btn btn-success" [disabled]="!eventForm.valid" type="submit">
         Skapa evenemang
       </button>
