@@ -84,6 +84,7 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
       }
     }));
   }
+
   addOfficeSwish(){
     for (let element of this.officeList) {
       if (this.kontor == element.kontor) 
