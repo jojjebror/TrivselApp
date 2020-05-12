@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { Event, User, Post } from '../../../shared/models';
 import { Update } from '@ngrx/entity';
+import { LoadingAction } from '../../../core/state/loading';
 
 export enum ActionTypes {
   LOAD_EVENTS = '[Events view] Load Events',
@@ -35,21 +36,17 @@ export enum ActionTypes {
   REMOVE_EVENT_PARTICIPANT_SUCCESS = '[API: /event] Remove Event Participant success',
   REMOVE_EVENT_PARTICIPANT_ERROR = '[API: /event] Remove Event Participant error',
 
-  SAVE_IMAGE = '[Events view] Save Image',
-  SAVE_IMAGE_SUCCESS = '[API: /event] Save Image success',
-  SAVE_IMAGE_ERROR = '[API: /event] Save Image error',
-
-  UPDATE_IMAGE = '[Events view] Update Image',
-  UPDATE_IMAGE_SUCCESS = '[API: /event] Update Image success',
-  UPDATE_IMAGE_ERROR = '[API: /event] Update Image error',
+  UPLOAD_IMAGE = '[Events view] Upload Image',
+  UPLOAD_IMAGE_SUCCESS = '[API: /event] Upload Image success',
+  UPLOAD_IMAGE_ERROR = '[API: /event] Upload Image error',
 
   GET_USER_EVENT = '[Events view] Get User Event',
   GET_USER_EVENT_SUCCESS = '[API: /event] Get User Event Success',
   GET_USER_EVENT_ERROR = '[API: /event] Get User Event Error',
 
-  UPDATE_USER_PARTICIPANT = '[Events view] Add User In Event',
-  UPDATE_USER_PARTICIPANT_SUCCESS = '[API: /event] Add User In Event Success',
-  UPDATE_USER_PARTICIPANT_ERROR = '[API: /event] Add User In Event Error',
+  UPDATE_USER_PARTICIPANT = '[Events view] Update User In Event',
+  UPDATE_USER_PARTICIPANT_SUCCESS = '[API: /event] Update User In Event Success',
+  UPDATE_USER_PARTICIPANT_ERROR = '[API: /event] Update User In Event Error',
 
   ADD_POST_EVENT = '[Events view] Add Post In Event',
   ADD_POST_EVENT_SUCCESS = '[API: /post] Add Post In Event Success',
@@ -62,12 +59,15 @@ export enum ActionTypes {
 
 /*--------------LoadAllEvents--------------*/
 
-export class LoadEvents implements Action {
+export class LoadEvents implements Action, LoadingAction {
   readonly type = ActionTypes.LOAD_EVENTS;
+  fxLoading = { add: ActionTypes.LOAD_EVENTS };
+
 }
 
-export class LoadEventsSuccess implements Action {
+export class LoadEventsSuccess implements Action, LoadingAction {
   readonly type = ActionTypes.LOAD_EVENTS_SUCCESS;
+  fxLoading = { remove: ActionTypes.LOAD_EVENTS };
 
   constructor(public payload: Event[]) {}
 }
@@ -82,6 +82,7 @@ export class LoadEventsError implements Action {
 
 export class LoadEvent implements Action {
   readonly type = ActionTypes.LOAD_EVENT;
+  fxLoading = { add: ActionTypes.LOAD_EVENT };
 
   constructor(public payload: number) {}
   
@@ -89,6 +90,7 @@ export class LoadEvent implements Action {
 
 export class LoadEventSuccess implements Action {
   readonly type = ActionTypes.LOAD_EVENT_SUCCESS;
+  fxLoading = { remove: ActionTypes.LOAD_EVENT };
 
   constructor(public payload: Event) {}
 }
@@ -103,12 +105,14 @@ export class LoadEventError implements Action {
 
 export class LoadEditEvent implements Action {
   readonly type = ActionTypes.LOAD_EDIT_EVENT;
+  fxLoading = { add: ActionTypes.LOAD_EDIT_EVENT };
 
   constructor(public payload: number) {}
 }
 
 export class LoadEditEventSuccess implements Action {
   readonly type = ActionTypes.LOAD_EDIT_EVENT_SUCCESS;
+  fxLoading = { remove: ActionTypes.LOAD_EDIT_EVENT };
 
   constructor(public payload: Event) {}
 }
@@ -123,12 +127,14 @@ export class LoadEditEventError implements Action {
 
 export class CreateEvent implements Action {
   readonly type = ActionTypes.CREATE_EVENT;
+  fxLoading = { add: ActionTypes.CREATE_EVENT };
 
   constructor(public payload: Event, public image: File) {}
 }
 
 export class CreateEventSuccess implements Action {
   readonly type = ActionTypes.CREATE_EVENT_SUCCESS;
+  fxLoading = { remove: ActionTypes.CREATE_EVENT };
 
   constructor(public payload: Event) {}
 }
@@ -143,12 +149,14 @@ export class CreateEventError implements Action {
 
 export class UpdateEvent implements Action {
   readonly type = ActionTypes.UPDATE_EVENT;
+  fxLoading = { add: ActionTypes.UPDATE_EVENT };
 
   constructor(public payload: Event, public image: File) {}
 }
 
 export class UpdateEventSuccess implements Action {
   readonly type = ActionTypes.UPDATE_EVENT_SUCCESS;
+  fxLoading = { remove: ActionTypes.UPDATE_EVENT };
 
   constructor(public payload: Update<Event>) {}
 }
@@ -163,12 +171,14 @@ export class UpdateEventError implements Action {
 
 export class DeleteEvent implements Action {
   readonly type = ActionTypes.DELETE_EVENT;
+  fxLoading = { add: ActionTypes.DELETE_EVENT };
 
   constructor(public payload: number) {}
 }
 
 export class DeleteEventSuccess implements Action {
   readonly type = ActionTypes.DELETE_EVENT_SUCCESS;
+  fxLoading = { remove: ActionTypes.DELETE_EVENT };
 
   constructor(public payload: number) {}
 }
@@ -183,11 +193,14 @@ export class DeleteEventError implements Action {
 
 export class AddEventParticipant implements Action {
   readonly type = ActionTypes.ADD_EVENT_PARTICIPANT;
+  fxLoading = { add: ActionTypes.ADD_EVENT_PARTICIPANT };
+
   constructor(public payload: any[]) {}
 }
 
 export class AddEventParticipantSuccess implements Action {
   readonly type = ActionTypes.ADD_EVENT_PARTICIPANT_SUCCESS;
+  fxLoading = { remove: ActionTypes.ADD_EVENT_PARTICIPANT };
 
   constructor(public payload: Update<Event>) {}
 }
@@ -198,46 +211,24 @@ export class AddEventParticipantError implements Action {
   constructor(public payload: string) {}
 }
 
-/*--------------SaveImage--------------*/
+/*--------------UploadImage--------------*/
 
-export class SaveImage implements Action {
-  readonly type = ActionTypes.SAVE_IMAGE;
+export class UploadImage implements Action {
+  readonly type = ActionTypes.UPLOAD_IMAGE;
+  fxLoading = { add: ActionTypes.UPLOAD_IMAGE };
 
-  constructor(public id: number, public payload: File) {
-    console.log("Save Image " + id + " " + payload)
-  }
+  constructor(public id: number, public image: File) {}
 }
 
-export class SaveImageSuccess implements Action {
-  readonly type = ActionTypes.SAVE_IMAGE_SUCCESS;
+export class UploadImageSuccess implements Action {
+  readonly type = ActionTypes.UPLOAD_IMAGE_SUCCESS;
+  fxLoading = { remove: ActionTypes.UPLOAD_IMAGE };
 
-  constructor(public payload: Update<Event>) {
-    console.log('Save Image Success ' + payload);
-  }
+  constructor(public payload: Update<Event>) {}
 }
 
-export class SaveImageError implements Action {
-  readonly type = ActionTypes.SAVE_IMAGE_ERROR;
-
-  constructor(public payload: string) {}
-}
-
-/*--------------UpdateImage--------------*/
-
-export class UpdateImage implements Action {
-  readonly type = ActionTypes.UPDATE_IMAGE;
-
-  constructor(public id: number, public payload: File) {}
-}
-
-export class UpdateImageSuccess implements Action {
-  readonly type = ActionTypes.UPDATE_IMAGE_SUCCESS;
-
-  constructor(public payload: boolean) {}
-}
-
-export class UpdateImageError implements Action {
-  readonly type = ActionTypes.UPDATE_IMAGE_ERROR;
+export class UploadImageError implements Action {
+  readonly type = ActionTypes.UPLOAD_IMAGE_ERROR;
 
   constructor(public payload: string) {}
 }
@@ -266,12 +257,14 @@ export class GetCurrentUserEventError implements Action {
 
 export class UpdateUserParticipant implements Action {
   readonly type = ActionTypes.UPDATE_USER_PARTICIPANT;
+  fxLoading = { add: ActionTypes.UPDATE_USER_PARTICIPANT };
 
   constructor(public payload: any[]) {}
 }
 
 export class UpdateUserParticipantSuccess implements Action {
   readonly type = ActionTypes.UPDATE_USER_PARTICIPANT_SUCCESS;
+    fxLoading = { remove: ActionTypes.UPDATE_USER_PARTICIPANT };
 
   constructor(public payload: Update<User>) {}
 }
@@ -351,13 +344,9 @@ export type Actions =
   | AddEventParticipantSuccess
   | AddEventParticipantError
   
-  | SaveImage
-  | SaveImageSuccess
-  | SaveImageError
-
-  | UpdateImage
-  | UpdateImageSuccess
-  | UpdateImageError
+  | UploadImage
+  | UploadImageSuccess
+  | UploadImageError
 
   | GetCurrentUserEvent
   | GetCurrentUserEventSuccess

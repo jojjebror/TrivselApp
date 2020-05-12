@@ -1,11 +1,20 @@
 /* Bordered form */
-form {
+.mainForm {
   border: 3px solid #f1f1f1;
   width: 600px;
   margin-left: auto;
   margin-right: auto;
   color: white;
-  height: 1050px;
+  //height: 1050px;
+}
+
+.fixedForm {
+  border: 3px solid #f1f1f1;
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+  //height: 1170px;
 }
 
 .form-row {
@@ -26,8 +35,51 @@ form {
   padding: 16px;
 }
 
+.close-button{
+  float: right;
+  top:-24px;
+  right:-24px;
+}
+
+.close-icon {
+  transition: 1s ease-in-out;
+}
+
+.close-icon:hover {
+  transform: rotate(180deg);
+}
+
+.btn-file {
+  color: white;
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
 a {
   cursor: pointer;
+}
+
+.fieldDescription {
+  margin-bottom: 15px;
+}
+
+:host /deep/ .mat-select-value-text {
+  color: white !important;
 }
 
 .mat-selection-list {
@@ -49,10 +101,28 @@ a {
   height: 30px!important;
 } 
 
-
 ::ng-deep .mat-pseudo-checkbox {
     color: white;
 } 
+
+::ng-deep .bs-timepicker-field {
+  color: white!important;
+  width: 50px!important;
+  background: transparent!important;
+  padding: 0!important;
+}
+
+.timepicker {
+  margin-left: 16px;
+}
+
+.startDateInput {
+  margin-top: 12px;
+}
+
+.endDateInput {
+  margin-top: 12px;
+}
 
 mat-form-field {
   width: 100%;
@@ -63,6 +133,26 @@ textarea {
   resize: none;
 }
 
+.loader {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: visible;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+::ng-deep .mat-spinner circle, .mat-spinner circle {   
+    stroke: white !important;
+}
+
+::ng-deep .mat-hint {
+    color: white!important;
+}
 
 // mat-icon-stepper selected color change 
 ::ng-deep .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
@@ -138,8 +228,12 @@ textarea {
   height: 180px;
 }
 
-.btnGroup {
-  margin-top: 140px;
+.mainBtnGroup {
+  margin-top: 120px;
+}
+
+.fixedBtnGroup {
+  margin-top: 130px;
 }
 
 .hoursTxt {
@@ -164,3 +258,124 @@ textarea {
 ::-ms-input-placeholder { /* Microsoft Edge */
   color: white;
 }
+
+/*------Mobile------*/
+  
+ @media (max-width: 768px) {
+
+.mainForm {
+  width: 500px;
+  height: 1400px;
+}
+
+.fixedForm {
+  width: 500px;
+  height: 1500px;
+
+}
+
+.mainBtnGroup {
+  margin-top: 230px;
+}
+
+.fixedBtnGroup {
+  margin-top: 320px;
+}
+
+.registerEventMain {
+  width: 500px;
+  margin-top: 30px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.officeContainer {
+  width: 100%;
+}
+
+.userContainer {
+  width: 100%;
+  height: 180px;
+  float: left;
+}
+
+.inviteContainer {
+  margin-top: 12px;
+  margin-bottom: 20px;
+  height: 600px;
+}
+
+.startInput {
+  float: left;
+}
+
+.endInput {
+  float: left;
+}
+
+ .startDateInput {
+  width: 130px!important;
+} 
+
+ .endDateInput {
+  width: 130px!important;
+} 
+} 
+
+@media (max-width: 576px) {
+
+.mainForm {
+  width: 400px;
+}
+
+.fixedForm {
+  width: 400px;
+}
+
+.registerEventMain {
+  width: 400px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.startInput {
+  flex-wrap: nowrap;
+}
+
+.endInput {
+  flex-wrap: nowrap;
+}
+
+.startDateInput {
+  width: 120px!important;
+} 
+ .endDateInput {
+  width: 130px!important;
+} 
+}
+
+@media (max-width: 454px) {
+
+.mainForm {
+  width: 350px;
+}
+
+.fixedForm {
+  width: 350px;
+}
+
+.registerEventMain {
+  width: 350px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+}
+
+
+

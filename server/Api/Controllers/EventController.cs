@@ -54,29 +54,24 @@ namespace Api.Controllers
         [HttpPost("{eventId}/{userId}")]
         public async Task<IActionResult> AddEventParticipantStatus(int eventId, int userId, [FromBody]string answer)
         {
-
             var result = await _eventService.AddEventParticipantStatus(eventId, userId, answer);
-
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
         [HttpPost("{eventId}/{userId}/update")]
         public async Task<IActionResult> UpdateParticipantStatus(int eventId, int userId, [FromBody]string answer)
         {
-
-            var result = await _eventService.UpdateParticipantStatus(eventId, userId, answer);
-
+            var result = await _eventService.UpdateEventParticipantStatus(eventId, userId, answer);
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
-        [HttpPost("{id}/saveimage")]
-        public async Task<IActionResult> SaveImage(int id)
+        [HttpPost("{id}/uploadimage")]
+        public async Task<IActionResult> UploadImage(int id)
         {
             var httpRequest = Request.Form;
             var image = httpRequest.Files["image"];
 
-            var result = await _eventService.SaveImage(id, image);
-
+            var result = await _eventService.UploadImage(id, image);
             return new OkObjectResult(ApiResponse.Create(result));
         }
 

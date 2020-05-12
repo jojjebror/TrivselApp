@@ -1,85 +1,106 @@
 <div class="registerEventMain">
-  <form [formGroup]="eventForm" class="border border-light p-5" (ngSubmit)="createEvent()">
+  <form
+    [formGroup]="eventForm"
+    [ngClass]="{ mainForm: toggleFormHeight, fixedForm: !toggleFormHeight }"
+    class="mainForm border border-light p-5"
+    (ngSubmit)="createEvent()"
+  >
+    <button mat-icon-button class="close-button" [routerLink]="['/event']">
+      <mat-icon class="close-icon" color="white">close</mat-icon>
+    </button>
     <h3 class="text-center">Evenemangets detaljer</h3>
     <hr />
 
     <div>
-      <mat-form-field appearance="outline" style="width: 100%">
+      <mat-form-field appearance="outline" style="width: 100%;">
         <mat-label>Titel</mat-label>
-        <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage("title") }}</mat-error>
-        <input type="text" matInput formControlName="title" autocomplete="off" />
+        <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage('title') }}</mat-error>
+        <input matInput matInput formControlName="title" [maxLength]="30" autocomplete="off" />
       </mat-form-field>
     </div>
 
     <div>
       <mat-form-field appearance="outline">
         <mat-label>Plats</mat-label>
-        <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage("location") }}</mat-error>
-        <input type="text" matInput formControlName="location" autocomplete="off" />
+        <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage('location') }}</mat-error>
+        <input matInput formControlName="location" [maxLength]="35" id="searchLocation" onkeyup="mySearch(this.value)" autocomplete="off"/>
       </mat-form-field>
     </div>
 
     <div>
-      <mat-form-field appearance="outline" class="fieldDescription">
+      <mat-form-field appearance="outline" class="fieldDescription" hintLabel="Max 200 tecken">
         <mat-label>Beskrivning</mat-label>
-        <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage("description") }}</mat-error>
-        <textarea matInput formControlName="description" autocomplete="off" ></textarea>
+        <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage('description') }}</mat-error>
+        <textarea #txtarea matInput formControlName="description" [maxLength]="200" autocomplete="off"></textarea>
+        <mat-hint style="color: white" align="end">{{txtarea.value?.length || 0}}/200</mat-hint>
       </mat-form-field>
     </div>
 
     <div>
-      <!-- <mat-form-field appearance="outline">
-        <mat-label>Bild-url</mat-label>
-        <img [src]="imageUrl || ''" style="width: 50px;"> -->
-        <input
-          type="file"
-          accept="image/*"
-          autocomplete="off"
-          formControlName="image"
-          (change)="loadImage($event.target.files)"
-        />
-        <!-- <mat-error *ngIf="eventForm.invalid">Fel filtyp</mat-error> -->
+      <input type="file" accept="image/*" autocomplete="off" formControlName="imageurl" (change)="fileProgress($event)" />
+
+      <div *ngIf="imageUrl">
+        <img [src]="imageUrl" style="width: 100px; margin-top: 15px;" />
+      </div>
+      <!-- <mat-error *ngIf="eventForm.invalid">Fel filtyp</mat-error> -->
       <!-- </mat-form-field> -->
     </div>
 
-    <div class="form-row">
-      <div>
+    <div class="form-row startInput">
+      <div class="startDateInput">
         <mat-form-field appearance="outline">
           <mat-label>Startdatum</mat-label>
-          <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage("startdate") }}</mat-error>
-          <input matInput (focus)="picker.open()" [matDatepicker]="picker" formControlName="startdate" autocomplete="off" readonly />
+          <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage('startdate') }}</mat-error>
+          <input
+            matInput
+            [min]="currentDate"
+            (focus)="picker.open()"
+            [matDatepicker]="picker"
+            formControlName="startdate"
+            autocomplete="off"
+            readonly
+          />
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
 
-      <ng-template #popTemplate>
-        <timepicker formControlName="starttime" [(ngModel)]="starttime" [showMeridian]="false"></timepicker>
-      </ng-template>
-      <div class="form-group col-md-4" style="margin-top: 6.5px;">
-      <input class="hoursTxt" value="{{ starttime | date: 'HH:mm' }}" placeholder="00:00" [popover]="popTemplate" [outsideClick]="true" placement="bottom" readonly />
-    </div>
+      <div class="timepicker">
+        <timepicker formControlName="starttime" [showMeridian]="false" [hoursPlaceholder]="'00'" [minutesPlaceholder]="'00'"></timepicker>
+      </div>
 
-      <div *ngIf="!endDateMode" class="form-group col-md-2 mt-3">
+      <div *ngIf="!endDateMode" style="margin-left: 10px;" class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2 mt-3">
         <a (click)="endDateToggle()">+ Sluttid</a>
       </div>
     </div>
 
-    <div *ngIf="endDateMode" class="form-row" id="sectionEndDate">
-      <div>
+    <div *ngIf="endDateMode" class="form-row endInput" id="sectionEndDate">
+      <div class="endDateInput">
         <mat-form-field appearance="outline">
           <mat-label>Slutdatum</mat-label>
-          <input matInput (focus)="picker.open()" [matDatepicker]="picker" formControlName="enddate" autocomplete="off" />
+          <input
+            matInput
+            [min]="eventForm.get('startdate').value"
+            (focus)="picker.open()"
+            [matDatepicker]="picker"
+            formControlName="enddate"
+            autocomplete="off"
+          />
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
 
-       <ng-template #popTemplate>
-        <timepicker formControlName="endtime" [(ngModel)]="endtime" [showMeridian]="false"></timepicker>
-      </ng-template>
-      <div class="form-group col-md-4" style="margin-top: 6.5px;">
-      <input class="hoursTxt" value="{{ endtime | date: 'HH:mm' }}" placeholder="00:00" [popover]="popTemplate" [outsideClick]="true" placement="bottom" readonly />
+      <div class="timepicker">
+        <timepicker
+          class="timepickerInvalid"
+          formControlName="endtime"
+          [showMeridian]="false"
+          [hoursPlaceholder]="'00'"
+          [minutesPlaceholder]="'00'"
+        >
+        </timepicker>
       </div>
-      <div class="form-group col-md-2" style="margin-top: 15px;">
+
+      <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2" style="margin-top: 15px; margin-left: 10px;">
         <a (click)="endDateToggle()">- Ångra</a>
       </div>
     </div>
@@ -105,13 +126,18 @@
       </div>
     </div>
 
-    <div class="form-group text-center btnGroup">
+    <div [ngClass]="{ mainBtnGroup: toggleFormHeight, fixedBtnGroup: !toggleFormHeight }" class="form-group text-center mainBtnGroup">
       <button class="btn btn-success" [disabled]="!eventForm.valid" type="submit">
         Skapa evenemang
       </button>
       <button class="btn btn-default" type="button" style="color: white;" [routerLink]="['/event']">
         Gå tillbaka
       </button>
+    </div>
+    <div class="loader">
+      <h2 class="mat-h3">
+        <mat-spinner *ngIf="(loadings$ | async)?.length" style="display: inline;" [diameter]="50"> </mat-spinner>
+      </h2>
     </div>
   </form>
 </div>

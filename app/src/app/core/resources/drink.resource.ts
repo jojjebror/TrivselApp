@@ -12,11 +12,10 @@ export class DrinkResource extends ApiResource {
 
     constructor(http: HttpClient) {
         super(http);
-        
     }
 
     loadDrinks(): Observable<Drink[]> {
-        return this.get('drink/');
+        return this.get('drink');
     }
 
     loadDrink(id: number): Observable<Drink> {
@@ -30,19 +29,18 @@ export class DrinkResource extends ApiResource {
     deleteDrink(id: number): Observable<Drink> {
         return this.delete('drink/' + id);
     }
+
     updateDrink(dr: Drink): Observable<Drink> {
         return this.put<Drink>('drink/'+ dr.id, dr);
-      }
+    }
 
-    filterDrink(dr: string): Observable<Drink[]>
-    {
+    filterDrink(dr: string): Observable<Drink[]> {
         return this.get('drink/' + 'filter?filter=' + dr);
     }
     
-    saveImage(id: number, image: File): Observable<Drink> {
+    uploadDrinkImage(id: number, image: File): Observable<Drink> {
         var formData = new FormData();
         formData.append('image', image, image.name);
-        return this.post2('drink/' + id + '/saveimage', formData);
-      }
+        return this.post2('drink/' + id + '/uploadDrinkImage', formData);    
+    }
 }
-

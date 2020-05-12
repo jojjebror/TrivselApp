@@ -1,68 +1,98 @@
-
-.portfolio {
-  background-color: #edf6ff;
-  padding-bottom: 0;
-}
-
-.portfolio h2 {
-  color: #199EB8;
-  margin-bottom: 25px;
-}
-
-.portfolio-grid {
-  margin-top: 65px;
-}
-
-.portfolio-grid .row {
-  margin: 0;
-}
-
-.portfolio-grid .row > div {
-  padding: 0;
-}
-
-.portfolio-grid .row > div .card img {
-  width: 100%;
-}
-
-.portfolio-grid .row > div .card .portfolio-over {
+#audioPlayerDiv {
   position: absolute;
-  display: table-cell;
-  vertical-align: middle;
+  bottom: 0;
   width: 100%;
+  height: 73px;
+  background-color: white;
+  color: rgb(37, 2, 48);
+  float: left;
+  border: 1px solid rgb(37, 2, 48);
+}
+
+#audioPlayerInfo {
+  width: 100%
+}
+
+#audioPlayerDiv p {
+  margin-bottom: 0;
+  text-align: center;
+}
+
+/* #audioPlayerDiv img {
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
+  float: left;
+} */
+
+.close-button{
+  position: absolute;
+  top: -8px;
+  right: 5px;
+}
+
+.close-icon {
+  transition: 1s ease-in-out;
+}
+
+.close-icon:hover {
+  transform: rotate(180deg);
+}
+
+.iconLeft {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.iconRight {
+  vertical-align: middle;
+  margin-left: 5px;
+  float: right;
+}
+
+.mat-card-div {
+  margin: 1%;
+}
+
+.mat-card {
+  width: 32%;
+  padding: 10px;
+  margin-bottom: 30px;
+  margin-right: 1%;
+  float: left;
+  color: white;
+  cursor: pointer;
+  background-color: rgb(37, 2, 48);
+}
+
+.maxTitle {
+  max-width: 85%;
+  word-wrap: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mat-card-title {
+  width: 100%;
+  font-size: 1rem;
+  margin-bottom: 0px;
+}
+
+.loader {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: visible;
+  margin: auto;
   top: 0;
   left: 0;
-  text-align: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
+  bottom: 0;
+  right: 0;
 }
 
-.portfolio-grid .row > div .card .portfolio-over > div {
-  position: relative;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
+::ng-deep .mat-spinner circle, .mat-spinner circle {   
+    stroke: white !important;
 }
-
-.portfolio-grid .row > div .card .portfolio-over .card-title {
-  color: #fff;
-  font-size: 30px;
-}
-
-.portfolio-grid .row > div .card .portfolio-over .card-text {
-  color: #fff;
-  opacity: .75;
-  padding: 0 45px;
-}
-
-.portfolio-grid .row > div .card:hover .portfolio-over {
-  opacity: 1;
-  visibility: visible;
-}
-
 
 /*-----Mobile------*/
 

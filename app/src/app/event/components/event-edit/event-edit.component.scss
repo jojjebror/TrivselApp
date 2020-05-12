@@ -1,5 +1,11 @@
-.container {
-  background-color: rgb(37, 2, 48);
+/* Bordered form */
+.mainForm {
+  border: 3px solid #f1f1f1;
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+  height: 1300px;
 }
 
 .img-thumbnail {
@@ -7,66 +13,132 @@
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 15px;
-  width: 50%;
+  width: 30%;
   height: auto;
 }
 
-.card-body {
-    padding: 0 25px;
+.hoursTxt {
+  margin-left: 10px;
+  width: 80px;
+  background-color:transparent;
+  color: white;
+  border-radius: 5px;
+  border: 1px solid white;
+  padding: 16px;  
 }
 
-.card-footer {
-    padding: 10px 15px;
-    border-top: none;
+.loader {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: visible;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
-.container {
+::ng-deep .mat-spinner circle, .mat-spinner circle {   
+    stroke: white !important;
+}
+
+.close-button{
+  float: right;
+  top:-24px;
+  right:-24px;
+}
+
+.close-icon {
+  transition: 1s ease-in-out;
+}
+
+.close-icon:hover {
+  transform: rotate(180deg);
+}
+
+.participants {
   color: white;
 }
 
-.card {
-  background-color: transparent;
+::ng-deep .bs-timepicker-field {
+  color: white!important;
+  width: 50px!important;
+  background: transparent!important;
+  padding: 0!important;
 }
 
-button {
-  float: right;
+.timepicker {
+  margin-left: 16px;
 }
 
-h4  {
-  margin-top: 10px;
+.startDateInput {
+  margin-top: 12px;
+}
+
+.endDateInput {
+  margin-top: 12px;
+}
+
+.form-row {
+  margin-top: 15px;
+}
+
+/* Diven runt formen */
+.registerEventMain {
+  width: 600px;
+  margin-top: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgb(37, 2, 48);
+}
+
+/* Add padding to containers */
+.container {
+  padding: 16px;
 }
 
 a {
-  color: white !important;
+  cursor: pointer;
 }
 
-#location {
-  margin-top: 15px;
+.mat-selection-list {
+  border: 1px solid white;
+  margin-bottom: 20px;
+  min-height: 250px;
+  max-height: 250px;
+  overflow: auto;
 }
 
-.title {
-  color: #fff;
-  margin-bottom: 5px;
-  width: 400px;
+.mat-list-option {
+  color: white;
 }
 
-.timepick {
-  background-color: transparent;
+.mat-list-option {
+  height: 30px;
+}
+:host /deep/ .mat-selection-list .mat-list-option {
+  height: 30px!important;
+} 
+
+
+::ng-deep .mat-pseudo-checkbox {
+    color: white;
+} 
+
+.invitedList ::ng-deep.mat-pseudo-checkbox{
+      display: none !important;
+    }
+
+mat-form-field {
+  width: 100%;
 }
 
-#description {
-  background-color: transparent;
-  color: #fff;
-  margin-top: 15px;
-  width: 600px;
-  height: 250px;
+textarea {
+  height: 80px;
+  resize: none;
 }
-
-input[type="text"] {
-  background-color: transparent;
-  color: #fff;
-}
-
 
 // mat-icon-stepper selected color change 
 ::ng-deep .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
@@ -120,22 +192,30 @@ input[type="text"] {
     color: rgb(163, 27, 27);
 }
 
-/* ::ng-deep .mat-form-field-infix {
-  width: 400px!important;
-} */
-
-::ng-deep .mat-form-field {
-width: 100%!important;
+//timepicker
+:host /deep/ .timepicker__header {
+    background-color: #FF7043 !important;
 }
 
-.hoursTxt {
-  background-color:transparent;
-  color: white;
-  border-radius: 5px;
-  border: 1px solid white;
-  padding: 6px; 
-  width: 275px;
-  //height: 25px;  
+.inviteContainer {
+  margin-top: 12px;
+  margin-bottom: 20px;
+  height: 280px;
+}
+
+.officeContainer {
+  width: 45%;
+  float: left;
+}
+
+.userContainer {
+  width: 50%;
+  float: right;
+  height: 180px;
+}
+
+.mainBtnGroup {
+  margin-top: 90px;
 }
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -150,3 +230,106 @@ width: 100%!important;
 ::-ms-input-placeholder { /* Microsoft Edge */
   color: white;
 }
+
+/*------Mobile------*/
+  
+ @media (max-width: 768px) {
+
+.mainForm {
+  width: 500px;
+  height: 1400px;
+}
+
+.mainBtnGroup {
+  margin-top: 230px;
+}
+
+.registerEventMain {
+  width: 500px;
+  margin-top: 30px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.officeContainer {
+  width: 100%;
+}
+
+.userContainer {
+  width: 100%;
+  height: 180px;
+  float: left;
+}
+
+.inviteContainer {
+  margin-top: 12px;
+  margin-bottom: 20px;
+  height: 600px;
+}
+
+.startInput {
+  float: left;
+}
+
+.endInput {
+  float: left;
+}
+
+ .startDateInput {
+  width: 130px!important;
+} 
+
+ .endDateInput {
+  width: 130px!important;
+} 
+} 
+
+@media (max-width: 576px) {
+
+.mainForm {
+  width: 400px;
+}
+
+.registerEventMain {
+  width: 400px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.startInput {
+  flex-wrap: nowrap;
+}
+
+.endInput {
+  flex-wrap: nowrap;
+}
+
+.startDateInput {
+  width: 120px!important;
+} 
+ .endDateInput {
+  width: 130px!important;
+} 
+}
+
+@media (max-width: 454px) {
+
+.mainForm {
+  width: 350px;
+}
+
+.registerEventMain {
+  width: 350px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+}
+
+
+

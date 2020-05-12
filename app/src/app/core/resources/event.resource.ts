@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Event, Post } from '../../shared/models';
+import { Event, Post, PodcastEpisode } from '../../shared/models';
 
 @Injectable()
 export class EventResource extends ApiResource {
@@ -43,10 +43,10 @@ export class EventResource extends ApiResource {
     return this.post('event/' + data[0] + '/' + data[1] + '/update', data[2]);
   }
 
-  saveImage(id: number, image: File): Observable<Event> {
+  uploadImage(id: number, image: File): Observable<Event> {
     var formData = new FormData();
     formData.append('image', image, image.name);
-    return this.post2('event/' + id + '/saveimage', formData);
+    return this.post2('event/' + id + '/uploadimage', formData);
   }
 
   createPost(data: Post): Observable<Post> {

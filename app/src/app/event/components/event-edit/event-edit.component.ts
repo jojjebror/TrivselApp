@@ -1,14 +1,17 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
 
-import { Store, select } from '@ngrx/store';
+import { Store, select, ActionsSubject } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 import { Observable, Subscription } from 'rxjs';
-import { Event } from 'src/app/shared/models';
+import { Event, User } from 'src/app/shared/models';
 import * as fromEvents from '../../state/events';
+import * as fromUsers from '../../../user/state/users';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DateAdapter, MatSnackBar } from '@angular/material';
-import { AlertifyService } from 'src/app/core/services/alertify.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { ActionTypes } from '../../state/events';
+import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
 
 @Component({
   selector: 'ex-event-edit',
@@ -17,11 +20,17 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./event-edit.component.scss'],
 })
 export class EventEditComponent implements OnInit, OnDestroy {
+  private subscription = new Subscription();
+  loadings$ = this.store$.pipe(select(getLoadingData));
   ev$: Observable<Event>;
+  evt: Event;
+  users$: Observable<User[]>;
+  invitedParticipants$: Observable<User[]>;
+  users: User[];
   eventEditForm: FormGroup;
-  subscription: Subscription;
 
-  eventId: any;
+  eventId: number;
+  currentDate = new Date();
   starttime: Date;
   endtime: Date;
   fileUpload: File = null;
@@ -30,56 +39,59 @@ export class EventEditComponent implements OnInit, OnDestroy {
   constructor(
     private store$: Store<AppState>,
     private fb: FormBuilder,
-    private alertify: AlertifyService,
     private snackBar: MatSnackBar,
     private dateAdapter: DateAdapter<Date>,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private actionsSubject$: ActionsSubject,
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {
     dateAdapter.setLocale('sv');
   }
 
   ngOnInit() {
-    /* this.subscription = this.activatedRoute.params.subscribe((params) => {
-      this.eventId = params['id'];
-    });
-    console.log(this.eventId);
-
-    this.store$.dispatch(new fromEvents.LoadEditEvent(this.eventId)); */
-
-    this.ev$ = this.store$.pipe(select(fromEvents.getCurrentEvent));
-    this.createEventEditForm();
+    this.loadData();
+    this.loadUsers();
   }
 
-  ngOnDestroy() {
-    //this.subscription.unsubscribe();
+  loadData() {
+    this.subscription.add(
+      this.store$.pipe(select(fromEvents.getCurrentEvent)).subscribe((data) => {
+        this.evt = data;
+      })
+    );
+    if (this.evt != undefined) {
+      this.createEventEditForm();
+    } else {
+      this.router.navigate(['/event']);
+    }
   }
 
   createEventEditForm() {
-    this.ev$.subscribe((ev) => {
-      this.eventEditForm = this.fb.group(
-        {
-          id: [ev.id],
-          title: [ev.title, Validators.required],
-          description: [ev.description, Validators.required],
-          image: [null],
-          location: [ev.location, Validators.required],
-          startdate: [new Date(ev.startDate), Validators.required],
-          starttime: [new Date(ev.startDate), Validators.required],
-          enddate: [new Date(ev.endDate), Validators.required],
-          endtime: [new Date(ev.endDate), Validators.required],
-        },
-        { validator: this.DateValidation }
-      );
-      this.starttime = ev.startDate;
-      this.endtime = ev.endDate;
-      this.eventId = ev.id;
-      this.imageUrl = ev.image;
-    });
+    /* this.store$.pipe(select(fromEvents.getCurrentEvent)).subscribe((ev) => { */
+    this.eventEditForm = this.fb.group(
+      {
+        id: [this.evt.id],
+        title: [this.evt.title, Validators.required],
+        description: [this.evt.description, Validators.required],
+        imageurl: [null],
+        location: [this.evt.location, Validators.required],
+        startdate: [new Date(this.evt.startDate), Validators.required],
+        starttime: [new Date(this.evt.startDate), Validators.required],
+        enddate: [new Date(this.evt.endDate), Validators.required],
+        endtime: [new Date(this.evt.endDate), Validators.required],
+        users: [null],
+      },
+      { validator: this.DateValidation }
+    );
+    this.starttime = this.evt.startDate;
+    this.endtime = this.evt.endDate;
+    this.eventId = this.evt.id;
+    this.imageUrl = this.evt.imageUrl;
   }
 
   updateEvent() {
     if (this.eventEditForm.valid) {
-
       //Fixar problem med UTC och lokal tid när datum skickas till servern
       this.fixDateTimeZone(this.eventEditForm.get('starttime').value);
       this.fixDateTimeZone(this.eventEditForm.get('endtime').value);
@@ -88,7 +100,7 @@ export class EventEditComponent implements OnInit, OnDestroy {
 
       const ev = Object.assign({}, this.eventEditForm.value);
       this.store$.dispatch(new fromEvents.UpdateEvent(ev, this.fileUpload));
-      this.snackBar.open('Evenemang uppdaterat', '', { duration: 2500 });
+      this.showSnackbarUpdateEvent();
     }
   }
 
@@ -136,5 +148,30 @@ export class EventEditComponent implements OnInit, OnDestroy {
         return 'Du måste ange ett slutdatum';
       }
     }
+  }
+
+  private loadUsers() {
+    this.store$.dispatch(new fromUsers.GetUsers());
+    this.users$ = this.store$.pipe(select(fromUsers.getUsers));
+
+    this.invitedParticipants$ = this.store$.pipe(select(fromEvents.getInvitedParticipants));
+  }
+
+  showSnackbarUpdateEvent() {
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_EVENT_SUCCESS)).subscribe((action) => {
+        this.snackBar.open('Evenemanget är nu uppdaterat', '', { duration: 2500 });
+      })
+    );
+
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_EVENT_ERROR)).subscribe((action) => {
+        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
