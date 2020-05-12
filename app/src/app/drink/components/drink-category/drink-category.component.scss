@@ -1,3 +1,19 @@
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.container {
+  margin-top: 50px;
+  animation: fadeInAnimation ease 2s;
+  animation-iteration-count: 1s;
+  animation-fill-mode:forwards;
+}
+
 .img-thumbnail {
   position: absolute;
   right: 600px;
@@ -41,10 +57,6 @@
   content: "";
   display: table;
   clear: both;
-}
-
-.container {
-  margin-top: 50px;
 }
 
 h2 {
@@ -96,18 +108,14 @@ text-align: center;
 }
 
 li {
-  //float: left;
   background-color:  rgb(37, 2, 48);
   padding: 1em;
   margin-right: 10px;
   margin-left: 10px;
-  //border-radius: 45px;
   height: 100px;
   margin-bottom: 1em;
   flex-direction: column;
   width: auto;
-  
-  //text-align: center;
   
 }
 
@@ -153,7 +161,7 @@ li {
 
 /*    Mobil            */
 
-@media (max-width: 414px) {
+@media (max-width: 766px) {
 
   .img-thumbnail {
     position: static;
@@ -182,14 +190,14 @@ width: 100%;
 
 }
 
-.location1{
+.price1{
   position: relative;
-  top: 15%;
+  top: 18%;
   left: -4%;
   font-size: 35px;
 }
 
-.location{
+.price{
   position: relative;
   top: 60%;
   left: -30%;
@@ -241,8 +249,9 @@ li {
 }
 .countBtns1{
   position: relative;
-  top:-5%;
-  right: 0%;
+  bottom: -5%;
+  left: 52%;
+  margin-top: 12.5%;
 }
 .countBtns {
   position: relative;
@@ -250,7 +259,8 @@ li {
   float: right;
   size: 0,5px;
   margin-right: 25px;
-  margin-bottom: 1px;
+  
+  margin-top: 5%;
 }
 .plus {
   margin-left: 45px;
@@ -268,12 +278,13 @@ li {
  .titleProduct{
   margin-right: 0px;
 }
-.titleProductCategory{
-position: relative;
-top:2%;
-right: 30%;
-font-size: 20px;
-  }
+
+.titleProductCategory {
+  position: relative;
+  left: -4%;
+  top: -20;
+}
+
   .btnBuy{
     position: relative;
 top:2%;

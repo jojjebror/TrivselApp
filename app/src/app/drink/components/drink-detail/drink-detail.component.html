@@ -1,48 +1,48 @@
 <div class="base" *ngIf="dr$ | async; let dr">
-  <div class="container justify-content-center">
+  <br />
+
+  <div class="drinkInfo">
+    <h2 class="titelAndra">Detaljer</h2>
+    <label
+      matTooltip="Gå tillbaka"
+      matTooltipPosition="left"
+      class="getBackIcon"
+      [routerLink]="['/drink/category']"
+    >
+      <span class="material-icons">close</span></label
+    >
+    <label
+      class="deleteIcon"
+      type="button"
+      mat-icon-button
+      #tooltip="matTooltip"
+      matTooltip="Ta bort dryck"
+      matTooltipPosition="right"
+      (click)="confirmDelete(dr.id)"
+    >
+      <span class="material-icons">
+        delete_outline
+      </span>
+    </label>
+    <label
+      matSuffix
+      class="editIcon"
+      matTooltip="Redigera dryck"
+      matTooltipPosition="left"
+      (click)="editDrink(dr)"
+      [routerLink]="['/drink/edit']"
+    >
+      <span class="material-icons">edit</span>
+    </label>
     <br />
-    <form class="border border-light p-6">
+    <img class="card-img-top img-thumbnail" [src]="dr.image ? dr.image : '/assets/images/drink-images/default_drink.jpg'" />
+    <hr />
+    <h3>{{ dr.productNameBold }}</h3>
 
-        <br />
-        <div class="drinkInfo">
-          <h1>Detaljer</h1>
-          <mat-icon
-            matSuffix
-            class="declineIcon"
-            matTooltip="Ta bort dryck"
-            (click)="deleteDrink(dr.id)"
-          >
-            delete_icon</mat-icon
-          >
-          <mat-icon
-            matSuffix
-            class="editIcon"
-            matTooltip="Redigera dryck"
-            (click)="editDrink(dr)"
-            [routerLink]="['/drink/edit']"
-          >
-            edit</mat-icon
-          >
-          <br />
-          <hr />
-          <img
-            class="img-thumbnail"
-            [src]="
-              dr.image
-                ? '../../../' + dr.image
-                : '/assets/images/drink-images/default_drink.jpg'
-            "
-          />
-          
-          <h3>{{ dr.productNameBold }}</h3>
+    <p style="color: white;">{{ dr.price }}kr</p>
 
-          <p style="color: white;">{{ dr.price }}kr</p>
+    <p style="color: white;">{{ dr.volume }}cl</p>
 
-          <p style="color: white;">{{ dr.volume }}cl</p>
-
-          <p style="color: white;">{{ dr.taste }}</p>
-          
-        </div>
-    </form>
+    <p class="lastP" style="color: white;">{{ dr.taste }}</p>
   </div>
 </div>

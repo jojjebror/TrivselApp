@@ -1,22 +1,35 @@
-.img-thumbnail {
-    margin: 25px;
-    width: 85%;
-    height: 85%;
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .container {
   color: white;
   width: 600px;
-    margin-top: 100px;
-    margin-left: auto;
-    margin-right: auto;
+  margin-top: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgb(37, 2, 48);
+  animation: fadeInAnimation ease 2s;
+  animation-iteration-count: 1s;
+  animation-fill-mode: forwards;
+}
+
+.img-thumbnail {
+  margin: 25px;
+  width: 85%;
+  height: 85%;
 }
 
 .card {
   background-color: transparent;
 }
 
-h4  {
+h4 {
   margin-top: 10px;
 }
 
@@ -24,14 +37,11 @@ a {
   color: white !important;
 }
 
-@media (max-width: 414px) {
-
+@media (max-width: 766px) {
   .container {
     color: white;
     width: 99%;
-      margin-top: 100px;
-      margin-left: auto;
-  }  
-
-
+    margin-top: 100px;
+    margin-left: auto;
+  }
 }

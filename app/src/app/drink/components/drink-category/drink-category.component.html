@@ -1,8 +1,5 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <div class="container justify-content-center">
-  <h2 class="titel">
-    Drycker
-  </h2>
 <p class="quantity">Antal valda drycker: {{clickCounter}}</p>
   <button
     class="btn btn-default"
@@ -16,31 +13,28 @@
   </button>
   <hr />
  
-  <mat-tab-group>
+  <mat-tab-group (selectedTabChange)="onLinkClick($event)" dynamicHeight>
     
-      <mat-tab label="First" > 
-        <ng-template mat-tab-label>
-          <span (click)="initializeFilterCategory()">Kategorier</span>
-      </ng-template>
+      <mat-tab label="Kategorier" > 
         
         <br>
       <div class="info">
         <ul *ngIf="category">
           <li *ngFor= "let dr of category" class="tab1">
             
-            <p class="titleProductCategory">
-              {{ dr.name }} </p>
+            <a class="titleProductCategory">
+              {{ dr.name }} </a>
             
                 
-                  <button class="btn btn-success" (click)="paySaldo(dr)">Köp med saldo</button>
-                  <button class="btn btn-success" id="btnSwish" #btnSwish (click)="GetToSwish(dr)">Köp med swish</button>
+                  <button class="btn btn-success" (click)="confirmPurchase(dr)">Köp med saldo</button>
+                  <button class="btn btn-success" id="btnSwish" #btnSwish (click)="confirmPurchaseSwish(dr)">Köp med swish</button>
               
 
             <div class="countBtns1">
               <button class="minus" mat-mini-fab color="warn" (click)="clickCountM()" matTooltip="Ta bort">-</button>
             <button class="plus" mat-mini-fab color="green" (click)="clickCount()" matTooltip="Lägg till">+</button>
             </div>
-            <p class="location1">{{ dr.price }}kr</p>
+            <p class="price1">{{ dr.price }}kr</p>
             
               
             <ng-template >
@@ -52,10 +46,7 @@
       </div>
     </mat-tab>
     
-    <mat-tab label="Second" > 
-      <ng-template mat-tab-label>
-        <span (click)="initializeFilterBeer()">Öl</span>
-    </ng-template>
+    <mat-tab label="Öl" > 
       
       <br>
     <div class="info">
@@ -63,17 +54,17 @@
         <li *ngFor="let dr of drs$ | async" class="tab1">
           <img class="card-img-top img-thumbnail" [src]="dr.image ? dr.image : '/assets/images/drink-images/default_drink.jpg'" />
           <a class="titleProduct">
-            {{ dr.productNameBold }} </a> <mat-icon matSuffix class="editIcon" matTooltip="Redigera dryck" (click)="editDrink(dr.id)" [routerLink] = "['/drink/', dr.id]"> edit</mat-icon>
+            {{ dr.productNameBold }} </a> <mat-icon matSuffix class="editIcon" matTooltip="Visa info om dryck" (click)="editDrink(dr.id)" [routerLink] = "['/drink/', dr.id]"> info</mat-icon>
           
-          <button class="btn btn-success" (click)="paySaldo(dr)">Köp med saldo</button>
-          <button class="btn btn-success" id="btnSwish" (click)="GetToSwish(dr)">Köp med swish</button>
+          <button class="btn btn-success" (click)="confirmPurchase(dr)">Köp med saldo</button>
+          <button class="btn btn-success" id="btnSwish" (click)="confirmPurchaseSwish(dr)">Köp med swish</button>
        
           <div class="countBtns">
             <button class="minus" mat-mini-fab color="warn" (click)="clickCountM()" matTooltip="Ta bort">-</button>
           <button class="plus" mat-mini-fab color="green" (click)="clickCount()" matTooltip="Lägg till">+</button>
           </div>
           
-          <p class="location">{{ dr.price }}kr</p>
+          <p class="price">{{ dr.price }}kr</p>
             
 
         </li>
@@ -81,10 +72,7 @@
     </div>
   </mat-tab>
 
-  <mat-tab label="Third" > 
-    <ng-template mat-tab-label>
-      <span (click)="initializeFilterWine()">Vin</span>
-  </ng-template>
+  <mat-tab label="Vin" > 
     
     <br>
   <div class="info">
@@ -92,17 +80,17 @@
       <li *ngFor="let dr of drs$ | async" class="tab1">
         <img class="card-img-top img-thumbnail" [src]="dr.image ? dr.image : '/assets/images/drink-images/default_drink.jpg'" />
         <a class="titleProduct">
-          {{ dr.productNameBold }} </a> <mat-icon matSuffix class="editIcon" matTooltip="Redigera dryck" (click)="editDrink(dr.id)" [routerLink] = "['/drink/', dr.id]"> edit</mat-icon>
+          {{ dr.productNameBold }} </a> <mat-icon matSuffix class="editIcon" matTooltip="Visa info om dryck" (click)="editDrink(dr.id)" [routerLink] = "['/drink/', dr.id]"> info</mat-icon>
         
-        <button class="btn btn-success" (click)="paySaldo(dr)">Köp med saldo</button>
-        <button class="btn btn-success" id="btnSwish" (click)="GetToSwish(dr)">Köp med swish</button>
+        <button class="btn btn-success" (click)="confirmPurchase(dr)">Köp med saldo</button>
+        <button class="btn btn-success" id="btnSwish" (click)="confirmPurchaseSwish(dr)">Köp med swish</button>
      
         <div class="countBtns">
           <button class="minus" mat-mini-fab color="warn" (click)="clickCountM()" matTooltip="Ta bort">-</button>
         <button class="plus" mat-mini-fab color="green" (click)="clickCount()" matTooltip="Lägg till">+</button>
         </div>
         
-        <p class="location">{{ dr.price }}kr</p>
+        <p class="price">{{ dr.price }}kr</p>
           
 
       </li>
@@ -110,28 +98,25 @@
   </div>
 </mat-tab>
 
-<mat-tab label="Fourth" > 
-  <ng-template mat-tab-label>
-    <span (click)="initializeFilterCider()">Cider</span>
-</ng-template>
-  
+<mat-tab label="Cider" > 
+
   <br>
 <div class="info">
   <ul *ngIf="drs$">
     <li *ngFor="let dr of drs$ | async" class="tab1">
       <img class="card-img-top img-thumbnail" [src]="dr.image ? dr.image : '/assets/images/drink-images/default_drink.jpg'" />
       <a class="titleProduct">
-        {{ dr.productNameBold }} </a> <mat-icon matSuffix class="editIcon" matTooltip="Redigera dryck" (click)="editDrink(dr.id)" [routerLink] = "['/drink/', dr.id]"> edit</mat-icon>
+        {{ dr.productNameBold }} </a> <mat-icon matSuffix class="editIcon" matTooltip="Visa info om dryck" (click)="editDrink(dr.id)" [routerLink] = "['/drink/', dr.id]"> info</mat-icon>
       
-      <button class="btn btn-success" (click)="paySaldo(dr)">Köp med saldo</button>
-      <button class="btn btn-success" id="btnSwish" (click)="GetToSwish(dr)">Köp med swish</button>
+      <button class="btn btn-success" (click)="confirmPurchase(dr)">Köp med saldo</button>
+      <button class="btn btn-success" id="btnSwish" (click)="confirmPurchaseSwish(dr)">Köp med swish</button>
    
       <div class="countBtns">
         <button class="minus" mat-mini-fab color="warn" (click)="clickCountM()" matTooltip="Ta bort">-</button>
       <button class="plus" mat-mini-fab color="green" (click)="clickCount()" matTooltip="Lägg till">+</button>
       </div>
       
-      <p class="location">{{ dr.price }}kr</p>
+      <p class="price">{{ dr.price }}kr</p>
         
 
     </li>
@@ -139,7 +124,6 @@
 </div>
 </mat-tab>
     
-  </mat-tab-group>
-
+</mat-tab-group>
 </div>
 

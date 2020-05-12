@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppState } from 'src/app/core/state';
-import { Store, ActionsSubject } from '@ngrx/store';
+import { Store, ActionsSubject, select } from '@ngrx/store';
 import * as fromUser from '../../../user/state/users/users.actions';
-import * as fromSession from '../../../core/state/session'
 import { MatSnackBar } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services';
 import { Router } from '@angular/router';
 import { User } from 'src/app/shared/models';
+import { getLoadingData } from 'src/app/core/state/loading';
 
 @Component({
   selector: 'ex-drink-pay-credit',
@@ -21,6 +21,7 @@ export class DrinkPayCreditComponent implements OnInit, OnDestroy {
   amount: number;
   userCredit: number;
   user: User;
+  loadings$ = this.store$.pipe(select(getLoadingData));
   
   constructor(private store$: Store<AppState>, private snackBar: MatSnackBar, private router: Router,
   private actionsSubject$: ActionsSubject, public authService: AuthenticationService,) {
@@ -61,7 +62,9 @@ export class DrinkPayCreditComponent implements OnInit, OnDestroy {
             this.store$.dispatch(new fromUser.UpdateCreditError('Error'));
             this.router.navigate(['/drink/credit']);
           }
-            this.showSnackbar();
+          this.showSnackbar();
+          setTimeout(() => {this.ngOnDestroy() }, 3500);
+            
   }
 
   showSnackbar() {

@@ -78,8 +78,9 @@
     [disabled]="!receiptForm.valid"
     type="submit"
   >
-    Lägg till dryck
+    Lägg till kvitto
   </button>
+<!--- <input type="submit" type="file" accept="image/*" capture="camera"> Hade varit kul att teste på mobil så man kan ladda upp direkt med en bild man själv tar-->
 </div>
 </div>
 </form>
@@ -93,12 +94,8 @@
 
   <!------------------ TAB1 ------------------------>
   
-  <div class="tab-panel">
-    <mat-tab-group animationDuration="0ms" dynamicHeight>
-    <mat-tab label="Alla kvitton">
-      <ng-template mat-tab-label>
-        <span (click)="loadReceipts()">Alla kvitton</span>
-    </ng-template>
+    <mat-tab-group animationDuration="0ms" dynamicHeight (selectedTabChange)="onLinkClick($event)">
+    <mat-tab  label="Alla kvitton">
       
       <mat-table class="lessons-table mat-elevation-z8" [dataSource]="allReceipts" matSort *ngIf="allReceipts.data.length > 0">
         <ng-container matColumnDef="title">
@@ -146,12 +143,11 @@
       </mat-table>
     </mat-tab>
  <!------------------- TAB2 ----------------------->
- <div class="tab-panel">
+
+
+
+
  <mat-tab label="Dina kvitton">
-  <ng-template mat-tab-label>
-    <span (click)="loadUserReceipt()">Dina Kvitton</span>
-  </ng-template>
-  
  
   <mat-table class="lessons-table mat-elevation-z8" [dataSource]="allUsersReceipts" matSort *ngIf="allUsersReceipts.data.length > 0">
     <ng-container matColumnDef="title1">
@@ -198,7 +194,7 @@
     <mat-row *matRowDef="let row; columns: displayedColumnAllUsersReceipts"></mat-row>
   </mat-table>
   </mat-tab>
- </div>
+
     </mat-tab-group>
   </div>
-</div>
+
