@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-
+import { Office } from '../../models';
 
 @Component({
   selector: 'ex-editDialog',
@@ -10,22 +10,23 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 export class EditDialogComponent {
   title: string;
   message: string;
-  offices: string[];
-  office: string;
-  selectedOffice: string;
+
+  offices: Office[];
+  selectedOffice: Office;
+  userOffice: Office;
 
   constructor(public dialogRef: MatDialogRef<EditDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: EditDialogModel) {
     // Update view with given values
     this.title = data.title;
     this.message = data.message;
     this.offices = data.offices;
-    this.selectedOffice = data.office
+    this.selectedOffice = data.userOffice;
   }
 
   onConfirm(): void {
     // Close the dialog, return true
     this.dialogRef.close(true);
-    this.data.office = this.selectedOffice
+    this.data.userOffice = this.selectedOffice
   }
 
   onDismiss(): void {
@@ -35,6 +36,10 @@ export class EditDialogComponent {
 }
 
 export class EditDialogModel {
-  constructor(public title: string, public message: string, public offices: string[], public office: string) {}
+  constructor(
+    public title: string,
+    public message: string,
+    public offices: Office[],
+    public userOffice: Office
+  ) {}
 }
-

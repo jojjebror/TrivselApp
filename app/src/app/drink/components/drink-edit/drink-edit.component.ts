@@ -54,6 +54,7 @@ export class DrinkEditComponent implements OnInit {
         image: [null]
       });
     });
+    this.ngOnDestroy();
   }
 
   updateDrink() {
@@ -78,5 +79,8 @@ export class DrinkEditComponent implements OnInit {
 
   loadImage(file: FileList) {
     this.fileUpload = file.item(0);
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

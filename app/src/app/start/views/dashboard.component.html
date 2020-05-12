@@ -1,5 +1,5 @@
-<div class="mat-card-div" *ngIf="podcastFeed">
-  <mat-card *ngFor="let episode of podcastFeed" (click)="playEpisode(episode)" fxFlex="100">
+<div class="mat-card-div" *ngIf="podcastFeed$">
+  <mat-card *ngFor="let episode of podcastFeed$ | async" (click)="playEpisode(episode)" fxFlex="100">
     <mat-card-header class="maxTitle">
       <mat-card-title>
         <i class="material-icons iconLeft">rss_feed</i>

@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppState } from 'src/app/core/state';
 import { Store, ActionsSubject, select } from '@ngrx/store';
 import * as fromUser from '../../../user/state/users/users.actions';
-import * as fromSession from '../../../core/state/session'
 import { MatSnackBar } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -63,7 +62,9 @@ export class DrinkPayCreditComponent implements OnInit, OnDestroy {
             this.store$.dispatch(new fromUser.UpdateCreditError('Error'));
             this.router.navigate(['/drink/credit']);
           }
-            this.showSnackbar();
+          this.showSnackbar();
+          setTimeout(() => {this.ngOnDestroy() }, 3500);
+            
   }
 
   showSnackbar() {

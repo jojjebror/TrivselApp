@@ -129,7 +129,6 @@ h3 {
 }
 
 :host ::ng-deep.mat-paginator .mat-paginator-container {
-  //background-color: rgb(37, 2, 48);
   background-color: transparent;
   color: white;
 }
@@ -150,6 +149,16 @@ h3 {
 
 ::ng-deep .mat-toolbar-row, .mat-toolbar-single-row {
     height: 80px;
+}
+
+::ng-deep .mat-form-field-underline {
+    background-color: white!important;
+}
+
+::ng-deep .mat-form-field.mat-focused {
+    .mat-form-field-ripple {
+        background-color: white!important;
+    }
 }
 
 #searchbar {

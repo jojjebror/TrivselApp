@@ -3,7 +3,7 @@ namespace Logic.Database.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class MergeBranchesReceipt : DbMigration
+    public partial class MergeBranches : DbMigration
     {
         public override void Up()
         {
@@ -61,6 +61,18 @@ namespace Logic.Database.Migrations
                 .Index(t => t.CreatorId);
             
             CreateTable(
+                "dbo.Offices",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                        Adress = c.String(),
+                        SwishNumber = c.String(),
+                        Info = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.Posts",
                 c => new
                     {
@@ -87,11 +99,13 @@ namespace Logic.Database.Migrations
                         CreatorId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Users", t => t.CreatorId, cascadeDelete: false)
+                .ForeignKey("dbo.Users", t => t.CreatorId, cascadeDelete: true)
                 .Index(t => t.CreatorId);
             
             AddColumn("dbo.Users", "Credit", c => c.Int(nullable: false));
-            AddColumn("dbo.Users", "Office", c => c.String());
+            AddColumn("dbo.Users", "OfficeId", c => c.Int());
+            CreateIndex("dbo.Users", "OfficeId");
+            AddForeignKey("dbo.Users", "OfficeId", "dbo.Offices", "Id");
         }
         
         public override void Down()
@@ -100,18 +114,21 @@ namespace Logic.Database.Migrations
             DropForeignKey("dbo.EventParticipants", "EventId", "dbo.Events");
             DropForeignKey("dbo.Posts", "EventId", "dbo.Events");
             DropForeignKey("dbo.Posts", "CreatorId", "dbo.Users");
+            DropForeignKey("dbo.Users", "OfficeId", "dbo.Offices");
             DropForeignKey("dbo.Events", "CreatorId", "dbo.Users");
             DropForeignKey("dbo.EventParticipants", "UserId", "dbo.Users");
             DropIndex("dbo.Receipts", new[] { "CreatorId" });
             DropIndex("dbo.Posts", new[] { "EventId" });
             DropIndex("dbo.Posts", new[] { "CreatorId" });
+            DropIndex("dbo.Users", new[] { "OfficeId" });
             DropIndex("dbo.Events", new[] { "CreatorId" });
             DropIndex("dbo.EventParticipants", new[] { "EventId" });
             DropIndex("dbo.EventParticipants", new[] { "UserId" });
-            DropColumn("dbo.Users", "Office");
+            DropColumn("dbo.Users", "OfficeId");
             DropColumn("dbo.Users", "Credit");
             DropTable("dbo.Receipts");
             DropTable("dbo.Posts");
+            DropTable("dbo.Offices");
             DropTable("dbo.Events");
             DropTable("dbo.EventParticipants");
             DropTable("dbo.Drinks");

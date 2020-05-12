@@ -33,9 +33,10 @@
             class="form-control"
             placeholder="Pris"
             formControlName="price">
-
             <mat-option [value]="10">10kr</mat-option>
+            <mat-option [value]="15">15kr</mat-option>
             <mat-option [value]="20">20kr</mat-option>
+            <mat-option [value]="25">25kr</mat-option>
             <mat-option [value]="30">30kr</mat-option>
           </mat-select>
           <div class="invalid-feedback">
@@ -124,4 +125,9 @@
       </button>
     </div>
   </form>
+</div>
+<div class="loader">
+  <h2 class="mat-h3">
+    <mat-spinner *ngIf="(loadings$ | async)?.length" style="display: inline;" [diameter]="50"> </mat-spinner>
+  </h2>
 </div>

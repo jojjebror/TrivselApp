@@ -274,6 +274,7 @@
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Database\DatabaseContextFactory.cs" />
     <Compile Include="Database\Entities\BaseEntity.cs" />
+    <Compile Include="Database\Entities\Office.cs" />
     <Compile Include="Database\Entities\Post.cs" />
     <Compile Include="Database\Entities\Drink.cs" />
     <Compile Include="Database\Entities\Event.cs" />
@@ -286,9 +287,9 @@
     <Compile Include="Database\Migrations\201802051252482_Init.Designer.cs">
       <DependentUpon>201802051252482_Init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\Migrations\202005081437109_MergeBranchesReceipt.cs" />
-    <Compile Include="Database\Migrations\202005081437109_MergeBranchesReceipt.Designer.cs">
-      <DependentUpon>202005081437109_MergeBranchesReceipt.cs</DependentUpon>
+    <Compile Include="Database\Migrations\202005120847072_MergeBranches.cs" />
+    <Compile Include="Database\Migrations\202005120847072_MergeBranches.Designer.cs">
+      <DependentUpon>202005120847072_MergeBranches.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Helpers\PagedList.cs" />
@@ -306,6 +307,7 @@
     <Compile Include="Models\EventForUserListDto.cs" />
     <Compile Include="Models\EventParticipantsDto.cs" />
     <Compile Include="Models\ExampleDto.cs" />
+    <Compile Include="Models\OfficeDto.cs" />
     <Compile Include="Models\PodcastEpisodeDto.cs" />
     <Compile Include="Models\PostDto.cs" />
     <Compile Include="Models\ReceiptForCreateDto.cs" />
@@ -320,7 +322,7 @@
     <Compile Include="Services\EventService.cs" />
     <Compile Include="Services\ExampleService.cs" />
     <Compile Include="Services\GoogleCalendarService.cs" />
-    <Compile Include="Services\PodcastService.cs" />
+    <Compile Include="Services\HomeService.cs" />
     <Compile Include="Services\PostService.cs" />
     <Compile Include="Services\ReceiptService.cs" />
     <Compile Include="Services\UserService.cs" />
@@ -330,6 +332,7 @@
     <Compile Include="Translators\DrinkForUpdateTranslator.cs" />
     <Compile Include="Translators\EventTranslator.cs" />
     <Compile Include="Translators\ExampleTranslator.cs" />
+    <Compile Include="Translators\OfficeTranslator.cs" />
     <Compile Include="Translators\ReceiptTranslator.cs" />
     <Compile Include="Translators\PostTranslator.cs" />
     <Compile Include="Translators\UserTranslator.cs" />
@@ -346,8 +349,8 @@
     <EmbeddedResource Include="Database\Migrations\201802051252482_Init.resx">
       <DependentUpon>201802051252482_Init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Database\Migrations\202005081437109_MergeBranchesReceipt.resx">
-      <DependentUpon>202005081437109_MergeBranchesReceipt.cs</DependentUpon>
+    <EmbeddedResource Include="Database\Migrations\202005120847072_MergeBranches.resx">
+      <DependentUpon>202005120847072_MergeBranches.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -38,5 +38,8 @@ export function reducer(state: PodcastState = initialState, action: podcastActio
         error: action.payload,
       };
     }
+
+    default:
+      return state;
   }
 }

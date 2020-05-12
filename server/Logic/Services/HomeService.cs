@@ -1,15 +1,35 @@
-﻿using Logic.Models;
+﻿using Logic.Database;
+using Logic.Models;
+using Logic.Translators;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.ServiceModel.Syndication;
+using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 
 namespace Logic.Services
 {
-    public class PodcastService
+    public class HomeService
     {
-        public ICollection<PodcastEpisodeDto> GetPodcastFeed()
+        private readonly DatabaseContext _context;
+
+        public HomeService(DatabaseContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<ICollection<OfficeDto>> GetOffices()
+        {
+            var dbOffices = await _context.Offices.ToListAsync();
+
+            return dbOffices.Select(OfficeTranslator.ToOfficeDto).ToList();
+        }
+
+        public async Task<ICollection<PodcastEpisodeDto>> GetPodcastFeed()
         {
             string podcastUrl = "http://exsitecpodden.libsyn.com/rss";
 
@@ -20,7 +40,7 @@ namespace Logic.Services
                 var id = 1;
                 var podcastFeed = SyndicationFeed.Load(reader);
 
-                foreach (var item in podcastFeed.Items)
+                foreach (var item in podcastFeed.Items.Take(3))
                 {
                     var summary = item.ElementExtensions.FirstOrDefault(e => e.OuterName == "summary")?
                         .GetObject<XElement>().Value;
@@ -39,14 +59,11 @@ namespace Logic.Services
                     };
                     podcastEpisodes.Add(episode);
 
-                    if (id == 3)
-                        break;
-
                     id++;
                 }
             }
 
-            return podcastEpisodes;
+            return await Task.Run(() => podcastEpisodes);
         }
     }
 }
