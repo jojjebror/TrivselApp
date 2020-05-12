@@ -21,13 +21,79 @@ namespace Logic.Database.Migrations
 
         protected override void Seed(DatabaseContext context)
         {
+            var office = new Office()
+            {
+                Id = 1,
+                Name = "Linköping",
+                Adress = "Snickaregatan 40, 582 26 Linköping"
+            };
+
+            var office2 = new Office()
+            {
+                Id = 2,
+                Name = "Stockholm",
+                Adress = "Olof Palmes gata 13, 111 37 Stockholm"
+            };
+
+            var office3 = new Office()
+            {
+                Id = 3,
+                Name = "Göteborg",
+                Adress = "Kungsportsavenyen 34, 411 36 Göteborg"
+            };
+
+            var office4 = new Office()
+            {
+                Id = 4,
+                Name = "Malmö",
+                Adress = "Skeppsbron 5, 211 20 Malmö"
+            };
+
+            var office5 = new Office()
+            {
+                Id = 5,
+                Name = "Uppsala",
+                Adress = "Dragarbrunnsgatan 46, 753 20 Uppsala"
+            };
+            var office6 = new Office()
+            {
+                Id = 6,
+                Name = "Örebro",
+                Adress = "Järntorgsgatan 3a, 703 61 Örebro"
+            };
+
+            var office7 = new Office()
+            {
+                Id = 7,
+                Name = "Söderhamn",
+                Adress = "Källgatan 9, 826 30 Söderhamn"
+            };
+            var office8 = new Office()
+            {
+                Id = 8,
+                Name = "Borlänge",
+                Adress = "Forskargatan 3, 781 70 Borlänge"
+            };
+            var office9 = new Office()
+            {
+                Id = 9,
+                Name = "Helsingborg",
+                Adress = "Florettgatan 29B, 254 67 Helsingborg"
+            };
+            var office10 = new Office()
+            {
+                Id = 10,
+                Name = "Karlstad",
+                Adress = "Södra Kyrkogatan 6, 652 24 Karlstad"
+            };
+
             var testUser = new User()
             {
                 Id = 1,
                 Email = "test@test.se",
                 Name = "Test Persson",
                 Password = _passwordHasher.HashPassword("test"),
-                Office = "Linköping"
+                OfficeId = 1
             };
 
             var testUser1 = new User()
@@ -36,7 +102,7 @@ namespace Logic.Database.Migrations
                 Email = "jerker@test.se",
                 Name = "Jerker Persson",
                 Password = _passwordHasher.HashPassword("test"),
-                Office = "Stockholm"
+                OfficeId = 2
             };
 
             var testUser2 = new User()
@@ -45,7 +111,7 @@ namespace Logic.Database.Migrations
                 Email = "magnus@test.se",
                 Name = "Magnus Svensson",
                 Password = _passwordHasher.HashPassword("test"),
-                Office = "Uppsala"
+                OfficeId = 5
             };
 
             var testUser3 = new User()
@@ -54,7 +120,7 @@ namespace Logic.Database.Migrations
                 Email = "zlatan@test.se",
                 Name = "Zlatan Ibrahimovic",
                 Password = _passwordHasher.HashPassword("test"),
-                Office = "Linköping"
+                OfficeId = 1
             };
 
             var testUser4 = new User()
@@ -63,7 +129,7 @@ namespace Logic.Database.Migrations
                 Email = "kosovare@test.se",
                 Name = "Kosovare Asllani",
                 Password = _passwordHasher.HashPassword("test"),
-                Office = "Örebro"
+                OfficeId = 6
             };
 
             var testUser5 = new User()
@@ -72,7 +138,7 @@ namespace Logic.Database.Migrations
                 Email = "philip@test.se",
                 Name = "Philip Haglund",
                 Password = _passwordHasher.HashPassword("test"),
-                Office = "Linköping"
+                OfficeId = 1
             };
 
             var testUser6 = new User()
@@ -81,7 +147,7 @@ namespace Logic.Database.Migrations
                 Email = "sanna@test.se",
                 Name = "Sanna Kallur",
                 Password = _passwordHasher.HashPassword("test"),
-                Office = "Malmö"
+                OfficeId = 4
             };
 
             var testUser7 = new User()
@@ -90,7 +156,7 @@ namespace Logic.Database.Migrations
                 Email = "martin@test.se",
                 Name = "Martin De La Hoya",
                 Password = _passwordHasher.HashPassword("test"),
-                Office = "Örebro"
+                OfficeId = 6
             };
 
             var testUser8 = new User()
@@ -99,7 +165,7 @@ namespace Logic.Database.Migrations
                 Email = "hanna@test.se",
                 Name = "Hanna Gustafsson",
                 Password = _passwordHasher.HashPassword("test"),
-                Office = "Stockholm"
+                OfficeId = 2
             };
 
 
@@ -377,6 +443,16 @@ namespace Logic.Database.Migrations
                 BeverageDescriptionShort = "Läskande",
             };
 
+            context.Offices.AddOrUpdate(office);
+            context.Offices.AddOrUpdate(office2);
+            context.Offices.AddOrUpdate(office3);
+            context.Offices.AddOrUpdate(office4);
+            context.Offices.AddOrUpdate(office5);
+            context.Offices.AddOrUpdate(office6);
+            context.Offices.AddOrUpdate(office7);
+            context.Offices.AddOrUpdate(office8);
+            context.Offices.AddOrUpdate(office9);
+            context.Offices.AddOrUpdate(office10);
 
             context.Users.AddOrUpdate(testUser);
             context.Users.AddOrUpdate(testUser1);

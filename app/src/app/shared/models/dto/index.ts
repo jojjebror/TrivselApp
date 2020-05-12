@@ -9,3 +9,4 @@ export * from './UserDto';
 export * from './PostDto';
 export * from './DrinkDto';
 export * from './PodcastEpisodeDto';
+export * from './OfficeDto';

@@ -23,7 +23,7 @@
       <mat-form-field appearance="outline">
         <mat-label>Plats</mat-label>
         <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage('location') }}</mat-error>
-        <input matInput formControlName="location" [maxLength]="35" id="searchLocation" onkeyup="mySearch(this.value)" autocomplete="off"/>
+        <input matInput formControlName="location" [maxLength]="35" id="searchLocation" autocomplete="off"/>
       </mat-form-field>
     </div>
 
@@ -109,8 +109,8 @@
       <div class="officeContainer">
         <p>Välj kontor att bjuda in</p>
         <mat-selection-list class="form-group" #selectedOffices formControlName="offices">
-          <mat-list-option *ngFor="let office of offices" [value]="office">
-            {{ office }}
+          <mat-list-option *ngFor="let office of offices$ | async" [value]="office">
+            {{ office.name }}
           </mat-list-option>
         </mat-selection-list>
         <p>Inbjudna kontor: {{ selectedOffices.selectedOptions.selected.length }}</p>

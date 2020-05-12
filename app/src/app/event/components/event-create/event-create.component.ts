@@ -3,9 +3,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store, select, ActionsSubject } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 
-import { Event, User } from 'src/app/shared/models';
+import { Event, User, Office } from 'src/app/shared/models';
 import * as fromEvents from '../../state/events';
 import * as fromUsers from '../../../user/state/users';
+import * as fromOffices from '../../../start/state/offices';
 
 import { Observable, Subscription } from 'rxjs';
 import { DateAdapter, MatSnackBar } from '@angular/material';
@@ -14,7 +15,6 @@ import { ActionTypes } from '../../state/events';
 import { filter } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services';
 import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
-
 
 @Component({
   selector: 'ex-event-create',
@@ -28,6 +28,7 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   loadings$ = this.store$.pipe(select(getLoadingData));
   event: Event;
   users$: Observable<User[]>;
+  offices$: Observable<Office[]>;
   users: User[];
   userId: number;
   eventForm: FormGroup;
@@ -39,19 +40,6 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   currentDate = new Date();
   starttime: Date;
   endtime: Date;
-
-  offices: string[] = [
-    'Linköping',
-    'Stockholm',
-    'Göteborg',
-    'Malmö',
-    'Uppsala',
-    'Örebro',
-    'Söderhamn',
-    'Borlänge',
-    'Helsingborg',
-    'Karlstad',
-  ];
 
   constructor(
     private store$: Store<AppState>,
@@ -73,6 +61,7 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.createEventForm();
     this.loadUsers();
+    this.loadOffices();
   }
 
   createEventForm() {
@@ -89,7 +78,7 @@ export class EventCreateComponent implements OnInit, OnDestroy {
         createdate: [''],
         creatorid: [+this.userId],
         users: [null],
-        offices: [['']],
+        offices: [null],
       },
       { validator: this.DateValidation }
     );
@@ -155,7 +144,15 @@ export class EventCreateComponent implements OnInit, OnDestroy {
       this.store$.dispatch(new fromUsers.GetUsers());
       this.users$ = this.store$.pipe(select(fromUsers.getUsers));
       this.cd.detectChanges();
-    }, 120);
+    }, 1000);
+  }
+
+  loadOffices() {
+    setTimeout(() => {
+      this.store$.dispatch(new fromOffices.LoadOffices());
+      this.offices$ = this.store$.pipe(select(fromOffices.getOffices));
+      this.cd.detectChanges();
+    }, 1000);
   }
 
   endDateToggle() {

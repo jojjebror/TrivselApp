@@ -42,7 +42,7 @@ namespace Logic.Services
         /// <returns></returns>
         public async Task<UserDto> Get(int id)
         {
-            var dbUser = await _context.Users
+            var dbUser = await _context.Users.Include(u => u.Office)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             var user = UserTranslator.ToModel(dbUser);
@@ -83,10 +83,12 @@ namespace Logic.Services
 
         public async Task<UserForUpdateDto> UpdateOffice(int id, string newOffice)
         {
-            var dbUser = await _context.Users
+            var dbUser = await _context.Users.Include(u => u.Office)
                 .FirstOrDefaultAsync(x => x.Id == id);
+
+            var dbOffice = await _context.Offices.FirstOrDefaultAsync(x => x.Name == newOffice);
             
-                dbUser.Office = newOffice;
+                dbUser.OfficeId = dbOffice.Id;
                 await _context.SaveChangesAsync();
             
             return UserTranslator.ToUserForUpdateDto(dbUser);

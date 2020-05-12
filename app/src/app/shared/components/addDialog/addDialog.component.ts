@@ -1,5 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Office } from '../../models';
+import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
+import { Store, select } from '@ngrx/store';
+import { AppState } from 'src/app/core/state';
+
 
 @Component({
   selector: 'ex-addDialog',
@@ -7,15 +12,17 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
   styleUrls: ['./addDialog.component.scss'],
 })
 export class AddDialogComponent {
+  loadings$ = this.store$.pipe(select(getLoadingData));
+
   title: string;
   message: string;
-  offices: string[];
-  office: string;
-  selectedOffice: string;
+  offices: Office[];
+  office: Office;
+  selectedOffice: Office;
 
-  constructor(public dialogRef: MatDialogRef<AddDialogComponent>,
-     @Inject(MAT_DIALOG_DATA) public data: AddDialogModel) {
+  constructor(public dialogRef: MatDialogRef<AddDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: AddDialogModel, private store$: Store<AppState>) {
     dialogRef.disableClose = true;
+
     // Update view with given values
     this.title = data.title;
     this.message = data.message;
@@ -36,6 +43,6 @@ export class AddDialogComponent {
 }
 
 export class AddDialogModel {
-  constructor(public title: string, public message: string, public offices: string[], public office: string) {}
+  constructor(public title: string, public message: string, public offices: Office[], public office: Office) {}
 }
 

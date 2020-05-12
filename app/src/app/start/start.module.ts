@@ -15,7 +15,8 @@ import { NgxAudioPlayerModule } from 'ngx-audio-player';
   imports: [
     SharedModule,
     StartRoutingModule,
-    StoreModule.forFeature('podcast', reducers),
+    StoreModule.forFeature('home', reducers),
+    //StoreModule.forFeature('office', reducers),
     EffectsModule.forFeature(effects),
     StoreDevtoolsModule.instrument(),
     NgxAudioPlayerModule,
