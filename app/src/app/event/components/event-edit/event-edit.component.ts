@@ -67,6 +67,7 @@ export class EventEditComponent implements OnInit, OnDestroy {
         this.evt = data;
       })
     );
+    /* temporärt som fan */
     if (this.evt != undefined) {
       this.createEventEditForm();
     } else {
@@ -84,7 +85,6 @@ export class EventEditComponent implements OnInit, OnDestroy {
   }
 
   createEventEditForm() {
-    /* this.store$.pipe(select(fromEvents.getCurrentEvent)).subscribe((ev) => { */
     this.eventEditForm = this.fb.group(
       {
         id: [this.evt.id],
@@ -119,10 +119,6 @@ export class EventEditComponent implements OnInit, OnDestroy {
       this.showSnackbarUpdateEvent();
     }
   }
-
-  /* loadImage(file: FileList) {
-    this.fileUpload = file.item(0);
-  } */
 
   fileProgress(fileInput: any) {
     this.fileUpload = <File>fileInput.target.files[0];

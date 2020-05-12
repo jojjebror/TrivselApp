@@ -93,7 +93,7 @@
           </mat-card>
         </div>
 
-        <div class="noDataTable" *ngIf="(evs$ | async)?.length == 0">Tyvärr hittades inga evenemang</div>
+        <div class="noDataTable" *ngIf="(evs$ | async)?.length == 0 && (loadings$ | async)?.length == 0">Tyvärr hittades inga evenemang</div>
         <!-- <div class="mobileShow">
           <mat-paginator class="listMobilePaginator" [pageSizeOptions]="[6, 12, 24]"></mat-paginator>E
         </div> -->

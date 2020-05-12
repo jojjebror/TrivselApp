@@ -13,13 +13,13 @@ export enum ActionTypes {
 
 export class LoadOffices implements Action {
   readonly type = ActionTypes.LOAD_OFFICES;
-  fxLoading = { add: ActionTypes.LOAD_OFFICES };
+  //fxLoading = { add: ActionTypes.LOAD_OFFICES };
 
 }
 
 export class LoadOfficesSuccess implements Action {
   readonly type = ActionTypes.LOAD_OFFICES_SUCCESS;
-  fxLoading = { remove: ActionTypes.LOAD_OFFICES };
+  //fxLoading = { remove: ActionTypes.LOAD_OFFICES };
 
   constructor(public payload: Office[]) {}
 }

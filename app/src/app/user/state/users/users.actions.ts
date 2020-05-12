@@ -21,12 +21,12 @@ export enum ActionTypes {
 
 export class GetUsers implements Action {
   readonly type = ActionTypes.GET_USERS;
-  fxLoading = { add: ActionTypes.GET_USERS };
+  //fxLoading = { add: ActionTypes.GET_USERS };
 }
 
 export class GetUsersSuccess implements Action {
   readonly type = ActionTypes.GET_USERS_SUCCESS;
-  fxLoading = { remove: ActionTypes.GET_USERS };
+  //fxLoading = { remove: ActionTypes.GET_USERS };
 
   constructor(public payload: User[]) {}
 }
