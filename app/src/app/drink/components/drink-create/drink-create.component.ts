@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Store, select, ActionsSubject } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
-import { AlertifyService } from 'src/app/core/services/alertify.service';
 
 import { Drink } from "../../../shared/models";
 import * as fromDrink from "../../state/drinks/drinks.actions";
