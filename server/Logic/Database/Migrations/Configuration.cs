@@ -25,14 +25,15 @@ namespace Logic.Database.Migrations
             {
                 Id = 1,
                 Name = "Linköping",
-                Adress = "Snickaregatan 40, 582 26 Linköping"
+                Adress = "Snickaregatan 40, 582 26 Linköping",
             };
 
             var office2 = new Office()
             {
                 Id = 2,
                 Name = "Stockholm",
-                Adress = "Olof Palmes gata 13, 111 37 Stockholm"
+                Adress = "Olof Palmes gata 13, 111 37 Stockholm",
+                SwishNumber = "0767606702"
             };
 
             var office3 = new Office()
@@ -53,13 +54,15 @@ namespace Logic.Database.Migrations
             {
                 Id = 5,
                 Name = "Uppsala",
-                Adress = "Dragarbrunnsgatan 46, 753 20 Uppsala"
+                Adress = "Dragarbrunnsgatan 46, 753 20 Uppsala",
+                SwishNumber = "0767606702"
             };
             var office6 = new Office()
             {
                 Id = 6,
                 Name = "Örebro",
-                Adress = "Järntorgsgatan 3a, 703 61 Örebro"
+                Adress = "Järntorgsgatan 3a, 703 61 Örebro",
+                SwishNumber = "0735469891"
             };
 
             var office7 = new Office()

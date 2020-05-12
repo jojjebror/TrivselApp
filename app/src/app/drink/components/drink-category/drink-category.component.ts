@@ -64,28 +64,17 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     this.getClickedId();
   }
 
-
   onLinkClick(event: MatTabChangeEvent) {
-
     if(event.index == 1)
-    {
-    console.log({ event });
     this.initializeFilterBeer();
-    }
 
     if(event.index == 2)
-    {
       this.initializeFilterWine();
-      console.log({event});
-    }
     
     if(event.index == 3)
-    {
       this.initializeFilterCider();
-      console.log({event});
-    }
-    
   }
+
   public initializeFilterBeer(): void {
     this.store$.dispatch(new drinksActions.FilterDrink("Öl"));
       this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
