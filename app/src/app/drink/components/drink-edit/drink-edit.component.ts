@@ -54,6 +54,7 @@ export class DrinkEditComponent implements OnInit {
         image: [null]
       });
     });
+    this.ngOnDestroy();
   }
 
   updateDrink() {
