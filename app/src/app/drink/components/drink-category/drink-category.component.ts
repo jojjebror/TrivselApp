@@ -61,7 +61,6 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.kontor = currentuser.office)) }, 1000);
     setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 100);
-    this.initializeFilterCategory();
     this.getClickedId();
   }
 
@@ -99,11 +98,6 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
 
   public initializeFilterCider(): void {
     this.store$.dispatch(new drinksActions.FilterDrink("Cider"));
-      this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
-  }
-
-  public initializeFilterCategory(): void {
-    this.store$.dispatch(new drinksActions.FilterDrink("Kategori"));
       this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
   }
 
