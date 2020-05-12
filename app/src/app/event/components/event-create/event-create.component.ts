@@ -130,12 +130,10 @@ export class EventCreateComponent implements OnInit, OnDestroy {
 
   loadUsers() {
     this.store$.dispatch(new fromUsers.GetUsers());
-    this.subscription.add(this.store$.pipe(select(fromUsers.getRelevantUsers(+this.userId))).subscribe((data) => (this.allUsers = data)));
+    this.subscription.add(this.store$.pipe(select(fromUsers.getRelevantUsers(+this.userId))).subscribe(data => { 
+      this.allUsers = data; 
+    }));
 
-    /* temporärt som fan */
-    if (this.allUsers == undefined) {
-    this.router.navigate(['/event']);
-    }
     this.filterUsers();
   }
 

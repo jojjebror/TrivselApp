@@ -17,6 +17,7 @@ export class UserResource extends ApiResource {
   }
 
   getUsers(): Observable<User[]> {
+    console.log("users")
     return this.get('user');
   }
 

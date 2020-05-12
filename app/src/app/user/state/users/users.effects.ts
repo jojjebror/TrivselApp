@@ -19,6 +19,7 @@ export class UsersEffects {
   loadUsers$: Observable<Action> = this.actions$.pipe(
     ofType(usersActions.ActionTypes.GET_USERS),
     switchMap(() => {
+      console.log('test');
       return this.userResource.getUsers().pipe(
         map((users: User[]) => new usersActions.GetUsersSuccess(users)),
         catchError((err) => of(new usersActions.GetUsersError(err)))

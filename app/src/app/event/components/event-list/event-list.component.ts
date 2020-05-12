@@ -62,7 +62,7 @@ export class EventListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.changeDetectorRef.detectChanges();
+    //this.changeDetectorRef.detectChanges();
     this.loadEvents();
   }
 
