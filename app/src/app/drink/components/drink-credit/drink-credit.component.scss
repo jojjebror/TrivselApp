@@ -1,3 +1,18 @@
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.container {
+  animation: fadeInAnimation ease 2s;
+  animation-iteration-count: 1s;
+  animation-fill-mode:forwards;
+}
+
 .addCreditForm {
   border: lightness($color: #ffffff);
   width: 600px;
@@ -6,6 +21,10 @@
   margin-top: 100px;
   color: white;
   height: 400px;
+  animation: fadeInAnimation ease 2s;
+  animation-iteration-count: 1s;
+  animation-fill-mode:forwards;
+  
   }
 
   .btn{
@@ -109,6 +128,10 @@ a {
   color: rgb(11, 187, 11) !important;
 }
 
+.desktopInfo {
+  display: none;
+}
+
 
 @media (max-width: 414px) {
 
@@ -128,10 +151,14 @@ a {
     height: 400px;
     padding-top: 12px;
   }
-  #desktopContent{
+  #desktopContent {
     display: none;
   }
   .btn{
+    display: block;
+  }
+
+  .desktopInfo {
     display: block;
   }
 
