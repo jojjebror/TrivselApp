@@ -11,7 +11,7 @@
     <hr />
 
     <div>
-      <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-form-field appearance="outline">
         <mat-label>Titel</mat-label>
         <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage('title') }}</mat-error>
         <input matInput matInput formControlName="title" [maxLength]="30" autocomplete="off" />
@@ -67,7 +67,7 @@
         <timepicker formControlName="starttime" [showMeridian]="false" [hoursPlaceholder]="'00'" [minutesPlaceholder]="'00'"></timepicker>
       </div>
 
-      <div *ngIf="!endDateMode" style="margin-left: 10px;" class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2 mt-3">
+      <div *ngIf="!endDateMode" class="form-group endtimeBtn col-xs-2 col-sm-2 col-md-2 col-lg-2 mt-3">
         <a (click)="endDateToggle()">+ Sluttid</a>
       </div>
     </div>
@@ -99,14 +99,14 @@
         </timepicker>
       </div>
 
-      <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2" style="margin-top: 15px; margin-left: 10px;">
+      <div class="form-group regretBtn col-xs-2 col-sm-2 col-md-2 col-lg-2">
         <a (click)="endDateToggle()">- Ångra</a>
       </div>
     </div>
 
     <div class="inviteContainer">
       <div class="officeContainer">
-        <p style="margin-top:20px; margin-bottom: 23px;">Välj kontor att bjuda in</p>
+        <p class="officeLbl">Välj kontor att bjuda in</p>
         <mat-selection-list class="form-group" #selectedOffices formControlName="offices">
           <mat-list-option *ngFor="let office of offices" [value]="office">
             {{ office }}
