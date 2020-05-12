@@ -62,7 +62,6 @@ export enum ActionTypes {
 export class LoadEvents implements Action, LoadingAction {
   readonly type = ActionTypes.LOAD_EVENTS;
   fxLoading = { add: ActionTypes.LOAD_EVENTS };
-
 }
 
 export class LoadEventsSuccess implements Action, LoadingAction {
@@ -85,7 +84,6 @@ export class LoadEvent implements Action {
   fxLoading = { add: ActionTypes.LOAD_EVENT };
 
   constructor(public payload: number) {}
-  
 }
 
 export class LoadEventSuccess implements Action {
@@ -101,7 +99,7 @@ export class LoadEventError implements Action {
   constructor(public payload: string) {}
 }
 
-/*--------------LoadEvent--------------*/
+/*--------------LoadEditEvent--------------*/
 
 export class LoadEditEvent implements Action {
   readonly type = ActionTypes.LOAD_EDIT_EVENT;
@@ -127,14 +125,14 @@ export class LoadEditEventError implements Action {
 
 export class CreateEvent implements Action {
   readonly type = ActionTypes.CREATE_EVENT;
-  fxLoading = { add: ActionTypes.CREATE_EVENT };
+  //fxLoading = { add: ActionTypes.CREATE_EVENT };
 
   constructor(public payload: Event, public image: File) {}
 }
 
 export class CreateEventSuccess implements Action {
   readonly type = ActionTypes.CREATE_EVENT_SUCCESS;
-  fxLoading = { remove: ActionTypes.CREATE_EVENT };
+  //fxLoading = { remove: ActionTypes.CREATE_EVENT };
 
   constructor(public payload: Event) {}
 }
@@ -149,14 +147,14 @@ export class CreateEventError implements Action {
 
 export class UpdateEvent implements Action {
   readonly type = ActionTypes.UPDATE_EVENT;
-  fxLoading = { add: ActionTypes.UPDATE_EVENT };
+  //fxLoading = { add: ActionTypes.UPDATE_EVENT };
 
   constructor(public payload: Event, public image: File) {}
 }
 
 export class UpdateEventSuccess implements Action {
   readonly type = ActionTypes.UPDATE_EVENT_SUCCESS;
-  fxLoading = { remove: ActionTypes.UPDATE_EVENT };
+  //fxLoading = { remove: ActionTypes.UPDATE_EVENT };
 
   constructor(public payload: Update<Event>) {}
 }
@@ -215,14 +213,14 @@ export class AddEventParticipantError implements Action {
 
 export class UploadImage implements Action {
   readonly type = ActionTypes.UPLOAD_IMAGE;
-  fxLoading = { add: ActionTypes.UPLOAD_IMAGE };
+  //fxLoading = { add: ActionTypes.UPLOAD_IMAGE };
 
   constructor(public id: number, public image: File) {}
 }
 
 export class UploadImageSuccess implements Action {
   readonly type = ActionTypes.UPLOAD_IMAGE_SUCCESS;
-  fxLoading = { remove: ActionTypes.UPLOAD_IMAGE };
+  //fxLoading = { remove: ActionTypes.UPLOAD_IMAGE_SUCCESS };
 
   constructor(public payload: Update<Event>) {}
 }
@@ -251,7 +249,7 @@ export class GetCurrentUserEventError implements Action {
   readonly type = ActionTypes.GET_USER_EVENT_ERROR;
 
   constructor(public payload: string) {}
-} 
+}
 
 /*--------------UpdateParticipantStatusInEvent--------------*/
 
@@ -264,7 +262,7 @@ export class UpdateUserParticipant implements Action {
 
 export class UpdateUserParticipantSuccess implements Action {
   readonly type = ActionTypes.UPDATE_USER_PARTICIPANT_SUCCESS;
-    fxLoading = { remove: ActionTypes.UPDATE_USER_PARTICIPANT };
+  fxLoading = { remove: ActionTypes.UPDATE_USER_PARTICIPANT };
 
   constructor(public payload: Update<User>) {}
 }
@@ -319,47 +317,36 @@ export type Actions =
   | LoadEvents
   | LoadEventsSuccess
   | LoadEventsError
-
   | LoadEvent
   | LoadEventSuccess
   | LoadEventError
-
   | LoadEditEvent
   | LoadEditEventSuccess
   | LoadEditEventError
-
   | CreateEvent
   | CreateEventSuccess
   | CreateEventError
-
   | UpdateEvent
   | UpdateEventSuccess
   | UpdateEventError
-
   | DeleteEvent
   | DeleteEventSuccess
   | DeleteEventError
-
   | AddEventParticipant
   | AddEventParticipantSuccess
   | AddEventParticipantError
-  
   | UploadImage
   | UploadImageSuccess
   | UploadImageError
-
   | GetCurrentUserEvent
   | GetCurrentUserEventSuccess
   | GetCurrentUserEventError
-
   | UpdateUserParticipant
   | UpdateUserParticipantSuccess
   | UpdateUserParticipantError
-
   | AddPostToEvent
   | AddPostToEventSuccess
   | AddPostToEventError
-
   | DeletePost
   | DeletePostSuccess
   | DeletePostError;

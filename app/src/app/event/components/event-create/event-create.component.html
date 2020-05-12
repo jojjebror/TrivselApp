@@ -1,9 +1,8 @@
 <div class="registerEventMain">
   <form
     [formGroup]="eventForm"
-    [ngClass]="{ mainForm: toggleFormHeight, fixedForm: !toggleFormHeight }"
-    class="mainForm border border-light p-5"
-    (ngSubmit)="createEvent()"
+    
+    class="mainForm border border-light p-5" (ngSubmit)="createEvent()"
   >
     <button mat-icon-button class="close-button" [routerLink]="['/event']">
       <mat-icon class="close-icon" color="white">close</mat-icon>
@@ -12,7 +11,7 @@
     <hr />
 
     <div>
-      <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-form-field appearance="outline">
         <mat-label>Titel</mat-label>
         <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage('title') }}</mat-error>
         <input matInput matInput formControlName="title" [maxLength]="30" autocomplete="off" />
@@ -68,7 +67,7 @@
         <timepicker formControlName="starttime" [showMeridian]="false" [hoursPlaceholder]="'00'" [minutesPlaceholder]="'00'"></timepicker>
       </div>
 
-      <div *ngIf="!endDateMode" style="margin-left: 10px;" class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2 mt-3">
+      <div *ngIf="!endDateMode" class="form-group endtimeBtn col-xs-2 col-sm-2 col-md-2 col-lg-2 mt-3">
         <a (click)="endDateToggle()">+ Sluttid</a>
       </div>
     </div>
@@ -100,14 +99,14 @@
         </timepicker>
       </div>
 
-      <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2" style="margin-top: 15px; margin-left: 10px;">
+      <div class="form-group regretBtn col-xs-2 col-sm-2 col-md-2 col-lg-2">
         <a (click)="endDateToggle()">- Ångra</a>
       </div>
     </div>
 
     <div class="inviteContainer">
       <div class="officeContainer">
-        <p>Välj kontor att bjuda in</p>
+        <p class="officeLbl">Välj kontor att bjuda in</p>
         <mat-selection-list class="form-group" #selectedOffices formControlName="offices">
           <mat-list-option *ngFor="let office of offices$ | async" [value]="office">
             {{ office.name }}
@@ -116,9 +115,18 @@
         <p>Inbjudna kontor: {{ selectedOffices.selectedOptions.selected.length }}</p>
       </div>
       <div class="userContainer">
-        <p>Välj specifika användare</p>
-        <mat-selection-list class="form-group" #selectedUsers formControlName="users">
-          <mat-list-option *ngFor="let user of users$ | async" [value]="user">
+        <!-- <p>Välj specifika användare</p> -->
+        <!-- <input matInput [formControl]="search" placeholder="Sök specifika användare" autocomplete="off"> -->
+        <mat-form-field appearance="legacy" id="userSearchbar">
+          <input matInput [formControl]="search" placeholder="Välj specifika användare" autocomplete="off" [(ngModel)]="searchField" />
+          <button mat-button mat-icon-button matSuffix (click)="clearField()" *ngIf="searchField">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-icon matSuffix *ngIf="!searchField">search</mat-icon>
+        </mat-form-field>
+
+        <mat-selection-list class="form-group" #selectedUsers formControlName="users" (selectionChange)="selectionChange($event.option)">
+          <mat-list-option *ngFor="let user of users$ | async" [value]="user" [selected]="usersControl.value && usersControl.value?.indexOf(user)>=0">
             {{ user.name }}
           </mat-list-option>
         </mat-selection-list>
@@ -126,7 +134,7 @@
       </div>
     </div>
 
-    <div [ngClass]="{ mainBtnGroup: toggleFormHeight, fixedBtnGroup: !toggleFormHeight }" class="form-group text-center mainBtnGroup">
+    <div class="form-group text-center mainBtnGroup">
       <button class="btn btn-success" [disabled]="!eventForm.valid" type="submit">
         Skapa evenemang
       </button>

@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ActionTypes } from '../../state/events';
 import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
+import { AuthenticationService } from 'src/app/core/services';
 
 @Component({
   selector: 'ex-event-edit',
@@ -22,11 +23,12 @@ import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
 export class EventEditComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   loadings$ = this.store$.pipe(select(getLoadingData));
-  ev$: Observable<Event>;
+  //ev$: Observable<Event>;
   evt: Event;
   users$: Observable<User[]>;
   invitedParticipants$: Observable<User[]>;
   users: User[];
+  userId: number;
   eventEditForm: FormGroup;
 
   eventId: number;
@@ -34,27 +36,32 @@ export class EventEditComponent implements OnInit, OnDestroy {
   starttime: Date;
   endtime: Date;
   fileUpload: File = null;
-  imageUrl: string;
+  imageUrl: any = null;
 
   constructor(
     private store$: Store<AppState>,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private dateAdapter: DateAdapter<Date>,
-    private activatedRoute: ActivatedRoute,
+    //private activatedRoute: ActivatedRoute,
     private actionsSubject$: ActionsSubject,
     private router: Router,
-    private cd: ChangeDetectorRef
+    //private cd: ChangeDetectorRef,
+    public authService: AuthenticationService
   ) {
     dateAdapter.setLocale('sv');
+    this.subscription.add(
+      authService.getUserId().subscribe((user) => {
+        this.userId = user.sub;
+      })
+    );
   }
 
   ngOnInit() {
-    this.loadData();
-    this.loadUsers();
+    this.loadEvent();
   }
 
-  loadData() {
+  loadEvent() {
     this.subscription.add(
       this.store$.pipe(select(fromEvents.getCurrentEvent)).subscribe((data) => {
         this.evt = data;
@@ -65,6 +72,15 @@ export class EventEditComponent implements OnInit, OnDestroy {
     } else {
       this.router.navigate(['/event']);
     }
+
+    this.loadUsers();
+  }
+
+  private loadUsers() {
+    this.store$.dispatch(new fromUsers.GetUsers());
+    this.users$ = this.store$.pipe(select(fromUsers.getRelevantUsers(+this.userId)));
+
+    this.invitedParticipants$ = this.store$.pipe(select(fromEvents.getInvitedParticipants));
   }
 
   createEventEditForm() {
@@ -104,8 +120,26 @@ export class EventEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadImage(file: FileList) {
+  /* loadImage(file: FileList) {
     this.fileUpload = file.item(0);
+  } */
+
+  fileProgress(fileInput: any) {
+    this.fileUpload = <File>fileInput.target.files[0];
+    this.imagePreview();
+  }
+
+  imagePreview() {
+    var mimeType = this.fileUpload.type;
+    if (mimeType.match(/image\/*/) == null) {
+      return;
+    }
+
+    var reader = new FileReader();
+    reader.readAsDataURL(this.fileUpload);
+    reader.onload = (_event) => {
+      this.imageUrl = reader.result;
+    };
   }
 
   fixDateTimeZone(d: Date): Date {
@@ -148,13 +182,6 @@ export class EventEditComponent implements OnInit, OnDestroy {
         return 'Du måste ange ett slutdatum';
       }
     }
-  }
-
-  private loadUsers() {
-    this.store$.dispatch(new fromUsers.GetUsers());
-    this.users$ = this.store$.pipe(select(fromUsers.getUsers));
-
-    this.invitedParticipants$ = this.store$.pipe(select(fromEvents.getInvitedParticipants));
   }
 
   showSnackbarUpdateEvent() {

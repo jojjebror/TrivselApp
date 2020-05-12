@@ -31,12 +31,22 @@
       </mat-form-field>
     </div>
 
-    <div>
+    <!-- <div>
       <img class="card-img-top img-thumbnail" [src]="imageUrl ? 
               imageUrl : '/assets/images/event-images/default_event.png'" />
       <input type="file" accept="image/*" autocomplete="off" formControlName="imageurl"
         (change)="loadImage($event.target.files)" />
-    </div> 
+    </div>  -->
+
+    <div>
+      <input type="file" accept="image/*" autocomplete="off" formControlName="imageurl" (change)="fileProgress($event)" />
+    
+      <div *ngIf="imageUrl">
+        <img [src]="imageUrl" style="width: 100px; margin-top: 15px;" />
+      </div>
+      <!-- <mat-error *ngIf="eventForm.invalid">Fel filtyp</mat-error> -->
+      <!-- </mat-form-field> -->
+    </div>
 
 
         <div class="form-row startInput">
