@@ -11,10 +11,10 @@
   <!-- ---------------Incoming events---------------- -->
 
   <div class="tab-panel">
-    <mat-tab-group dynamicHeight [selectedIndex]="selectedTab" (selectedIndexChange)="setTab($event)">
+    <mat-tab-group dynamicHeight [selectedIndex]="selectedTab" (selectedIndexChange)="onTabChange($event)">
       <mat-tab label="Kommande evenemang">
         <div class="filtering">
-          <mat-paginator class="listPaginator" [pageSizeOptions]="[6, 12, 24]"></mat-paginator>
+          <mat-paginator class="listPaginator" (page)="onPaginateChange($event)" [pageIndex]="selectedPage" [pageSizeOptions]="[6, 12, 24]"></mat-paginator>
           <mat-form-field appearance="legacy" id="allEventSearchbar">
             <input
               [(ngModel)]="searchField"
@@ -62,7 +62,7 @@
           </mat-form-field> -->
         </div>
         <div class="mat-card-div">
-          <mat-card *ngFor="let ev of evs$ | async" [routerLink]="['/event', ev.id]" fxFlex="100">
+          <mat-card *ngFor="let ev of evs$ | async" [routerLink]="['/event', ev.id]" [queryParams]="{ page: selectedPage}" fxFlex="100">
             <mat-card-header>
               <mat-card-title>{{ ev.title }}</mat-card-title>
             </mat-card-header>
@@ -86,7 +86,7 @@
               </p>
             </mat-card-content>
             <mat-card-actions>
-              <button mat-button [routerLink]="['/event', ev.id]" class="btnReadMore">Läs mer</button>
+              <button mat-button [routerLink]="['/event', ev.id]" [queryParams]="{ page: selectedPage}" class="btnReadMore">Läs mer</button>
             </mat-card-actions>
           </mat-card>
         </div>
@@ -111,7 +111,7 @@
             <mat-table class="lessons-table mat-elevation-z8" [dataSource]="invitedEvents" *ngIf="invitedEvents.data.length > 0">
               <ng-container matColumnDef="title2">
                 <mat-header-cell *matHeaderCellDef>Titel</mat-header-cell>
-                <mat-cell id="cell-cursor" [routerLink]="['/event', element.id]" *matCellDef="let element">{{ element.title }}</mat-cell>
+                <mat-cell id="cell-cursor" [routerLink]="['/event', element.id]" [queryParams]="{ tab: selectedTab}" *matCellDef="let element">{{ element.title }}</mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="location2">
@@ -176,7 +176,7 @@
             <mat-table class="lessons-table mat-elevation-z8" [dataSource]="attendedEvents" *ngIf="attendedEvents.data.length > 0">
               <ng-container matColumnDef="title3">
                 <mat-header-cell *matHeaderCellDef>Titel</mat-header-cell>
-                <mat-cell id="cell-cursor" [routerLink]="['/event', element.id]" *matCellDef="let element">{{ element.title }} </mat-cell>
+                <mat-cell id="cell-cursor" [routerLink]="['/event', element.id]" [queryParams]="{ tab: selectedTab }" *matCellDef="let element">{{ element.title }} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="location3">
@@ -248,7 +248,7 @@
           <mat-table class="lessons-table mat-elevation-z8" [dataSource]="createdEvents" matSort *ngIf="createdEvents.data.length > 0">
             <ng-container matColumnDef="title">
               <mat-header-cell *matHeaderCellDef>Titel</mat-header-cell>
-              <mat-cell id="cell-cursor" [routerLink]="['/event', ev.id]" *matCellDef="let ev">{{ ev.title }}</mat-cell>
+              <mat-cell id="cell-cursor" [routerLink]="['/event', ev.id]" [queryParams]="{ tab: selectedTab }" *matCellDef="let ev">{{ ev.title }}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="location">

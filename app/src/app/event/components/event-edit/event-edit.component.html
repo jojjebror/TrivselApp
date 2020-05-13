@@ -2,7 +2,7 @@
   
   <form [formGroup]="eventEditForm" (ngSubmit)="updateEvent()"
     class="mainForm border border-light p-5">
-    <button mat-icon-button class="close-button" [routerLink]="['/event']">
+    <button mat-icon-button class="close-button" [routerLink]="['/event']" [queryParams]="{ tab: 2}">
       <mat-icon class="close-icon" color="white">close</mat-icon>
     </button>
     <h3 class="text-center">Ändra evenemanget</h3>
@@ -117,7 +117,7 @@
       <button class="btn btn-success" [disabled]="!eventEditForm.dirty || !eventEditForm.valid" type="submit">
         Spara ändringar
       </button>
-      <button class="btn btn-default" type="button" style="color: white;" [routerLink]="['/event']">
+      <button class="btn btn-default" type="button" style="color: white;" [routerLink]="['/event']" [queryParams]="{ tab: 2}">
         Gå tillbaka
       </button>
     </div>

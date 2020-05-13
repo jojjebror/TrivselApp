@@ -128,7 +128,7 @@
             {{ user.name }}
           </mat-list-option>
         </mat-selection-list>
-        <p>Inbjudna användare: {{ selectedUsers.selectedOptions.selected.length }}</p>
+        <p *ngIf="!searchField">Inbjudna användare: {{ selectedUsers.selectedOptions.selected.length }}</p>
       </div>
     </div>
 
