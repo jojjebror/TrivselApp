@@ -129,6 +129,7 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   }
 
   loadUsers() {
+    /* this.actionsSubject$.pipe(filter((action: any) => action.type, { action: '@ngrx/store/update-reducers', feature: 'user'})); */
     this.store$.dispatch(new fromUsers.GetUsers());
     this.subscription.add(this.store$.pipe(select(fromUsers.getRelevantUsers(+this.userId))).subscribe(data => { 
       this.allUsers = data; 

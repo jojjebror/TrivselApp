@@ -5,7 +5,7 @@
 <div mat-dialog-content>
   {{ message }} <br />
 
-  <mat-form-field style="margin-top: 30px;">
+  <mat-form-field class="addDialog">
     <mat-select [(value)]="selectedOffice">
       <mat-option *ngFor="let office of offices" [value]="office">
         {{ office.name }}

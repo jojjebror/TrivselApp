@@ -8,6 +8,4 @@ export interface UsersState extends EntityState<User> {
   loaded: boolean;
   error: string;
   user: User;
-  //event: Event[];
-  //offices: string[]
 }

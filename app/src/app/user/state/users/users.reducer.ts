@@ -9,7 +9,6 @@ let initialState = adapter.getInitialState({
   loaded: false,
   error: '',
   user: null,
-  //event: []
 });
 
 export function reducer(state: UsersState = initialState, action: usersActions.Actions): UsersState {

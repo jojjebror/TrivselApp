@@ -20,11 +20,16 @@
   transform: rotate(180deg);
 }
 
-::ng-deep .mat-form-field-underline {
-    background-color: black!important;
+.editDialog {
+  margin-top: 30px;
 }
 
-::ng-deep .mat-form-field.mat-focused {
+.editDialog ::ng-deep .mat-form-field-underline {
+    background-color: black !important;
+}
+
+
+.editDialog ::ng-deep .mat-form-field.mat-focused {
     .mat-form-field-ripple {
         background-color: black!important;
     }
@@ -36,7 +41,7 @@
     }
 }
 
-::ng-deep .mat-select-content {
+.editDialog ::ng-deep .mat-select-content {
     color: black !important;
 }
 

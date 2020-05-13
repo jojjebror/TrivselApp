@@ -24,15 +24,15 @@
             <strong>När:</strong>
             <p>
               {{ getDayOfWeek(ev.startDate) }}
-              {{ ev.startDate | date: 'd/M/yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }}
+              {{ ev.startDate | date: 'd/M-yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }}
               <span *ngIf="checkEndTime(ev.endDate)"> - {{ ev.endDate | date: 'HH:mm' }} </span>
             </p>
           </div>
           <div *ngIf="!checkDates(ev.startDate, ev.endDate)">
             <strong>När:</strong>
             <p>
-              Starttid: {{ ev.startDate | date: 'd/M/yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }} <br />
-              Sluttid: {{ ev.endDate | date: 'd/M/yyyy' }} kl. {{ ev.endDate | date: 'HH:mm' }}
+              Starttid: {{ ev.startDate | date: 'd/M-yy' }} kl. {{ ev.startDate | date: 'HH:mm' }} <br />
+              Sluttid: {{ ev.endDate | date: 'd/M-yy' }} kl. {{ ev.endDate | date: 'HH:mm' }}
             </p>
           </div>
           <div>

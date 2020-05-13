@@ -5,3 +5,27 @@
 :host /deep/ .mat-select-value-text {
   color: black !important;
 }
+
+.addDialog {
+    margin-top: 30px;
+}
+
+.addDialog ::ng-deep .mat-form-field-underline {
+    background-color: black !important;
+}
+
+.addDialog ::ng-deep .mat-form-field.mat-focused {
+    .mat-form-field-ripple {
+        background-color: black!important;
+    }
+    .mat-input-element {
+        color: black!important;
+    }
+    .mat-form-field-label {
+        color: black!important;
+    }
+}
+
+.addDialog ::ng-deep .mat-select-content {
+    color: black !important;
+}

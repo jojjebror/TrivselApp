@@ -10,24 +10,20 @@ import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
-	imports: [
-		BrowserModule,
-		BrowserAnimationsModule,
-		SharedModule,
-		CoreModule,
-		AppRoutingModule,
-	/* 	AngularFireModule.initializeApp(environment.firebase) */
-
-	],
-	declarations: [
-		AppComponent,
-	],
-	bootstrap: [
-		AppComponent
-	],
-	providers: [
-	]
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    SharedModule,
+    CoreModule,
+    AppRoutingModule,
+    StoreDevtoolsModule.instrument(),
+    /* 	AngularFireModule.initializeApp(environment.firebase) */
+  ],
+  declarations: [AppComponent],
+  bootstrap: [AppComponent],
+  providers: [],
 })
-export class AppModule { }
+export class AppModule {}

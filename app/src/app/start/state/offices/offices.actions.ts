@@ -3,7 +3,7 @@ import { Office } from '../../../shared/models';
 import { Update } from '@ngrx/entity';
 import { LoadingAction } from '../../../core/state/loading';
 
-export enum ActionTypes {
+export enum ActionTypesO {
   LOAD_OFFICES = '[Offices view] Load Offices',
   LOAD_OFFICES_SUCCESS = '[API: /home/offices] Load Offices success',
   LOAD_OFFICES_ERROR = '[API: //home/offices] Load Offices error',
@@ -12,20 +12,20 @@ export enum ActionTypes {
 /*--------------LoadOffices--------------*/
 
 export class LoadOffices implements Action {
-  readonly type = ActionTypes.LOAD_OFFICES;
+  readonly type = ActionTypesO.LOAD_OFFICES;
   //fxLoading = { add: ActionTypes.LOAD_OFFICES };
 
 }
 
 export class LoadOfficesSuccess implements Action {
-  readonly type = ActionTypes.LOAD_OFFICES_SUCCESS;
+  readonly type = ActionTypesO.LOAD_OFFICES_SUCCESS;
   //fxLoading = { remove: ActionTypes.LOAD_OFFICES };
 
   constructor(public payload: Office[]) {}
 }
 
 export class LoadOfficesError implements Action {
-  readonly type = ActionTypes.LOAD_OFFICES_ERROR;
+  readonly type = ActionTypesO.LOAD_OFFICES_ERROR;
 
   constructor(public payload: string) {}
 }

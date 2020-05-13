@@ -3,6 +3,7 @@ import * as fromSession from '../../core/state/session';
 import { ActionsSubject, Store, select } from '@ngrx/store';
 import { filter } from 'rxjs/operators';
 import { ActionTypes } from '../../core/state/session';
+import { ActionTypesO } from '../state/offices'
 import { Observable, Subscription } from 'rxjs';
 import { User, Office } from 'src/app/shared/models';
 import { AppState } from 'src/app/core/state';
@@ -47,8 +48,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.user$.subscribe(data => currentUser = data);
 
         if (currentUser.office === null) {
-            setTimeout(() => { this.loadOffices(); }, 2000);
-            setTimeout(() => { this.addOfficeDialog(currentUser); }, 3000);
+            this.loadOffices();
+            this.subscription.add(this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypesO.LOAD_OFFICES_SUCCESS)).subscribe((action) => {
+              this.addOfficeDialog(currentUser);
+          }));
         }
       })
     );

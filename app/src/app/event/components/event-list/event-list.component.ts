@@ -28,6 +28,7 @@ export class EventListComponent implements OnInit, OnDestroy {
   evs$: Observable<Event[]>;
   loadings$ = this.store$.pipe(select(getLoadingData));
   userId: number;
+  selectedTab: number = 0;
 
   createdEvents = new MatTableDataSource<Event>();
   invitedEvents = new MatTableDataSource<Event>();
@@ -42,11 +43,9 @@ export class EventListComponent implements OnInit, OnDestroy {
   searchFieldUserEvents;
   calendarField;
 
-
   constructor(
     private store$: Store<AppState>,
     private snackBar: MatSnackBar,
-    private changeDetectorRef: ChangeDetectorRef,
     private dateAdapter: DateAdapter<Date>,
     public alertService: AlertService,
     public authService: AuthenticationService,
@@ -62,7 +61,6 @@ export class EventListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    //this.changeDetectorRef.detectChanges();
     this.loadEvents();
   }
 
@@ -100,7 +98,7 @@ export class EventListComponent implements OnInit, OnDestroy {
     //Events that the user already have attended to
     this.subscription.add(
       this.store$.pipe(select(fromEvents.getAttendedEvents)).subscribe((data: Event[]) => {
-        this.attendedEvents.data = data;
+        this.attendedEvents.data = data.sort((a, b) => a.startDate.toString().localeCompare(b.startDate.toString()));
       })
     );
   }
@@ -215,6 +213,12 @@ export class EventListComponent implements OnInit, OnDestroy {
     } else {
       return false;
     }
+  }
+
+  setTab(tabId: number): void {
+    //ta inte bort, påbörjan på att skickas tillbaka till korrekt tab
+    this.selectedTab = tabId;
+    console.log(this.selectedTab);
   }
 
   showSnackbarLoadEvents() {
