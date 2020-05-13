@@ -4,7 +4,7 @@ import { adapter } from './podcast.adapter';
 import * as podcastActions from './podcast.actions';
 
 let initialState = adapter.getInitialState({
-  selectedPodcastEpisodeId: null,
+  selectedEpisodeId: null,
   loading: false,
   loaded: false,
   error: null,
@@ -12,7 +12,7 @@ let initialState = adapter.getInitialState({
 
 export function reducer(state: PodcastState = initialState, action: podcastActions.Actions): PodcastState {
   switch (action.type) {
-    case podcastActions.ActionTypes.LOAD_PODCAST_EPISODES: {
+    case podcastActions.ActionTypes.LOAD_PODCAST: {
       return {
         ...state,
         loading: true,
@@ -20,7 +20,7 @@ export function reducer(state: PodcastState = initialState, action: podcastActio
       };
     }
 
-    case podcastActions.ActionTypes.LOAD_PODCAST_EPISODES_SUCCESS: {
+    case podcastActions.ActionTypes.LOAD_PODCAST_SUCCESS: {
       return adapter.addAll(action.payload, {
         ...state,
         loading: false,
@@ -29,7 +29,7 @@ export function reducer(state: PodcastState = initialState, action: podcastActio
       });
     }
 
-    case podcastActions.ActionTypes.LOAD_PODCAST_EPISODES_ERROR: {
+    case podcastActions.ActionTypes.LOAD_PODCAST_ERROR: {
       return {
         ...state,
         entities: {},

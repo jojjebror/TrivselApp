@@ -1,3 +1,7 @@
+<div *ngIf="userOffice$">
+  <ex-office-detail [office]="userOffice$ | async"></ex-office-detail>
+</div>
+
 <div class="mat-card-div" *ngIf="podcastFeed$">
   <mat-card *ngFor="let episode of podcastFeed$ | async" (click)="playEpisode(episode)" fxFlex="100">
     <mat-card-header class="maxTitle">
@@ -17,7 +21,6 @@
 </div>
 
 <div id="audioPlayerDiv" *ngIf="showAudioPlayer">
-  <!-- <img [src]="imageUrl" alt=""> -->
   <div id="audioplayerInfo">
     <p class="maxTitle">{{ title }}</p>
     <button mat-icon-button class="close-button" (click)="toggleAudioPlayer()">

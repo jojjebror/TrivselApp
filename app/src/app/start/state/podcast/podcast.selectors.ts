@@ -6,14 +6,14 @@ import { adapter } from './podcast.adapter';
 
 const { selectAll } = adapter.getSelectors();
 
-export const selectState = (state: AppState) => state.home.episodes;
+export const selectState = (state: AppState) => state.home.podcast;
 
-export const getPodcastEpisodes = createSelector(selectState, selectAll);
+export const getPodcast = createSelector(selectState, selectAll);
 
-export const getPodcastEpisodesLoading = createSelector(selectState, (state) => state.loading);
+export const getPodcastLoading = createSelector(selectState, (state) => state.loading);
 
-export const getPodcastEpisodesLoaded = createSelector(selectState, (state) => state.loaded);
+export const getPodcastLoaded = createSelector(selectState, (state) => state.loaded);
 
 export const getError = createSelector(selectState, (state) => state.error);
 
-export const getCurrentPodcastEpisodeId = createSelector(selectState, (state) => state.selectedPodcastEpisodeId);
+export const getCurrentPodcastEpisodeId = createSelector(selectState, (state) => state.selectedEpisodeId);

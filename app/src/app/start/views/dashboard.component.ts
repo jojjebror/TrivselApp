@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import * as fromSession from '../../core/state/session';
 import { ActionsSubject, Store, select } from '@ngrx/store';
 import { filter } from 'rxjs/operators';
@@ -19,6 +19,7 @@ import * as fromOffices from '../state/offices';
   selector: 'ex-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
@@ -26,6 +27,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   user$: Observable<User>;
   podcastFeed$: Observable<PodcastEpisode[]>;
   offices$: Observable<Office[]>;
+  userOffice$: Observable<Office>;
 
   title: string;
   summary: string;
@@ -35,22 +37,37 @@ export class DashboardComponent implements OnInit, OnDestroy {
   showAudioPlayer = false;
   autoPlay = true;
 
-  constructor(private store$: Store<AppState>, private actionsSubject$: ActionsSubject, public dialog: MatDialog, private snackBar: MatSnackBar) {}
+  constructor(
+    private store$: Store<AppState>,
+    private actionsSubject$: ActionsSubject,
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.loadPodcast();
+
     let currentUser: User;
 
     this.subscription.add(
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.SetUserSuccess)).subscribe((action) => {
-        this.user$ = this.store$.pipe(select(fromSession.selectUser));
-        this.user$.subscribe(data => currentUser = data);
+      this.actionsSubject$
+        .pipe(filter((action: any) => action.type === ActionTypes.SetUserSuccess))
+        .subscribe((action) => {
+          this.user$ = this.store$.pipe(select(fromSession.selectUser));
+          this.user$.subscribe((data) => (currentUser = data));
 
-        if (currentUser.office === null) {
-            setTimeout(() => { this.loadOffices(); }, 2000);
-            setTimeout(() => { this.addOfficeDialog(currentUser); }, 3000);
-        }
-      })
+          if (currentUser.office === null) {
+            setTimeout(() => {
+              this.loadOffices();
+            }, 2000);
+            setTimeout(() => {
+              this.addOfficeDialog(currentUser);
+            }, 3000);
+            setTimeout(() => {
+              this.userOffice$ = this.store$.pipe(select(fromOffices.getUserOffice(currentUser.office)));
+            }, 3000);
+          }
+        })
     );
   }
 
@@ -60,8 +77,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   loadPodcast() {
-    this.store$.dispatch(new fromPodcast.LoadPodcastEpisodes());
-    this.podcastFeed$ = this.store$.pipe(select(fromPodcast.getPodcastEpisodes));
+    this.store$.dispatch(new fromPodcast.LoadPodcast());
+    this.podcastFeed$ = this.store$.pipe(select(fromPodcast.getPodcast));
   }
 
   toggleAudioPlayer() {
@@ -82,7 +99,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     let office: Office;
     let offices: Office[];
 
-    this.subscription.add(this.offices$.subscribe(data => offices = data));
+    this.subscription.add(this.offices$.subscribe((data) => (offices = data)));
 
     const message = 'Välj det kontor du tillhör i listan nedan för att gå vidare till applikationen';
     const dialogData = new AddDialogModel('Välj ett kontor', message, offices, office);
@@ -110,9 +127,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   showSnackbarAddOffice(newOffice: string) {
     this.subscription.add(
-      this.actionsSubject$.pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_OFFICE_SUCCESS)).subscribe((action) => {
-        this.snackBar.open('Ditt valda kontor: ' + newOffice, '', { duration: 3500 });
-      })
+      this.actionsSubject$
+        .pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_OFFICE_SUCCESS))
+        .subscribe((action) => {
+          this.snackBar.open('Ditt valda kontor: ' + newOffice, '', { duration: 3500 });
+        })
     );
   }
 
