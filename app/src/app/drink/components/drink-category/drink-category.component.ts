@@ -61,7 +61,7 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.kontor = currentuser.office)) }, 1000);
     setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 1000);
-    this.getClickedId();
+    // this.getClickedId();
   }
 
   onLinkClick(event: MatTabChangeEvent) {
@@ -228,6 +228,7 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
         this.actionsSubject$.pipe(filter((action: any) => action.type === fromUser.ActionTypes.UPDATE_CREDIT_ERROR)).subscribe((action) => {
           setTimeout(() => {  this.snackBar.open('Du har för lite pengar på ditt saldo! ', '', { duration: 12000 }) }, 500);
         }) );
+        this.ngOnDestroy();
   }
 
   ngOnDestroy() {

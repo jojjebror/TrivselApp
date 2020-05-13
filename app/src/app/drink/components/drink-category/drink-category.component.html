@@ -54,7 +54,7 @@
         <li *ngFor="let dr of drs$ | async" class="tab1">
           <img class="card-img-top img-thumbnail" [src]="dr.image ? dr.image : '/assets/images/drink-images/default_drink.jpg'" />
           <a class="titleProduct">
-            {{ dr.productNameBold }} </a> <mat-icon matSuffix class="editIcon" matTooltip="Visa info om dryck" (click)="editDrink(dr.id)" [routerLink] = "['/drink/', dr.id]"> info</mat-icon>
+            {{ dr.productNameBold }} </a> <mat-icon matSuffix class="editIcon" matTooltip="Visa info om dryck" [routerLink] = "['/drink/', dr.id]"> info</mat-icon>
           
           <button class="btn btn-success" (click)="confirmPurchase(dr)">Köp med saldo</button>
           <button class="btn btn-success" id="btnSwish" (click)="confirmPurchaseSwish(dr)">Köp med swish</button>
@@ -80,7 +80,7 @@
       <li *ngFor="let dr of drs$ | async" class="tab1">
         <img class="card-img-top img-thumbnail" [src]="dr.image ? dr.image : '/assets/images/drink-images/default_drink.jpg'" />
         <a class="titleProduct">
-          {{ dr.productNameBold }} </a> <mat-icon matSuffix class="editIcon" matTooltip="Visa info om dryck" (click)="editDrink(dr.id)" [routerLink] = "['/drink/', dr.id]"> info</mat-icon>
+          {{ dr.productNameBold }} </a> <mat-icon matSuffix class="editIcon" matTooltip="Visa info om dryck" [routerLink] = "['/drink/', dr.id]"> info</mat-icon>
         
         <button class="btn btn-success" (click)="confirmPurchase(dr)">Köp med saldo</button>
         <button class="btn btn-success" id="btnSwish" (click)="confirmPurchaseSwish(dr)">Köp med swish</button>
@@ -106,7 +106,7 @@
     <li *ngFor="let dr of drs$ | async" class="tab1">
       <img class="card-img-top img-thumbnail" [src]="dr.image ? dr.image : '/assets/images/drink-images/default_drink.jpg'" />
       <a class="titleProduct">
-        {{ dr.productNameBold }} </a> <mat-icon matSuffix class="editIcon" matTooltip="Visa info om dryck" (click)="editDrink(dr.id)" [routerLink] = "['/drink/', dr.id]"> info</mat-icon>
+        {{ dr.productNameBold }} </a> <mat-icon matSuffix class="editIcon" matTooltip="Visa info om dryck" [routerLink] = "['/drink/', dr.id]"> info</mat-icon>
       
       <button class="btn btn-success" (click)="confirmPurchase(dr)">Köp med saldo</button>
       <button class="btn btn-success" id="btnSwish" (click)="confirmPurchaseSwish(dr)">Köp med swish</button>
