@@ -31,6 +31,6 @@ export class UserResource extends ApiResource {
   getOffices(): Observable<Office[]>{
     return this.get('user/Offices');
   }
- 
+
 }
 

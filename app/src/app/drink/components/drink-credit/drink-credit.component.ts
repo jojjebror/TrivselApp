@@ -9,8 +9,6 @@ import * as fromSession from '../../../core/state/session';
 import { AuthenticationService } from 'src/app/core/services';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/components/confirmDialog/confirmDialog.component';
 import { MatDialog } from '@angular/material';
-import * as officesActions from "../../../offices/state/offices.actions";
-import * as fromOffices from "../../../offices/state/offices.selector";
 
 
 @Component({
@@ -26,7 +24,6 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
   user: User;
   userCredit: number;
   userInput: number;
-  hej: any[];
   
   office: string;
   officeList = [{listoffice:'Linköping', swishNumber: '0768658080'}, {listoffice:'Örebro', swishNumber: '0735469891'},
@@ -91,9 +88,7 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
     }));
   }
 getOfficeNumber(){
-  this.store$.dispatch(new officesActions.GetOffices());
-  var hej = this.store$.select(fromOffices.getOffices);
-  console.log(hej);
+ 
 }
   
   addOfficeSwish(){
