@@ -2,8 +2,6 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/
 import * as fromSession from '../../core/state/session';
 import { ActionsSubject, Store, select } from '@ngrx/store';
 import { filter } from 'rxjs/operators';
-import { ActionTypes } from '../../core/state/session';
-import { ActionTypesO } from '../state/offices'
 import { Observable, Subscription } from 'rxjs';
 import { User, Office } from 'src/app/shared/models';
 import { AppState } from 'src/app/core/state';
@@ -51,13 +49,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     let currentUser: User;
 
     this.subscription.add(
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.SetUserSuccess)).subscribe((action) => {
+      this.actionsSubject$.pipe(filter((action: any) => action.type === fromSession.ActionTypes.SetUserSuccess)).subscribe((action) => {
         this.user$ = this.store$.pipe(select(fromSession.selectUser));
         this.user$.subscribe(data => currentUser = data);
 
         if (currentUser.office === null) {
             this.loadOffices();
-            this.subscription.add(this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypesO.LOAD_OFFICES_SUCCESS)).subscribe((action) => {
+            this.subscription.add(this.actionsSubject$.pipe(filter((action: any) => action.type === fromOffices.ActionTypes.LOAD_OFFICES_SUCCESS)).subscribe((action) => {
               this.addOfficeDialog(currentUser);
           }));
         }

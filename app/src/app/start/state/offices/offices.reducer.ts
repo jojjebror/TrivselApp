@@ -12,7 +12,7 @@ let initialState = adapter.getInitialState({
 
 export function reducer(state: OfficesState = initialState, action: officesActions.Actions): OfficesState {
   switch (action.type) {
-    case officesActions.ActionTypesO.LOAD_OFFICES: {
+    case officesActions.ActionTypes.LOAD_OFFICES: {
       return {
         ...state,
         loading: true,
@@ -20,7 +20,7 @@ export function reducer(state: OfficesState = initialState, action: officesActio
       };
     }
 
-    case officesActions.ActionTypesO.LOAD_OFFICES_SUCCESS: {
+    case officesActions.ActionTypes.LOAD_OFFICES_SUCCESS: {
       return adapter.addAll(action.payload, {
         ...state,
         loading: false,
@@ -29,7 +29,7 @@ export function reducer(state: OfficesState = initialState, action: officesActio
       });
     }
 
-    case officesActions.ActionTypesO.LOAD_OFFICES_ERROR: {
+    case officesActions.ActionTypes.LOAD_OFFICES_ERROR: {
       return {
         ...state,
         entities: {},
