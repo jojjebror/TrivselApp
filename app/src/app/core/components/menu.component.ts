@@ -3,7 +3,6 @@ import { Store, ActionsSubject, select } from '@ngrx/store';
 import { AppState } from '../state';
 
 import { User, Office } from '../../shared/models';
-import { ActionTypesO } from '../../start/state/offices';
 import { EditDialogComponent, EditDialogModel } from 'src/app/shared/components/editDialog/editDialog.component';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import * as fromUsers from '../../user/state/users';
@@ -70,7 +69,7 @@ export class MenuComponent {
     let office = user.office;
 
     this.actionsSubject$
-      .pipe(filter((action: any) => action.type === ActionTypesO.LOAD_OFFICES_SUCCESS))
+      .pipe(filter((action: any) => action.type === fromOffices.ActionTypes.LOAD_OFFICES_SUCCESS))
       .pipe(take(1))
       .subscribe(() => {
         this.userOffice$ = this.store$.pipe(select(fromOffices.getUserOffice(office)));

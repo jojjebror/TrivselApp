@@ -1,10 +1,12 @@
 ﻿using Logic.Database;
 using Logic.Models;
 using Logic.Translators;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.ServiceModel.Syndication;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,41 +31,55 @@ namespace Logic.Services
             return dbOffices.Select(OfficeTranslator.ToOfficeDto).ToList();
         }
 
-        public async Task<ICollection<PodcastEpisodeDto>> GetPodcastFeed()
+        public ICollection<PodcastEpisodeDto> GetPodcast()
         {
             string podcastUrl = "http://exsitecpodden.libsyn.com/rss";
 
             var podcastEpisodes = new List<PodcastEpisodeDto>();
-
-            using (var reader = XmlReader.Create(podcastUrl))
+            try
             {
-                var id = 1;
-                var podcastFeed = SyndicationFeed.Load(reader);
-
-                foreach (var item in podcastFeed.Items.Take(3))
+                using (var reader = XmlReader.Create(podcastUrl))
                 {
-                    var summary = item.ElementExtensions.FirstOrDefault(e => e.OuterName == "summary")?
-                        .GetObject<XElement>().Value;
-                    var imageUrl = item.ElementExtensions.FirstOrDefault(i => i.OuterName == "image")?
-                            .GetObject<XElement>().Attribute("href").Value;
+                    var id = 1;
+                    var podcastFeed = SyndicationFeed.Load(reader);
 
-                    var episode = new PodcastEpisodeDto
+                    foreach (var item in podcastFeed.Items.Take(3))
                     {
-                        Id = id,
-                        EpisodeId = item.Id,
-                        Title = item.Title.Text,
-                        Summary = summary,
-                        ImageUrl = imageUrl,
-                        EpisodeUrl = item.Links.Last().Uri.AbsoluteUri,
-                        Published = item.PublishDate.DateTime
-                    };
-                    podcastEpisodes.Add(episode);
+                        var summary = item.ElementExtensions.FirstOrDefault(e => e.OuterName == "summary")?
+                            .GetObject<XElement>().Value;
+                        var imageUrl = item.ElementExtensions.FirstOrDefault(i => i.OuterName == "image")?
+                                .GetObject<XElement>().Attribute("href").Value;
 
-                    id++;
-                }
+                        var episode = new PodcastEpisodeDto
+                        {
+                            Id = id,
+                            EpisodeId = item.Id,
+                            Title = item.Title.Text,
+                            Summary = summary,
+                            ImageUrl = imageUrl,
+                            EpisodeUrl = item.Links.Last().Uri.AbsoluteUri,
+                            Published = item.PublishDate.DateTime
+                        };
+                        podcastEpisodes.Add(episode);
+
+                        id++;
+                    }
+                }          
+            } catch (Exception e)
+            {
+                e.Message.ToString();
             }
 
-            return await Task.Run(() => podcastEpisodes);
+            return podcastEpisodes;
+        }
+
+        public ICollection<InstagramPostDto> GetInstagram()
+        {
+            string instagramUrl = "https://www.instagram.com/exsitec/?__a=1";
+
+            var instagramPosts = new List<InstagramPostDto>();
+
+            return instagramPosts;
         }
     }
 }

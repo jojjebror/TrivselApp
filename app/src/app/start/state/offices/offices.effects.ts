@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { map, catchError, switchMap, tap } from 'rxjs/operators';
+import { map, catchError, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 import { HomeResource } from '../../../core/resources';
@@ -15,7 +15,7 @@ export class OfficesEffects {
 
   @Effect()
   loadOffices$: Observable<Action> = this.actions$.pipe(
-    ofType(officesActions.ActionTypesO.LOAD_OFFICES),
+    ofType(officesActions.ActionTypes.LOAD_OFFICES),
     switchMap(() => {
       return this.homeResource.loadOffices().pipe(
         map((offices: Office[]) => new officesActions.LoadOfficesSuccess(offices)),

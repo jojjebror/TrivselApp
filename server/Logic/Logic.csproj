@@ -307,6 +307,7 @@
     <Compile Include="Models\EventForUserListDto.cs" />
     <Compile Include="Models\EventParticipantsDto.cs" />
     <Compile Include="Models\ExampleDto.cs" />
+    <Compile Include="Models\InstagramPostDto.cs" />
     <Compile Include="Models\OfficeDto.cs" />
     <Compile Include="Models\PodcastEpisodeDto.cs" />
     <Compile Include="Models\PostDto.cs" />

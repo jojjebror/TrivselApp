@@ -15,9 +15,9 @@ namespace Api.Controllers
         }
 
         [HttpGet("podcast")]
-        public async Task<IActionResult> GetPodcastFeed()
+        public IActionResult GetPodcast()
         {
-            var result = await _homeService.GetPodcastFeed();
+            var result = _homeService.GetPodcast();
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
@@ -25,6 +25,13 @@ namespace Api.Controllers
         public async Task<IActionResult> GetOffices()
         { 
             var result = await _homeService.GetOffices();
+            return new OkObjectResult(ApiResponse.Create(result));
+        }
+
+        [HttpGet("instagram")]
+        public IActionResult GetInstagram()
+        {
+            var result = _homeService.GetInstagram();
             return new OkObjectResult(ApiResponse.Create(result));
         }
     }

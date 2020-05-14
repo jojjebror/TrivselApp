@@ -2,6 +2,7 @@
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Threading.Tasks;
 
 namespace Logic.Services
 {
@@ -24,7 +25,7 @@ namespace Logic.Services
         }
 
                 /*---------------------EVENT----------------*/
-        public ImageUploadResult UploadImage(IFormFile image, string folder, string publicId = null)
+        public async Task<ImageUploadResult> UploadImage(IFormFile image, string folder, string publicId = null)
         {
             try
             {
@@ -41,7 +42,7 @@ namespace Logic.Services
                             Overwrite = (publicId == null) ? false : true
                         };
 
-                        var uploadResult = _cloudinaryService.Upload(uploadParams);
+                        var uploadResult = await _cloudinaryService.UploadAsync(uploadParams);
 
                         return uploadResult;
                     }
@@ -122,11 +123,11 @@ namespace Logic.Services
         }
 
 
-        public void DeleteImage(string publicId)
+        public async void DeleteImage(string publicId)
         {
             try
             {
-                _cloudinaryService.DeleteResources(publicId);
+                await _cloudinaryService.DeleteResourcesAsync(publicId);
             }
             catch (Exception e)
             {

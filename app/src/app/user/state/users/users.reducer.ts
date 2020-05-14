@@ -8,7 +8,7 @@ let initialState = adapter.getInitialState({
   loading: false,
   loaded: false,
   error: '',
-  user: null,
+  //user: null,
 });
 
 export function reducer(state: UsersState = initialState, action: usersActions.Actions): UsersState {
@@ -34,6 +34,7 @@ export function reducer(state: UsersState = initialState, action: usersActions.A
     case usersActions.ActionTypes.UPDATE_CREDIT_SUCCESS: {
       return adapter.updateOne(action.payload, state);
     }
+    
     case usersActions.ActionTypes.UPDATE_CREDIT_ERROR: {
       return {
         ...state,
