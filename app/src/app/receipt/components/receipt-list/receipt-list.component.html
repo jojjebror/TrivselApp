@@ -1,17 +1,21 @@
 <br/>
 <br/>
+
 <div class="container justify-content-center">
+
+<mat-error *ngIf="files.length > 1">{{ getErrorMessage('image') }}</mat-error>
 <div class="container2" appDnd (fileDropped)="onFileDropped($event)">
   <form
     [formGroup]="receiptForm"
     (ngSubmit)="createReceipt()"
   >
-  <div class="form-group">
-  <input type="file" 
+  <div>
+  <input type="file" accept="image/*"
+    autocomplete="off"
     formControlName="image"
     (change)="loadImage($event.target.files)" 
     #fileDropRef id="fileDropRef" 
-    multiple (change)="fileBrowseHandler($event.target.files)" />
+    (change)="fileBrowseHandler($event.target.files)"/>
 
   <div class="invalid-feedback">Du måste välja en bild</div>
 
@@ -55,7 +59,7 @@
 		</div>
 		<div class="info">
 			<h4 class="name">
-				{{ file?.name }}
+				{{ file?.name}}
 			</h4>
 			<p class="size">
 				{{ formatBytes(file?.size) }}
@@ -72,10 +76,10 @@
 	</div>
 
 
-<div class="form-group2 text-center">
+<div class="form-group text-center">
   <button
     class="btn btn-success" 
-    [disabled]="!receiptForm.valid"
+    [disabled]="files.length > 1 || files.length == 0"
     type="submit"
   >
     Ladda upp kvitto
@@ -109,11 +113,6 @@
           <mat-cell class="description-cell" *matCellDef="let element1"
             >{{ element1.date | date: 'shortDate' }}</mat-cell
           >
-        </ng-container>
-
-        <ng-container matColumnDef="invited">
-          <mat-header-cell *matHeaderCellDef>Skapare</mat-header-cell>
-          <mat-cell class="duration-cell" *matCellDef="let element1">{{ element1.creatorName }}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="actions">
@@ -162,11 +161,6 @@
       <mat-cell class="description-cell" *matCellDef="let element"
         >{{ element.date | date: 'shortDate' }}</mat-cell
       >
-    </ng-container>
-
-    <ng-container matColumnDef="invited1">
-      <mat-header-cell *matHeaderCellDef>Skapare</mat-header-cell>
-      <mat-cell class="duration-cell" *matCellDef="let element">{{ element.creatorName }}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="actions1">
