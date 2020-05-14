@@ -2,7 +2,6 @@ import { Action } from '@ngrx/store';
 import { LoadingAction } from '../../../core/state/loading';
 import { User, Error } from '../../../shared/models';
 import { Update } from '@ngrx/entity';
-import { Offices } from "../../../shared/models";
 
 export enum ActionTypes {
   GET_USERS = '[User view] Get Users',
@@ -17,9 +16,6 @@ export enum ActionTypes {
   UPDATE_OFFICE_SUCCESS = '[API: /user] Update Office success',
   UPDATE_OFFICE_ERROR = '[API: /user] Update Office error',
 
-  GET_OFFICES = '[User view] Get Offices',
-  GET_OFFICES_SUCCESS = '[API: /user] get offices success',
-  GET_OFFICES_ERROR = '[API: /user] get offices error'
 }
 
 /*--------------GetAllUsers--------------*/
@@ -84,23 +80,6 @@ export class UpdateOfficeError implements Action {
 
   constructor(public payload: string) {}
 }
-/*--------------GetOffice--------------*/
-export class GetOffices implements Action {
-  readonly type = ActionTypes.GET_OFFICES;
-}
-
-export class GetOfficesSuccess implements Action {
-  readonly type = ActionTypes.GET_OFFICES_SUCCESS;
-
-  constructor(public payload: Offices[]) {}
-}
-
-export class GetOfficesError implements Action {
-  readonly type = ActionTypes.GET_OFFICES_ERROR;
-
-  constructor(public payload: string) {}
-}
-
 
 export type Actions =
   | GetUsers
@@ -113,9 +92,5 @@ export type Actions =
 
   | UpdateOffice
   | UpdateOfficeSuccess
-  | UpdateOfficeError
-
-  | GetOffices
-  | GetOfficesSuccess
-  | GetOfficesError;
+  | UpdateOfficeError;
   

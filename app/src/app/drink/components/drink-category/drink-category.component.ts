@@ -101,10 +101,6 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     this.store$.dispatch(new drinksActions.LoadDrink(id));
   }
 
-  showOffices(){
-    var hej = this.store$.dispatch(new usersAction.GetOffices());
-    console.log(hej);
-  }
 
   public clickCount() {
     this.clickCounter += 1;
