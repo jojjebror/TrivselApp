@@ -1,13 +1,27 @@
-<div class="mat-card-div" *ngIf="podcastFeed$">
-  <mat-card *ngFor="let episode of podcastFeed$ | async" (click)="playEpisode(episode)" fxFlex="100">
-    <mat-card-header class="maxTitle">
-      <mat-card-title>
-        <i class="material-icons iconLeft">rss_feed</i>
-        {{ episode.title }}
-      </mat-card-title>
-    </mat-card-header>
-    <i class="material-icons iconRight"> play_circle_outline</i>
-  </mat-card>
+<div class="startContainer">
+  <div class="frontImg">
+    <img src="assets/images/trivselstartpage.jpg" alt="" class="img-fluid" />
+  </div>
+
+  <span class="infoText"
+    ><span class="material-icons iconMargin">
+      rss_feed </span
+    >Exsitecpodden - 3 senaste avsnitten</span
+  >
+
+  <div class="podcastRow" fxLayout="row wrap" fxLayoutGap="32px" fxLayoutAlign="flex-start">
+    <ng-container *ngFor="let episode of podcastFeed$ | async">
+      <mat-card (click)="playEpisode(episode)" fxFlex="0 1 calc(33.3% - 32px)">
+        <mat-card-header class="maxTitle">
+          <mat-card-title>
+            <i class="material-icons iconLeft"> play_circle_outline</i>
+            {{ episode.title }}
+          </mat-card-title>
+        </mat-card-header>
+        <!-- <i class="material-icons iconRight"> play_circle_outline</i> -->
+      </mat-card>
+    </ng-container>
+  </div>
 </div>
 
 <div class="loader">
