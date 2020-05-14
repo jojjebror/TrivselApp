@@ -56,7 +56,7 @@ export class MenuComponent implements OnDestroy {
 
   loadOffices() {
     this.store$.dispatch(new fromOffices.LoadOffices());
-    this.offices$ = this.store$.pipe(select(fromOffices.getOffices));   
+    this.offices$ = this.store$.pipe(select(fromOffices.getOffices)); 
   }
 
   editDialog(user: User): void {
