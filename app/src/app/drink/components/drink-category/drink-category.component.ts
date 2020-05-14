@@ -7,6 +7,7 @@ import { Drink, User } from "src/app/shared/models";
 
 import * as fromSession from "../../../core/state/session";
 import * as drinksActions from "../../state/drinks";
+import * as usersAction from "../../../user/state/users/users.actions";
 import * as fromDrink from "../../state/drinks/drinks.selectors";
 import { FormGroup } from "@angular/forms";
 import { MatSnackBar, MatTabChangeEvent, MatDialog } from '@angular/material';
@@ -98,6 +99,11 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
 
   editDrink(id: number) {
     this.store$.dispatch(new drinksActions.LoadDrink(id));
+  }
+
+  showOffices(){
+    var hej = this.store$.dispatch(new usersAction.GetOffices());
+    console.log(hej);
   }
 
   public clickCount() {

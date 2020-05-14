@@ -14,3 +14,9 @@ export class User extends Base {
 
   public office: string;
 }
+export class Offices extends Base {
+  public name: string;
+  public adress: string;
+  public swishNumber: string;
+  public info: string;
+}

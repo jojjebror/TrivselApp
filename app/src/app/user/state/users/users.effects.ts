@@ -8,7 +8,7 @@ import { UserResource } from 'src/app/core/resources';
 import * as usersActions from './users.actions';
 import * as sessionActions from '../../../core/state/session/session.actions';
 
-import { User } from 'src/app/shared/models';
+import { User, Offices } from 'src/app/shared/models';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -57,6 +57,17 @@ export class UsersEffects {
           new sessionActions.SetUser(),
         ]),
           catchError((err) => of(new usersActions.UpdateOfficeError(err)))
+      )
+    )
+  );
+
+  @Effect()
+  getOffices$: Observable<Action> = this.actions$.pipe(
+    ofType<usersActions.GetOffices>(usersActions.ActionTypes.GET_OFFICES),
+    mergeMap((actions: usersActions.GetOffices) =>
+      this.userResource.getOffices().pipe(
+        map((offices: Offices[]) => new usersActions.GetOfficesSuccess(offices)),
+        catchError((err) => of(new usersActions.GetOfficesError(err)))
       )
     )
   );

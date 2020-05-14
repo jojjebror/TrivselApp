@@ -308,6 +308,7 @@
     <Compile Include="Models\EventParticipantsDto.cs" />
     <Compile Include="Models\ExampleDto.cs" />
     <Compile Include="Models\OfficeDto.cs" />
+    <Compile Include="Models\officesForListDto.cs" />
     <Compile Include="Models\PodcastEpisodeDto.cs" />
     <Compile Include="Models\PostDto.cs" />
     <Compile Include="Models\ReceiptForCreateDto.cs" />
@@ -332,6 +333,7 @@
     <Compile Include="Translators\DrinkForUpdateTranslator.cs" />
     <Compile Include="Translators\EventTranslator.cs" />
     <Compile Include="Translators\ExampleTranslator.cs" />
+    <Compile Include="Translators\OfficesForListTranslator.cs" />
     <Compile Include="Translators\OfficeTranslator.cs" />
     <Compile Include="Translators\ReceiptTranslator.cs" />
     <Compile Include="Translators\PostTranslator.cs" />
