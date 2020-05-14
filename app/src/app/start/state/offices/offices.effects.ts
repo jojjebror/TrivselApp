@@ -25,14 +25,4 @@ export class OfficesEffects {
     })
   );
 
-  @Effect()
-  getOffices$: Observable<Action> = this.actions$.pipe(
-    ofType(officesActions.ActionTypes.GET_OFFICES_ARRAY),
-    switchMap(() => {
-      return this.userResourse.getOffices().pipe(
-        map((offices: Office[]) => new officesActions.GetOfficesSuccessArray(offices)),
-        catchError((err) => of(new officesActions.GetOfficesErrorArray(err)))
-      );
-    })
-  );
 }

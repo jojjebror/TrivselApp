@@ -105,7 +105,7 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   }
 
  getSwishNumber(): void {
-  this.store$.dispatch(new officesActions.GetOfficesArray());
+  this.store$.dispatch(new officesActions.LoadOffices());
       this.ofs$ = this.store$.select(fromOffice.getOffices);
 var nummer;
       this.subscription.add(

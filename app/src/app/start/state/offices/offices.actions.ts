@@ -8,9 +8,6 @@ export enum ActionTypes {
   LOAD_OFFICES_SUCCESS = '[API: /home/offices] Load Offices success',
   LOAD_OFFICES_ERROR = '[API: //home/offices] Load Offices error',
 
-  GET_OFFICES_ARRAY = '[Offices view] Get Offices',
-  GET_OFFICES_ARRAY_SUCCESS = '[API: /home/offices] Get Offices success',
-  GET_OFFICES_ARRAY_ERROR = '[API: //home/offices] Get Offices error',
 }
 
 /*--------------LoadOffices--------------*/
@@ -34,24 +31,5 @@ export class LoadOfficesError implements Action {
   constructor(public payload: string) {}
 }
 
-/*------- Get array of offices ----*/
 
-
-export class GetOfficesArray implements Action {
-  readonly type = ActionTypes.GET_OFFICES_ARRAY;
-}
-
-export class GetOfficesSuccessArray implements Action {
-  readonly type = ActionTypes.GET_OFFICES_ARRAY_SUCCESS;
-
-  constructor(public payload: Office[]) {}
-}
-
-export class GetOfficesErrorArray implements Action {
-  readonly type = ActionTypes.GET_OFFICES_ARRAY_ERROR;
-
-  constructor(public payload: string) {}
-}
-
-export type Actions = LoadOffices | LoadOfficesSuccess | LoadOfficesError |
- GetOfficesArray | GetOfficesSuccessArray | GetOfficesErrorArray;
+export type Actions = LoadOffices | LoadOfficesSuccess | LoadOfficesError;
