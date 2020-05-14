@@ -65,9 +65,10 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.createEventForm();
     this.loadUsers();
     this.loadOffices();
+    this.createEventForm();
+    
   }
 
   createEventForm() {
