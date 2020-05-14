@@ -15,6 +15,7 @@ import { ActionTypes } from '../../state/events';
 import { filter, startWith, debounceTime, switchMap } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services';
 import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ex-event-create',
@@ -34,7 +35,6 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   userId: number;
   eventForm: FormGroup;
   endDateMode = false;
-  //toggleFormHeight: boolean = true;
   fileUpload: File = null;
   imageUrl: any = null;
 
@@ -53,7 +53,8 @@ export class EventCreateComponent implements OnInit, OnDestroy {
     private dateAdapter: DateAdapter<Date>,
     private actionsSubject$: ActionsSubject,
     public authService: AuthenticationService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private router: Router
   ) {
     dateAdapter.setLocale('sv');
     this.subscription.add(
@@ -128,17 +129,18 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   }
 
   loadUsers() {
+    /* this.actionsSubject$.pipe(filter((action: any) => action.type, { action: '@ngrx/store/update-reducers', feature: 'user'})); */
     this.store$.dispatch(new fromUsers.GetUsers());
-    this.subscription.add(this.store$.pipe(select(fromUsers.getRelevantUsers(+this.userId))).subscribe((data) => (this.allUsers = data)));
-    this.cd.detectChanges();
+    this.subscription.add(this.store$.pipe(select(fromUsers.getRelevantUsers(+this.userId))).subscribe(data => { 
+      this.allUsers = data; 
+    }));
 
     this.filterUsers();
   }
 
   loadOffices() {
     this.store$.dispatch(new fromOffices.LoadOffices());
-      this.offices$ = this.store$.pipe(select(fromOffices.getOffices));
-      this.cd.detectChanges();
+    this.offices$ = this.store$.pipe(select(fromOffices.getOffices));
   }
 
   filterUsers() {

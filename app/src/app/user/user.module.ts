@@ -18,7 +18,7 @@ import { components } from './components';
     UserRoutingModule,
     StoreModule.forFeature('user', reducers),
     EffectsModule.forFeature(effects),
-    StoreDevtoolsModule.instrument()
+    //StoreDevtoolsModule.instrument()
   ],
   exports: [],
   declarations: [...views, ...components],

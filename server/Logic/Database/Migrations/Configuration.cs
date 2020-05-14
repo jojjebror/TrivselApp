@@ -218,7 +218,7 @@ namespace Logic.Database.Migrations
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now,
                 CreateDate = DateTime.Now,
-                CreatorId = 5
+                CreatorId = 4
             };
 
             var testEvent5 = new Event()
@@ -365,7 +365,7 @@ namespace Logic.Database.Migrations
             {
                 Id = 12,
                 UserId = 1,
-                EventId = 13,
+                EventId = 7,
                 Status = "N/A"
             };
 
@@ -377,32 +377,93 @@ namespace Logic.Database.Migrations
                 Status = "N/A"
             };
 
-            //var post1 = new Post()
-            //{
-            //    Id = 1,
-            //    Content = "Detta blir jättekul!!",
-            //    Created = DateTime.Now,
-            //    CreatorId = 1,
-            //    EventId = 1
-            //};
+            var testEp13 = new EventParticipant()
+            {
+                Id = 14,
+                UserId = 4,
+                EventId = 7,
+                Status = "N/A"
+            };
 
-            //var post2 = new Post()
-            //{
-            //    Id = 2,
-            //    Content = "Jäklar vad ösigt!!",
-            //    Created = DateTime.Now,
-            //    CreatorId = 3,
-            //    EventId = 2
-            //};
+            var testEp14 = new EventParticipant()
+            {
+                Id = 15,
+                UserId = 4,
+                EventId = 6,
+                Status = "N/A"
+            };
 
-            //var post3 = new Post()
-            //{
-            //    Id = 3,
-            //    Content = "Jag har köpt nya dojor ;)",
-            //    Created = DateTime.Now,
-            //    CreatorId = 2,
-            //    EventId = 3
-            //};
+            var post1 = new Post()
+            {
+                Id = 1,
+                Content = "Detta blir jättekul!!",
+                Created = DateTime.Now,
+                CreatorId = 1,
+                EventId = 1
+            };
+
+            var post2 = new Post()
+            {
+                Id = 2,
+                Content = "Jäklar vad ösigt!!",
+                Created = DateTime.Now,
+                CreatorId = 3,
+                EventId = 2
+            };
+
+            var post3 = new Post()
+            {
+                Id = 3,
+                Content = "Jag har köpt nya dojor ;)",
+                Created = DateTime.Now,
+                CreatorId = 2,
+                EventId = 3
+            };
+
+            var post4 = new Post()
+            {
+                Id = 4,
+                Content = "Detta blir jättekul!!",
+                Created = DateTime.Now,
+                CreatorId = 1,
+                EventId = 4
+            };
+
+            var post5 = new Post()
+            {
+                Id = 5,
+                Content = "Gott!",
+                Created = DateTime.Now,
+                CreatorId = 3,
+                EventId = 5
+            };
+
+            var post6 = new Post()
+            {
+                Id = 6,
+                Content = "Perfekt, kommer!",
+                Created = DateTime.Now,
+                CreatorId = 2,
+                EventId = 6
+            };
+
+            var post7 = new Post()
+            {
+                Id = 7,
+                Content = "Nice!!",
+                Created = DateTime.Now,
+                CreatorId = 4,
+                EventId = 7
+            };
+
+            var post8 = new Post()
+            {
+                Id = 8,
+                Content = "Kalas :) ",
+                Created = DateTime.Now,
+                CreatorId = 4,
+                EventId = 8
+            };
 
             var testBeer = new Drink()
             {
@@ -473,6 +534,15 @@ namespace Logic.Database.Migrations
             context.Events.AddOrUpdate(testEvent7);
             context.Events.AddOrUpdate(testEvent8);
 
+            context.Posts.AddOrUpdate(post1);
+            context.Posts.AddOrUpdate(post2);
+            context.Posts.AddOrUpdate(post3);
+            context.Posts.AddOrUpdate(post4);
+            context.Posts.AddOrUpdate(post5);
+            context.Posts.AddOrUpdate(post6);
+            context.Posts.AddOrUpdate(post7);
+            context.Posts.AddOrUpdate(post8);
+
             context.EventParticipants.AddOrUpdate(testEp);
             context.EventParticipants.AddOrUpdate(testEp1);
             context.EventParticipants.AddOrUpdate(testEp2);
@@ -483,6 +553,11 @@ namespace Logic.Database.Migrations
             context.EventParticipants.AddOrUpdate(testEp7);
             context.EventParticipants.AddOrUpdate(testEp8);
             context.EventParticipants.AddOrUpdate(testEp9);
+            context.EventParticipants.AddOrUpdate(testEp10);
+            context.EventParticipants.AddOrUpdate(testEp11);
+            context.EventParticipants.AddOrUpdate(testEp12);
+            context.EventParticipants.AddOrUpdate(testEp13);
+            context.EventParticipants.AddOrUpdate(testEp14);
 
 
             context.Drinks.AddOrUpdate(testBeer);

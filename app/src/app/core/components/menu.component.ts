@@ -1,12 +1,13 @@
-import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Store, ActionsSubject, select } from '@ngrx/store';
 import { AppState } from '../state';
 
 import { User, Office } from '../../shared/models';
+import { ActionTypesO } from '../../start/state/offices';
 import { EditDialogComponent, EditDialogModel } from 'src/app/shared/components/editDialog/editDialog.component';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import * as fromUsers from '../../user/state/users';
-import { filter } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 import * as fromOffices from '../../start/state/offices';
 
@@ -15,7 +16,7 @@ import * as fromOffices from '../../start/state/offices';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
 })
-export class MenuComponent implements OnDestroy {
+export class MenuComponent {
   @Input() user: User;
 
   @Output() logout = new EventEmitter<any>();
@@ -52,47 +53,56 @@ export class MenuComponent implements OnDestroy {
     },
   ];
 
-  constructor(public dialog: MatDialog, private store$: Store<AppState>, private actionsSubject$: ActionsSubject, private snackBar: MatSnackBar) {}
+  constructor(
+    public dialog: MatDialog,
+    private store$: Store<AppState>,
+    private actionsSubject$: ActionsSubject,
+    private snackBar: MatSnackBar
+  ) {}
 
   loadOffices() {
     this.store$.dispatch(new fromOffices.LoadOffices());
-    this.offices$ = this.store$.pipe(select(fromOffices.getOffices));   
+    this.offices$ = this.store$.pipe(select(fromOffices.getOffices));
   }
 
   editDialog(user: User): void {
-    console.log(user);
     this.loadOffices();
     let office = user.office;
-    this.userOffice$ = this.store$.pipe(select(fromOffices.getUserOffice(office)));
 
-    let offices;
-    let userOffice;
+    this.actionsSubject$
+      .pipe(filter((action: any) => action.type === ActionTypesO.LOAD_OFFICES_SUCCESS))
+      .pipe(take(1))
+      .subscribe(() => {
+        this.userOffice$ = this.store$.pipe(select(fromOffices.getUserOffice(office)));
 
-    this.subscription.add(
-      this.offices$.subscribe((data: Office[]) => {
-        offices = data;
-      })
-    );
+        let offices: Office[];
+        let userOffice: Office;
 
-    this.subscription.add(
-      this.userOffice$.subscribe((data: Office) => {
-        userOffice = data;
-      })
-    );
+        this.offices$.pipe(take(1)).subscribe((data) => {
+          offices = data;
+        });
 
-    const message = 'Nedan har du möjlighet att ändra ditt nuvarande kontor. Ditt nuvarande kontor är ' + office;
-    const dialogData = new EditDialogModel('Ändra tillhörande kontor', message, offices, userOffice);
+        this.userOffice$.pipe(take(1)).subscribe((data) => {
+          userOffice = data;
+        });
 
-    const dialogRef = this.dialog.open(EditDialogComponent, {
-      maxWidth: '350px',
-      data: dialogData,
-    });
+        const message = 'Nedan har du möjlighet att ändra ditt nuvarande kontor. Ditt nuvarande kontor är ' + office;
+        const dialogData = new EditDialogModel('Ändra tillhörande kontor', message, offices, userOffice);
 
-    dialogRef.afterClosed().subscribe((dialogResult) => {
-      if (dialogResult == true) {
-        this.editOffice(user.id, dialogData.userOffice);
-      }
-    });
+        const dialogRef = this.dialog.open(EditDialogComponent, {
+          maxWidth: '350px',
+          data: dialogData,
+        });
+
+        dialogRef
+          .afterClosed()
+          .pipe(take(1))
+          .subscribe((dialogResult) => {
+            if (dialogResult == true) {
+              this.editOffice(user.id, dialogData.userOffice);
+            }
+          });
+      });
   }
 
   editOffice(userId: number, newOffice: Office) {
@@ -101,14 +111,11 @@ export class MenuComponent implements OnDestroy {
 
     this.store$.dispatch(new fromUsers.UpdateOffice(data));
 
-    this.subscription.add(
-      this.actionsSubject$.pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_OFFICE_SUCCESS)).subscribe((action) => {
+    this.actionsSubject$
+      .pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_OFFICE_SUCCESS))
+      .pipe(take(1))
+      .subscribe(() => {
         this.snackBar.open('Ändring slutförd. Ditt valda kontor: ' + newOffice.name, '', { duration: 3500 });
-      })
-    );
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+      });
   }
 }

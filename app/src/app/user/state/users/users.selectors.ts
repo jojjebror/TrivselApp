@@ -11,6 +11,8 @@ export const getUsers = createSelector(selectState, selectAll);
 
 export const getRelevantUsers = (userId: number) => createSelector(getUsers, (state) => state.filter((user) => user.id != userId));
 
+export const getUser = (userId: number) => createSelector(getUsers, (state) => state.find((user) => user.id === userId));
+
 export const getUsersLoading = createSelector(selectState, state => state.loading);
 
 export const getUsersLoaded = createSelector(selectState, state => state.loaded);

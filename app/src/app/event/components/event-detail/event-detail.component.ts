@@ -6,7 +6,7 @@ import * as fromEvents from '../../state/events';
 import { Observable, Subscription } from 'rxjs';
 import { Event, User, Post } from 'src/app/shared/models';
 
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as fromSession from '../../../core/state/session';
 import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
 import { ActionTypes } from '../../state/events';
@@ -39,12 +39,15 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   invitedParticipants$: Observable<User[]>;
   declinedParticipants$: Observable<User[]>;
   index = 0;
+  selectedPage: number = 0;
+  selectedTab: number = 0;
 
   constructor(
     private store$: Store<AppState>,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
+    public router: Router,
     public authService: AuthenticationService,
     private actionsSubject$: ActionsSubject,
     public dialog: MatDialog
@@ -64,6 +67,11 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     );
     this.loadEvent();
     this.createPostForm();
+    this.loadParams();
+
+    //Måste lösa på snyggare sätt, går inte att sätta i subscriben ovan..
+    /* this.loadPageParams();
+    this.loadTabParams(); */
   }
 
   loadEvent() {
@@ -211,6 +219,15 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     });
   }
 
+  loadParams() {
+    this.subscription.add(
+      this.activatedRoute.queryParams.subscribe((params) => {
+        this.selectedPage = params['page'];
+        this.selectedTab = params['tab'];
+      })
+    );
+  }
+  
   showSnackBarUpdateParticipants(answer: string, title: string) {
     this.subscription.add(
       this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.ADD_EVENT_PARTICIPANT_SUCCESS)).subscribe((action) => {

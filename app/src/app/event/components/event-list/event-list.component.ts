@@ -10,9 +10,10 @@ import { AlertService } from 'src/app/core/services/alert.service';
 
 import { AuthenticationService } from 'src/app/core/services';
 import { ActionTypes } from '../../state/events';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/shared/components/confirmDialog/confirmDialog.component';
 import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'ex-event-list',
@@ -28,6 +29,8 @@ export class EventListComponent implements OnInit, OnDestroy {
   evs$: Observable<Event[]>;
   loadings$ = this.store$.pipe(select(getLoadingData));
   userId: number;
+  selectedTab: number = 0;
+  selectedPage: number = 0;
 
   createdEvents = new MatTableDataSource<Event>();
   invitedEvents = new MatTableDataSource<Event>();
@@ -42,16 +45,15 @@ export class EventListComponent implements OnInit, OnDestroy {
   searchFieldUserEvents;
   calendarField;
 
-
   constructor(
     private store$: Store<AppState>,
     private snackBar: MatSnackBar,
-    private changeDetectorRef: ChangeDetectorRef,
     private dateAdapter: DateAdapter<Date>,
     public alertService: AlertService,
     public authService: AuthenticationService,
     private actionsSubject$: ActionsSubject,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public activatedRoute: ActivatedRoute
   ) {
     dateAdapter.setLocale('sv');
     this.subscription.add(
@@ -62,7 +64,7 @@ export class EventListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.changeDetectorRef.detectChanges();
+    this.loadParams();
     this.loadEvents();
   }
 
@@ -100,7 +102,7 @@ export class EventListComponent implements OnInit, OnDestroy {
     //Events that the user already have attended to
     this.subscription.add(
       this.store$.pipe(select(fromEvents.getAttendedEvents)).subscribe((data: Event[]) => {
-        this.attendedEvents.data = data;
+        this.attendedEvents.data = data.sort((a, b) => a.startDate.toString().localeCompare(b.startDate.toString()));
       })
     );
   }
@@ -265,6 +267,24 @@ export class EventListComponent implements OnInit, OnDestroy {
         this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 2500 });
       })
     );
+  }
+
+  loadParams() {
+    this.subscription.add(
+      this.activatedRoute.queryParams.subscribe((params) => {
+        this.selectedPage = params['page'];
+        this.selectedTab = params['tab'];
+      })
+    );
+  }
+
+  onPaginateChange(event) {
+    this.selectedPage = event.pageIndex;
+  }
+
+  onTabChange(tabId: number): void {
+    this.selectedTab = tabId;
+    //window.history.replaceState({}, '', `/event/${this.selectedTab}`);
   }
 
   ngOnDestroy() {

@@ -86,6 +86,18 @@ h3 {
   font-weight: bold;
 }
 
+.mat-column-actions {
+    flex: 0 0 15%;
+}
+
+.mat-column-actions2 {
+    flex: 0 0 15%;
+}
+
+.mat-column-actions3 {
+    flex: 0 0 15%;
+} 
+
 .noDataTable {
   margin-top: 10px;
 }
@@ -190,6 +202,11 @@ h3 {
   background: transparent;
   float: right;
 }
+
+//test
+/* ::ng-deep .mat-paginator-range-label {
+    display: none;
+} */
 
 .filtering {
   margin-top: 10px;

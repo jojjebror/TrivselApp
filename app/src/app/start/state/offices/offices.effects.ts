@@ -15,7 +15,7 @@ export class OfficesEffects {
 
   @Effect()
   loadOffices$: Observable<Action> = this.actions$.pipe(
-    ofType(officesActions.ActionTypes.LOAD_OFFICES),
+    ofType(officesActions.ActionTypesO.LOAD_OFFICES),
     switchMap(() => {
       return this.homeResource.loadOffices().pipe(
         map((offices: Office[]) => new officesActions.LoadOfficesSuccess(offices)),
@@ -24,3 +24,5 @@ export class OfficesEffects {
     })
   );
 }
+
+//{type: '@ngrx/store/update-reducers', feature: 'feature1'}

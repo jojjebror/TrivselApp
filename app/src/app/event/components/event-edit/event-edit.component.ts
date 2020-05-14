@@ -2,14 +2,14 @@ import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRe
 
 import { Store, select, ActionsSubject } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest, of } from 'rxjs';
 import { Event, User } from 'src/app/shared/models';
 import * as fromEvents from '../../state/events';
 import * as fromUsers from '../../../user/state/users';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { DateAdapter, MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { filter, startWith, debounceTime, switchMap } from 'rxjs/operators';
 import { ActionTypes } from '../../state/events';
 import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
 import { AuthenticationService } from 'src/app/core/services';
@@ -26,6 +26,7 @@ export class EventEditComponent implements OnInit, OnDestroy {
   //ev$: Observable<Event>;
   evt: Event;
   users$: Observable<User[]>;
+  allUsers: User[];
   invitedParticipants$: Observable<User[]>;
   users: User[];
   userId: number;
@@ -38,15 +39,17 @@ export class EventEditComponent implements OnInit, OnDestroy {
   fileUpload: File = null;
   imageUrl: any = null;
 
+  search = new FormControl();
+  searchField;
+  usersControl = new FormControl();
+
   constructor(
     private store$: Store<AppState>,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private dateAdapter: DateAdapter<Date>,
-    //private activatedRoute: ActivatedRoute,
     private actionsSubject$: ActionsSubject,
     private router: Router,
-    //private cd: ChangeDetectorRef,
     public authService: AuthenticationService
   ) {
     dateAdapter.setLocale('sv');
@@ -67,6 +70,7 @@ export class EventEditComponent implements OnInit, OnDestroy {
         this.evt = data;
       })
     );
+    /* temporärt som fan */
     if (this.evt != undefined) {
       this.createEventEditForm();
     } else {
@@ -78,13 +82,19 @@ export class EventEditComponent implements OnInit, OnDestroy {
 
   private loadUsers() {
     this.store$.dispatch(new fromUsers.GetUsers());
-    this.users$ = this.store$.pipe(select(fromUsers.getRelevantUsers(+this.userId)));
+    //this.users$ = this.store$.pipe(select(fromUsers.getRelevantUsers(+this.userId)));
 
+    this.subscription.add(
+      this.store$.pipe(select(fromUsers.getRelevantUsers(+this.userId))).subscribe((data) => {
+        this.allUsers = data;
+      })
+    );
     this.invitedParticipants$ = this.store$.pipe(select(fromEvents.getInvitedParticipants));
+
+    this.filterUsers();
   }
 
   createEventEditForm() {
-    /* this.store$.pipe(select(fromEvents.getCurrentEvent)).subscribe((ev) => { */
     this.eventEditForm = this.fb.group(
       {
         id: [this.evt.id],
@@ -106,6 +116,25 @@ export class EventEditComponent implements OnInit, OnDestroy {
     this.imageUrl = this.evt.imageUrl;
   }
 
+  filterUsers() {
+    this.users$ = this.search.valueChanges.pipe(
+      startWith(null),
+      debounceTime(200),
+      switchMap((res: string) => {
+        if (!res) return of(this.allUsers);
+        res = res.toLowerCase();
+        return of(this.allUsers.filter((x) => x.name.toLowerCase().indexOf(res) >= 0));
+      })
+    );
+  }
+
+  selectionChange(option: any) {
+    let value = this.usersControl.value || [];
+    if (option.selected) value.push(option.value);
+    else value = value.filter((x: any) => x != option.value);
+    this.usersControl.setValue(value);
+  }
+
   updateEvent() {
     if (this.eventEditForm.valid) {
       //Fixar problem med UTC och lokal tid när datum skickas till servern
@@ -119,10 +148,6 @@ export class EventEditComponent implements OnInit, OnDestroy {
       this.showSnackbarUpdateEvent();
     }
   }
-
-  /* loadImage(file: FileList) {
-    this.fileUpload = file.item(0);
-  } */
 
   fileProgress(fileInput: any) {
     this.fileUpload = <File>fileInput.target.files[0];
@@ -153,6 +178,10 @@ export class EventEditComponent implements OnInit, OnDestroy {
     } else {
       return null;
     }
+  }
+
+  clearField() {
+    this.searchField = '';
   }
 
   getErrorMessage(property: string) {
