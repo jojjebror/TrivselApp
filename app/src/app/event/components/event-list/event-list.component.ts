@@ -13,7 +13,7 @@ import { ActionTypes } from '../../state/events';
 import { filter, map } from 'rxjs/operators';
 import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/shared/components/confirmDialog/confirmDialog.component';
 import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'ex-event-list',
@@ -53,7 +53,8 @@ export class EventListComponent implements OnInit, OnDestroy {
     public authService: AuthenticationService,
     private actionsSubject$: ActionsSubject,
     public dialog: MatDialog,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    public router: Router
   ) {
     dateAdapter.setLocale('sv');
     this.subscription.add(
