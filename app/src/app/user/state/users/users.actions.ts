@@ -43,6 +43,7 @@ export class UpdateCredit implements Action {
   readonly type = ActionTypes.UPDATE_CREDIT;
 
   constructor(public payload: any[]) {}
+  fxLoading = { add: ActionTypes.UPDATE_CREDIT };
 }
 
 export class UpdateCreditSuccess implements Action {

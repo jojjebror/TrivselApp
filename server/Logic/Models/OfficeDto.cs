@@ -6,13 +6,8 @@ using System.Threading.Tasks;
 
 namespace Logic.Models
 {
-    public class UserForUpdateDto : BaseDto
+    public class OfficeDto : BaseDto
     {
-
-        public string Email { get; set; }
         public string Name { get; set; }
-        public int Credit { get; set; }
-        public string Office { get; set; }
-
     }
 }

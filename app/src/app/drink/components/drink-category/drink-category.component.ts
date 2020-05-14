@@ -60,33 +60,21 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.kontor = currentuser.office)) }, 1000);
-    setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 100);
-    this.initializeFilterCategory();
-    this.getClickedId();
+    setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 1000);
+    // this.getClickedId();
   }
-
 
   onLinkClick(event: MatTabChangeEvent) {
-
     if(event.index == 1)
-    {
-    console.log({ event });
     this.initializeFilterBeer();
-    }
 
     if(event.index == 2)
-    {
       this.initializeFilterWine();
-      console.log({event});
-    }
     
     if(event.index == 3)
-    {
       this.initializeFilterCider();
-      console.log({event});
-    }
-    
   }
+
   public initializeFilterBeer(): void {
     this.store$.dispatch(new drinksActions.FilterDrink("Öl"));
       this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
@@ -99,11 +87,6 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
 
   public initializeFilterCider(): void {
     this.store$.dispatch(new drinksActions.FilterDrink("Cider"));
-      this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
-  }
-
-  public initializeFilterCategory(): void {
-    this.store$.dispatch(new drinksActions.FilterDrink("Kategori"));
       this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
   }
 
@@ -245,6 +228,7 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
         this.actionsSubject$.pipe(filter((action: any) => action.type === fromUser.ActionTypes.UPDATE_CREDIT_ERROR)).subscribe((action) => {
           setTimeout(() => {  this.snackBar.open('Du har för lite pengar på ditt saldo! ', '', { duration: 12000 }) }, 500);
         }) );
+        this.ngOnDestroy();
   }
 
   ngOnDestroy() {

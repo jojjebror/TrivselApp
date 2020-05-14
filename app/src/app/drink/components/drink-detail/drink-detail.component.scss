@@ -1,5 +1,17 @@
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .base{
   text-align: center;
+  animation: fadeInAnimation ease 2s;
+  animation-iteration-count: 1s;
+  animation-fill-mode:forwards;
 }
 .deleteIcon{
   float: right;
@@ -45,7 +57,7 @@ h2{
  
   /*    Mobil            */
   
-  @media (max-width: 414px) {
+  @media (max-width: 766px) {
 
     .img-thumbnail {
       width: 100%;

@@ -7,7 +7,6 @@ import { Observable, Subscription } from "rxjs";
 import { Drink } from "src/app/shared/models";
 import * as fromDrink from "../../state/drinks";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { AlertifyService } from "src/app/core/services/alertify.service";
 import { MatSnackBar } from "@angular/material";
 import { filter } from "rxjs/operators";
 import { ActionTypes } from '../../state/drinks';
@@ -61,22 +60,29 @@ export class DrinkEditComponent implements OnInit {
       const dr = Object.assign({}, this.drinkEditForm.value);
       console.log(dr);
       this.store$.dispatch(new fromDrink.UpdateDrink(dr, this.fileUpload));
-
-      this.subscription.add(
-        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_DRINK_SUCCESS)).subscribe((action) => {
-          this.snackBar.open('Drycken är nu uppdaterad', '', { duration: 2500 });
-        })
-      );
-
-      this.subscription.add(
-        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_DRINK_ERROR)).subscribe((action) => {
-          this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
-        })
-      );
+      this.snackbar();
     }
+  }
+
+  snackbar(){
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_DRINK_SUCCESS)).subscribe((action) => {
+        this.snackBar.open('Drycken är nu uppdaterad', '', { duration: 2500 });
+      })
+    );
+
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_DRINK_ERROR)).subscribe((action) => {
+        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
+      })
+    );
+    this.ngOnDestroy();
   }
 
   loadImage(file: FileList) {
     this.fileUpload = file.item(0);
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

@@ -7,7 +7,7 @@
   {{title}}
 </h1>
 <mat-tab-group class="invitedTab" dynamicHeight>
-  <mat-tab label="Inbjudna ({{ countInvited(invitedParticipants) }})"
+  <mat-tab label="Inbjudna [ {{ countInvited(invitedParticipants) }} ]"
 >
     <mat-selection-list class="invitesList">
       <mat-list-option class="participants" *ngFor="let user of invitedParticipants | async">
@@ -18,7 +18,7 @@
       </mat-list-option>
     </mat-selection-list>
   </mat-tab>
-  <mat-tab label="Accepterat ({{ countInvited(attendedParticipants) }})"
+  <mat-tab label="Accepterat [ {{ countInvited(attendedParticipants) }} ]"
   >
     <mat-selection-list class="invitesList">
       <mat-list-option class="participants" *ngFor="let user of attendedParticipants | async">
@@ -29,7 +29,7 @@
       </mat-list-option>
     </mat-selection-list>
   </mat-tab>
-  <mat-tab label="Avböjt ({{ countInvited(declinedParticipants) }})">
+  <mat-tab label="Avböjt [ {{ countInvited(declinedParticipants) }} ]">
   <mat-selection-list class="invitesList">
     <mat-list-option class="participants" *ngFor="let user of declinedParticipants | async">
      <mat-icon matListIcon>account_box</mat-icon>

@@ -11,7 +11,7 @@
   <!-- ---------------Incoming events---------------- -->
 
   <div class="tab-panel">
-    <mat-tab-group animationDuration="0ms" dynamicHeight>
+    <mat-tab-group dynamicHeight>
       <mat-tab label="Kommande evenemang">
         <div class="filtering">
           <mat-paginator class="listPaginator" [pageSizeOptions]="[6, 12, 24]"></mat-paginator>
@@ -19,7 +19,6 @@
             <input
               [(ngModel)]="searchField"
               matInput
-              type="text"
               placeholder="Sök evenemang"
               (keyup)="doFilter($event.target.value, '')"
               autocomplete="off"
@@ -93,9 +92,6 @@
             </mat-card-actions>
           </mat-card>
         </div>
-        <!-- <mat-card *ngIf="isLoaded$ | async" class="progressSpinner">
-          <mat-progress-spinner color="primary" mode="indeterminate"> </mat-progress-spinner>
-        </mat-card> -->
 
         <div class="noDataTable" *ngIf="(evs$ | async)?.length == 0">Tyvärr hittades inga evenemang</div>
         <!-- <div class="mobileShow">
@@ -307,12 +303,6 @@
 
             <mat-row *matRowDef="let row; columns: displayedColumnsCreated"></mat-row>
           </mat-table>
-          <!--           <mat-paginator
-            [pageSizeOptions]="[5, 20, 50]"
-            [length]="createdEvents.data.length"
-            *ngIf="createdEvents.data.length > 0"
-            showFirstLastButtons
-          ></mat-paginator> -->
           <div class="noDataTable" *ngIf="createdEvents.data.length === 0">Du har ännu inga skapade evenemang</div>
           <div class="noDataTable" *ngIf="createdEvents.filteredData.length === 0 && createdEvents.data.length > 0">
             Inga evenemang matchade din sökning

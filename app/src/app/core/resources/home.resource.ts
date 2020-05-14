@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { PodcastEpisode } from '../../shared/models';
+import { PodcastEpisode, Office } from '../../shared/models';
 
 @Injectable()
 export class HomeResource extends ApiResource {
@@ -11,7 +11,11 @@ export class HomeResource extends ApiResource {
     super(http);
   }
 
-  getPodcastEpisodes(): Observable<PodcastEpisode[]> {
+  loadPodcast(): Observable<PodcastEpisode[]> {
     return this.get('home/podcast');
+  }
+
+  loadOffices(): Observable<Office[]> {
+    return this.get('home/offices');
   }
 }

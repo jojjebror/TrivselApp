@@ -6,6 +6,18 @@
     border-style: solid;
     border-color: lightness($color: #ffffff);;
 }
+.loader {
+    position: fixed;
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    overflow: visible;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
 ul{
     list-style: none;
 }
@@ -38,7 +50,7 @@ button{
 }
 
 
-@media (max-width: 414px) {
+@media (max-width: 766px) {
 
     .container {
         background-color:  rgb(37, 2, 48);

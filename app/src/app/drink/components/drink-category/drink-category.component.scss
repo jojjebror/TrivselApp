@@ -1,3 +1,19 @@
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.container {
+  margin-top: 50px;
+  animation: fadeInAnimation ease 2s;
+  animation-iteration-count: 1s;
+  animation-fill-mode:forwards;
+}
+
 .img-thumbnail {
   position: absolute;
   right: 600px;
@@ -41,10 +57,6 @@
   content: "";
   display: table;
   clear: both;
-}
-
-.container {
-  margin-top: 50px;
 }
 
 h2 {
@@ -96,18 +108,14 @@ text-align: center;
 }
 
 li {
-  //float: left;
   background-color:  rgb(37, 2, 48);
   padding: 1em;
   margin-right: 10px;
   margin-left: 10px;
-  //border-radius: 45px;
   height: 100px;
   margin-bottom: 1em;
   flex-direction: column;
   width: auto;
-  
-  //text-align: center;
   
 }
 
@@ -153,7 +161,7 @@ li {
 
 /*    Mobil            */
 
-@media (max-width: 414px) {
+@media (max-width: 766px) {
 
   .img-thumbnail {
     position: static;
