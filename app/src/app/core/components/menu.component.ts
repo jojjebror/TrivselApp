@@ -73,7 +73,6 @@ export class MenuComponent implements OnDestroy {
         offices = data;
       })
     );
-
     this.subscription.add(
       this.userOffice$.subscribe((data: Office) => {
         userOffice = data;
@@ -82,7 +81,6 @@ export class MenuComponent implements OnDestroy {
 
     const message = 'Nedan har du möjlighet att ändra ditt nuvarande kontor. Ditt nuvarande kontor är ' + office;
     const dialogData = new EditDialogModel('Ändra tillhörande kontor', message, offices, userOffice);
-
     const dialogRef = this.dialog.open(EditDialogComponent, {
       maxWidth: '350px',
       data: dialogData,

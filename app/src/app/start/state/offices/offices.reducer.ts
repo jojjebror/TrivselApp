@@ -38,6 +38,32 @@ export function reducer(state: OfficesState = initialState, action: officesActio
         error: action.payload,
       };
     }
+    case officesActions.ActionTypes.GET_OFFICES_ARRAY: {
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+      };
+    }
+
+    case officesActions.ActionTypes.GET_OFFICES_ARRAY_SUCCESS: {
+      return adapter.addAll(action.payload, {
+        ...state,
+        loading: false,
+        loaded: true,
+        selectedOfficeId: null,
+      });
+    }
+
+    case officesActions.ActionTypes.GET_OFFICES_ARRAY_ERROR: {
+      return {
+        ...state,
+        entities: {},
+        loading: false,
+        loaded: false,
+        error: action.payload,
+      };
+    }
 
     default:
       return state;

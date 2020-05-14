@@ -31,7 +31,6 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   userCreditForm: FormGroup;
   usr$: Observable<User>;
   ofs$: Observable<Office[]>;
-  office: Office[];
   userId: number;
   user: User;
   dr: Drink;
@@ -106,9 +105,15 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   }
 
  getSwishNumber(): void {
-  var hej =  this.store$.dispatch(new officesActions.GetOfficesArray());
-      this.ofs$ = this.store$.pipe(select(fromOffice.getOffices.toString()));
-      console.log(hej);
+  this.store$.dispatch(new officesActions.GetOfficesArray());
+      this.ofs$ = this.store$.select(fromOffice.getOffices);
+var nummer;
+      this.subscription.add(
+        this.ofs$.subscribe((data: Office[]) => {
+          nummer = data;
+        })
+      );
+console.log(nummer);
 
   }
 

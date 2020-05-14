@@ -13,7 +13,11 @@ namespace Logic.Translators
             return new OfficeDto
             {
                 Id = office.Id,
-                Name = office.Name
+                Name = office.Name,
+                Adress = office.Adress,
+                SwishNumber = office.SwishNumber,
+                Info = office.Info
+
             };
         }
     }
