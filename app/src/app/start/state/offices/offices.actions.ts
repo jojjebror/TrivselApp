@@ -7,6 +7,7 @@ export enum ActionTypes {
   LOAD_OFFICES = '[Offices view] Load Offices',
   LOAD_OFFICES_SUCCESS = '[API: /home/offices] Load Offices success',
   LOAD_OFFICES_ERROR = '[API: //home/offices] Load Offices error',
+
 }
 
 /*--------------LoadOffices--------------*/
@@ -29,5 +30,6 @@ export class LoadOfficesError implements Action {
 
   constructor(public payload: string) {}
 }
+
 
 export type Actions = LoadOffices | LoadOfficesSuccess | LoadOfficesError;

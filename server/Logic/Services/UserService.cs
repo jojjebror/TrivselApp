@@ -50,19 +50,6 @@ namespace Logic.Services
             return user;
         }
 
-        //public async Task<UserForUpdateDto> AddCredit(int id, UserForUpdateDto user)
-        //{
-
-        //    var dbUser = await _context.Users
-        //        .FirstOrDefaultAsync(x => x.Id == id);
-
-        //    dbUser.Credit = dbUser.Credit + user.Credit;
-
-        //    await _context.SaveChangesAsync();
-
-        //    return UserForUpdateTranslator.ToModel(dbUser);
-        //}
-
         public async Task<UserForUpdateDto> AddCredit(int id, int amount)
         {
                 var dbUser = await _context.Users
@@ -81,6 +68,11 @@ namespace Logic.Services
             return UserTranslator.ToUserForUpdateDto(dbUser);
         }
 
+        public async Task<ICollection<officesForListDto>> GetOffices()
+        {
+            var dbOffices = await _context.Offices.ToListAsync();
+            return dbOffices.Select(OfficesForListTranslator.ToModel).ToList();
+        }
         public async Task<UserForUpdateDto> UpdateOffice(int id, string newOffice)
         {
             var dbUser = await _context.Users.Include(u => u.Office)
@@ -94,18 +86,6 @@ namespace Logic.Services
             return UserTranslator.ToUserForUpdateDto(dbUser);
         }
 
-        public async Task<UserForUpdateDto> RemoveCredit(int id, UserForUpdateDto user)
-        {
-
-            var dbUser = await _context.Users
-                .FirstOrDefaultAsync(x => x.Id == id);
-
-            dbUser.Credit = dbUser.Credit - user.Credit;
-
-            await _context.SaveChangesAsync();
-
-            return UserTranslator.ToUserForUpdateDto(dbUser);
-        }
 
         public async Task<ICollection<UserDto>> GetCredit()
         {

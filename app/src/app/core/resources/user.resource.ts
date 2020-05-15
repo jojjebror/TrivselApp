@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { ApiResource } from './api.resource';
 
 import { User } from '../../shared/models';
-
+import { Office } from "src/app/shared/models/dto/OfficeDto";
 @Injectable()
 export class UserResource extends ApiResource {
   constructor(http: HttpClient) {
@@ -27,6 +27,10 @@ export class UserResource extends ApiResource {
   addCredit(data: number[]): Observable<User> {
     return this.put('user/' + data[0] + '/' + data[1], {});
   }
- 
+
+  getOffices(): Observable<Office[]>{
+    return this.get('user/Offices');
+  }
+
 }
 

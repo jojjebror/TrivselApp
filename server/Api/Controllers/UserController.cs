@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
-    [Authorize]
     [Route("[controller]")]
     public class UserController
     {
@@ -32,6 +31,13 @@ namespace Api.Controllers
         public async Task<IActionResult> GetUsers()
         {
             var result = await _userService.GetUsers();
+            return new OkObjectResult(ApiResponse.Create(result));
+        }
+
+        [HttpGet("Offices")]
+        public async Task<IActionResult> GetOffices()
+        {
+            var result = await _userService.GetOffices();
             return new OkObjectResult(ApiResponse.Create(result));
         }
 

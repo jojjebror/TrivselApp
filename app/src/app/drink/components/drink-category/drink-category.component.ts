@@ -3,10 +3,12 @@ import { Observable, Subscription } from "rxjs";
 import { Store, select, ActionsSubject } from "@ngrx/store";
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { AppState } from "src/app/core/state";
-import { Drink, User } from "src/app/shared/models";
+import { Drink, User, Office } from "src/app/shared/models";
 
 import * as fromSession from "../../../core/state/session";
+import * as fromOffice from "../../../start/state/offices/offices.selectors"; 
 import * as drinksActions from "../../state/drinks";
+import * as officesActions from "../../../start/state/offices/offices.actions";
 import * as fromDrink from "../../state/drinks/drinks.selectors";
 import { FormGroup } from "@angular/forms";
 import { MatSnackBar, MatTabChangeEvent, MatDialog } from '@angular/material';
@@ -28,6 +30,7 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   drs$: Observable<Drink[]>;
   userCreditForm: FormGroup;
   usr$: Observable<User>;
+  ofs$: Observable<Office[]>;
   userId: number;
   user: User;
   dr: Drink;
@@ -60,32 +63,22 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.kontor = currentuser.office)) }, 1000);
-    setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 100);
-    this.getClickedId();
+    setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 1000);
+    // this.getClickedId();
+    setTimeout(() => {this.getSwishNumber()}, 2000);
   }
-
 
   onLinkClick(event: MatTabChangeEvent) {
-
     if(event.index == 1)
-    {
-    console.log({ event });
     this.initializeFilterBeer();
-    }
 
     if(event.index == 2)
-    {
       this.initializeFilterWine();
-      console.log({event});
-    }
     
     if(event.index == 3)
-    {
       this.initializeFilterCider();
-      console.log({event});
-    }
-    
   }
+
   public initializeFilterBeer(): void {
     this.store$.dispatch(new drinksActions.FilterDrink("Öl"));
       this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
@@ -110,6 +103,26 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   editDrink(id: number) {
     this.store$.dispatch(new drinksActions.LoadDrink(id));
   }
+
+ getSwishNumber() {
+  setTimeout(() => {
+  this.store$.dispatch(new officesActions.LoadOffices());
+      this.ofs$ = this.store$.select(fromOffice.getOffices);
+     var off = this.kontor;
+      this.subscription.add(
+        this.ofs$.subscribe((data: Office[]) => {
+        data.forEach(function(element){
+          if(off == element.name){
+            var numberToSwish = element.swishNumber;
+              console.log(numberToSwish);
+          }
+          return numberToSwish;
+        })
+        })
+      );
+      },0);
+  }
+
 
   public clickCount() {
     this.clickCounter += 1;
@@ -194,16 +207,10 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   addEncodedUrl(drink: Drink) {
     var sumPriceToSwish = this.clickCounter * drink.price;
 
-    for (let element of this.officeList) {
-      if (this.kontor == element.kontor) 
-      var numToSwish = element.swishNumber;
-           console.log(element.swishNumber);
-     }
-
     var initField = {
       version: 1,
       payee: {
-        value: numToSwish,
+        value: this.getSwishNumber(),
       },
       amount: {
         value: sumPriceToSwish,
@@ -239,6 +246,7 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
         this.actionsSubject$.pipe(filter((action: any) => action.type === fromUser.ActionTypes.UPDATE_CREDIT_ERROR)).subscribe((action) => {
           setTimeout(() => {  this.snackBar.open('Du har för lite pengar på ditt saldo! ', '', { duration: 12000 }) }, 500);
         }) );
+        this.ngOnDestroy();
   }
 
   ngOnDestroy() {

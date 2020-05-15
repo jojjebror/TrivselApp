@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Logic.Models
 {
-    public class OfficeDto : BaseDto
+   public class officesForListDto: BaseDto
     {
         public string Name { get; set; }
         public string Adress { get; set; }

@@ -7,7 +7,6 @@ import * as fromSession from "../../../core/state/session";
 import { Observable, Subscription } from "rxjs";
 import { Drink } from "src/app/shared/models";
 import { ActivatedRoute, Router } from "@angular/router";
-import { AlertifyService } from "src/app/core/services/alertify.service";
 
 import * as fromDrink from "../../state/drinks";
 import * as drinksActions from "../../state/drinks";
@@ -36,7 +35,6 @@ export class DrinkDetailComponent implements OnInit {
 
   constructor(
     private store$: Store<AppState>,
-    private alertify: AlertifyService,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private actionsSubject$: ActionsSubject,
@@ -106,7 +104,9 @@ export class DrinkDetailComponent implements OnInit {
     this.subscription.add(
       this.actionsSubject$.pipe(filter((action: any) => action.type === fromDrink.ActionTypes.DELETE_DRINK_SUCCESS)).subscribe((action) => {
         this.snackBar.open('Drycken har tagits bort!', '', { duration: 3000 });
-      }) );}
+      }) );
+    this.ngOnDestroy();
+    }
 
   toggleShow() {
     this.isShown = !this.isShown;

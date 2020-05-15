@@ -17,7 +17,8 @@ export const getUsersLoaded = createSelector(selectState, state => state.loaded)
 
 export const getError = createSelector(selectState, state => state.error);
 
-export const getCurrentUserId = createSelector(selectState, (state) => state.selectedUserId)
+export const getCurrentUserId = createSelector(selectState, (state) => state.selectedUserId);
+
 
 
 /* export const getEventsCreatedByUser = (userId: number) =>

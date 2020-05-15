@@ -1,14 +1,18 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
-import { User, Drink } from '../../../shared/models';
+import * as fromOffice from "../../../start/state/offices/offices.selectors"; 
+import * as officesActions from "../../../start/state/offices/offices.actions";
+
+import { User, Office} from '../../../shared/models';
 import { Observable, Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
-import * as fromSession from '../../../core/state/session'
+import * as fromSession from '../../../core/state/session';
 import { AuthenticationService } from 'src/app/core/services';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/components/confirmDialog/confirmDialog.component';
 import { MatDialog } from '@angular/material';
+
 
 @Component({
   selector: 'ex-drink-credit',
@@ -23,6 +27,8 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
   user: User;
   userCredit: number;
   userInput: number;
+  kontor: string;
+  ofs$: Observable<Office[]>;
   
   office: string;
   officeList = [{listoffice:'Linköping', swishNumber: '0768658080'}, {listoffice:'Örebro', swishNumber: '0735469891'},
@@ -49,6 +55,7 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
     console.log('userid' + this.userId);
     console.log('credit' + this.userCredit);
      this.createCreditForm();
+     this.getOfficeNumber();
   }
 
   createCreditForm() {
@@ -85,14 +92,26 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
       }
     }));
   }
+getOfficeNumber(){
+ 
+}
+  
+getSwishNumber() {
+  this.store$.dispatch(new officesActions.LoadOffices());
+      this.ofs$ = this.store$.select(fromOffice.getOffices);
+     var off = this.kontor;
+      this.subscription.add(
+        this.ofs$.subscribe((data: Office[]) => {
+        data.forEach(function(element){
+          if(off == element.name){
+            var numberToSwish = element.swishNumber;
+              console.log(numberToSwish);
+              return numberToSwish;
+          }
+        })
+        })
+      );
 
-  addOfficeSwish(){
-    for (let element of this.officeList) {
-      if (this.office == element.listoffice) 
-      var numToSwish = element.swishNumber;
-           console.log(element.swishNumber);
-     }
-     return numToSwish;
   }
 
   addEncodedUrl(){
@@ -101,7 +120,7 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
     var initField = {
       "version":1,
       "payee":{
-      "value": this.addOfficeSwish()
+      "value": this.getSwishNumber()
       },
       "amount":{
       "value": creditInput

@@ -15,6 +15,7 @@ export enum ActionTypes {
   UPDATE_OFFICE = '[User view] Update Office',
   UPDATE_OFFICE_SUCCESS = '[API: /user] Update Office success',
   UPDATE_OFFICE_ERROR = '[API: /user] Update Office error',
+
 }
 
 /*--------------GetAllUsers--------------*/
@@ -79,7 +80,6 @@ export class UpdateOfficeError implements Action {
 
   constructor(public payload: string) {}
 }
-
 
 export type Actions =
   | GetUsers
