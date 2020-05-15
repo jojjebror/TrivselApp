@@ -42,12 +42,5 @@ namespace Api.Controllers
             var result = await _homeService.CreateOffice(office);
             return new OkObjectResult(ApiResponse.Create(result));
         }
-
-        [HttpGet("instagram")]
-        public IActionResult GetInstagram()
-        {
-            var result = _homeService.GetInstagram();
-            return new OkObjectResult(ApiResponse.Create(result));
-        }
     }
 }

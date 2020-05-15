@@ -3,7 +3,7 @@ namespace Logic.Database.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class MergeBranches : DbMigration
+    public partial class MergeBranchesAdminProp : DbMigration
     {
         public override void Up()
         {
@@ -103,6 +103,7 @@ namespace Logic.Database.Migrations
                 .Index(t => t.CreatorId);
             
             AddColumn("dbo.Users", "Credit", c => c.Int(nullable: false));
+            AddColumn("dbo.Users", "Admin", c => c.Boolean(nullable: false));
             AddColumn("dbo.Users", "OfficeId", c => c.Int());
             CreateIndex("dbo.Users", "OfficeId");
             AddForeignKey("dbo.Users", "OfficeId", "dbo.Offices", "Id");
@@ -125,6 +126,7 @@ namespace Logic.Database.Migrations
             DropIndex("dbo.EventParticipants", new[] { "EventId" });
             DropIndex("dbo.EventParticipants", new[] { "UserId" });
             DropColumn("dbo.Users", "OfficeId");
+            DropColumn("dbo.Users", "Admin");
             DropColumn("dbo.Users", "Credit");
             DropTable("dbo.Receipts");
             DropTable("dbo.Posts");

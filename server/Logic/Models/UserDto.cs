@@ -9,6 +9,8 @@ namespace Logic.Models
 
         public int Credit { get; set; }
 
+        public bool Admin { get; set; }
+
         public string Office { get; set; }
     }
 }

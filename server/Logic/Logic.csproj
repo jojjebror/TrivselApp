@@ -287,9 +287,9 @@
     <Compile Include="Database\Migrations\201802051252482_Init.Designer.cs">
       <DependentUpon>201802051252482_Init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\Migrations\202005120847072_MergeBranches.cs" />
-    <Compile Include="Database\Migrations\202005120847072_MergeBranches.Designer.cs">
-      <DependentUpon>202005120847072_MergeBranches.cs</DependentUpon>
+    <Compile Include="Database\Migrations\202005151352080_MergeBranchesAdminProp.cs" />
+    <Compile Include="Database\Migrations\202005151352080_MergeBranchesAdminProp.Designer.cs">
+      <DependentUpon>202005151352080_MergeBranchesAdminProp.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Helpers\PagedList.cs" />
@@ -307,7 +307,6 @@
     <Compile Include="Models\EventForUserListDto.cs" />
     <Compile Include="Models\EventParticipantsDto.cs" />
     <Compile Include="Models\ExampleDto.cs" />
-    <Compile Include="Models\InstagramPostDto.cs" />
     <Compile Include="Models\OfficeDto.cs" />
     <Compile Include="Models\PodcastEpisodeDto.cs" />
     <Compile Include="Models\PostDto.cs" />
@@ -350,8 +349,8 @@
     <EmbeddedResource Include="Database\Migrations\201802051252482_Init.resx">
       <DependentUpon>201802051252482_Init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Database\Migrations\202005120847072_MergeBranches.resx">
-      <DependentUpon>202005120847072_MergeBranches.cs</DependentUpon>
+    <EmbeddedResource Include="Database\Migrations\202005151352080_MergeBranchesAdminProp.resx">
+      <DependentUpon>202005151352080_MergeBranchesAdminProp.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

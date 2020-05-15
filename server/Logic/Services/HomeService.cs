@@ -103,15 +103,5 @@ namespace Logic.Services
             return OfficeTranslator.ToOfficeDto(newOffice);
 
         }
-
-
-            public ICollection<InstagramPostDto> GetInstagram()
-        {
-            string instagramUrl = "https://www.instagram.com/exsitec/?__a=1";
-
-            var instagramPosts = new List<InstagramPostDto>();
-
-            return instagramPosts;
-        }
     }
 }
