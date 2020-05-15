@@ -16,4 +16,4 @@ export const getPodcastLoaded = createSelector(selectState, (state) => state.loa
 
 export const getError = createSelector(selectState, (state) => state.error);
 
-export const getCurrentPodcastEpisodeId = createSelector(selectState, (state) => state.selectedEpisodeId);
+export const getCurrentEpisodeId = createSelector(selectState, (state) => state.selectedEpisodeId);

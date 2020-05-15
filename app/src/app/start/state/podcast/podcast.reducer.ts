@@ -25,7 +25,7 @@ export function reducer(state: PodcastState = initialState, action: podcastActio
         ...state,
         loading: false,
         loaded: true,
-        selectedPodcastEpisodeId: null,
+        selectedEpisodeId: null,
       });
     }
 

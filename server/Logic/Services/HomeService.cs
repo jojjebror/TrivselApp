@@ -2,14 +2,11 @@
 using Logic.Database.Entities;
 using Logic.Models;
 using Logic.Translators;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.ServiceModel.Syndication;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
@@ -34,15 +31,16 @@ namespace Logic.Services
 
         public ICollection<PodcastEpisodeDto> GetPodcast()
         {
-            string podcastUrl = "http://exsitecpodden.libsyn.com/rss";
-
-            var podcastEpisodes = new List<PodcastEpisodeDto>();
             try
             {
+                string podcastUrl = "http://exsitecpodden.libsyn.com/rss";
+
                 using (var reader = XmlReader.Create(podcastUrl))
                 {
                     var id = 1;
                     var podcastFeed = SyndicationFeed.Load(reader);
+
+                    var podcastEpisodes = new List<PodcastEpisodeDto>();
 
                     foreach (var item in podcastFeed.Items.Take(3))
                     {
@@ -65,13 +63,15 @@ namespace Logic.Services
 
                         id++;
                     }
+
+                    return podcastEpisodes;
                 }          
             } catch (Exception e)
             {
                 e.Message.ToString();
             }
 
-            return podcastEpisodes;
+            return null;
         }
 
         public async Task<OfficeDto> UpdateOffice(int id, OfficeDto office)
