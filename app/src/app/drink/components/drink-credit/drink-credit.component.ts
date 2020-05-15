@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
-import { User} from '../../../shared/models';
+import * as fromOffice from "../../../start/state/offices/offices.selectors"; 
+import * as officesActions from "../../../start/state/offices/offices.actions";
+
+import { User, Office} from '../../../shared/models';
 import { Observable, Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
@@ -24,6 +27,8 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
   user: User;
   userCredit: number;
   userInput: number;
+  kontor: string;
+  ofs$: Observable<Office[]>;
   
   office: string;
   officeList = [{listoffice:'Linköping', swishNumber: '0768658080'}, {listoffice:'Örebro', swishNumber: '0735469891'},
@@ -91,13 +96,22 @@ getOfficeNumber(){
  
 }
   
-  addOfficeSwish(){
-    for (let element of this.officeList) {
-      if (this.office == element.listoffice) 
-      var numToSwish = element.swishNumber;
-           console.log(element.swishNumber);
-     }
-     return numToSwish;
+getSwishNumber() {
+  this.store$.dispatch(new officesActions.LoadOffices());
+      this.ofs$ = this.store$.select(fromOffice.getOffices);
+     var off = this.kontor;
+      this.subscription.add(
+        this.ofs$.subscribe((data: Office[]) => {
+        data.forEach(function(element){
+          if(off == element.name){
+            var numberToSwish = element.swishNumber;
+              console.log(numberToSwish);
+              return numberToSwish;
+          }
+        })
+        })
+      );
+
   }
 
   addEncodedUrl(){
@@ -106,7 +120,7 @@ getOfficeNumber(){
     var initField = {
       "version":1,
       "payee":{
-      "value": this.addOfficeSwish()
+      "value": this.getSwishNumber()
       },
       "amount":{
       "value": creditInput

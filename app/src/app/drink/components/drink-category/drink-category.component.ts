@@ -105,6 +105,7 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   }
 
  getSwishNumber() {
+  setTimeout(() => {
   this.store$.dispatch(new officesActions.LoadOffices());
       this.ofs$ = this.store$.select(fromOffice.getOffices);
      var off = this.kontor;
@@ -112,14 +113,14 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
         this.ofs$.subscribe((data: Office[]) => {
         data.forEach(function(element){
           if(off == element.name){
-            var numtoHej = element.swishNumber;
-              console.log(numtoHej);
+            var numberToSwish = element.swishNumber;
+              console.log(numberToSwish);
           }
-          return numtoHej;
+          return numberToSwish;
         })
         })
       );
-
+      },0);
   }
 
 
@@ -206,16 +207,10 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   addEncodedUrl(drink: Drink) {
     var sumPriceToSwish = this.clickCounter * drink.price;
 
-   // for (let element of this.officeList) {
-    //  if (this.kontor == element.kontor) 
-     // var numToSwish = element.swishNumber;
-     //      console.log(element.swishNumber);
-    // }
-
     var initField = {
       version: 1,
       payee: {
-        value: '',
+        value: this.getSwishNumber(),
       },
       amount: {
         value: sumPriceToSwish,
