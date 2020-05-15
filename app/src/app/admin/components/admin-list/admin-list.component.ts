@@ -12,6 +12,7 @@ import { Subscription, Observable } from 'rxjs';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/dialogs/confirmDialog/confirmDialog.component';
 import { EditOfficeDetailsDialogModel, EditOfficeDetailsDialogComponent } from 'src/app/shared/dialogs/editOfficeDetailsDialog/editOfficeDetailsDialog.component';
 import { NewOfficeDialogComponent, NewOfficeDialogModel } from 'src/app/shared/dialogs/newOfficeDialog/newOfficeDialog.component';
+import { filter } from 'rxjs/operators';
 
 
 //import { Example } from '../../../shared/models';
@@ -85,7 +86,7 @@ export class AdminListComponent implements OnInit, OnDestroy {
 
   deleteEvent(id: number) {
     this.store$.dispatch(new fromEvents.DeleteEvent(id));
-    //this.showSnackbarDeleteEvent();
+    this.showSnackbarDeleteEvent();
   }
 
   editEvent(id: number) {
@@ -121,6 +122,7 @@ export class AdminListComponent implements OnInit, OnDestroy {
     this.subscription.add(
       dialogRef.afterClosed().subscribe((dialogResult) => {
         if (dialogResult == true) {
+          this.showSnackbarAddOffice();
         }
       })
     );
@@ -139,6 +141,7 @@ export class AdminListComponent implements OnInit, OnDestroy {
     this.subscription.add(
       dialogRef.afterClosed().subscribe((dialogResult) => {
         if (dialogResult == true) {
+          this.showSnackbarEditOffice()
         }
       })
     );
@@ -157,20 +160,54 @@ export class AdminListComponent implements OnInit, OnDestroy {
     this.searchFieldUsers = '';
   }
 
-  /* showSnackbarDeleteEvent() {
+  showSnackbarDeleteEvent() {
     this.subscription.add(
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.DELETE_EVENT_SUCCESS)).subscribe((action) => {
-        this.snackBar.open('Evenemanget borttaget', '', { duration: 2500 });
-        this.store$.dispatch(new fromEvents.GetCurrentUserEvent(+this.userId));
-      })
+      this.actionsSubject$
+        .pipe(filter((action: any) => action.type === fromEvents.ActionTypes.DELETE_EVENT_SUCCESS))
+        .subscribe((action) => {
+          this.snackBar.open('Evenemanget borttaget', '', { duration: 2500 });
+        })
     );
     this.subscription.add(
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.DELETE_EVENT_ERROR)).subscribe((action) => {
+      this.actionsSubject$.pipe(filter((action: any) => action.type === fromEvents.ActionTypes.DELETE_EVENT_ERROR)).subscribe((action) => {
         this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
-        this.loadEvents();
       })
     );
-  } */
+  }
+
+  showSnackbarAddOffice() {
+    this.subscription.add(
+      this.actionsSubject$
+        .pipe(filter((action: any) => action.type === fromOffices.ActionTypes.CREATE_OFFICE_SUCCESS))
+        .subscribe((action) => {
+          this.snackBar.open('Kontoret lades till framgångsrikt', '', { duration: 2500 });
+        })
+    );
+    this.subscription.add(
+      this.actionsSubject$
+        .pipe(filter((action: any) => action.type === fromOffices.ActionTypes.CREATE_OFFICE_ERROR))
+        .subscribe((action) => {
+          this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
+        })
+    );
+  }
+
+  showSnackbarEditOffice() {
+    this.subscription.add(
+      this.actionsSubject$
+        .pipe(filter((action: any) => action.type === fromOffices.ActionTypes.UPDATE_OFFICE_SUCCESS))
+        .subscribe((action) => {
+          this.snackBar.open('Kontoret ändrades framgångsrikt', '', { duration: 2500 });
+        })
+    );
+    this.subscription.add(
+      this.actionsSubject$
+        .pipe(filter((action: any) => action.type === fromOffices.ActionTypes.UPDATE_OFFICE_ERROR))
+        .subscribe((action) => {
+          this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
+        })
+    );
+  }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
