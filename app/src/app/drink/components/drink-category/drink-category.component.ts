@@ -65,7 +65,7 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.kontor = currentuser.office)) }, 1000);
     setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 1000);
     // this.getClickedId();
-    this.getSwishNumber();
+    setTimeout(() => {this.getSwishNumber()}, 2000);
   }
 
   onLinkClick(event: MatTabChangeEvent) {
@@ -104,16 +104,21 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     this.store$.dispatch(new drinksActions.LoadDrink(id));
   }
 
- getSwishNumber(): void {
+ getSwishNumber() {
   this.store$.dispatch(new officesActions.LoadOffices());
       this.ofs$ = this.store$.select(fromOffice.getOffices);
-var nummer;
+     var off = this.kontor;
       this.subscription.add(
         this.ofs$.subscribe((data: Office[]) => {
-          nummer = data;
+        data.forEach(function(element){
+          if(off == element.name){
+            var numtoHej = element.swishNumber;
+              console.log(numtoHej);
+          }
+          return numtoHej;
+        })
         })
       );
-console.log(nummer);
 
   }
 
@@ -201,16 +206,16 @@ console.log(nummer);
   addEncodedUrl(drink: Drink) {
     var sumPriceToSwish = this.clickCounter * drink.price;
 
-    for (let element of this.officeList) {
-      if (this.kontor == element.kontor) 
-      var numToSwish = element.swishNumber;
-           console.log(element.swishNumber);
-     }
+   // for (let element of this.officeList) {
+    //  if (this.kontor == element.kontor) 
+     // var numToSwish = element.swishNumber;
+     //      console.log(element.swishNumber);
+    // }
 
     var initField = {
       version: 1,
       payee: {
-        value: numToSwish,
+        value: '',
       },
       amount: {
         value: sumPriceToSwish,
