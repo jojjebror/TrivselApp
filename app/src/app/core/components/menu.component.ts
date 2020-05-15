@@ -3,7 +3,7 @@ import { Store, ActionsSubject, select } from '@ngrx/store';
 import { AppState } from '../state';
 
 import { User, Office } from '../../shared/models';
-import { EditDialogComponent, EditDialogModel } from 'src/app/shared/components/editDialog/editDialog.component';
+import { EditDialogComponent, EditDialogModel } from 'src/app/shared/dialogs/editDialog/editDialog.component';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import * as fromUsers from '../../user/state/users';
 import { filter, take } from 'rxjs/operators';

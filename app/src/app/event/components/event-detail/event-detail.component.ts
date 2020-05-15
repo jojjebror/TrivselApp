@@ -14,11 +14,11 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { AuthenticationService } from 'src/app/core/services';
 import { filter } from 'rxjs/operators';
-import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/components/confirmDialog/confirmDialog.component';
+import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/dialogs/confirmDialog/confirmDialog.component';
 import {
   ParticipantsDialogModel,
   ParticipantsDialogComponent,
-} from 'src/app/shared/components/participantsDialog/participantsDialog.component';
+} from 'src/app/shared/dialogs/participantsDialog/participantsDialog.component';
 
 @Component({
   selector: 'ex-event-detail',

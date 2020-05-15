@@ -7,11 +7,11 @@ import { AuthenticationGuard } from './core/guards';
 export const routes: Routes = [
          {
            path: 'authentication',
-           loadChildren: './authentication/authentication.module#AuthenticationModule'
+           loadChildren: './authentication/authentication.module#AuthenticationModule',
          },
          {
            path: 'login',
-           loadChildren: './login/login.module#LoginModule'
+           loadChildren: './login/login.module#LoginModule',
          },
          {
            path: '',
@@ -21,40 +21,40 @@ export const routes: Routes = [
            children: [
              {
                path: 'start',
-               loadChildren: './start/start.module#StartModule'
+               loadChildren: './start/start.module#StartModule',
              },
              {
-               path: 'exempel',
-               loadChildren: './example/example.module#ExampleModule'
+               path: 'admin',
+               loadChildren: './admin/admin.module#AdminModule',
              },
              {
                path: 'event',
-               loadChildren: './event/event.module#EventModule'
+               loadChildren: './event/event.module#EventModule',
              },
              {
                path: 'drink',
-               loadChildren: './drink/drink.module#DrinkModule'
+               loadChildren: './drink/drink.module#DrinkModule',
              },
              {
                path: 'user',
-               loadChildren: './user/user.module#UserModule'
+               loadChildren: './user/user.module#UserModule',
              },
              {
                path: 'receipt',
-              loadChildren: './receipt/receipt.module#ReceiptModule'
-              },
+               loadChildren: './receipt/receipt.module#ReceiptModule',
+             },
              {
                path: '',
                redirectTo: 'start',
-               pathMatch: 'full'
+               pathMatch: 'full',
              },
              {
                path: '**',
                redirectTo: 'start',
-               pathMatch: 'full'
-             }
-           ]
-         }
+               pathMatch: 'full',
+             },
+           ],
+         },
        ];
 
 @NgModule({

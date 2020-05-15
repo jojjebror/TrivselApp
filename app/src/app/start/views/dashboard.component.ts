@@ -5,7 +5,7 @@ import { filter } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { User, Office } from 'src/app/shared/models';
 import { AppState } from 'src/app/core/state';
-import { AddDialogComponent, AddDialogModel } from 'src/app/shared/components/addDialog/addDialog.component';
+import { AddDialogComponent, AddDialogModel } from 'src/app/shared/dialogs/addDialog/addDialog.component';
 import { getLoadingData } from '../../core/state/loading';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import * as fromUsers from '../../user/state/users';

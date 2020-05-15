@@ -9,25 +9,25 @@ import * as fromExamples from '../state/examples';
 
 @Component({
 	selector: 'ex-example',
-	templateUrl: './example.component.html',
-	styleUrls: ['./example.component.scss']
+	templateUrl: './admin.component.html',
+	styleUrls: ['./admin.component.scss']
 })
-export class ExampleComponent implements OnInit {
+export class AdminComponent implements OnInit {
 
 	examples$: Observable<Example[]>;
 
 	constructor(private store$: Store<AppState>) { }
 
 	ngOnInit(): void {
-		this.initializeExamples();
+		/* this.initializeExamples(); */
 	}
 
-	createExample(example: Example): void {
+	/* createExample(example: Example): void {
 		this.store$.dispatch(new fromExamples.Create(example));
 	}
 
 	private initializeExamples(): void {
 		this.store$.dispatch(new fromExamples.Load());
 		this.examples$ = this.store$.select(fromExamples.selectExamples);
-	}
+	} */
 }

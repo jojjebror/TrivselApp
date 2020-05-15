@@ -11,7 +11,7 @@ import { AlertService } from 'src/app/core/services/alert.service';
 import { AuthenticationService } from 'src/app/core/services';
 import { ActionTypes } from '../../state/events';
 import { filter, map } from 'rxjs/operators';
-import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/shared/components/confirmDialog/confirmDialog.component';
+import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/shared/dialogs/confirmDialog/confirmDialog.component';
 import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
 import { ActivatedRoute, Router } from '@angular/router';
 

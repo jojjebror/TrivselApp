@@ -18,4 +18,12 @@ export class HomeResource extends ApiResource {
   loadOffices(): Observable<Office[]> {
     return this.get('home/offices');
   }
+
+  updateOffice(office: Office): Observable<Office> {
+    return this.put('home/' + office.id, office);
+  }
+
+  createOffice(office: Office): Observable<Office> {
+    return this.post('home', office);
+  }
 }

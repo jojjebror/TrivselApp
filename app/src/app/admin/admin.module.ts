@@ -4,7 +4,7 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { SharedModule } from '../shared';
 
-import { LoginRoutingModule } from './example-routing.module';
+import { LoginRoutingModule } from './admin-routing.module';
 
 import { reducers, effects } from './state';
 import { views } from './views';
@@ -25,4 +25,4 @@ import { components } from './components';
 	providers: [
 	]
 })
-export class ExampleModule { }
+export class AdminModule { }

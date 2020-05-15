@@ -1,4 +1,5 @@
 ﻿using Logic.Database;
+using Logic.Database.Entities;
 using Logic.Models;
 using Logic.Translators;
 using Newtonsoft.Json;
@@ -73,7 +74,38 @@ namespace Logic.Services
             return podcastEpisodes;
         }
 
-        public ICollection<InstagramPostDto> GetInstagram()
+        public async Task<OfficeDto> UpdateOffice(int id, OfficeDto office)
+        {
+            var dbOffice = await _context.Offices.FindAsync(id);
+
+            dbOffice.Name = office.Name;
+            dbOffice.Adress = office.Adress;
+            dbOffice.SwishNumber = office.SwishNumber;
+
+            await _context.SaveChangesAsync();
+
+            return OfficeTranslator.ToOfficeDto(dbOffice);
+        }
+
+        public async Task<OfficeDto> CreateOffice(OfficeDto office)
+        {
+            var newOffice = new Office()
+            {
+                Name = office.Name,
+                Adress = office.Adress,
+                SwishNumber = office.SwishNumber
+            };
+
+            _context.Offices.Add(newOffice);
+
+            await _context.SaveChangesAsync();
+
+            return OfficeTranslator.ToOfficeDto(newOffice);
+
+        }
+
+
+            public ICollection<InstagramPostDto> GetInstagram()
         {
             string instagramUrl = "https://www.instagram.com/exsitec/?__a=1";
 

@@ -23,6 +23,34 @@ export class OfficesEffects {
       );
     })
   );
+
+  @Effect()
+  updateOffice$: Observable<Action> = this.actions$.pipe(
+    ofType(officesActions.ActionTypes.UPDATE_OFFICE),
+    switchMap((action: officesActions.UpdateOffice) =>
+      this.homeResource.updateOffice(action.payload).pipe(
+        map((updatedOffice: Office) => {
+          return new officesActions.UpdateOfficeSuccess({
+            id: updatedOffice.id,
+            changes: updatedOffice,
+          });
+        }),
+        catchError((err) => of(new officesActions.UpdateOfficeError(err)))
+      )
+    )
+  );
+
+  @Effect()
+  createOffice$: Observable<Action> = this.actions$.pipe(
+    ofType(officesActions.ActionTypes.CREATE_OFFICE),
+    switchMap((action: officesActions.CreateOffice) =>
+      this.homeResource.createOffice(action.payload).pipe(
+        map((newOffice: Office) => {
+          return new officesActions.CreateOfficeSuccess(newOffice);
+        }),
+        catchError((err) => of(new officesActions.CreateOfficeError(err)))
+      )
+    )
+  );
 }
 
-//{type: '@ngrx/store/update-reducers', feature: 'feature1'}

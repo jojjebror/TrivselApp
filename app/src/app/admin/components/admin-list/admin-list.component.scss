@@ -1,0 +1,93 @@
+.tab-panel {
+  margin-top: 50px;
+}
+
+#cell-cursor {
+  cursor: pointer;
+}
+
+.btn-new-office {
+  margin-left: 880px;
+}
+
+.mat-toolbar {
+  background-color: rgb(37, 2, 48) !important;
+  color: white;
+  margin-top: 30px;
+}
+
+.mat-row {
+  background-color: rgb(37, 2, 48);
+}
+
+.mat-cell {
+  color: white;
+}
+
+.mat-header-cell {
+  background-color: rgb(37, 2, 48);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.mat-column-actions {
+  flex: 0 0 15%;
+}
+
+.mat-column-actions2 {
+  flex: 0 0 15%;
+}
+
+.mat-column-actions3 {
+  flex: 0 0 15%;
+}
+
+.noDataTable {
+  margin-top: 10px;
+}
+
+#declineIcon {
+  color: red;
+  vertical-align: middle;
+}
+
+#editIcon {
+  color: white;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+#editIcon2 {
+  color: white;
+  margin-left: 20px;
+  vertical-align: middle;
+}
+
+/* active tab */
+::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+  color: white;
+  font-size: 18px;
+  opacity: 1;
+}
+
+/* ink bar */
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary {
+  background-color: white !important;
+}
+
+::ng-deep .mat-tab-label .mat-tab-label-content {
+  color: white;
+  font-size: 18px;
+}
+
+#searchbar {
+  font-size: 14px;
+  width: 160px !important;
+}
+
+.spacer {
+  flex: 1 1 auto;
+  text-align: right;
+}

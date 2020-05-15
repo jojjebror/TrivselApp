@@ -25,66 +25,76 @@ namespace Logic.Database.Migrations
             {
                 Id = 1,
                 Name = "Linköping",
-                Adress = "Snickaregatan 40, 582 26 Linköping"
+                Adress = "Snickaregatan 40, 582 26 Linköping",
+                SwishNumber = "070-050 19 14"
             };
 
             var office2 = new Office()
             {
                 Id = 2,
                 Name = "Stockholm",
-                Adress = "Olof Palmes gata 13, 111 37 Stockholm"
+                Adress = "Olof Palmes gata 13, 111 37 Stockholm",
+                SwishNumber = "070-050 19 14"
             };
 
             var office3 = new Office()
             {
                 Id = 3,
                 Name = "Göteborg",
-                Adress = "Kungsportsavenyen 34, 411 36 Göteborg"
+                Adress = "Kungsportsavenyen 34, 411 36 Göteborg",
+                SwishNumber = "070-050 19 14"
             };
 
             var office4 = new Office()
             {
                 Id = 4,
                 Name = "Malmö",
-                Adress = "Skeppsbron 5, 211 20 Malmö"
+                Adress = "Skeppsbron 5, 211 20 Malmö",
+                SwishNumber = "070-050 19 14"
             };
 
             var office5 = new Office()
             {
                 Id = 5,
                 Name = "Uppsala",
-                Adress = "Dragarbrunnsgatan 46, 753 20 Uppsala"
+                Adress = "Dragarbrunnsgatan 46, 753 20 Uppsala",
+                SwishNumber = "070-050 19 14"
             };
             var office6 = new Office()
             {
                 Id = 6,
                 Name = "Örebro",
-                Adress = "Järntorgsgatan 3a, 703 61 Örebro"
+                Adress = "Järntorgsgatan 3a, 703 61 Örebro",
+                SwishNumber = "070-050 19 14"
             };
 
             var office7 = new Office()
             {
                 Id = 7,
                 Name = "Söderhamn",
-                Adress = "Källgatan 9, 826 30 Söderhamn"
+                Adress = "Källgatan 9, 826 30 Söderhamn",
+                SwishNumber = "070-050 19 14"
             };
             var office8 = new Office()
             {
                 Id = 8,
                 Name = "Borlänge",
-                Adress = "Forskargatan 3, 781 70 Borlänge"
+                Adress = "Forskargatan 3, 781 70 Borlänge",
+                SwishNumber = "070-050 19 14"
             };
             var office9 = new Office()
             {
                 Id = 9,
                 Name = "Helsingborg",
-                Adress = "Florettgatan 29B, 254 67 Helsingborg"
+                Adress = "Florettgatan 29B, 254 67 Helsingborg",
+                SwishNumber = "070-050 19 14"
             };
             var office10 = new Office()
             {
                 Id = 10,
                 Name = "Karlstad",
-                Adress = "Södra Kyrkogatan 6, 652 24 Karlstad"
+                Adress = "Södra Kyrkogatan 6, 652 24 Karlstad",
+                SwishNumber = "070-050 19 14"
             };
 
             var testUser = new User()
