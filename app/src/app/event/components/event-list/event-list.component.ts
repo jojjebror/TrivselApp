@@ -26,8 +26,8 @@ export class EventListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
 
   private subscription = new Subscription();
-  evs$: Observable<Event[]>;
   loadings$ = this.store$.pipe(select(getLoadingData));
+  evs$: Observable<Event[]>;
   userId: number;
   selectedTab: number = 0;
   selectedPage: number = 0;

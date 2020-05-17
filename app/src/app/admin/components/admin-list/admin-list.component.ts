@@ -9,13 +9,12 @@ import * as fromUsers from '../../../user/state/users';
 import * as fromOffices from '../../../start/state/offices';
 import { Event, Office, User } from '../../../shared/models';
 import { Subscription, Observable } from 'rxjs';
+import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
+
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/dialogs/confirmDialog/confirmDialog.component';
 import { EditOfficeDetailsDialogModel, EditOfficeDetailsDialogComponent } from 'src/app/shared/dialogs/editOfficeDetailsDialog/editOfficeDetailsDialog.component';
 import { NewOfficeDialogComponent, NewOfficeDialogModel } from 'src/app/shared/dialogs/newOfficeDialog/newOfficeDialog.component';
 import { filter } from 'rxjs/operators';
-
-
-//import { Example } from '../../../shared/models';
 
 @Component({
   selector: 'ex-admin-list',
@@ -25,8 +24,9 @@ import { filter } from 'rxjs/operators';
 })
 export class AdminListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
+  loadings$ = this.store$.pipe(select(getLoadingData));
+  subscription = new Subscription();
 
-  private subscription = new Subscription();
   displayedColumnsEvents = ['title', 'location', 'date', 'actions'];
   displayedColumnsOffices = ['office', 'adress', 'swish', 'actions'];
   displayedColumnsUsers = ['name', 'admin', 'actions'];
@@ -215,11 +215,9 @@ export class AdminListComponent implements OnInit, OnDestroy {
 
   showSnackbarDeleteUser() {
     this.subscription.add(
-      this.actionsSubject$
-        .pipe(filter((action: any) => action.type === fromUsers.ActionTypes.DELETE_USER_SUCCESS))
-        .subscribe((action) => {
-          this.snackBar.open('Användaren borttagen', '', { duration: 2500 });
-        })
+      this.actionsSubject$.pipe(filter((action: any) => action.type === fromUsers.ActionTypes.DELETE_USER_SUCCESS)).subscribe((action) => {
+        this.snackBar.open('Användaren borttagen', '', { duration: 2500 });
+      })
     );
     this.subscription.add(
       this.actionsSubject$.pipe(filter((action: any) => action.type === fromUsers.ActionTypes.DELETE_USER_ERROR)).subscribe((action) => {

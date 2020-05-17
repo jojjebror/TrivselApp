@@ -137,9 +137,8 @@
 		    <ng-container matColumnDef="admin">
 				<mat-header-cell *matHeaderCellDef>Behörighet</mat-header-cell>
 				<mat-cell class="duration-cell" *matCellDef="let user">
-					<!-- <mat-icon class="material-icons">lock_open</mat-icon> -->
-					<p *ngIf="user.admin" >Admin</p>
-					<p *ngIf="!user.admin">Användare</p>
+					<p *ngIf="user.admin"><mat-icon class="material-icons roleIcon">verified_user</mat-icon>Admin</p>
+					<p *ngIf="!user.admin"><mat-icon class="material-icons roleIcon">account_box</mat-icon>Användare</p>
 					</mat-cell>
 			</ng-container> 
 
@@ -169,4 +168,10 @@
 	</mat-tab>
 </mat-tab-group>
 </div>
+</div>
+
+<div class="loader">
+	<h2 class="mat-h3">
+		<mat-spinner *ngIf="(loadings$ | async)?.length" style="display: inline;" [diameter]="50"> </mat-spinner>
+	</h2>
 </div>
