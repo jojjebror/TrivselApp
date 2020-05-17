@@ -1,5 +1,7 @@
-<p>
-  {{ office.name }}
-  {{ office.adress }}
-  {{ office.info }}
-</p>
+<div *ngIf="office$ | async; let office">
+  <h4>Information för {{ office.name }}</h4>
+  <p>
+    {{ office.adress }}
+    {{ office.info }}
+  </p>
+</div>

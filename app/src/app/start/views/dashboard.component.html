@@ -9,6 +9,10 @@
     >Exsitecpodden - 3 senaste avsnitten</span
   >
 
+  <div *ngIf="user$ | async">
+    <ex-office-detail [user]="user$ | async"></ex-office-detail>
+  </div>
+
   <div class="podcastRow" fxLayout="row wrap" fxLayoutGap="32px" fxLayoutAlign="flex-start">
     <ng-container *ngFor="let episode of podcastFeed$ | async">
       <mat-card (click)="playEpisode(episode)" fxFlex="0 1 calc(33.3% - 32px)">

@@ -25,7 +25,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   user$: Observable<User>;
   podcastFeed$: Observable<PodcastEpisode[]>;
   offices$: Observable<Office[]>;
-  userOffice$: Observable<Office>;
 
   title: string;
   summary: string;
@@ -44,7 +43,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadPodcast();
-
+    this.loadOffices();
+    this.user$ = this.store$.pipe(select(fromSession.selectUser));
+    
     let currentUser: User;
 
     this.subscription.add(
@@ -59,7 +60,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           }));
         }
       })
-    );
+    );    
   }
 
   loadOffices() {
