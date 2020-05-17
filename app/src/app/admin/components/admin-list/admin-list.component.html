@@ -48,7 +48,7 @@
 							</label>
 			
 							<label type="button" mat-icon-button #tooltip="matTooltip" matTooltip="Ta bort evenemang"
-								matTooltipPosition="right" (click)="confirmDialog(ev.id, ev.title)">
+								matTooltipPosition="right" (click)="confirmDeleteEventDialog(ev.id, ev.title)">
 								<span class="material-icons" id="declineIcon">
 									delete_outline
 								</span>
@@ -97,7 +97,7 @@
 					<mat-header-cell *matHeaderCellDef>Hantera</mat-header-cell>
 					<mat-cell *matCellDef="let office">
 						<label type="button" mat-icon-button #tooltip="matTooltip" matTooltip="Redigera kontor"
-							matTooltipPosition="left" (click)="editOfficeDetailsDialog(office)">
+							matTooltipPosition="right" (click)="editOfficeDetailsDialog(office)">
 							<span class="material-icons" id="editIcon2">
 								edit
 							</span>
@@ -134,18 +134,23 @@
 				<mat-cell id="cell-cursor" *matCellDef="let user">{{ user.name }}</mat-cell>
 			</ng-container>
 	
-			<!-- <ng-container matColumnDef="email">
-				<mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
-				<mat-cell class="duration-cell" *matCellDef="let user">{{ user.adress }}</mat-cell>
-			</ng-container> -->
+		    <ng-container matColumnDef="admin">
+				<mat-header-cell *matHeaderCellDef>Behörighet</mat-header-cell>
+				<mat-cell class="duration-cell" *matCellDef="let user">
+					<!-- <mat-icon class="material-icons">lock_open</mat-icon> -->
+					<p *ngIf="user.admin" >Admin</p>
+					<p *ngIf="!user.admin">Användare</p>
+					</mat-cell>
+			</ng-container> 
 
 			<ng-container matColumnDef="actions">
 				<mat-header-cell *matHeaderCellDef>Hantera</mat-header-cell>
 				<mat-cell *matCellDef="let user">
-					<label type="button" mat-icon-button #tooltip="matTooltip" matTooltip="Redigera användare"
-						matTooltipPosition="left">
-						<span class="material-icons" id="editIcon2">
-							edit
+					<mat-slide-toggle [checked]="user.admin" class="center" #tooltip="matTooltip" matTooltip="Ändra behörighet" matTooltipPosition="left" (change)="updateAdminStatus(user)"></mat-slide-toggle>
+					<label type="button" mat-icon-button #tooltip="matTooltip" matTooltip="Ta bort användare" matTooltipPosition="right"
+						(click)="confirmDeleteUserDialog(user)">
+						<span class="material-icons" id="declineIcon">
+							clear
 						</span>
 					</label>
 				</mat-cell>

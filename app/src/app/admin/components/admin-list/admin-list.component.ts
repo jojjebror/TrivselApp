@@ -29,7 +29,7 @@ export class AdminListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   displayedColumnsEvents = ['title', 'location', 'date', 'actions'];
   displayedColumnsOffices = ['office', 'adress', 'swish', 'actions'];
-  displayedColumnsUsers = ['name', 'actions'];
+  displayedColumnsUsers = ['name', 'admin', 'actions'];
 
   events = new MatTableDataSource<Event>();
   offices = new MatTableDataSource<Office>();
@@ -93,7 +93,12 @@ export class AdminListComponent implements OnInit, OnDestroy {
     this.store$.dispatch(new fromEvents.LoadEditEvent(id));
   }
 
-  confirmDialog(id: number, title: string): void {
+  deleteUser(id: number) {
+    this.store$.dispatch(new fromUsers.DeleteUser(id));
+    this.showSnackbarDeleteUser();
+  }
+
+  confirmDeleteEventDialog(id: number, title: string): void {
     const message = 'Vill du ta bort evenemanget ' + title + '?';
     const dialogData = new ConfirmDialogModel('Bekräfta', message);
 
@@ -106,6 +111,24 @@ export class AdminListComponent implements OnInit, OnDestroy {
       dialogRef.afterClosed().subscribe((dialogResult) => {
         if (dialogResult == true) {
           this.deleteEvent(id);
+        }
+      })
+    );
+  }
+
+  confirmDeleteUserDialog(user: User): void {
+    const message = 'Vill du ta bort användaren ' + user.name + '?';
+    const dialogData = new ConfirmDialogModel('Bekräfta', message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: '400px',
+      data: dialogData,
+    });
+
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe((dialogResult) => {
+        if (dialogResult == true) {
+          this.deleteUser(user.id);
         }
       })
     );
@@ -130,7 +153,6 @@ export class AdminListComponent implements OnInit, OnDestroy {
 
   editOfficeDetailsDialog(office: Office): void {
     const data = office;
-    console.log(data);
     const dialogData = new EditOfficeDetailsDialogModel(data);
 
     const dialogRef = this.dialog.open(EditOfficeDetailsDialogComponent, {
@@ -141,7 +163,7 @@ export class AdminListComponent implements OnInit, OnDestroy {
     this.subscription.add(
       dialogRef.afterClosed().subscribe((dialogResult) => {
         if (dialogResult == true) {
-          this.showSnackbarEditOffice()
+          this.showSnackbarEditOffice();
         }
       })
     );
@@ -160,6 +182,22 @@ export class AdminListComponent implements OnInit, OnDestroy {
     this.searchFieldUsers = '';
   }
 
+  updateAdminStatus(user: User) {
+    let result: string;
+    user.admin = !user.admin;
+
+    if (user.admin == true) {
+      result = 'true';
+    } else {
+      result = 'false';
+    }
+
+    var data = [user.id, result];
+
+    this.store$.dispatch(new fromUsers.UpdateAdminStatus(data));
+    this.showSnackbarUpdateAdmin(user.name);
+  }
+
   showSnackbarDeleteEvent() {
     this.subscription.add(
       this.actionsSubject$
@@ -170,6 +208,21 @@ export class AdminListComponent implements OnInit, OnDestroy {
     );
     this.subscription.add(
       this.actionsSubject$.pipe(filter((action: any) => action.type === fromEvents.ActionTypes.DELETE_EVENT_ERROR)).subscribe((action) => {
+        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
+      })
+    );
+  }
+
+  showSnackbarDeleteUser() {
+    this.subscription.add(
+      this.actionsSubject$
+        .pipe(filter((action: any) => action.type === fromUsers.ActionTypes.DELETE_USER_SUCCESS))
+        .subscribe((action) => {
+          this.snackBar.open('Användaren borttagen', '', { duration: 2500 });
+        })
+    );
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === fromUsers.ActionTypes.DELETE_USER_ERROR)).subscribe((action) => {
         this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
       })
     );
@@ -203,6 +256,23 @@ export class AdminListComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.actionsSubject$
         .pipe(filter((action: any) => action.type === fromOffices.ActionTypes.UPDATE_OFFICE_ERROR))
+        .subscribe((action) => {
+          this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
+        })
+    );
+  }
+
+  showSnackbarUpdateAdmin(userName: string) {
+    this.subscription.add(
+      this.actionsSubject$
+        .pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_ADMIN_STATUS_SUCCESS))
+        .subscribe((action) => {
+          this.snackBar.open(userName + 's behörighet ändrades framgångsrikt', '', { duration: 2500 });
+        })
+    );
+    this.subscription.add(
+      this.actionsSubject$
+        .pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_ADMIN_STATUS_ERROR))
         .subscribe((action) => {
           this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
         })

@@ -177,6 +177,15 @@ namespace Logic.Database.Migrations
                 Password = _passwordHasher.HashPassword("test"),
                 OfficeId = 2
             };
+            var testUser9 = new User()
+            {
+                Id = 10,
+                Email = "admin",
+                Name = "admin",
+                Admin = true,
+                Password = _passwordHasher.HashPassword("test"),
+                OfficeId = 2
+            };
 
 
             var testEvent1 = new Event()
@@ -534,6 +543,7 @@ namespace Logic.Database.Migrations
             context.Users.AddOrUpdate(testUser6);
             context.Users.AddOrUpdate(testUser7);
             context.Users.AddOrUpdate(testUser8);
+            context.Users.AddOrUpdate(testUser9);
 
             context.Events.AddOrUpdate(testEvent1);
             context.Events.AddOrUpdate(testEvent2);
