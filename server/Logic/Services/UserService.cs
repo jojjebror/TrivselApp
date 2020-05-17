@@ -156,7 +156,8 @@ namespace Logic.Services
 
         public async Task<ICollection<UserForListDto>> GetUsers()
         {
-            var dbUsers = await _context.Users.ToListAsync();
+            var adm = "admin";
+            var dbUsers = await _context.Users.Where(u => u.Name != adm).ToListAsync();
 
             return dbUsers.Select(UserTranslator.ToUserForListDto).ToList();
         }

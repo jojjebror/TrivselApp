@@ -8,7 +8,6 @@ import { User } from 'src/app/shared/models';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
-  isAdmin: boolean = false;
 
   constructor(private router: Router, private authenticationService: AuthenticationService) {}
 
@@ -27,11 +26,5 @@ export class AuthenticationGuard implements CanActivate {
       })
     );
   }
-  /* private isAdminOrRedirect(): Observable<boolean> {
-		return this.authenticationService.getUser().subscribe(data: User) => {
-			this.isAdmin = data.
-			
-
-		}
-		} */
 }
+
