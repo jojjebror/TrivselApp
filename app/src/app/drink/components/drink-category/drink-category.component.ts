@@ -48,7 +48,6 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   {kontor:'Uppsala', swishNumber: '0767606702'}, {kontor:'Helsingborg', swishNumber: '073'}, {kontor:'Göteborg', swishNumber: '0735'},
   {kontor:'Malmö', swishNumber: '07045'}, {kontor:'Söderhamn', swishNumber: '07309'}, {kontor:'Borlänge', swishNumber: '0730922'},
   {kontor:'Karlstad', swishNumber: '0703345'}, {kontor:'Stockholm', swishNumber: '0767606702'}];
-  
 
   constructor(
     private store$: Store<AppState>, private snackBar: MatSnackBar,
@@ -158,7 +157,6 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     if (this.userCredit >= sum) {
     
         this.store$.dispatch(new fromUser.UpdateCredit(data));
-        
     } 
     else { this.store$.dispatch(new fromUser.UpdateCreditError('Error'));}
     this.showSnackbarSaldo();
@@ -186,9 +184,8 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     this.snackBar.open('Ditt du behöver välja en produkt', '', { duration: 3000 });
   };
 }
-  
 
-  confirmPurchaseSwish(dr: Drink): void {
+confirmPurchaseSwish(dr: Drink): void {
     this.totalSum = 0;
     this.totalSum += this.clickCounter * dr.price;
     this.totalSum = -this.totalSum;
