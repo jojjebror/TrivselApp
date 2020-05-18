@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
-import * as fromOffice from "../../../start/state/offices/offices.selectors"; 
+import * as fromOffices from '../../../start/state/offices/'; 
 import * as officesActions from "../../../start/state/offices/offices.actions";
 
 import { User, Office} from '../../../shared/models';
@@ -11,7 +11,7 @@ import { AppState } from 'src/app/core/state';
 import * as fromSession from '../../../core/state/session';
 import { AuthenticationService } from 'src/app/core/services';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/components/confirmDialog/confirmDialog.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatTableDataSource } from '@angular/material';
 
 
 @Component({
@@ -29,8 +29,11 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
   userInput: number;
   kontor: string;
   ofs$: Observable<Office[]>;
-  
   office: string;
+
+  offices = new MatTableDataSource<Office>();
+  officesArray: Office[];
+
   officeList = [{listoffice:'Linköping', swishNumber: '0768658080'}, {listoffice:'Örebro', swishNumber: '0735469891'},
   {listoffice:'Uppsala', swishNumber: '0767606702'}, {listoffice:'Helsingborg', swishNumber: '073'}, {listoffice:'Göteborg', swishNumber: '0735'},
   {listoffice:'Malmö', swishNumber: '07045'}, {listoffice:'Söderhamn', swishNumber: '07309'}, {listoffice:'Borlänge', swishNumber: '0730922'},
@@ -55,9 +58,24 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
     console.log('userid' + this.userId);
     console.log('credit' + this.userCredit);
      this.createCreditForm();
-     this.getOfficeNumber();
+     this.getCurrentSwishNumber();
   }
 
+
+  getCurrentSwishNumber() {
+    this.store$.dispatch(new fromOffices.LoadOffices());
+    this.subscription.add(
+      this.store$.pipe(select(fromOffices.getOffices)).subscribe((data: Array<Office>) => {
+        for(let o of data){
+          if(this.office == o.name){
+            console.log(o.swishNumber);
+            let offf = o.swishNumber;
+            return offf;
+          }
+        }
+      }
+    ));
+  }
   createCreditForm() {
       this.userCreditForm = this.fb.group({
         id: [this.userId],
@@ -92,27 +110,9 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
       }
     }));
   }
-getOfficeNumber(){
- 
-}
-  
-getSwishNumber() {
-  this.store$.dispatch(new officesActions.LoadOffices());
-      this.ofs$ = this.store$.select(fromOffice.getOffices);
-     var off = this.kontor;
-      this.subscription.add(
-        this.ofs$.subscribe((data: Office[]) => {
-        data.forEach(function(element){
-          if(off == element.name){
-            var numberToSwish = element.swishNumber;
-              console.log(numberToSwish);
-              return numberToSwish;
-          }
-        })
-        })
-      );
 
-  }
+  
+
 
   addEncodedUrl(){
     var creditInput = this.userCreditForm.get('credit').value
@@ -120,7 +120,7 @@ getSwishNumber() {
     var initField = {
       "version":1,
       "payee":{
-      "value": this.getSwishNumber()
+      "value": this.getCurrentSwishNumber(),
       },
       "amount":{
       "value": creditInput

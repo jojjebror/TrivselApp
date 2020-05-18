@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Event, User } from 'src/app/shared/models';
 import * as fromEvents from '../../state/events';
 import * as fromUsers from '../../../user/state/users';
+import * as fromUser from '../../../user/state/users/users.selectors';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DateAdapter, MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -78,7 +79,7 @@ export class EventEditComponent implements OnInit, OnDestroy {
 
   private loadUsers() {
     this.store$.dispatch(new fromUsers.GetUsers());
-    this.users$ = this.store$.pipe(select(fromUsers.getRelevantUsers(+this.userId)));
+    this.users$ = this.store$.pipe(select(fromUser.getRelevantUsers(+this.userId)));
 
     this.invitedParticipants$ = this.store$.pipe(select(fromEvents.getInvitedParticipants));
   }

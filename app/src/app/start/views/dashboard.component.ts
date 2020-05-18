@@ -11,6 +11,7 @@ import { getLoadingData } from '../../core/state/loading';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import * as fromUsers from '../../user/state/users';
 
+import { HomeResource } from 'src/app/core/resources/home.resource';
 import { PodcastEpisode } from 'src/app/shared/models';
 import * as fromPodcast from '../state/podcast';
 import * as fromOffices from '../state/offices';
