@@ -14,6 +14,7 @@ import { filter, map } from 'rxjs/operators';
 import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/shared/dialogs/confirmDialog/confirmDialog.component';
 import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'ex-event-list',
@@ -54,7 +55,9 @@ export class EventListComponent implements OnInit, OnDestroy {
     private actionsSubject$: ActionsSubject,
     public dialog: MatDialog,
     public activatedRoute: ActivatedRoute,
-    public router: Router
+    public router: Router,
+    public breakpointObserver: BreakpointObserver
+
   ) {
     dateAdapter.setLocale('sv');
     this.subscription.add(
@@ -62,6 +65,11 @@ export class EventListComponent implements OnInit, OnDestroy {
         this.userId = user.sub;
       })
     );
+    breakpointObserver.observe(['(max-width: 650px)']).subscribe((result) => {
+      this.displayedColumnsCreated = result.matches ? ['title', 'date', 'actions'] : ['title', 'location', 'date', 'actions'];
+      this.displayedColumnsInvited = result.matches ? ['title2', 'date2', 'actions2'] : ['title2', 'location2', 'date2', 'invited2', 'actions2'];
+      this.displayedColumnsAttended = result.matches ? ['title3', 'date3', 'actions3'] : ['title3', 'location3', 'date3', 'invited3', 'actions3'];
+    });
   }
 
   ngOnInit() {
