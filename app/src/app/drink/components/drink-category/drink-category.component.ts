@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, OnDestroy } from "@angular/core";
 import { Observable, Subscription } from "rxjs";
-import { Store, select, ActionsSubject } from "@ngrx/store";
+import { Store, select, ActionsSubject, defaultStateFn } from "@ngrx/store";
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { AppState } from "src/app/core/state";
 import { Drink, User, Office } from "src/app/shared/models";
@@ -12,7 +12,6 @@ import * as officesActions from "../../../start/state/offices/offices.actions";
 import * as fromDrink from "../../state/drinks/drinks.selectors";
 import { FormGroup } from "@angular/forms";
 import { MatSnackBar, MatTabChangeEvent, MatDialog } from '@angular/material';
-import { AlertifyService } from "src/app/core/services/alertify.service";
 import * as fromUser from '../../../user/state/users/users.actions';
 import { ActivatedRoute } from "@angular/router";
 import { AuthenticationService } from "src/app/core/services";
@@ -35,6 +34,7 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   user: User;
   dr: Drink;
   kontor: string;
+  numberToSwish: string;
 
   dr$: Observable<Drink>;
   id: number;
@@ -43,7 +43,7 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   clickCounter: number = 0;
   totalSum: number = 0;
   userCredit: number;
-  category = [{name:'Budget',price: 10,}, {name:'Standard',price: 15,}, {name:'Luxury',price: 20,}];
+  category = [{name:'Budget', price: 10,}, {name:'Standard', price: 15,}, {name:'Luxury', price: 20,}];
   officeList = [{kontor:'Linköping', swishNumber: '0768658080'}, {kontor:'Örebro', swishNumber: '0735469891'},
   {kontor:'Uppsala', swishNumber: '0767606702'}, {kontor:'Helsingborg', swishNumber: '073'}, {kontor:'Göteborg', swishNumber: '0735'},
   {kontor:'Malmö', swishNumber: '07045'}, {kontor:'Söderhamn', swishNumber: '07309'}, {kontor:'Borlänge', swishNumber: '0730922'},
@@ -52,7 +52,6 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
 
   constructor(
     private store$: Store<AppState>, private snackBar: MatSnackBar,
-    private alertify: AlertifyService,
     private dialog: MatDialog,
     private route: ActivatedRoute, private actionsSubject$: ActionsSubject, public authService: AuthenticationService
     ) {this.subscription.add(
@@ -64,8 +63,8 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.kontor = currentuser.office)) }, 1000);
     setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 1000);
-    // this.getClickedId();
-    setTimeout(() => {this.getSwishNumber()}, 2000);
+   //  this.getClickedId();
+    setTimeout(() => {this.getSwishNumber()}, 0);
   }
 
   onLinkClick(event: MatTabChangeEvent) {
@@ -107,22 +106,23 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
  getSwishNumber() {
   setTimeout(() => {
   this.store$.dispatch(new officesActions.LoadOffices());
-      this.ofs$ = this.store$.select(fromOffice.getOffices);
-     var off = this.kontor;
+      this.ofs$ = this.store$.pipe(select(fromOffice.getOffices));
       this.subscription.add(
-        this.ofs$.subscribe((data: Office[]) => {
-        data.forEach(function(element){
-          if(off == element.name){
-            var numberToSwish = element.swishNumber;
-              console.log(numberToSwish);
+        this.ofs$.subscribe((data: Array<Office>) => {
+        for(let element of data){
+          if(element.id !== undefined){
+            if(this.kontor === element.name){
+              this.numberToSwish = element.swishNumber;
+              //return this.numberToSwish;
+              this.numberToSwish = element.swishNumber;
+              console.log(element);
+              return this.numberToSwish;
           }
-          return numberToSwish;
-        })
-        })
-      );
-      },0);
+       }
+     } 
+}));
+ },0);
   }
-
 
   public clickCount() {
     this.clickCounter += 1;
@@ -171,18 +171,22 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     var sum = this.clickCounter * dr.price;
     const message = sum + ' kronor kommer dras från ditt saldo, ok?';
     const dialogData = new ConfirmDialogModel('Bekräfta köp', message);
-
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      maxWidth: '400px',
-      data: dialogData,
-    });
-
-    this.subscription.add(dialogRef.afterClosed().subscribe((dialogResult) => {
-      if(dialogResult == true)  {
+  
+    if(this.clickCounter > 0){
+  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    maxWidth: '400px',
+    data: dialogData,
+  });
+  this.subscription.add(dialogRef.afterClosed().subscribe((dialogResult) => {
+    if(dialogResult == true)  {
         this.paySaldo(dr);
       }
     }));
-  }
+  } else {
+    this.snackBar.open('Ditt du behöver välja en produkt', '', { duration: 3000 });
+  };
+}
+  
 
   confirmPurchaseSwish(dr: Drink): void {
     this.totalSum = 0;
@@ -192,6 +196,7 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     const message = 'Du kommer att skickas till swish och betala ' + sum + ' kr, ok?';
     const dialogData = new ConfirmDialogModel('Bekräfta köp', message);
 
+    if(this.clickCounter > 0){
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: '400px',
       data: dialogData,
@@ -202,7 +207,9 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
         this.GetToSwish(dr);
       }
     }));
-  }
+  } else
+    this.snackBar.open('Ditt du behöver välja en produkt', '', { duration: 3000 });
+   }
 
   addEncodedUrl(drink: Drink) {
     var sumPriceToSwish = this.clickCounter * drink.price;
@@ -210,7 +217,7 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     var initField = {
       version: 1,
       payee: {
-        value: this.getSwishNumber(),
+        value: "",
       },
       amount: {
         value: sumPriceToSwish,

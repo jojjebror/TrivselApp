@@ -25,15 +25,15 @@
             <a class="titleProductCategory">
               {{ dr.name }} </a>
             
-                
-                  <button class="btn btn-success" (click)="confirmPurchase(dr)">Köp med saldo</button>
-                  <button class="btn btn-success" id="btnSwish" #btnSwish (click)="confirmPurchaseSwish(dr)">Köp med swish</button>
               
+                  <button class="btn btn-success" (click)="confirmPurchase(dr)">Köp med saldo</button>
+                  <button class="btn btn-success" id="btnSwish" (click)="confirmPurchaseSwish(dr)">Köp med swish</button>
 
             <div class="countBtns1">
-              <button class="minus" mat-mini-fab color="warn" (click)="clickCountM()" matTooltip="Ta bort">-</button>
-            <button class="plus" mat-mini-fab color="green" (click)="clickCount()" matTooltip="Lägg till">+</button>
+              <button class="minus" id="minusCat" mat-mini-fab color="warn" (click)="clickCountM()" matTooltip="Ta bort">-</button>
+            <button class="plus" id="plusCat" mat-mini-fab color="green" (click)="clickCount()" matTooltip="Lägg till">+</button>
             </div>
+            
             <p class="price1">{{ dr.price }}kr</p>
             
               
@@ -60,8 +60,8 @@
           <button class="btn btn-success" id="btnSwish" (click)="confirmPurchaseSwish(dr)">Köp med swish</button>
        
           <div class="countBtns">
-            <button class="minus" mat-mini-fab color="warn" (click)="clickCountM()" matTooltip="Ta bort">-</button>
-          <button class="plus" mat-mini-fab color="green" (click)="clickCount()" matTooltip="Lägg till">+</button>
+            <button class="minus" id="minusCat" mat-mini-fab color="warn" (click)="clickCountM()" matTooltip="Ta bort">-</button>
+          <button class="plus"  mat-mini-fab color="green" (click)="clickCount()" matTooltip="Lägg till">+</button>
           </div>
           
           <p class="price">{{ dr.price }}kr</p>
@@ -86,7 +86,7 @@
         <button class="btn btn-success" id="btnSwish" (click)="confirmPurchaseSwish(dr)">Köp med swish</button>
      
         <div class="countBtns">
-          <button class="minus" mat-mini-fab color="warn" (click)="clickCountM()" matTooltip="Ta bort">-</button>
+          <button class="minus" id="minusCat" mat-mini-fab color="warn" (click)="clickCountM()" matTooltip="Ta bort">-</button>
         <button class="plus" mat-mini-fab color="green" (click)="clickCount()" matTooltip="Lägg till">+</button>
         </div>
         
@@ -112,7 +112,7 @@
       <button class="btn btn-success" id="btnSwish" (click)="confirmPurchaseSwish(dr)">Köp med swish</button>
    
       <div class="countBtns">
-        <button class="minus" mat-mini-fab color="warn" (click)="clickCountM()" matTooltip="Ta bort">-</button>
+        <button class="minus" id="minusCat" mat-mini-fab color="warn" (click)="clickCountM()" matTooltip="Ta bort">-</button>
       <button class="plus" mat-mini-fab color="green" (click)="clickCount()" matTooltip="Lägg till">+</button>
       </div>
       

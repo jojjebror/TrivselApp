@@ -153,6 +153,9 @@ a {
   margin-right: 45px;
   width: 200px;
 }
+#minusCat{
+  margin-right: 10px;
+}
 
 
 li {
@@ -191,6 +194,7 @@ width: 100%;
 }
 
 .price1{
+  max-width: 110px; //lägg bara över
   position: relative;
   top: 18%;
   left: -4%;
@@ -284,6 +288,7 @@ li {
   left: -4%;
   top: -20;
 }
+
 
   .btnBuy{
     position: relative;
