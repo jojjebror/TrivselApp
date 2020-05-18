@@ -114,7 +114,7 @@ namespace Logic.Services
         {
             var dbReceipt = await _context.Receipts.FindAsync(id);
 
-            var uploadResult = _cloudinaryService.UploadImageReceipt(dbReceipt.ImageId, image);
+            var uploadResult = await _cloudinaryService.UploadImage(image, "receipt-images", dbReceipt.ImageId);
 
             dbReceipt.Image = uploadResult.Uri.ToString();
             dbReceipt.ImageId = uploadResult.PublicId;
