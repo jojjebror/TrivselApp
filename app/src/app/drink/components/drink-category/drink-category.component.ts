@@ -26,6 +26,7 @@ import { ConfirmDialogModel, ConfirmDialogComponent } from "src/app/shared/compo
 })
 export class DrinkCategoryComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
+  subscriptions = new Subscription();
   drs$: Observable<Drink[]>;
   userCreditForm: FormGroup;
   usr$: Observable<User>;
@@ -103,25 +104,25 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   }
 
  getSwishNumber() {
-  setTimeout(() => {
+
   this.store$.dispatch(new officesActions.LoadOffices());
       this.ofs$ = this.store$.pipe(select(fromOffice.getOffices));
-      this.subscription.add(
-        this.ofs$.subscribe((data: Array<Office>) => {
-        for(let element of data){
-          if(element.id !== undefined){
-            if(this.kontor === element.name){
-              this.numberToSwish = element.swishNumber;
-              //return this.numberToSwish;
-              this.numberToSwish = element.swishNumber;
-              console.log(element);
-              return this.numberToSwish;
+      this.subscriptions.add(
+        this.ofs$.subscribe((data: Office[]) => {
+          for(let element of data)
+          {
+            if(this.kontor === element.name)
+             {
+               this.numberToSwish == element.swishNumber;
+               console.log(this.numberToSwish);
+               return this.numberToSwish;
+             }
           }
-       }
-     } 
-}));
- },0);
-  }
+
+          }
+        )
+      )
+      }
 
   public clickCount() {
     this.clickCounter += 1;
