@@ -12,6 +12,8 @@ import * as officesActions from "../../../start/state/offices/offices.actions";
 import * as fromDrink from "../../state/drinks/drinks.selectors";
 import { FormGroup } from "@angular/forms";
 import { MatSnackBar, MatTabChangeEvent, MatDialog } from '@angular/material';
+import * as fromOffices from "../../../start/state/offices/";
+
 import * as fromUser from '../../../user/state/users/users.actions';
 import { ActivatedRoute } from "@angular/router";
 import { AuthenticationService } from "src/app/core/services";
@@ -25,17 +27,17 @@ import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/dialo
   styleUrls: ["./drink-category.component.scss"],
 })
 export class DrinkCategoryComponent implements OnInit, OnDestroy {
-  subscription = new Subscription();
-  subscriptions = new Subscription();
+  subscription1 = new Subscription();
   drs$: Observable<Drink[]>;
   userCreditForm: FormGroup;
   usr$: Observable<User>;
-  ofs$: Observable<Office[]>;
+  ofs$: Observable<Office>;
   userId: number;
   user: User;
   dr: Drink;
   kontor: string;
   numberToSwish: string;
+
 
   dr$: Observable<Drink>;
   id: number;
@@ -54,17 +56,16 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     private store$: Store<AppState>, private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private route: ActivatedRoute, private actionsSubject$: ActionsSubject, public authService: AuthenticationService
-    ) {this.subscription.add(
+    ) {this.subscription1.add(
       authService.getUserId().subscribe((user) => {
         this.userId = user.sub;
       })
     );}
 
   ngOnInit(): void {
-    setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.kontor = currentuser.office)) }, 1000);
-    setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 1000);
-   //  this.getClickedId();
-    setTimeout(() => {this.getSwishNumber()}, 0);
+     this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.kontor = currentuser.office));
+     this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit));
+    this.store$.dispatch(new fromOffices.LoadOffices());
   }
 
   onLinkClick(event: MatTabChangeEvent) {
@@ -104,26 +105,16 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   }
 
  getSwishNumber() {
-
   this.store$.dispatch(new officesActions.LoadOffices());
-      this.ofs$ = this.store$.pipe(select(fromOffice.getOffices));
-      this.subscriptions.add(
-        this.ofs$.subscribe((data: Office[]) => {
-          for(let element of data)
-          {
-            if(this.kontor === element.name)
-             {
-               this.numberToSwish == element.swishNumber;
-               console.log(this.numberToSwish);
-               return this.numberToSwish;
-             }
-          }
-
-          }
-        )
-      )
-      }
-
+      this.ofs$ = this.store$.pipe(select(fromOffice.getUserOffice(this.kontor)));
+      this.subscription1.add(
+        this.ofs$.subscribe((data: Office) => {
+         console.log(data.swishNumber);
+         this.numberToSwish = data.swishNumber;
+        }));
+        
+        return this.numberToSwish;
+  };
   public clickCount() {
     this.clickCounter += 1;
     console.log(this.clickCounter);
@@ -176,7 +167,7 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     maxWidth: '400px',
     data: dialogData,
   });
-  this.subscription.add(dialogRef.afterClosed().subscribe((dialogResult) => {
+  this.subscription1.add(dialogRef.afterClosed().subscribe((dialogResult) => {
     if(dialogResult == true)  {
         this.paySaldo(dr);
       }
@@ -199,7 +190,7 @@ confirmPurchaseSwish(dr: Drink): void {
       data: dialogData,
     });
 
-    this.subscription.add(dialogRef.afterClosed().subscribe((dialogResult) => {
+    this.subscription1.add(dialogRef.afterClosed().subscribe((dialogResult) => {
       if(dialogResult == true)  {
         this.GetToSwish(dr);
       }
@@ -210,11 +201,11 @@ confirmPurchaseSwish(dr: Drink): void {
 
   addEncodedUrl(drink: Drink) {
     var sumPriceToSwish = this.clickCounter * drink.price;
-
+    
     var initField = {
       version: 1,
       payee: {
-        value: "",
+        value: this.getSwishNumber(),
       },
       amount: {
         value: sumPriceToSwish,
@@ -241,12 +232,12 @@ confirmPurchaseSwish(dr: Drink): void {
   }
 
   showSnackbarSaldo() {
-    this.subscription.add(
+    this.subscription1.add(
       this.actionsSubject$.pipe(filter((action: any) => action.type === fromUser.ActionTypes.UPDATE_CREDIT_SUCCESS)).subscribe((action) => {
         this.snackBar.open('Ditt saldo har uppdaterats', '', { duration: 3000 });
       }) );
 
-      this.subscription.add(
+      this.subscription1.add(
         this.actionsSubject$.pipe(filter((action: any) => action.type === fromUser.ActionTypes.UPDATE_CREDIT_ERROR)).subscribe((action) => {
           setTimeout(() => {  this.snackBar.open('Du har för lite pengar på ditt saldo! ', '', { duration: 12000 }) }, 500);
         }) );
@@ -254,7 +245,7 @@ confirmPurchaseSwish(dr: Drink): void {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subscription1.unsubscribe();
   }
 
 }
