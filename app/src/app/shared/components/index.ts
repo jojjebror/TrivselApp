@@ -7,6 +7,7 @@ import { AddDialogComponent } from '../dialogs/addDialog/addDialog.component';
 import { ParticipantsDialogComponent } from '../dialogs/participantsDialog/participantsDialog.component';
 import { EditOfficeDetailsDialogComponent } from '../dialogs/editOfficeDetailsDialog/editOfficeDetailsDialog.component';
 import { NewOfficeDialogComponent } from '../dialogs/newOfficeDialog/newOfficeDialog.component';
+import { EditOfficeInfoDialogComponent } from '../dialogs/editOfficeInfoDialog/editOfficeInfoDialog.component';
 
 
 
@@ -22,5 +23,6 @@ export const components: any[] = [
 	AddDialogComponent,
 	ParticipantsDialogComponent,
 	EditOfficeDetailsDialogComponent,
-	NewOfficeDialogComponent
+	NewOfficeDialogComponent,
+	EditOfficeInfoDialogComponent
 ];

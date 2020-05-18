@@ -34,33 +34,29 @@ export class DashboardComponent implements OnInit, OnDestroy {
   showAudioPlayer = false;
   autoPlay = true;
 
-  constructor(
-    private store$: Store<AppState>,
-    private actionsSubject$: ActionsSubject,
-    public dialog: MatDialog,
-    private snackBar: MatSnackBar
-  ) {}
+  constructor(private store$: Store<AppState>, private actionsSubject$: ActionsSubject, public dialog: MatDialog, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.loadPodcast();
     this.loadOffices();
     this.user$ = this.store$.pipe(select(fromSession.selectUser));
-    
+
     let currentUser: User;
 
     this.subscription.add(
       this.actionsSubject$.pipe(filter((action: any) => action.type === fromSession.ActionTypes.SetUserSuccess)).subscribe((action) => {
         this.user$ = this.store$.pipe(select(fromSession.selectUser));
-        this.user$.subscribe(data => currentUser = data);
+        this.user$.subscribe((data) => (currentUser = data));
 
         if (currentUser.office === null) {
-            this.loadOffices();
-            this.subscription.add(this.actionsSubject$.pipe(filter((action: any) => action.type === fromOffices.ActionTypes.LOAD_OFFICES_SUCCESS)).subscribe((action) => {
+          this.subscription.add(
+            this.actionsSubject$.pipe(filter((action: any) => action.type === fromOffices.ActionTypes.LOAD_OFFICES_SUCCESS)).subscribe((action) => {
               this.addOfficeDialog(currentUser);
-          }));
+            })
+          );
         }
       })
-    );    
+    );
   }
 
   loadOffices() {
@@ -78,7 +74,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   playEpisode(episode: PodcastEpisode) {
-/*     this.showAudioPlayer = false;
+    /*     this.showAudioPlayer = false;
 
     setTimeout(() => { */
     this.title = episode.title;
@@ -90,10 +86,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.autoPlay = true;
     this.showAudioPlayer = true;
-    
-    console.log(this.showAudioPlayer)
-/*   }, 200); */
-}
+
+    console.log(this.showAudioPlayer);
+    /*   }, 200); */
+  }
 
   addOfficeDialog(user: User): void {
     let office: Office;
@@ -127,11 +123,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   showSnackbarAddOffice(newOffice: string) {
     this.subscription.add(
-      this.actionsSubject$
-        .pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_OFFICE_SUCCESS))
-        .subscribe((action) => {
-          this.snackBar.open('Ditt valda kontor: ' + newOffice, '', { duration: 3500 });
-        })
+      this.actionsSubject$.pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_OFFICE_SUCCESS)).subscribe((action) => {
+        this.snackBar.open('Ditt valda kontor: ' + newOffice, '', { duration: 3500 });
+      })
     );
   }
 
