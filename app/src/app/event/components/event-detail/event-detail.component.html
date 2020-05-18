@@ -1,4 +1,4 @@
-<div class="container mt-5 border border-light p-5" *ngIf="ev$ | async; let ev">
+<div class="container mt-5 border border-light" *ngIf="ev$ | async; let ev">
   <button mat-icon-button class="close-button" [routerLink]="['/event']" [queryParams]="{ page: selectedPage, tab: selectedTab}">
     <mat-icon class="close-icon" color="white">close</mat-icon>
   </button>

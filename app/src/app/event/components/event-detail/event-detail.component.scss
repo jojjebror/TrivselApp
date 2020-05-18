@@ -1,5 +1,6 @@
 .container {
   background-color: rgb(37, 2, 48);
+  padding: 3rem;
 }
 
 .close-button{
@@ -267,6 +268,10 @@ ul {
 } */
 
 @media (max-width: 1200px) {
+  .container {
+  padding: 1.5rem;
+}
+
    .comment-wrapper .panel-body {
     max-height: 550px;
     width: 400px;
@@ -294,6 +299,10 @@ ul {
 
 
 @media (max-width: 1076px) {
+  .container {
+  padding-top: 0.5rem;
+  padding: 0.5rem;
+}
   /* .invitesList {
     clear: both;
     margin: 20px;

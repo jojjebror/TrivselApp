@@ -3,10 +3,6 @@
     <img src="assets/images/trivselstartpage.jpg" alt="" class="img-fluid" />
   </div>
   
-  <div *ngIf="user$ | async">
-  <ex-office-detail [user]="user$ | async"></ex-office-detail>
-</div>
-
   <span class="infoText"><span class="material-icons iconMargin"> rss_feed </span>Exsitecpodden - 3 senaste avsnitten</span>
 
   <div class="podcastRow" fxLayout="row wrap" fxLayoutGap="32px" fxLayoutAlign="flex-start">
@@ -19,6 +15,10 @@
       </mat-card-header>
     </mat-card>
   </div>
+</div>
+
+<div *ngIf="user$ | async">
+  <ex-office-detail [user]="user$ | async"></ex-office-detail>
 </div>
 
 <div class="loader">
