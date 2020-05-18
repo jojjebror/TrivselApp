@@ -11,6 +11,8 @@
   animation: fadeInAnimation ease 2s;
   animation-iteration-count: 1s;
   animation-fill-mode:forwards;
+  margin-top: 60px;
+  margin-bottom: 100px;
 }
 
 .mat-card {
@@ -22,13 +24,6 @@
     cursor: pointer;
     background-color: rgb(37, 2, 48);
   } 
-  
-.container {
-    margin-top: 60px;
-    margin-bottom: 100px;
-  }
- 
-
  
   .mat-card-title {
     font-size: 2.2rem;
@@ -51,6 +46,7 @@
     vertical-align: middle;
     margin-left: 10px;
   }
+
   .container2 {
     width: 800px;
     height: 260px;
@@ -91,7 +87,7 @@
   }
 
   .div23 {
-    padding-bottom: 300px;
+    padding: 0;
   }
   
   .fileover {
@@ -146,5 +142,54 @@
       margin-bottom: 30px;
     }
     
+  }
+
+  @media (max-width: 766px) {
+
+    .mat-card {
+      width: 32%;
+    }
+  
+
+    .container {
+      width: 99%;
+    }
+
+
+  }
+
+
+  
+  @media (max-width: 454px) {
+    .mat-card {
+      width: 60%;
+
+    }
+
+    .container {
+
+      width: 99%;
+    }
+
+    .container2 {
+
+      width: 99%;
+      height: 300px;
+      padding-bottom: 4rem;
+
+
+      label {
+        height: 40px;
+        width: 180px;
+
+      }
+
+    }
+
+    .form-group {
+      
+      padding-top: 2rem;
+    }
+
   }
 

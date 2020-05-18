@@ -9,15 +9,13 @@
     [formGroup]="receiptForm"
     (ngSubmit)="createReceipt()"
   >
-  <div>
-  <input type="file" accept="image/*"
+  <div class ="div23">
+  <input type="file" accept="image/*" capture="environment"
     autocomplete="off"
     formControlName="image"
     (change)="loadImage($event.target.files)" 
     #fileDropRef id="fileDropRef" 
     (change)="fileBrowseHandler($event.target.files)"/>
-
-  <div class="invalid-feedback">Du måste välja en bild</div>
 
 	<svg xmlns="http://www.w3.org/2000/svg" width="63" height="64" viewBox="0 0 63 64">
 		<g fill="#3B454F" fill-rule="nonzero">
@@ -84,6 +82,8 @@
   >
     Lägg till kvitto
   </button>
+
+
 <!--- <input type="submit" type="file" accept="image/*" capture="camera"> Hade varit kul att teste på mobil så man kan ladda upp direkt med en bild man själv tar-->
 </div>
 </div>
