@@ -3,12 +3,13 @@ import { Store, ActionsSubject, select } from '@ngrx/store';
 import { AppState } from '../state';
 
 import { User, Office } from '../../shared/models';
-import { EditDialogComponent, EditDialogModel } from 'src/app/shared/components/editDialog/editDialog.component';
+import { EditDialogComponent, EditDialogModel } from 'src/app/shared/dialogs/editDialog/editDialog.component';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import * as fromUsers from '../../user/state/users';
-import { filter } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 import * as fromOffices from '../../start/state/offices';
+import * as fromSession from '../../core/state/session';
 
 @Component({
   selector: 'ex-menu',
@@ -22,6 +23,8 @@ export class MenuComponent implements OnDestroy {
 
   subscription = new Subscription();
   offices$: Observable<Office[]>;
+  user$: Observable<User>;
+  isAdmin: boolean = false;
   userOffice$: Observable<Office>;
 
   menuItems = [
@@ -52,45 +55,68 @@ export class MenuComponent implements OnDestroy {
     },
   ];
 
-  constructor(public dialog: MatDialog, private store$: Store<AppState>, private actionsSubject$: ActionsSubject, private snackBar: MatSnackBar) {}
+  constructor(
+    public dialog: MatDialog,
+    private store$: Store<AppState>,
+    private actionsSubject$: ActionsSubject,
+    private snackBar: MatSnackBar
+  ) {
+    this.adminControl();
+  }
 
   loadOffices() {
     this.store$.dispatch(new fromOffices.LoadOffices());
-    this.offices$ = this.store$.pipe(select(fromOffices.getOffices)); 
+    this.offices$ = this.store$.pipe(select(fromOffices.getOffices));
+  }
+
+  adminControl() {
+  this.subscription.add(
+    this.actionsSubject$.pipe(filter((action: any) => action.type === fromSession.ActionTypes.SetUserSuccess)).subscribe(() => {
+      this.store$.pipe(select(fromSession.selectUser)).subscribe((data: User) => {
+      this.isAdmin = data.admin;
+   });
+  })
+  );
   }
 
   editDialog(user: User): void {
-    console.log(user);
     this.loadOffices();
     let office = user.office;
-    this.userOffice$ = this.store$.pipe(select(fromOffices.getUserOffice(office)));
 
-    let offices;
-    let userOffice;
+    this.actionsSubject$
+      .pipe(filter((action: any) => action.type === fromOffices.ActionTypes.LOAD_OFFICES_SUCCESS))
+      .pipe(take(1))
+      .subscribe(() => {
+        this.userOffice$ = this.store$.pipe(select(fromOffices.getUserOffice(office)));
 
-    this.subscription.add(
-      this.offices$.subscribe((data: Office[]) => {
-        offices = data;
-      })
-    );
-    this.subscription.add(
-      this.userOffice$.subscribe((data: Office) => {
-        userOffice = data;
-      })
-    );
+        let offices: Office[];
+        let userOffice: Office;
 
-    const message = 'Nedan har du möjlighet att ändra ditt nuvarande kontor. Ditt nuvarande kontor är ' + office;
-    const dialogData = new EditDialogModel('Ändra tillhörande kontor', message, offices, userOffice);
-    const dialogRef = this.dialog.open(EditDialogComponent, {
-      maxWidth: '350px',
-      data: dialogData,
-    });
+        this.offices$.pipe(take(1)).subscribe((data) => {
+          offices = data;
+        });
 
-    dialogRef.afterClosed().subscribe((dialogResult) => {
-      if (dialogResult == true) {
-        this.editOffice(user.id, dialogData.userOffice);
-      }
-    });
+        this.userOffice$.pipe(take(1)).subscribe((data) => {
+          userOffice = data;
+        });
+
+        const message = 'Nedan har du möjlighet att ändra ditt nuvarande kontor. Ditt nuvarande kontor är ' + office;
+        const dialogData = new EditDialogModel('Ändra tillhörande kontor', message, offices, userOffice);
+
+        const dialogRef = this.dialog.open(EditDialogComponent, {
+          maxWidth: '350px',
+          data: dialogData,
+        });
+
+        dialogRef
+          .afterClosed()
+          .pipe(take(1))
+          .subscribe((dialogResult) => {
+            if (dialogResult == true) {
+              this.editOffice(user.id, dialogData.userOffice);
+            }
+          });
+      });
   }
 
   editOffice(userId: number, newOffice: Office) {
@@ -99,11 +125,12 @@ export class MenuComponent implements OnDestroy {
 
     this.store$.dispatch(new fromUsers.UpdateOffice(data));
 
-    this.subscription.add(
-      this.actionsSubject$.pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_OFFICE_SUCCESS)).subscribe((action) => {
+    this.actionsSubject$
+      .pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_OFFICE_SUCCESS))
+      .pipe(take(1))
+      .subscribe(() => {
         this.snackBar.open('Ändring slutförd. Ditt valda kontor: ' + newOffice.name, '', { duration: 3500 });
-      })
-    );
+      });
   }
 
   ngOnDestroy() {

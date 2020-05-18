@@ -10,7 +10,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 import * as fromSession from '../../../core/state/session';
 import { AuthenticationService } from 'src/app/core/services';
-import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/components/confirmDialog/confirmDialog.component';
+import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/dialogs/confirmDialog/confirmDialog.component';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 
 

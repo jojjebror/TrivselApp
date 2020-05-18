@@ -1,10 +1,13 @@
 import { commonComponents } from './common';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoaderComponent } from './loader/loader.component';
-import { ConfirmDialogComponent } from './confirmDialog/confirmDialog.component';
-import { EditDialogComponent } from './editDialog/editDialog.component';
-import { AddDialogComponent } from './addDialog/addDialog.component';
-import { ParticipantsDialogComponent } from './participantsDialog/participantsDialog.component';
+import { ConfirmDialogComponent } from '../dialogs/confirmDialog/confirmDialog.component';
+import { EditDialogComponent } from '../dialogs/editDialog/editDialog.component';
+import { AddDialogComponent } from '../dialogs/addDialog/addDialog.component';
+import { ParticipantsDialogComponent } from '../dialogs/participantsDialog/participantsDialog.component';
+import { EditOfficeDetailsDialogComponent } from '../dialogs/editOfficeDetailsDialog/editOfficeDetailsDialog.component';
+import { NewOfficeDialogComponent } from '../dialogs/newOfficeDialog/newOfficeDialog.component';
+import { EditOfficeInfoDialogComponent } from '../dialogs/editOfficeInfoDialog/editOfficeInfoDialog.component';
 
 
 
@@ -18,5 +21,8 @@ export const components: any[] = [
 	ConfirmDialogComponent,
 	EditDialogComponent,
 	AddDialogComponent,
-	ParticipantsDialogComponent
+	ParticipantsDialogComponent,
+	EditOfficeDetailsDialogComponent,
+	NewOfficeDialogComponent,
+	EditOfficeInfoDialogComponent
 ];

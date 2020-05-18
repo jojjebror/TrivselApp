@@ -34,7 +34,7 @@ import { LoadingModule } from './state/loading';
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot(effects),
     LoadingModule,
-    StoreDevtoolsModule.instrument(),
+    //StoreDevtoolsModule.instrument(),
 
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),

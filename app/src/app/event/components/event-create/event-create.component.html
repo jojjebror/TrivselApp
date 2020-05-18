@@ -1,7 +1,6 @@
 <div class="registerEventMain">
   <form
     [formGroup]="eventForm"
-    
     class="mainForm border border-light p-5" (ngSubmit)="createEvent()"
   >
     <button mat-icon-button class="close-button" [routerLink]="['/event']">
@@ -114,9 +113,8 @@
         </mat-selection-list>
         <p>Inbjudna kontor: {{ selectedOffices.selectedOptions.selected.length }}</p>
       </div>
+      
       <div class="userContainer">
-        <!-- <p>Välj specifika användare</p> -->
-        <!-- <input matInput [formControl]="search" placeholder="Sök specifika användare" autocomplete="off"> -->
         <mat-form-field appearance="legacy" id="userSearchbar">
           <input matInput [formControl]="search" placeholder="Välj specifika användare" autocomplete="off" [(ngModel)]="searchField" />
           <button mat-button mat-icon-button matSuffix (click)="clearField()" *ngIf="searchField">
@@ -130,7 +128,7 @@
             {{ user.name }}
           </mat-list-option>
         </mat-selection-list>
-        <p>Inbjudna användare: {{ selectedUsers.selectedOptions.selected.length }}</p>
+        <p *ngIf="!searchField">Inbjudna användare: {{ selectedUsers.selectedOptions.selected.length }}</p>
       </div>
     </div>
 

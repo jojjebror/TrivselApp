@@ -26,6 +26,7 @@ namespace Logic.Database.Migrations
                 Id = 1,
                 Name = "Linköping",
                 Adress = "Snickaregatan 40, 582 26 Linköping",
+                SwishNumber = "070-050 19 14"
             };
 
             var office2 = new Office()
@@ -40,14 +41,16 @@ namespace Logic.Database.Migrations
             {
                 Id = 3,
                 Name = "Göteborg",
-                Adress = "Kungsportsavenyen 34, 411 36 Göteborg"
+                Adress = "Kungsportsavenyen 34, 411 36 Göteborg",
+                SwishNumber = "070-050 19 14"
             };
 
             var office4 = new Office()
             {
                 Id = 4,
                 Name = "Malmö",
-                Adress = "Skeppsbron 5, 211 20 Malmö"
+                Adress = "Skeppsbron 5, 211 20 Malmö",
+                SwishNumber = "070-050 19 14"
             };
 
             var office5 = new Office()
@@ -69,25 +72,29 @@ namespace Logic.Database.Migrations
             {
                 Id = 7,
                 Name = "Söderhamn",
-                Adress = "Källgatan 9, 826 30 Söderhamn"
+                Adress = "Källgatan 9, 826 30 Söderhamn",
+                SwishNumber = "070-050 19 14"
             };
             var office8 = new Office()
             {
                 Id = 8,
                 Name = "Borlänge",
-                Adress = "Forskargatan 3, 781 70 Borlänge"
+                Adress = "Forskargatan 3, 781 70 Borlänge",
+                SwishNumber = "070-050 19 14"
             };
             var office9 = new Office()
             {
                 Id = 9,
                 Name = "Helsingborg",
-                Adress = "Florettgatan 29B, 254 67 Helsingborg"
+                Adress = "Florettgatan 29B, 254 67 Helsingborg",
+                SwishNumber = "070-050 19 14"
             };
             var office10 = new Office()
             {
                 Id = 10,
                 Name = "Karlstad",
-                Adress = "Södra Kyrkogatan 6, 652 24 Karlstad"
+                Adress = "Södra Kyrkogatan 6, 652 24 Karlstad",
+                SwishNumber = "070-050 19 14"
             };
 
             var testUser = new User()
@@ -170,6 +177,15 @@ namespace Logic.Database.Migrations
                 Password = _passwordHasher.HashPassword("test"),
                 OfficeId = 2
             };
+            var testUser9 = new User()
+            {
+                Id = 10,
+                Email = "admin",
+                Name = "admin",
+                Admin = true,
+                Password = _passwordHasher.HashPassword("test"),
+                OfficeId = 2
+            };
 
 
             var testEvent1 = new Event()
@@ -221,7 +237,7 @@ namespace Logic.Database.Migrations
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now,
                 CreateDate = DateTime.Now,
-                CreatorId = 5
+                CreatorId = 4
             };
 
             var testEvent5 = new Event()
@@ -368,7 +384,7 @@ namespace Logic.Database.Migrations
             {
                 Id = 12,
                 UserId = 1,
-                EventId = 13,
+                EventId = 7,
                 Status = "N/A"
             };
 
@@ -380,32 +396,93 @@ namespace Logic.Database.Migrations
                 Status = "N/A"
             };
 
-            //var post1 = new Post()
-            //{
-            //    Id = 1,
-            //    Content = "Detta blir jättekul!!",
-            //    Created = DateTime.Now,
-            //    CreatorId = 1,
-            //    EventId = 1
-            //};
+            var testEp13 = new EventParticipant()
+            {
+                Id = 14,
+                UserId = 4,
+                EventId = 7,
+                Status = "N/A"
+            };
 
-            //var post2 = new Post()
-            //{
-            //    Id = 2,
-            //    Content = "Jäklar vad ösigt!!",
-            //    Created = DateTime.Now,
-            //    CreatorId = 3,
-            //    EventId = 2
-            //};
+            var testEp14 = new EventParticipant()
+            {
+                Id = 15,
+                UserId = 4,
+                EventId = 6,
+                Status = "N/A"
+            };
 
-            //var post3 = new Post()
-            //{
-            //    Id = 3,
-            //    Content = "Jag har köpt nya dojor ;)",
-            //    Created = DateTime.Now,
-            //    CreatorId = 2,
-            //    EventId = 3
-            //};
+            var post1 = new Post()
+            {
+                Id = 1,
+                Content = "Detta blir jättekul!!",
+                Created = DateTime.Now,
+                CreatorId = 1,
+                EventId = 1
+            };
+
+            var post2 = new Post()
+            {
+                Id = 2,
+                Content = "Jäklar vad ösigt!!",
+                Created = DateTime.Now,
+                CreatorId = 3,
+                EventId = 2
+            };
+
+            var post3 = new Post()
+            {
+                Id = 3,
+                Content = "Jag har köpt nya dojor ;)",
+                Created = DateTime.Now,
+                CreatorId = 2,
+                EventId = 3
+            };
+
+            var post4 = new Post()
+            {
+                Id = 4,
+                Content = "Detta blir jättekul!!",
+                Created = DateTime.Now,
+                CreatorId = 1,
+                EventId = 4
+            };
+
+            var post5 = new Post()
+            {
+                Id = 5,
+                Content = "Gott!",
+                Created = DateTime.Now,
+                CreatorId = 3,
+                EventId = 5
+            };
+
+            var post6 = new Post()
+            {
+                Id = 6,
+                Content = "Perfekt, kommer!",
+                Created = DateTime.Now,
+                CreatorId = 2,
+                EventId = 6
+            };
+
+            var post7 = new Post()
+            {
+                Id = 7,
+                Content = "Nice!!",
+                Created = DateTime.Now,
+                CreatorId = 4,
+                EventId = 7
+            };
+
+            var post8 = new Post()
+            {
+                Id = 8,
+                Content = "Kalas :) ",
+                Created = DateTime.Now,
+                CreatorId = 4,
+                EventId = 8
+            };
 
             var testBeer = new Drink()
             {
@@ -466,6 +543,7 @@ namespace Logic.Database.Migrations
             context.Users.AddOrUpdate(testUser6);
             context.Users.AddOrUpdate(testUser7);
             context.Users.AddOrUpdate(testUser8);
+            context.Users.AddOrUpdate(testUser9);
 
             context.Events.AddOrUpdate(testEvent1);
             context.Events.AddOrUpdate(testEvent2);
@@ -475,6 +553,15 @@ namespace Logic.Database.Migrations
             context.Events.AddOrUpdate(testEvent6);
             context.Events.AddOrUpdate(testEvent7);
             context.Events.AddOrUpdate(testEvent8);
+
+            context.Posts.AddOrUpdate(post1);
+            context.Posts.AddOrUpdate(post2);
+            context.Posts.AddOrUpdate(post3);
+            context.Posts.AddOrUpdate(post4);
+            context.Posts.AddOrUpdate(post5);
+            context.Posts.AddOrUpdate(post6);
+            context.Posts.AddOrUpdate(post7);
+            context.Posts.AddOrUpdate(post8);
 
             context.EventParticipants.AddOrUpdate(testEp);
             context.EventParticipants.AddOrUpdate(testEp1);
@@ -486,6 +573,11 @@ namespace Logic.Database.Migrations
             context.EventParticipants.AddOrUpdate(testEp7);
             context.EventParticipants.AddOrUpdate(testEp8);
             context.EventParticipants.AddOrUpdate(testEp9);
+            context.EventParticipants.AddOrUpdate(testEp10);
+            context.EventParticipants.AddOrUpdate(testEp11);
+            context.EventParticipants.AddOrUpdate(testEp12);
+            context.EventParticipants.AddOrUpdate(testEp13);
+            context.EventParticipants.AddOrUpdate(testEp14);
 
 
             context.Drinks.AddOrUpdate(testBeer);

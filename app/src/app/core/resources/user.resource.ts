@@ -28,9 +28,12 @@ export class UserResource extends ApiResource {
     return this.put('user/' + data[0] + '/' + data[1], {});
   }
 
-  getOffices(): Observable<Office[]>{
-    return this.get('user/Offices');
+  updateAdminStatus(data: number[]): Observable<User> {
+    return this.put('user/UpdateAdminStatus/' + data[0] + '/' + data[1], {});
   }
 
+  deleteUser(id: number) {
+    return this.delete('user/' + id);
+  }
 }
 
