@@ -10,9 +10,11 @@
   <div class="editOfficeMain">
     <form [formGroup]="editOfficeInfoForm" class="mainForm border border-light p-5">
       <div>
-        <mat-form-field class="editOffice-fields" appearance="outline">
+        <mat-form-field class="editOffice-fields" appearance="outline" hintLabel="Max 150 tecken">
           <mat-label>Ändra information</mat-label>
-          <input type="textarea" matInput formControlName="info" autocomplete="off" />
+          <textarea #txtarea matInput formControlName="info" [maxLength]="150" autocomplete="off"
+            placeholder="Ex portkod.."></textarea>
+          <mat-hint style="color: black" align="end">{{txtarea.value?.length || 0}}/200</mat-hint>
         </mat-form-field>
       </div>
     </form>
