@@ -1,19 +1,21 @@
 <br/>
 <br/>
+
 <div class="container justify-content-center">
+
+<mat-error *ngIf="files.length > 1">{{ getErrorMessage('image') }}</mat-error>
 <div class="container2" appDnd (fileDropped)="onFileDropped($event)">
   <form
     [formGroup]="receiptForm"
     (ngSubmit)="createReceipt()"
   >
-  <div class="form-group">
-  <input type="file" 
+  <div class ="div23">
+  <input type="file" accept="image/*" capture="environment"
+    autocomplete="off"
     formControlName="image"
     (change)="loadImage($event.target.files)" 
     #fileDropRef id="fileDropRef" 
-    multiple (change)="fileBrowseHandler($event.target.files)" />
-
-  <div class="invalid-feedback">Du måste ange ett namn för drycken</div>
+    (change)="fileBrowseHandler($event.target.files)"/>
 
 	<svg xmlns="http://www.w3.org/2000/svg" width="63" height="64" viewBox="0 0 63 64">
 		<g fill="#3B454F" fill-rule="nonzero">
@@ -55,7 +57,7 @@
 		</div>
 		<div class="info">
 			<h4 class="name">
-				{{ file?.name }}
+				{{ file?.name}}
 			</h4>
 			<p class="size">
 				{{ formatBytes(file?.size) }}
@@ -74,19 +76,23 @@
 
 <div class="form-group text-center">
   <button
-    class="btn btn-success"
-    [disabled]="!receiptForm.valid"
+    class="btn btn-success" 
+    [disabled]="files.length > 1 || files.length == 0"
     type="submit"
   >
     Lägg till kvitto
   </button>
+
+
 <!--- <input type="submit" type="file" accept="image/*" capture="camera"> Hade varit kul att teste på mobil så man kan ladda upp direkt med en bild man själv tar-->
 </div>
 </div>
 </form>
 </div>
 
-
+<br/>
+<br/>
+<br/>
 <br/>
 <br/>
 <br/>
@@ -97,22 +103,17 @@
     <mat-tab-group animationDuration="0ms" dynamicHeight (selectedTabChange)="onLinkClick($event)">
     <mat-tab  label="Alla kvitton">
       
-      <mat-table class="lessons-table mat-elevation-z8" [dataSource]="allReceipts" matSort *ngIf="allReceipts.data.length > 0">
+      <mat-table class="lessons-table mat-elevation-z8" [dataSource]="allReceipts" *ngIf="allReceipts.data.length > 0">
         <ng-container matColumnDef="title">
           <mat-header-cell *matHeaderCellDef> Namn </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.creatorName}} </mat-cell>
+          <mat-cell *matCellDef="let element1"> {{element1.creatorName}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="date">
           <mat-header-cell *matHeaderCellDef>Datum</mat-header-cell>
-          <mat-cell class="description-cell" *matCellDef="let element"
-            >{{ element.date | date: 'shortDate' }}</mat-cell
+          <mat-cell class="description-cell" *matCellDef="let element1"
+            >{{ element1.date | date: 'shortDate' }}</mat-cell
           >
-        </ng-container>
-
-        <ng-container matColumnDef="invited">
-          <mat-header-cell *matHeaderCellDef>Skapare</mat-header-cell>
-          <mat-cell class="duration-cell" *matCellDef="let element">{{ element.creatorName }}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="actions">
@@ -142,6 +143,7 @@
         <mat-row *matRowDef="let row; columns: displayedColumnAllReceipts"></mat-row>
       </mat-table>
     </mat-tab>
+
  <!------------------- TAB2 ----------------------->
 
 
@@ -149,7 +151,7 @@
 
  <mat-tab label="Dina kvitton">
  
-  <mat-table class="lessons-table mat-elevation-z8" [dataSource]="allUsersReceipts" matSort *ngIf="allUsersReceipts.data.length > 0">
+  <mat-table class="lessons-table mat-elevation-z8" [dataSource]="allUsersReceipts" *ngIf="allUsersReceipts.data.length > 0">
     <ng-container matColumnDef="title1">
       <mat-header-cell *matHeaderCellDef> Namn </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.creatorName}} </mat-cell>
@@ -160,11 +162,6 @@
       <mat-cell class="description-cell" *matCellDef="let element"
         >{{ element.date | date: 'shortDate' }}</mat-cell
       >
-    </ng-container>
-
-    <ng-container matColumnDef="invited1">
-      <mat-header-cell *matHeaderCellDef>Skapare</mat-header-cell>
-      <mat-cell class="duration-cell" *matCellDef="let element">{{ element.creatorName }}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="actions1">
@@ -186,6 +183,19 @@
       </a>
 
         </label>
+
+        <label
+                  type="button"
+                  mat-icon-button
+                  #tooltip="matTooltip"
+                  matTooltip="Ta bort kvitto"
+                  matTooltipPosition="right"
+                  (click)="confirmDialog(ev.id, ev.creatorName)"
+                >
+                  <span class="material-icons" id="declineIcon">
+                    delete_outline
+                  </span>
+        </label>
       </mat-cell>
     </ng-container>
 
@@ -194,7 +204,6 @@
     <mat-row *matRowDef="let row; columns: displayedColumnAllUsersReceipts"></mat-row>
   </mat-table>
   </mat-tab>
-
     </mat-tab-group>
   </div>
 

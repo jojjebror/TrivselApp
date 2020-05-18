@@ -7,6 +7,7 @@ import { Event, User, Office } from 'src/app/shared/models';
 import * as fromEvents from '../../state/events';
 import * as fromUsers from '../../../user/state/users';
 import * as fromOffices from '../../../start/state/offices';
+import * as fromUser from '../../../user/state/users/users.selectors';
 
 import { Observable, Subscription, of } from 'rxjs';
 import { DateAdapter, MatSnackBar } from '@angular/material';
@@ -130,7 +131,7 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   loadUsers() {
     setTimeout(() => {
       this.store$.dispatch(new fromUsers.GetUsers());
-      this.subscription.add(this.store$.pipe(select(fromUsers.getRelevantUsers(+this.userId))).subscribe((data) => (this.allUsers = data)));
+      this.subscription.add(this.store$.pipe(select(fromUser.getRelevantUsers(+this.userId))).subscribe((data) => (this.allUsers = data)));
       this.cd.detectChanges();
     }, 0);
 

@@ -42,8 +42,8 @@ export class ReceiptListComponent implements OnInit {
   acceptedFiles: 'image/jpg,image/png,image/jpeg/*';
   files: any = [];
 
-  displayedColumnAllReceipts = ['title', 'date', 'invited', 'actions'];
-  displayedColumnAllUsersReceipts = ['title1', 'date1', 'invited1', 'actions1'];
+  displayedColumnAllReceipts = ['title', 'date', 'actions'];
+  displayedColumnAllUsersReceipts = ['title1', 'date1', 'actions1'];
 
   navLinks = [
     {path: 'Receipt', label: 'receipts/AllReceipts'},
@@ -69,6 +69,8 @@ export class ReceiptListComponent implements OnInit {
 
   ngOnInit() {
     this.createReceiptForm();
+    this.loadReceipts();
+    this.loadUserReceipt();
   }
 
   onLinkClick(event: MatTabChangeEvent) {
@@ -107,38 +109,22 @@ export class ReceiptListComponent implements OnInit {
    */
   deleteFile(index: number) {
     this.files.splice(index, 1);
-  }
+    if(this.files == 0)
+    {
+      this.receiptForm.value.image == null;
+    }
 
-  /**
-   * Simulate the upload process
-   */
-  uploadFilesSimulator(index: number) {
-    setTimeout(() => {
-      if (index === this.files.length) {
-        return;
-      } else {
-        const progressInterval = setInterval(() => {
-          if (this.files[index].progress === 100) {
-            clearInterval(progressInterval);
-            this.uploadFilesSimulator(index + 1);
-          } else {
-            this.files[index].progress += 5;
-          }
-        }, 200);
-      }
-    }, 1000);
   }
 
   /**
    * Convert Files list to normal array list
    * @param files (Files List)
    */
-  prepareFilesList(files: Array<any>) {
+  prepareFilesList(files: any) {
     for (const item of files) {
-      item.progress = 0;
+      item.progress = 1;
       this.files.push(item);
     }
-    this.uploadFilesSimulator(0);
   }
 
   /**
@@ -179,49 +165,56 @@ export class ReceiptListComponent implements OnInit {
   
   createReceiptForm() {
     this.receiptForm = this.rb.group({
-      image: [null],
+      image: ["", Validators.required],
       creatorId: [+this.userId],
       users: [null]
     });
   }
 
   createReceipt() {
-    if (this.receiptForm.valid) {
+    if (this.receiptForm.valid || this.files.length < 2) {
 
       this.receipt = Object.assign({}, this.receiptForm.value);
+
+      if(this.validateFile(this.receipt.image))
+      {
       this.store$.dispatch(new asReceipt.CreateReceipt(this.receipt, this.fileUpload));
 
-      this.subscription.add(
-        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.CREATE_RECEIPT_SUCCESS)).subscribe((action) => {
-          var title = action.payload.title;
-          this.snackBar.open('Kvitto uppladdat', '', { duration: 2500 });
-        })
-      );
-
+      console.log(this.files)
       this.subscription.add(
         this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPLOAD_IMAGE_SUCCESS)).subscribe((action) => {
           this.snackBar.open('Kvittot är nu tillagt', '', { duration: 2500 });
         })
-      );
+       );  
 
-    }
-  }
-
-  imageValidator(control: FormControl) {
-    //Får inte att fungera med formbuilder
-    if(control.value) {
-      if(this.fileUpload) {
-        const allowedInput = '/image-*/';
-        //const fileExtension = this.fileUpload.name.split('.').pop().toLowerCase();
-        const fileExtension = this.fileUpload.type;
-        console.log(fileExtension);
-        if (fileExtension.match(allowedInput)) {
-          return true;
-        }
-        return false;
+       this.clearArray();
+       console.log(this.files);
       }
     }
+    else
+    {
+      this.getErrorMessage('image');
+    }
   }
+
+  validateFile(name: String) {
+    var ext = name.substring(name.lastIndexOf('.') + 1);
+    if (ext.toLowerCase() == 'png') {
+        return true;
+    }
+
+    if(ext.toLowerCase() == 'jpg') {
+      return true;
+    }
+
+    if(ext.toLowerCase() == 'jpeg') {
+      return true;
+    }
+
+    else {
+        return false;
+    }
+}
   
   loadImage(file: FileList) {
     this.fileUpload = file.item(0);
@@ -246,7 +239,7 @@ export class ReceiptListComponent implements OnInit {
   }
 
   confirmDialog(id: number, title: string): void {
-    const message = 'Vill du ta bort evenemanget ' + title + '?';
+    const message = 'Är du säker på att du vill ta bort kvittot?';
     const dialogData = new ConfirmDialogModel('Bekräfta', message);
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -261,6 +254,17 @@ export class ReceiptListComponent implements OnInit {
     }));
   }
 
+  getErrorMessage(property: string) {
+    switch (property) {
+      case 'image': {
+        return 'Välj en bild och du kan endast ladda upp 1 bild i taget';
+      }
+    }
+  }
+
+  clearArray()
+  {
+    this.files = [];
+  }
  
-  
 }
