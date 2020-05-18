@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, HostBinding, EventEmitter, Output, HostListener, Directive } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, Input, HostBinding, EventEmitter, Output, HostListener, Directive, OnChanges } from "@angular/core";
 import { Observable, Subscription } from "rxjs";
 import { Store, select, ActionsSubject } from "@ngrx/store";
 
@@ -26,7 +26,7 @@ import { ConfirmDialogModel, ConfirmDialogComponent } from "src/app/shared/dialo
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./receipt-list.component.scss']
 })
-export class ReceiptListComponent implements OnInit {
+export class ReceiptListComponent implements OnInit{
 
   res$: Observable<Receipt[]>;
   fileUpload: File = null;
@@ -66,6 +66,7 @@ export class ReceiptListComponent implements OnInit {
         })
       );
     }
+
 
   ngOnInit() {
     this.createReceiptForm();
@@ -144,7 +145,7 @@ export class ReceiptListComponent implements OnInit {
   }
 
 
-   public loadReceipts(): void {
+   loadReceipts() {
     this.store$.dispatch(new receiptsActions.LoadReceipts());
 
     this.store$.pipe(select(fromReceipt.getReceipts)).subscribe((data: Receipt[]) => {
@@ -153,7 +154,7 @@ export class ReceiptListComponent implements OnInit {
 
   }
 
-  public loadUserReceipt(): void {
+  loadUserReceipt() {
     this.store$.dispatch(new asReceipt.LoadUserReceipts(+this.userId));
     this.subscription.add(this.store$.pipe(select(fromReceipt.getReceiptCreatedByUser)).subscribe((data: Receipt[])=> {
       this.allUsersReceipts.data = data;
@@ -186,7 +187,8 @@ export class ReceiptListComponent implements OnInit {
           this.snackBar.open('Kvittot är nu tillagt', '', { duration: 2500 });
         })
        );  
-
+       this.loadUserReceipt();
+       this.loadReceipts();
        this.clearArray();
        console.log(this.files);
       }
