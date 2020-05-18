@@ -181,7 +181,7 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
       }
     }));
   } else 
-    this.snackBar.open('Ditt du behöver välja en produkt', '', { duration: 3000 });
+    this.snackBar.open('Du behöver välja en produkt', '', { duration: 3000 });
 }
 
 confirmPurchaseSwish(dr: Drink): void {
@@ -204,7 +204,7 @@ confirmPurchaseSwish(dr: Drink): void {
       }
     }));
   } else
-    this.snackBar.open('Ditt du behöver välja en produkt', '', { duration: 3000 });
+    this.snackBar.open('Du behöver välja en produkt', '', { duration: 3000 });
    }
 
   addEncodedUrl(drink: Drink) {
