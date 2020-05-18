@@ -4,30 +4,30 @@ import { LoadingAction } from '../../../core/state/loading';
 
 
 export enum ActionTypes {
-  LOAD_PODCAST_EPISODES = '[Podcast view] Load Podcast Episodes',
-  LOAD_PODCAST_EPISODES_SUCCESS = '[API: /home/podcast] Load Podcast Episodes success',
-  LOAD_PODCAST_EPISODES_ERROR = '[API: /home/podcast] Load Podcast Episodes error',
+  LOAD_PODCAST = '[Podcast view] Load Podcast',
+  LOAD_PODCAST_SUCCESS = '[API: /home/podcast] Load Podcast success',
+  LOAD_PODCAST_ERROR = '[API: /home/podcast] Load Podcast error',
 }
 
-/*--------------LoadAllPodcastEpisodes--------------*/
+/*--------------LoadAllPodcast--------------*/
 
-export class LoadPodcastEpisodes implements Action {
-  readonly type = ActionTypes.LOAD_PODCAST_EPISODES;
-  fxLoading = { add: ActionTypes.LOAD_PODCAST_EPISODES };
+export class LoadPodcast implements Action {
+  readonly type = ActionTypes.LOAD_PODCAST;
+  fxLoading = { add: ActionTypes.LOAD_PODCAST };
 
 }
 
-export class LoadPodcastEpisodesSuccess implements Action {
-  readonly type = ActionTypes.LOAD_PODCAST_EPISODES_SUCCESS;
-  fxLoading = { remove: ActionTypes.LOAD_PODCAST_EPISODES };
+export class LoadPodcastSuccess implements Action {
+  readonly type = ActionTypes.LOAD_PODCAST_SUCCESS;
+  fxLoading = { remove: ActionTypes.LOAD_PODCAST };
 
   constructor(public payload: PodcastEpisode[]) {}
 }
 
-export class LoadPodcastEpisodesError implements Action {
-  readonly type = ActionTypes.LOAD_PODCAST_EPISODES_ERROR;
+export class LoadPodcastError implements Action {
+  readonly type = ActionTypes.LOAD_PODCAST_ERROR;
 
   constructor(public payload: string) {}
 }
 
-export type Actions = LoadPodcastEpisodes | LoadPodcastEpisodesSuccess | LoadPodcastEpisodesError;
+export type Actions = LoadPodcast | LoadPodcastSuccess | LoadPodcastError;

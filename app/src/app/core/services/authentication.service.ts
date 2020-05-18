@@ -61,7 +61,7 @@ export class AuthenticationService {
     return this.getUser().pipe(map((user) => user.profile));
   }
 
-   getUser(): Observable<User> {
+  getUser(): Observable<User> {
     return fromPromise(this.manager.getUser());
   }
 }

@@ -17,6 +17,9 @@
       <li>
         <a class="nav-link" [routerLink]="['/drink/pay']">BT</a>
       </li>
+      <li *ngIf="isAdmin">
+        <a class="nav-link" [routerLink]="['/admin']">Admin</a>
+      </li>
     </ul>
 
     <a class="navbarExtra cursor" [routerLink]="['/drink/credit']"

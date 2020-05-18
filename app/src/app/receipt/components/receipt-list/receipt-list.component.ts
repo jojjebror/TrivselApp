@@ -18,7 +18,7 @@ import * as fromSession from '../../../core/state/session'
 import { AuthenticationService } from "src/app/core/services";
 import { filter } from "rxjs/operators";
 import { ActionTypes } from '../../state/receipts';
-import { ConfirmDialogModel, ConfirmDialogComponent } from "src/app/shared/components/confirmDialog/confirmDialog.component";
+import { ConfirmDialogModel, ConfirmDialogComponent } from "src/app/shared/dialogs/confirmDialog/confirmDialog.component";
 
 @Component({
   selector: 'ex-receipt-list',

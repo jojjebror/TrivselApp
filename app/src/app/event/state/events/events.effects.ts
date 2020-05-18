@@ -39,22 +39,6 @@ export class EventsEffects {
     )
   );
 
-  /* @Effect()
-  createEvent$: Observable<Action> = this.actions$.pipe(
-    ofType(eventsActions.ActionTypes.CREATE_EVENT),
-    switchMap((action: eventsActions.CreateEvent) =>
-      this.eventResource.createEvent(action.payload).pipe(
-        switchMap((newEvent: Event) => 
-        [
-          new eventsActions.CreateEventSuccess(newEvent), 
-          new eventsActions.UploadImage(newEvent.id, action.image)
-        ]),
-        tap(() => this.router.navigate(['/event'])),
-        catchError((err) => of(new eventsActions.CreateEventError(err)))
-      )
-    )
-  ); */
-
   @Effect()
   createEvent$: Observable<Action> = this.actions$.pipe(
     ofType(eventsActions.ActionTypes.CREATE_EVENT),
@@ -65,7 +49,6 @@ export class EventsEffects {
             console.log("Image: " + action.image)
             return new eventsActions.UploadImage(newEvent.id, action.image);
           }
-          
           return new eventsActions.CreateEventSuccess(newEvent);
         }),
         tap(() => this.router.navigate(['/event'])),
@@ -85,24 +68,6 @@ export class EventsEffects {
       )
     )
   );
-
-  /* @Effect()
-  updateEvent$: Observable<Action> = this.actions$.pipe(
-    ofType(eventsActions.ActionTypes.UPDATE_EVENT),
-    switchMap((action: eventsActions.UpdateEvent) =>
-      this.eventResource.updateEvent(action.payload).pipe(
-        switchMap((updatedEvent: Event) => [
-          new eventsActions.UpdateEventSuccess({
-            id: updatedEvent.id,
-            changes: updatedEvent
-          }),
-          new eventsActions.UploadImage(updatedEvent.id, action.image),
-        ]),
-        tap(() => this.router.navigate(['/event/' + action.payload.id])),
-        catchError((err) => of(new eventsActions.UpdateEventError(err)))
-      )
-    )
-  ); */
 
   @Effect()
   updateEvent$: Observable<Action> = this.actions$.pipe(
@@ -195,7 +160,7 @@ export class EventsEffects {
           }),
           new eventsActions.GetCurrentUserEvent(action.payload[1]),
         ]),
-        tap(() => this.router.navigate(['/event'])),
+        //tap(() => this.router.navigate(['/event'])),
         catchError((err) => of(new eventsActions.UpdateUserParticipantError(err)))
       )
     )

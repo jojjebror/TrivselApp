@@ -1,0 +1,184 @@
+<div class="container justify-content-center">
+<div class="tab-panel">
+<mat-tab-group dynamicHeight [selectedIndex]="selectedTab" (selectedIndexChange)="onTabChange($event)">
+	<mat-tab label="Hantera evenemang">
+			<div class="table-holder">
+				 <mat-toolbar>
+					<div class="tableTitle">Evenemang</div>
+					<div class="spacer">
+						<mat-form-field appearance="legacy" id="searchbar">
+							<input [(ngModel)]="searchFieldEvents" matInput type="text"
+								(keyup)="doFilter($event.target.value, 'events')" placeholder="Sök evenemang"
+								autocomplete="off" />
+							<button mat-button mat-icon-button matSuffix (click)="clearField()"
+								*ngIf="searchFieldEvents">
+								<mat-icon>close</mat-icon>
+							</button>
+							<mat-icon matSuffix *ngIf="!searchFieldEvents">search</mat-icon>
+						</mat-form-field>
+					</div>
+				</mat-toolbar>
+				<mat-table class="lessons-table mat-elevation-z8" [dataSource]="events" matSort
+					*ngIf="events.data.length > 0">
+					<ng-container matColumnDef="title">
+						<mat-header-cell *matHeaderCellDef>Titel</mat-header-cell>
+						<mat-cell id="cell-cursor" [routerLink]="['/event', ev.id]"
+							*matCellDef="let ev">{{ ev.title }}</mat-cell>
+					</ng-container>
+			
+					<ng-container matColumnDef="location">
+						<mat-header-cell *matHeaderCellDef>Plats</mat-header-cell>
+						<mat-cell class="duration-cell" *matCellDef="let ev">{{ ev.location }}</mat-cell>
+					</ng-container>
+			
+					<ng-container matColumnDef="date">
+						<mat-header-cell *matHeaderCellDef>Datum</mat-header-cell>
+						<mat-cell class="description-cell" *matCellDef="let ev">{{ ev.startDate | date: 'd/M' }} -
+							{{ ev.endDate | date: 'd/M-yyyy' }}</mat-cell>
+					</ng-container>
+			
+					<ng-container matColumnDef="actions">
+						<mat-header-cell *matHeaderCellDef>Hantera</mat-header-cell>
+						<mat-cell *matCellDef="let ev">
+							<label type="button" mat-icon-button #tooltip="matTooltip" matTooltip="Redigera evenemang"
+								matTooltipPosition="left" (click)="editEvent(ev.id)">
+								<span class="material-icons" id="editIcon">
+									edit
+								</span>
+							</label>
+			
+							<label type="button" mat-icon-button #tooltip="matTooltip" matTooltip="Ta bort evenemang"
+								matTooltipPosition="right" (click)="confirmDeleteEventDialog(ev.id, ev.title)">
+								<span class="material-icons" id="declineIcon">
+									delete_outline
+								</span>
+							</label>
+						</mat-cell>
+					</ng-container>
+			
+					<mat-header-row *matHeaderRowDef="displayedColumnsEvents"></mat-header-row>
+			
+					<mat-row *matRowDef="let row; columns: displayedColumnsEvents"></mat-row>
+				</mat-table>
+				<div class="noDataTable" *ngIf="events.data.length === 0">Det finns ännu inga skapade evenemang</div>
+				<div class="noDataTable" *ngIf="events.filteredData.length === 0 && events.data.length > 0">
+					Inga evenemang matchade din sökning
+				</div>
+				<hr />
+			</div>
+			<mat-paginator #eventPaginator class="listPaginator" [length]="events.data.length" [pageSize]="15" [pageSizeOptions]="[15, 30]"></mat-paginator>
+		</mat-tab>
+	<mat-tab label="Hantera kontor">
+		<div class="table-holder">
+			<mat-toolbar>
+				<div class="tableTitle">Kontor</div>
+				<div class="spacer">
+				<button class="btn btn-primary" (click)="addOfficeDialog()">
+					Nytt kontor
+				</button>
+				</div>
+			</mat-toolbar>
+			<mat-table class="lessons-table mat-elevation-z8" [dataSource]="offices" matSort *ngIf="offices.data.length > 0">
+				<ng-container matColumnDef="office">
+					<mat-header-cell *matHeaderCellDef>Kontor</mat-header-cell>
+					<mat-cell id="cell-cursor" *matCellDef="let office">{{ office.name }}</mat-cell>
+				</ng-container>
+		
+				<ng-container matColumnDef="adress">
+					<mat-header-cell *matHeaderCellDef>Adress</mat-header-cell>
+					<mat-cell class="duration-cell" *matCellDef="let office">{{ office.adress }}</mat-cell>
+				</ng-container>
+		
+				<ng-container matColumnDef="swish">
+					<mat-header-cell *matHeaderCellDef>Inköpsansvarig</mat-header-cell>
+					<mat-cell class="description-cell" *matCellDef="let office">{{ office.swishNumber }}</mat-cell>
+				</ng-container>
+		
+				<ng-container matColumnDef="actions">
+					<mat-header-cell *matHeaderCellDef>Hantera</mat-header-cell>
+					<mat-cell *matCellDef="let office">
+						<label type="button" mat-icon-button #tooltip="matTooltip" matTooltip="Redigera kontor"
+							matTooltipPosition="right" (click)="editOfficeDetailsDialog(office)">
+							<span class="material-icons" id="editIcon2">
+								edit
+							</span>
+						</label>
+					</mat-cell>
+				</ng-container>
+		
+				<mat-header-row *matHeaderRowDef="displayedColumnsOffices"></mat-header-row>
+		
+				<mat-row *matRowDef="let row; columns: displayedColumnsOffices"></mat-row>
+			</mat-table>
+			<div class="noDataTable" *ngIf="offices.data.length === 0">Det finns inga kontor</div>
+			<hr />
+		</div>
+	</mat-tab>
+	<mat-tab label="Hantera användare">
+	<div class="table-holder">
+		<mat-toolbar>
+			<div class="tableTitle">Användare</div>
+			<div class="spacer">
+				<mat-form-field appearance="legacy" id="searchbar">
+					<input [(ngModel)]="searchFieldUsers" matInput type="text"
+						(keyup)="doFilter($event.target.value, 'users')" placeholder="Sök användare" autocomplete="off" />
+					<button mat-button mat-icon-button matSuffix (click)="clearField()" *ngIf="searchFieldUsers">
+						<mat-icon>close</mat-icon>
+					</button>
+					<mat-icon matSuffix *ngIf="!searchFieldUsers">search</mat-icon>
+				</mat-form-field>
+			</div>
+		</mat-toolbar>
+		<mat-table class="lessons-table mat-elevation-z8" [dataSource]="users" matSort *ngIf="users.data.length > 0">
+			<ng-container matColumnDef="name">
+				<mat-header-cell *matHeaderCellDef>Namn</mat-header-cell>
+				<mat-cell id="cell-cursor" *matCellDef="let user">{{ user.name }}</mat-cell>
+			</ng-container>
+
+			<ng-container matColumnDef="office">
+				<mat-header-cell *matHeaderCellDef>Kontor</mat-header-cell>
+				<mat-cell id="cell-cursor" *matCellDef="let user">{{ user.office }}</mat-cell>
+			</ng-container>
+	
+		    <ng-container matColumnDef="admin">
+				<mat-header-cell *matHeaderCellDef>Behörighet</mat-header-cell>
+				<mat-cell class="duration-cell" *matCellDef="let user">
+					<p *ngIf="user.admin"><mat-icon class="material-icons roleIcon">how_to_reg</mat-icon>Admin</p>
+					<p *ngIf="!user.admin"><mat-icon class="material-icons roleIcon">person</mat-icon>Användare</p>
+					</mat-cell>
+			</ng-container> 
+
+			<ng-container matColumnDef="actions">
+				<mat-header-cell *matHeaderCellDef>Hantera</mat-header-cell>
+				<mat-cell *matCellDef="let user">
+					<mat-slide-toggle [checked]="user.admin" class="center" #tooltip="matTooltip" matTooltip="Ändra behörighet" matTooltipPosition="left" (change)="updateAdminStatus(user)"></mat-slide-toggle>
+					<label type="button" mat-icon-button #tooltip="matTooltip" matTooltip="Ta bort användare" matTooltipPosition="right"
+						(click)="confirmDeleteUserDialog(user)">
+						<span class="material-icons" id="declineIcon">
+							clear
+						</span>
+					</label>
+				</mat-cell>
+			</ng-container>
+	
+			<mat-header-row *matHeaderRowDef="displayedColumnsUsers"></mat-header-row>
+	
+			<mat-row *matRowDef="let row; columns: displayedColumnsUsers"></mat-row>
+		</mat-table>
+		<div class="noDataTable" *ngIf="users.data.length === 0">Det finns inga användare</div>
+		<div class="noDataTable" *ngIf="users.filteredData.length === 0 && users.data.length > 0">
+			Inga användare matchade din sökning
+		</div>
+		<hr />
+	</div>
+	<mat-paginator #userPaginator class="listPaginator" [length]="users.data.length" [pageSize]="15" [pageSizeOptions]="[15, 30]"></mat-paginator>
+	</mat-tab>	
+</mat-tab-group>
+</div>
+</div>
+
+<div class="loader">
+	<h2 class="mat-h3">
+		<mat-spinner *ngIf="(loadings$ | async)?.length" style="display: inline;" [diameter]="50"> </mat-spinner>
+	</h2>
+</div>
