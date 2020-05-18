@@ -21,7 +21,7 @@ export class PodcastEffects {
   loadPodcastEpisodes$: Observable<Action> = this.actions$.pipe(
     ofType(podcastActions.ActionTypes.LOAD_PODCAST_EPISODES),
     switchMap(() => {
-      return this.homeResource.getPodcastEpisodes().pipe(
+      return this.homeResource.loadPodcast().pipe(
         map((episode: PodcastEpisode[]) => new podcastActions.LoadPodcastEpisodesSuccess(episode)),
         catchError((err) => of(new podcastActions.LoadPodcastEpisodesError(err)))
       );

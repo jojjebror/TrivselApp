@@ -1,3 +1,18 @@
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.container {
+  animation: fadeInAnimation ease 2s;
+  animation-iteration-count: 1s;
+  animation-fill-mode:forwards;
+}
+
 .mat-card {
     width: 32%;
     margin-bottom: 30px;

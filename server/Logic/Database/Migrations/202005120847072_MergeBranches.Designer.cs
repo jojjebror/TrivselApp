@@ -7,13 +7,13 @@ namespace Logic.Database.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class MergeBranchesReceipt : IMigrationMetadata
+    public sealed partial class MergeBranches : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(MergeBranchesReceipt));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(MergeBranches));
         
         string IMigrationMetadata.Id
         {
-            get { return "202005081437109_MergeBranchesReceipt"; }
+            get { return "202005120847072_MergeBranches"; }
         }
         
         string IMigrationMetadata.Source

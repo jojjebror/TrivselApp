@@ -13,7 +13,7 @@ import * as asReceipt from "../../state/receipts/receipts.actions";
 import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AlertifyService } from "src/app/core/services/alertify.service";
-import { MatSnackBar, MatTableDataSource, MatDialog } from "@angular/material";
+import { MatSnackBar, MatTableDataSource, MatDialog, MatTabChangeEvent } from "@angular/material";
 import * as fromSession from '../../../core/state/session'
 import { AuthenticationService } from "src/app/core/services";
 import { filter } from "rxjs/operators";
@@ -45,6 +45,11 @@ export class ReceiptListComponent implements OnInit {
   displayedColumnAllReceipts = ['title', 'date', 'invited', 'actions'];
   displayedColumnAllUsersReceipts = ['title1', 'date1', 'invited1', 'actions1'];
 
+  navLinks = [
+    {path: 'Receipt', label: 'receipts/AllReceipts'},
+    {path: '/Receipt/' + this.userId, label: 'receipts/YourReceipts'},
+  ];
+
   constructor(
     private store$: Store<AppState>,
     private router: Router,
@@ -64,8 +69,22 @@ export class ReceiptListComponent implements OnInit {
 
   ngOnInit() {
     this.createReceiptForm();
+  }
+
+  onLinkClick(event: MatTabChangeEvent) {
+
+    if(event.index == 0)
+    {
+    console.log({ event });
+
     this.loadReceipts();
-    this.loadUserReceipt();
+    }
+    else {
+      console.log({event});
+      this.loadUserReceipt();
+
+    }
+    
   }
 
  /**
@@ -150,7 +169,7 @@ export class ReceiptListComponent implements OnInit {
 
   public loadUserReceipt(): void {
     this.store$.dispatch(new asReceipt.LoadUserReceipts(+this.userId));
-    this.subscription.add(this.store$.pipe(select(fromReceipt.getReceiptCreatedByUser(+this.userId))).subscribe((data: Receipt[])=> {
+    this.subscription.add(this.store$.pipe(select(fromReceipt.getReceiptCreatedByUser)).subscribe((data: Receipt[])=> {
       this.allUsersReceipts.data = data;
     })
    );

@@ -28,13 +28,15 @@
 
       <!-- Tab add balance -->
       <mat-tab label="Fyll på saldo">
-          <form class="border border-light p-6" [formGroup]="userCreditForm" (ngSubmit)="addCredit()">
+          <form class="border border-light p-6" [formGroup]="userCreditForm" (ngSubmit)="confirmCredit()">
             <div class="mat-div-card">
               <div class="addCreditForm">
+                <p id="desktopContent">Fylla på saldot får du göra på mobilen eller eftersom du har valt {{office}} som kontor så kan du swisha till detta nummer:</p>
+                <div class="desktopInfo">
                 <h3 class="text-center">Fyll på saldo</h3>
                 <hr />
                 <div>
-                  <mat-form-field >
+                  <mat-form-field>
                     <mat-label>Välj en summa</mat-label>
 
                     <mat-select
@@ -45,8 +47,11 @@
                     >
                       <mat-option [value]="100">100kr</mat-option>
                       <mat-option [value]="200">200kr</mat-option>
+                      <mat-option [value]="250">250kr</mat-option>
                       <mat-option [value]="300">300kr</mat-option>
+                      <mat-option [value]="350">350kr</mat-option>
                       <mat-option [value]="400">400kr</mat-option>
+                      <mat-option [value]="450">450kr</mat-option>
                     </mat-select>
 
                     <mat-icon matSuffix> attach_money</mat-icon>
@@ -61,6 +66,7 @@
                   Lägg till saldo
                 </button>
               </div>
+            </div>
             </div>
           </form>
       </mat-tab>

@@ -63,12 +63,12 @@ namespace Logic.Services
                 new EventParticipant { EventId = ev.Id, UserId = ev.CreatorId, Status = "accepted" } 
             };
 
-            if (ev.Offices.First() != "")
+            if (ev.Offices != null)
             {
                 foreach (var office in ev.Offices)
                 {
-                    var usersInOffice = await _context.Users
-                        .Where(u => u.Office == office && u.Id != ev.CreatorId).ToListAsync();
+                    var usersInOffice = await _context.Users.Include(u => u.Office)
+                        .Where(u => u.OfficeId == office.Id && u.Id != ev.CreatorId).ToListAsync();
 
                     eventParticipants.AddRange(usersInOffice.Select(u =>
                         new EventParticipant { EventId = ev.Id, UserId = u.Id }).ToList());
