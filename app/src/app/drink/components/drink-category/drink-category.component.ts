@@ -180,9 +180,8 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
         this.paySaldo(dr);
       }
     }));
-  } else {
+  } else 
     this.snackBar.open('Ditt du behöver välja en produkt', '', { duration: 3000 });
-  };
 }
 
 confirmPurchaseSwish(dr: Drink): void {
