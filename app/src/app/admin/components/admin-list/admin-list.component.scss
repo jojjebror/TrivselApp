@@ -6,8 +6,47 @@
   cursor: pointer;
 }
 
+::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+    background-color: green;
+}
+
+::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+    background-color: black;
+}
+
+.center {
+  margin-right: 10px;
+}
+
+.listPaginator {
+  background: transparent;
+  float: right;
+}
+
 .btn-new-office {
   margin-left: 880px;
+}
+
+.roleIcon {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.loader {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: visible;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+::ng-deep .mat-spinner circle, .mat-spinner circle {   
+    stroke: white !important;
 }
 
 .mat-toolbar {
@@ -82,6 +121,7 @@
   font-size: 18px;
 }
 
+
 #searchbar {
   font-size: 14px;
   width: 160px !important;
@@ -90,4 +130,23 @@
 .spacer {
   flex: 1 1 auto;
   text-align: right;
+}
+
+::ng-deep .mat-paginator .mat-paginator-container {
+  background-color: transparent;
+  color: white;
+}
+
+::ng-deep .mat-select-arrow {
+  color: white;
+}
+
+::ng-deep .mat-select-value {
+  color: white;
+}
+::ng-deep .mat-option {
+  color: grey;
+}
+::ng-deep .mat-paginator-range-label {
+  color: white;
 }

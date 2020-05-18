@@ -51,13 +51,7 @@
             <mat-icon matSuffix *ngIf="!calendarField">event</mat-icon>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
-
-          <!-- <mat-form-field>
-            <input type="text" placeholder="Skapare" matInput [(ngModel)]="state" [matAutocomplete]="auto" />
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let s of states" [value]="s"> {{ s }} </mat-option>
-            </mat-autocomplete>
-          </mat-form-field> -->
+          
         </div>
         <div class="mat-card-div">
           <mat-card *ngFor="let ev of evs$ | async" [routerLink]="['/event', ev.id]" [queryParams]="{ page: selectedPage}" fxFlex="100">

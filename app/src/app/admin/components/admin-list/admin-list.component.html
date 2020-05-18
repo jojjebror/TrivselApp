@@ -1,6 +1,6 @@
 <div class="container justify-content-center">
 <div class="tab-panel">
-<mat-tab-group dynamicHeight>
+<mat-tab-group dynamicHeight [selectedIndex]="selectedTab" (selectedIndexChange)="onTabChange($event)">
 	<mat-tab label="Hantera evenemang">
 			<div class="table-holder">
 				 <mat-toolbar>
@@ -48,7 +48,7 @@
 							</label>
 			
 							<label type="button" mat-icon-button #tooltip="matTooltip" matTooltip="Ta bort evenemang"
-								matTooltipPosition="right" (click)="confirmDialog(ev.id, ev.title)">
+								matTooltipPosition="right" (click)="confirmDeleteEventDialog(ev.id, ev.title)">
 								<span class="material-icons" id="declineIcon">
 									delete_outline
 								</span>
@@ -66,12 +66,13 @@
 				</div>
 				<hr />
 			</div>
+			<mat-paginator #eventPaginator class="listPaginator" [length]="events.data.length" [pageSize]="15" [pageSizeOptions]="[15, 30]"></mat-paginator>
 		</mat-tab>
 	<mat-tab label="Hantera kontor">
 		<div class="table-holder">
 			<mat-toolbar>
 				<div class="tableTitle">Kontor</div>
-				<div class="btn-new-office">
+				<div class="spacer">
 				<button class="btn btn-primary" (click)="addOfficeDialog()">
 					Nytt kontor
 				</button>
@@ -97,7 +98,7 @@
 					<mat-header-cell *matHeaderCellDef>Hantera</mat-header-cell>
 					<mat-cell *matCellDef="let office">
 						<label type="button" mat-icon-button #tooltip="matTooltip" matTooltip="Redigera kontor"
-							matTooltipPosition="left" (click)="editOfficeDetailsDialog(office)">
+							matTooltipPosition="right" (click)="editOfficeDetailsDialog(office)">
 							<span class="material-icons" id="editIcon2">
 								edit
 							</span>
@@ -133,19 +134,28 @@
 				<mat-header-cell *matHeaderCellDef>Namn</mat-header-cell>
 				<mat-cell id="cell-cursor" *matCellDef="let user">{{ user.name }}</mat-cell>
 			</ng-container>
+
+			<ng-container matColumnDef="office">
+				<mat-header-cell *matHeaderCellDef>Kontor</mat-header-cell>
+				<mat-cell id="cell-cursor" *matCellDef="let user">{{ user.office }}</mat-cell>
+			</ng-container>
 	
-			<!-- <ng-container matColumnDef="email">
-				<mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
-				<mat-cell class="duration-cell" *matCellDef="let user">{{ user.adress }}</mat-cell>
-			</ng-container> -->
+		    <ng-container matColumnDef="admin">
+				<mat-header-cell *matHeaderCellDef>Behörighet</mat-header-cell>
+				<mat-cell class="duration-cell" *matCellDef="let user">
+					<p *ngIf="user.admin"><mat-icon class="material-icons roleIcon">how_to_reg</mat-icon>Admin</p>
+					<p *ngIf="!user.admin"><mat-icon class="material-icons roleIcon">person</mat-icon>Användare</p>
+					</mat-cell>
+			</ng-container> 
 
 			<ng-container matColumnDef="actions">
 				<mat-header-cell *matHeaderCellDef>Hantera</mat-header-cell>
 				<mat-cell *matCellDef="let user">
-					<label type="button" mat-icon-button #tooltip="matTooltip" matTooltip="Redigera användare"
-						matTooltipPosition="left">
-						<span class="material-icons" id="editIcon2">
-							edit
+					<mat-slide-toggle [checked]="user.admin" class="center" #tooltip="matTooltip" matTooltip="Ändra behörighet" matTooltipPosition="left" (change)="updateAdminStatus(user)"></mat-slide-toggle>
+					<label type="button" mat-icon-button #tooltip="matTooltip" matTooltip="Ta bort användare" matTooltipPosition="right"
+						(click)="confirmDeleteUserDialog(user)">
+						<span class="material-icons" id="declineIcon">
+							clear
 						</span>
 					</label>
 				</mat-cell>
@@ -161,7 +171,14 @@
 		</div>
 		<hr />
 	</div>
-	</mat-tab>
+	<mat-paginator #userPaginator class="listPaginator" [length]="users.data.length" [pageSize]="15" [pageSizeOptions]="[15, 30]"></mat-paginator>
+	</mat-tab>	
 </mat-tab-group>
 </div>
+</div>
+
+<div class="loader">
+	<h2 class="mat-h3">
+		<mat-spinner *ngIf="(loadings$ | async)?.length" style="display: inline;" [diameter]="50"> </mat-spinner>
+	</h2>
 </div>

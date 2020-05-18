@@ -68,7 +68,7 @@ namespace Logic.Services
                 foreach (var office in ev.Offices)
                 {
                     var usersInOffice = await _context.Users.Include(u => u.Office)
-                        .Where(u => u.OfficeId == office.Id && u.Id != ev.CreatorId).ToListAsync();
+                        .Where(u => u.OfficeId == office.Id && u.Id != ev.CreatorId && u.Name != "admin").ToListAsync();
 
                     eventParticipants.AddRange(usersInOffice.Select(u =>
                         new EventParticipant { EventId = ev.Id, UserId = u.Id }).ToList());

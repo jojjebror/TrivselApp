@@ -6,7 +6,7 @@ import { SharedModule } from '../shared';
 
 import { LoginRoutingModule } from './admin-routing.module';
 
-import { reducers, effects } from './state';
+//import { reducers, effects } from './state';
 import { views } from './views';
 import { components } from './components';
 
@@ -14,8 +14,8 @@ import { components } from './components';
 	imports: [
 		SharedModule,
 		LoginRoutingModule,
-		StoreModule.forFeature('example', reducers),
-		EffectsModule.forFeature(effects)
+		//StoreModule.forFeature('example', reducers),
+		//EffectsModule.forFeature(effects)
 	],
 	exports: [],
 	declarations: [

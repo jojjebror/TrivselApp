@@ -56,6 +56,20 @@ namespace Api.Controllers
             var result = await _userService.UpdateOffice(id, office);
             return new OkObjectResult(ApiResponse.Create(result));
         }
+
+        [HttpPut("UpdateAdminStatus/{id}/{status}")]
+        public async Task<IActionResult> UpdateAdminStatus(int id, string status)
+        {
+            var result = await _userService.UpdateAdminStatus(id, status);
+            return new OkObjectResult(ApiResponse.Create(result));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var result = await _userService.DeleteUser(id);
+            return new OkObjectResult(ApiResponse.Delete(result));
+        }
     }
 }
     

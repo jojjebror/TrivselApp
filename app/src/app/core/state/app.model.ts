@@ -3,7 +3,6 @@ import { LayoutState } from './layout';
 import { SessionState } from './session';
 
 // Module state
-import { ExampleState } from '../../admin/state';
 import { EventState } from '../../event/state';
 import { DrinkState } from '../../drink/state';
 import { UserState } from '../../user/state';
@@ -22,7 +21,6 @@ export interface AppState {
 
 	session: SessionState;
 
-	example?: ExampleState;
 
 	event?: EventState;
 	

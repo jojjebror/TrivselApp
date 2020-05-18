@@ -49,7 +49,6 @@ export class EventsEffects {
             console.log("Image: " + action.image)
             return new eventsActions.UploadImage(newEvent.id, action.image);
           }
-          
           return new eventsActions.CreateEventSuccess(newEvent);
         }),
         tap(() => this.router.navigate(['/event'])),

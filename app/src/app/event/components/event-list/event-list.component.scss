@@ -140,7 +140,7 @@ h3 {
   color: black;
 }
 
-:host ::ng-deep.mat-paginator .mat-paginator-container {
+::ng-deep .mat-paginator .mat-paginator-container {
   background-color: transparent;
   color: white;
 }
@@ -203,11 +203,6 @@ h3 {
   float: right;
 }
 
-//test
-/* ::ng-deep .mat-paginator-range-label {
-    display: none;
-} */
-
 .filtering {
   margin-top: 10px;
 }
@@ -216,7 +211,6 @@ h3 {
    display: none;
   }
 
-// mat-label normal state style
 ::ng-deep .mat-form-field-label {
     color: white!important;
 }

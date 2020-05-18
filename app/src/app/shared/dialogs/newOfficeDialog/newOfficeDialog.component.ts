@@ -26,10 +26,10 @@ export class NewOfficeDialogComponent implements OnInit {
 
   createOfficeForm() {
     this.addOfficeForm = this.fb.group({
-      //id: [],
       name: ['', Validators.required],
       adress: ['', Validators.required],
       swishNumber: [''],
+      info: ['']
     });
   }
 

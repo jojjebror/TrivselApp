@@ -94,6 +94,46 @@ namespace Logic.Services
             return UserTranslator.ToUserForUpdateDto(dbUser);
         }
 
+        public async Task<UserForUpdateDto> UpdateAdminStatus(int id, string status)
+        {
+            var dbUser = await _context.Users
+                    .FirstOrDefaultAsync(x => x.Id == id);
+
+            if(status == "true")
+            {
+                dbUser.Admin = true;
+            }
+            else
+            {
+                dbUser.Admin = false;
+            }
+
+            await _context.SaveChangesAsync();
+
+            return UserTranslator.ToUserForUpdateDto(dbUser);
+        }
+
+        //public async Task<int> DeleteUser(int id)
+        //{
+        //    var dbUser = await _context.Users.FindAsync(id);
+
+        //    _context.Users.Remove(dbUser);
+        //    await _context.SaveChangesAsync();
+
+        //    return id;
+        //}
+
+        public async Task<int> DeleteUser(int id)
+        {
+            var dbUser = await _context.Users.FindAsync(id);
+
+            _context.Users.Remove(dbUser);
+            await _context.SaveChangesAsync();
+
+            return id;
+        }
+
+
         public async Task<UserForUpdateDto> RemoveCredit(int id, UserForUpdateDto user)
         {
 
@@ -116,7 +156,8 @@ namespace Logic.Services
 
         public async Task<ICollection<UserForListDto>> GetUsers()
         {
-            var dbUsers = await _context.Users.ToListAsync();
+            var adm = "admin";
+            var dbUsers = await _context.Users.Where(u => u.Name != adm).ToListAsync();
 
             return dbUsers.Select(UserTranslator.ToUserForListDto).ToList();
         }

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Store, ActionsSubject, select } from '@ngrx/store';
 import { AppState } from '../state';
 
@@ -9,19 +9,22 @@ import * as fromUsers from '../../user/state/users';
 import { filter, take } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 import * as fromOffices from '../../start/state/offices';
+import * as fromSession from '../../core/state/session';
 
 @Component({
   selector: 'ex-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
 })
-export class MenuComponent {
+export class MenuComponent implements OnDestroy {
   @Input() user: User;
 
   @Output() logout = new EventEmitter<any>();
 
   subscription = new Subscription();
   offices$: Observable<Office[]>;
+  user$: Observable<User>;
+  isAdmin: boolean = false;
   userOffice$: Observable<Office>;
 
   menuItems = [
@@ -57,11 +60,23 @@ export class MenuComponent {
     private store$: Store<AppState>,
     private actionsSubject$: ActionsSubject,
     private snackBar: MatSnackBar
-  ) {}
+  ) {
+    this.adminControl();
+  }
 
   loadOffices() {
     this.store$.dispatch(new fromOffices.LoadOffices());
     this.offices$ = this.store$.pipe(select(fromOffices.getOffices));
+  }
+
+  adminControl() {
+  this.subscription.add(
+    this.actionsSubject$.pipe(filter((action: any) => action.type === fromSession.ActionTypes.SetUserSuccess)).subscribe(() => {
+      this.store$.pipe(select(fromSession.selectUser)).subscribe((data: User) => {
+      this.isAdmin = data.admin;
+   });
+  })
+  );
   }
 
   editDialog(user: User): void {
@@ -116,5 +131,9 @@ export class MenuComponent {
       .subscribe(() => {
         this.snackBar.open('Ändring slutförd. Ditt valda kontor: ' + newOffice.name, '', { duration: 3500 });
       });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
