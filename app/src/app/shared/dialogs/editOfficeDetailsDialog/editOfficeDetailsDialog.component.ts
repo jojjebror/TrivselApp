@@ -19,6 +19,7 @@ export class EditOfficeDetailsDialogComponent implements OnInit {
   name: string;
   adress: string;
   swish: string;
+  info: string;
 
   constructor(
     public dialogRef: MatDialogRef<EditOfficeDetailsDialogComponent>,
@@ -31,6 +32,7 @@ export class EditOfficeDetailsDialogComponent implements OnInit {
     this.name = data.office.name;
     this.adress = data.office.adress;
     this.swish = data.office.swishNumber;
+    this.info = data.office.info;
   }
 
   ngOnInit() {
@@ -43,6 +45,7 @@ export class EditOfficeDetailsDialogComponent implements OnInit {
       name: [this.name, Validators.required],
       adress: [this.adress, Validators.required],
       swishNumber: [this.swish, Validators.required],
+      info: [this.info]
     });
   }
 

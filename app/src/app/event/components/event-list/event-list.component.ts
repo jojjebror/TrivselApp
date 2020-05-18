@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ViewChild } from '@angular/core';
 import { Event } from '../../../shared/models';
 import { Observable, Subscription } from 'rxjs';
 
@@ -25,7 +25,7 @@ export class EventListComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  private subscription = new Subscription();
+  subscription = new Subscription();
   loadings$ = this.store$.pipe(select(getLoadingData));
   evs$: Observable<Event[]>;
   userId: number;
@@ -285,7 +285,6 @@ export class EventListComponent implements OnInit, OnDestroy {
 
   onTabChange(tabId: number): void {
     this.selectedTab = tabId;
-    //window.history.replaceState({}, '', `/event/${this.selectedTab}`);
   }
 
   ngOnDestroy() {

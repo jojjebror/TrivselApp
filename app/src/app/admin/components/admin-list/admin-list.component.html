@@ -1,6 +1,6 @@
 <div class="container justify-content-center">
 <div class="tab-panel">
-<mat-tab-group dynamicHeight>
+<mat-tab-group dynamicHeight [selectedIndex]="selectedTab" (selectedIndexChange)="onTabChange($event)">
 	<mat-tab label="Hantera evenemang">
 			<div class="table-holder">
 				 <mat-toolbar>
@@ -66,12 +66,13 @@
 				</div>
 				<hr />
 			</div>
+			<mat-paginator #eventPaginator class="listPaginator" [length]="events.data.length" [pageSize]="15" [pageSizeOptions]="[15, 30]"></mat-paginator>
 		</mat-tab>
 	<mat-tab label="Hantera kontor">
 		<div class="table-holder">
 			<mat-toolbar>
 				<div class="tableTitle">Kontor</div>
-				<div class="btn-new-office">
+				<div class="spacer">
 				<button class="btn btn-primary" (click)="addOfficeDialog()">
 					Nytt kontor
 				</button>
@@ -133,6 +134,11 @@
 				<mat-header-cell *matHeaderCellDef>Namn</mat-header-cell>
 				<mat-cell id="cell-cursor" *matCellDef="let user">{{ user.name }}</mat-cell>
 			</ng-container>
+
+			<ng-container matColumnDef="office">
+				<mat-header-cell *matHeaderCellDef>Kontor</mat-header-cell>
+				<mat-cell id="cell-cursor" *matCellDef="let user">{{ user.office }}</mat-cell>
+			</ng-container>
 	
 		    <ng-container matColumnDef="admin">
 				<mat-header-cell *matHeaderCellDef>Behörighet</mat-header-cell>
@@ -165,7 +171,8 @@
 		</div>
 		<hr />
 	</div>
-	</mat-tab>
+	<mat-paginator #userPaginator class="listPaginator" [length]="users.data.length" [pageSize]="15" [pageSizeOptions]="[15, 30]"></mat-paginator>
+	</mat-tab>	
 </mat-tab-group>
 </div>
 </div>

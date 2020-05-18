@@ -81,6 +81,7 @@ namespace Logic.Services
             dbOffice.Name = office.Name;
             dbOffice.Adress = office.Adress;
             dbOffice.SwishNumber = office.SwishNumber;
+            dbOffice.Info = office.Info;
 
             await _context.SaveChangesAsync();
 

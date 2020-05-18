@@ -1,7 +1,7 @@
 import { Component, Input, ChangeDetectionStrategy, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Store, ActionsSubject, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
-import { MatSnackBar, MatDialog, MatTableDataSource, MatSort } from '@angular/material';
+import { MatSnackBar, MatDialog, MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { AuthenticationService } from 'src/app/core/services';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as fromEvents from '../../../event/state/events';
@@ -23,13 +23,16 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./admin-list.component.scss'],
 })
 export class AdminListComponent implements OnInit, OnDestroy {
+  @ViewChild('userPaginator') userPaginator: MatPaginator;
+  @ViewChild('eventPaginator') eventPaginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+
   loadings$ = this.store$.pipe(select(getLoadingData));
   subscription = new Subscription();
 
   displayedColumnsEvents = ['title', 'location', 'date', 'actions'];
   displayedColumnsOffices = ['office', 'adress', 'swish', 'actions'];
-  displayedColumnsUsers = ['name', 'admin', 'actions'];
+  displayedColumnsUsers = ['name', 'office', 'admin', 'actions'];
 
   events = new MatTableDataSource<Event>();
   offices = new MatTableDataSource<Office>();
@@ -37,6 +40,9 @@ export class AdminListComponent implements OnInit, OnDestroy {
 
   searchFieldEvents;
   searchFieldUsers;
+
+  selectedTab: number = 0;
+  selectedPage: number = 0;
 
   constructor(
     private store$: Store<AppState>,
@@ -49,6 +55,7 @@ export class AdminListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.loadParams();
     this.loadEvents();
     this.loadOffices();
     this.loadUsers();
@@ -60,6 +67,7 @@ export class AdminListComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.store$.pipe(select(fromEvents.getEvents)).subscribe((data: Event[]) => {
         this.events.data = data;
+        this.events.paginator = this.eventPaginator;
       })
     );
   }
@@ -80,6 +88,7 @@ export class AdminListComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.store$.pipe(select(fromUsers.getUsers)).subscribe((data: User[]) => {
         this.users.data = data;
+        this.users.paginator = this.userPaginator;
       })
     );
   }
@@ -275,6 +284,23 @@ export class AdminListComponent implements OnInit, OnDestroy {
           this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
         })
     );
+  }
+
+  loadParams() {
+    this.subscription.add(
+      this.activatedRoute.queryParams.subscribe((params) => {
+        this.selectedPage = params['page'];
+        this.selectedTab = params['tab'];
+      })
+    );
+  }
+
+  onPaginateChange(event) {
+    this.selectedPage = event.pageIndex;
+  }
+
+  onTabChange(tabId: number): void {
+    this.selectedTab = tabId;
   }
 
   ngOnDestroy() {
