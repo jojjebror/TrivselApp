@@ -16,7 +16,7 @@ import * as fromUser from '../../../user/state/users/users.actions';
 import { ActivatedRoute } from "@angular/router";
 import { AuthenticationService } from "src/app/core/services";
 import { filter } from "rxjs/operators";
-import { ConfirmDialogModel, ConfirmDialogComponent } from "src/app/shared/components/confirmDialog/confirmDialog.component";
+import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/dialogs/confirmDialog/confirmDialog.component';
 
 @Component({
   selector: "ex-drink",
