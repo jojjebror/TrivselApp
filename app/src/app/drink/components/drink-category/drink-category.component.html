@@ -52,7 +52,7 @@
     <div class="info">
       <ul *ngIf="drs$">
         <li *ngFor="let dr of drs$ | async" class="tab1">
-          <img class="card-img-top img-thumbnail" [src]="dr.image ? dr.image : '/assets/images/drink-images/default_drink.jpg'" />
+          <img class="card-img-top img-thumbnail" [src]="dr.image ? dr.image : '/assets/images/drink-images/default_drink.png'" />
           <a class="titleProduct">
             {{ dr.productNameBold }} </a> <mat-icon matSuffix class="editIcon" matTooltip="Visa info om dryck" [routerLink] = "['/drink/', dr.id]"> info</mat-icon>
           

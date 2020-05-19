@@ -99,7 +99,7 @@
         <div>
           <a>Bild</a>
           <div *ngIf="dr$ | async; let dr">
-            <img class="card-img-top img-thumbnail" [src]="dr.image ? dr.image : '/assets/images/drink-images/default_drink.jpg'" />
+            <img class="card-img-top img-thumbnail" [src]="dr.image ? dr.image : '/assets/images/drink-images/default_drink.png'" />
               <input type="file" accept="image/*" autocomplete="off" formControlName="image" (change)="loadImage($event.target.files)" />
           </div>
         </div>

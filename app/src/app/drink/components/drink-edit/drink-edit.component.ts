@@ -10,6 +10,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material";
 import { filter } from "rxjs/operators";
 import { ActionTypes } from '../../state/drinks';
+import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
 
 @Component({
   selector: "ex-event-edit",
@@ -24,6 +25,7 @@ export class DrinkEditComponent implements OnInit {
   fileUpload: File = null;
   imageUrl: string;
   private subscription = new Subscription();
+  loadings$ = this.store$.pipe(select(getLoadingData));
   
 
   constructor(
