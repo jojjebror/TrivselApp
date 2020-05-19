@@ -1,0 +1,48 @@
+.mat-dialog-actions {
+    justify-content: center;
+}
+
+:host /deep/ .mat-select-value-text {
+  color: black !important;
+}
+
+.close-button{
+  float: right;
+  top:-24px;
+  right:-24px;
+}
+
+.close-icon {
+  transition: 1s ease-in-out;
+}
+
+.close-icon:hover {
+  transform: rotate(180deg);
+}
+
+.editDialog {
+  margin-top: 30px;
+}
+
+.editDialog ::ng-deep .mat-form-field-underline {
+    background-color: black !important;
+}
+
+
+.editDialog ::ng-deep .mat-form-field.mat-focused {
+    .mat-form-field-ripple {
+        background-color: black!important;
+    }
+    .mat-input-element {
+        color: black!important;
+    }
+    .mat-form-field-label {
+        color: black!important;
+    }
+}
+
+.editDialog ::ng-deep .mat-select-content {
+    color: black !important;
+}
+
+

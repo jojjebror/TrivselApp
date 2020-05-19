@@ -2,7 +2,7 @@
   
   <form [formGroup]="eventEditForm" (ngSubmit)="updateEvent()"
     class="mainForm border border-light p-5">
-    <button mat-icon-button class="close-button" [routerLink]="['/event']">
+    <button mat-icon-button class="close-button" [routerLink]="['/event']" [queryParams]="{ tab: 2}">
       <mat-icon class="close-icon" color="white">close</mat-icon>
     </button>
     <h3 class="text-center">Ändra evenemanget</h3>
@@ -84,21 +84,32 @@
 
     <div class="inviteContainer">
        <div class="officeContainer">
-        <p>Inbjudna deltagare</p>
+        <p class="officeLbl">Inbjudna deltagare</p>
         <mat-selection-list class="form-group invitedList">
           <mat-list-option *ngFor="let invitedP of invitedParticipants$ | async" [value]="invitedP">
             {{ invitedP.name }}
           </mat-list-option>
         </mat-selection-list>
-      </div> 
-      <div class="userContainer">
-        <p>Bjud in ytterligare användare</p>
-        <mat-selection-list class="form-group" #selectedUsers formControlName="users">
-          <mat-list-option *ngFor="let user of users$ | async" [value]="user">
-            {{ user.name }}
-          </mat-list-option>
-        </mat-selection-list>
       </div>
+
+    <div class="userContainer">
+      <mat-form-field appearance="legacy" id="userSearchbar">
+        <input matInput [formControl]="search" placeholder="Bjud in fler användare" autocomplete="off"
+          [(ngModel)]="searchField" />
+        <button mat-button mat-icon-button matSuffix (click)="clearField()" *ngIf="searchField">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-icon matSuffix *ngIf="!searchField">search</mat-icon>
+      </mat-form-field>
+    
+      <mat-selection-list class="form-group" #selectedUsers formControlName="users"
+        (selectionChange)="selectionChange($event.option)">
+        <mat-list-option *ngFor="let user of users$ | async" [value]="user"
+          [selected]="usersControl.value && usersControl.value?.indexOf(user)>=0">
+          {{ user.name }}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
     </div>
 
     <div
@@ -106,7 +117,7 @@
       <button class="btn btn-success" [disabled]="!eventEditForm.dirty || !eventEditForm.valid" type="submit">
         Spara ändringar
       </button>
-      <button class="btn btn-default" type="button" style="color: white;" [routerLink]="['/event']">
+      <button class="btn btn-default" type="button" style="color: white;" [routerLink]="['/event']" [queryParams]="{ tab: 2}">
         Gå tillbaka
       </button>
     </div>

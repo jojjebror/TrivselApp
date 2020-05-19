@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>
+  {{ title }}
+</h1>
+
+<div mat-dialog-content>
+  {{ message }} <br />
+
+  <mat-form-field class="addDialog">
+    <mat-select [(value)]="selectedOffice">
+      <mat-option *ngFor="let office of offices" [value]="office">
+        {{ office.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-raised-button tabindex="-1" color="primary" (click)="onConfirm()">Gå vidare</button>
+</div>

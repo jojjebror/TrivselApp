@@ -10,6 +10,6 @@ export { HomeState } from './home.model';
 export const effects = [fromPodcast.PodcastEffects, fromOffices.OfficesEffects];
 
 export const reducers: ActionReducerMap<HomeState> = {
-  episodes: fromPodcast.reducer,
+  podcast: fromPodcast.reducer,
   offices: fromOffices.reducer
 };

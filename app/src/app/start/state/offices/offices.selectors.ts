@@ -10,7 +10,7 @@ export const selectState = (state: AppState) => state.home.offices;
 
 export const getOffices = createSelector(selectState, selectAll);
 
-export const getUserOffice = (name: string) => createSelector(getOffices, (state) => state.find((office) => office.name === name))
+export const getUserOffice = (name: string) => createSelector(getOffices, (state) => state.find((office) => office.name == name))
 
 export const getOfficesLoading = createSelector(selectState, (state) => state.loading);
 

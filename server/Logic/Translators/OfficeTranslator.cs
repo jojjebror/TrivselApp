@@ -17,7 +17,6 @@ namespace Logic.Translators
                 Adress = office.Adress,
                 SwishNumber = office.SwishNumber,
                 Info = office.Info
-
             };
         }
     }

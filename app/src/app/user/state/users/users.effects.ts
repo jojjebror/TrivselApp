@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class UsersEffects {
-  constructor(private actions$: Actions, private userResource: UserResource,  private router: Router) {}
+  constructor(private actions$: Actions, private userResource: UserResource, private router: Router) {}
 
   @Effect()
   loadUsers$: Observable<Action> = this.actions$.pipe(
@@ -56,7 +56,36 @@ export class UsersEffects {
           }),
           new sessionActions.SetUser(),
         ]),
-          catchError((err) => of(new usersActions.UpdateOfficeError(err)))
+        catchError((err) => of(new usersActions.UpdateOfficeError(err)))
+      )
+    )
+  );
+
+  @Effect()
+  updateAdminStatus$: Observable<Action> = this.actions$.pipe(
+    ofType(usersActions.ActionTypes.UPDATE_ADMIN_STATUS),
+    switchMap((action: usersActions.UpdateAdminStatus) =>
+      this.userResource.updateAdminStatus(action.payload).pipe(
+        switchMap((updatedUser: User) => [
+          new usersActions.UpdateAdminStatusSuccess({
+            id: updatedUser.id,
+            changes: updatedUser,
+          }),
+        ]),
+        catchError((err) => of(new usersActions.UpdateAdminStatusError(err)))
+      )
+    )
+  );
+
+  @Effect()
+  deleteEvent$: Observable<Action> = this.actions$.pipe(
+    ofType(usersActions.ActionTypes.DELETE_USER),
+    map((action: usersActions.DeleteUser) => action.payload),
+    switchMap((id: number) =>
+      this.userResource.deleteUser(id).pipe(
+        map(() => new usersActions.DeleteUserSuccess(id)),
+        //tap(() => this.router.navigate(['/event'])),
+        catchError((err) => of(new usersActions.DeleteUserError(err)))
       )
     )
   );

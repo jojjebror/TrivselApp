@@ -1,5 +1,5 @@
 <div class="container mt-5 border border-light p-5" *ngIf="ev$ | async; let ev">
-  <button mat-icon-button class="close-button" [routerLink]="['/event']">
+  <button mat-icon-button class="close-button" [routerLink]="['/event']" [queryParams]="{ page: selectedPage, tab: selectedTab}">
     <mat-icon class="close-icon" color="white">close</mat-icon>
   </button>
   <div class="row">
@@ -24,15 +24,15 @@
             <strong>När:</strong>
             <p>
               {{ getDayOfWeek(ev.startDate) }}
-              {{ ev.startDate | date: 'd/M/yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }}
+              {{ ev.startDate | date: 'd/M-yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }}
               <span *ngIf="checkEndTime(ev.endDate)"> - {{ ev.endDate | date: 'HH:mm' }} </span>
             </p>
           </div>
           <div *ngIf="!checkDates(ev.startDate, ev.endDate)">
             <strong>När:</strong>
             <p>
-              Starttid: {{ ev.startDate | date: 'd/M/yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }} <br />
-              Sluttid: {{ ev.endDate | date: 'd/M/yyyy' }} kl. {{ ev.endDate | date: 'HH:mm' }}
+              Starttid: {{ ev.startDate | date: 'd/M-yy' }} kl. {{ ev.startDate | date: 'HH:mm' }} <br />
+              Sluttid: {{ ev.endDate | date: 'd/M-yy' }} kl. {{ ev.endDate | date: 'HH:mm' }}
             </p>
           </div>
           <div>
@@ -47,7 +47,7 @@
             <strong>Status:</strong>
             <p style="color: rgb(27, 196, 27);" *ngIf="checkAttendedUsers()">Deltar</p>
             <p style="color: rgb(243, 2, 2);" *ngIf="checkDeclinedUsers()">Avböjt</p>
-            <p *ngIf="!checkDeclinedUsers() && !checkAttendedUsers()">Obsesvarad</p>
+            <p *ngIf="!checkDeclinedUsers() && !checkAttendedUsers()">Obesvarad</p>
           </div>
         </div>
         <div class="card-footer">

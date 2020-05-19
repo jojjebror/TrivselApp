@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
-import * as fromOffices from '../../../start/state/offices/'; 
 import * as officesActions from "../../../start/state/offices/offices.actions";
+import * as fromOffices from "../../../start/state/offices/";
 
 import { User, Office} from '../../../shared/models';
 import { Observable, Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 import * as fromSession from '../../../core/state/session';
 import { AuthenticationService } from 'src/app/core/services';
-import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/components/confirmDialog/confirmDialog.component';
+import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/dialogs/confirmDialog/confirmDialog.component';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 
 
@@ -27,17 +27,14 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
   user: User;
   userCredit: number;
   userInput: number;
+
+  numberToSwish: string;
+
   kontor: string;
-  ofs$: Observable<Office[]>;
-  office: string;
+  ofs$: Observable<Office>;
+  office: Office;
+  
 
-  offices = new MatTableDataSource<Office>();
-  officesArray: Office[];
-
-  officeList = [{listoffice:'Linköping', swishNumber: '0768658080'}, {listoffice:'Örebro', swishNumber: '0735469891'},
-  {listoffice:'Uppsala', swishNumber: '0767606702'}, {listoffice:'Helsingborg', swishNumber: '073'}, {listoffice:'Göteborg', swishNumber: '0735'},
-  {listoffice:'Malmö', swishNumber: '07045'}, {listoffice:'Söderhamn', swishNumber: '07309'}, {listoffice:'Borlänge', swishNumber: '0730922'},
-  {listoffice:'Karlstad', swishNumber: '0703345'}, {listoffice:'Stockholm', swishNumber: '0767606702'}];
 
   constructor(
     private store$: Store<AppState>,
@@ -53,29 +50,12 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
    }
 
   ngOnInit() {
-    setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 1000);
-    setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.office = currentuser.office)) }, 1000);
-    console.log('userid' + this.userId);
-    console.log('credit' + this.userCredit);
+    this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit));
+    this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.kontor = currentuser.office));
      this.createCreditForm();
-     this.getCurrentSwishNumber();
+     this.store$.dispatch(new fromOffices.LoadOffices());
   }
 
-
-  getCurrentSwishNumber() {
-    this.store$.dispatch(new fromOffices.LoadOffices());
-    this.subscription.add(
-      this.store$.pipe(select(fromOffices.getOffices)).subscribe((data: Array<Office>) => {
-        for(let o of data){
-          if(this.office == o.name){
-            console.log(o.swishNumber);
-            let offf = o.swishNumber;
-            return offf;
-          }
-        }
-      }
-    ));
-  }
   createCreditForm() {
       this.userCreditForm = this.fb.group({
         id: [this.userId],
@@ -110,6 +90,17 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
       }
     }));
   }
+  getSwishNumber() {
+   this.store$.dispatch(new officesActions.LoadOffices());
+       this.ofs$ = this.store$.pipe(select(fromOffices.getUserOffice(this.kontor)));
+       this.subscription.add(
+         this.ofs$.subscribe((data: Office) => {
+          console.log(data.swishNumber);
+          this.numberToSwish = data.swishNumber;
+         }));
+         
+         return this.numberToSwish;
+   };
 
   
 
@@ -120,7 +111,7 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
     var initField = {
       "version":1,
       "payee":{
-      "value": this.getCurrentSwishNumber(),
+      "value": this.getSwishNumber(),
       },
       "amount":{
       "value": creditInput

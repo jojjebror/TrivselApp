@@ -12,14 +12,15 @@ namespace Logic.Models
 
         public string Name { get; set; }
 
-        public string Office { get; set; }
-
-        public string Status { get; set; }
-
         public int Credit { get; set; }
 
-        public ICollection<UserEventsDto> Events { get; set; }
+        public bool Admin { get; set; }
 
+        public string Office { get; set; }
+
+        public string Status { get; set; }      
+
+        public ICollection<UserEventsDto> Events { get; set; }
     }
 }
 

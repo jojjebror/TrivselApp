@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared';
 
 import { StartRoutingModule } from './start-routing.module';
+import { components } from './components';
 
 import { views } from './views';
 import { reducers, effects } from './state';
@@ -16,13 +17,12 @@ import { NgxAudioPlayerModule } from 'ngx-audio-player';
     SharedModule,
     StartRoutingModule,
     StoreModule.forFeature('home', reducers),
-    //StoreModule.forFeature('office', reducers),
     EffectsModule.forFeature(effects),
     StoreDevtoolsModule.instrument(),
     NgxAudioPlayerModule,
   ],
   exports: [],
-  declarations: [...views],
+  declarations: [...views, ...components],
   providers: [],
 })
 export class StartModule {}

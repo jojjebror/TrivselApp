@@ -10,6 +10,7 @@ namespace Logic.Database.Entities
         public string Name { get; set; }
         public int Credit { get; set; }
         public string GoogleId { get; set; }
+        public bool Admin { get; set; } = false;
         public int? OfficeId { get; set; }
         public virtual Office Office { get; set; }
         public virtual ICollection<Event> Events { get; set; }

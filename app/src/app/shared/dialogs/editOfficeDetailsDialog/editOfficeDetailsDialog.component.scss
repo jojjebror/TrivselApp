@@ -1,0 +1,73 @@
+.mat-dialog-actions {
+    justify-content: center;
+}
+
+:host /deep/ .mat-select-value-text {
+  color: black !important;
+}
+
+.close-button{
+  float: right;
+  top:-24px;
+  right:-24px;
+}
+
+.close-icon {
+  transition: 1s ease-in-out;
+}
+
+.close-icon:hover {
+  transform: rotate(180deg);
+}
+
+//input outline color
+.editOffice-fields ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: black!important;
+}
+
+//mat-input focused color
+.editOffice-fields ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    color: black !important;
+}
+
+// mat-input error outline color
+.editOffice-fields ::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick{
+    color: black !important;
+    opacity: 0.8 !important;
+}
+
+// mat-input carent color
+.editOffice-fields ::ng-deep .mat-input-element {
+    caret-color: black !important;
+}
+
+// mat-input error carent color
+.editOffice-fields ::ng-deep .mat-form-field-invalid .mat-input-element, .mat-warn .mat-input-element {
+    caret-color: black !important;
+}
+
+// mat-label normal state style
+.editOffice-fields ::ng-deep .mat-form-field-label {
+    color: black !important;
+}
+
+// mat-label focused style
+.editOffice-fields ::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+    color: black !important;
+}
+
+// mat-label error style
+.editOffice-fields ::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label {
+    color: black !important;
+}
+
+// mat-error color
+.editOffice-fields ::ng-deep .mat-error {
+    color: rgb(163, 27, 27);
+}
+
+.border-light {
+  color: grey !important;
+}
+
+
