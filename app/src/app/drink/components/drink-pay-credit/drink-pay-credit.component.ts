@@ -64,8 +64,7 @@ export class DrinkPayCreditComponent implements OnInit, OnDestroy {
             this.router.navigate(['/drink/credit']);
           }
           this.showSnackbar();
-          setTimeout(() => {this.ngOnDestroy() }, 3500);
-            
+         
   }
 
   showSnackbar() {
