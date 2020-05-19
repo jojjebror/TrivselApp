@@ -100,12 +100,11 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
       this.ofs$ = this.store$.pipe(select(fromOffice.getUserOffice(this.kontor)));
       this.subscription1.add(
         this.ofs$.subscribe((data: Office) => {
-         console.log(data.swishNumber);
          this.numberToSwish = data.swishNumber;
         }));
-        
         return this.numberToSwish;
   };
+
   public clickCount() {
     this.clickCounter += 1;
     console.log(this.clickCounter);
@@ -115,9 +114,8 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     else {
       this.snackBar.open(this.clickCounter + ' dryck vald.', '', { duration: 3000 });
     }
-
-    
   }
+
   public clickCountM() {
     if (this.clickCounter > 0) this.clickCounter -= 1;
     console.log(this.clickCounter);
@@ -223,20 +221,16 @@ confirmPurchaseSwish(dr: Drink): void {
         editable: true,
       },
     };
-
-    console.log(initField);
+ console.log(initField);
 
     var newEncode = JSON.stringify(initField);
+      console.log(newEncode);
 
-    console.log(newEncode);
+          var encodedString = encodeURI(newEncode);
+            console.log(encodedString);
 
-    var encodedString = encodeURI(newEncode);
-
-    console.log(encodedString);
-
-    var httpUrl = "swish://payment?data=";
-
-    console.log(httpUrl + encodedString); // var y =  callbackUrl + resultparameter. Lägg till vart swish ska skicka callbackUrl tex'http://exsitecDomän/drink/pay' (resultparamet = ex 'paid')
+               var httpUrl = "swish://payment?data=";
+                console.log(httpUrl + encodedString); // var y =  callbackUrl + resultparameter. Lägg till vart swish ska skicka callbackUrl tex'http://exsitecDomän/drink/pay' (resultparamet = ex 'paid')
   
    // document.location.replace(sendUrl);  var sendUrl = httpUrl + encodedString + callback)
   }

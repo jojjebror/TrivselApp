@@ -34,8 +34,6 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
   ofs$: Observable<Office>;
   office: Office;
   
-
-
   constructor(
     private store$: Store<AppState>,
     private fb: FormBuilder,
@@ -90,20 +88,17 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
       }
     }));
   }
+
   getSwishNumber() {
    this.store$.dispatch(new officesActions.LoadOffices());
        this.ofs$ = this.store$.pipe(select(fromOffices.getUserOffice(this.kontor)));
        this.subscription.add(
          this.ofs$.subscribe((data: Office) => {
-          console.log(data.swishNumber);
           this.numberToSwish = data.swishNumber;
          }));
          
          return this.numberToSwish;
    };
-
-  
-
 
   addEncodedUrl(){
     var creditInput = this.userCreditForm.get('credit').value
@@ -121,7 +116,6 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
       "editable":true
       }
      }
-  
      console.log(initField);
       var newEncode = JSON.stringify(initField);
   
