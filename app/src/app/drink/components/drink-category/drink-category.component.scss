@@ -168,14 +168,15 @@ li {
 
   .img-thumbnail {
     position: static;
-    max-width: 75px;
+    max-width: 80px;
     float: left;
     object-fit: cover;
-    border-radius: 5%;
+    border-radius: 1%;
     max-height: 80px;
-    min-height: 80px;
+    min-height: 100px;
     margin-bottom: 40px;
     margin-right: 2em;
+
   
   }
 
