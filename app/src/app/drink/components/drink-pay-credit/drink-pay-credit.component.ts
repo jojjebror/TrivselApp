@@ -71,7 +71,7 @@ export class DrinkPayCreditComponent implements OnInit, OnDestroy {
   showSnackbar() {
     this.subscription.add(
       this.actionsSubject$.pipe(filter((action: any) => action.type === fromUser.ActionTypes.UPDATE_CREDIT_SUCCESS)).subscribe((action) => {
-        this.snackBar.open('Ditt saldo har uppdaterats', '', { duration: 3000 });
+        this.snackBar.open('Ditt saldo har uppdaterats!', '', { duration: 3000 });
       }) );
 
       this.subscription.add(
