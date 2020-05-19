@@ -219,7 +219,7 @@ confirmPurchaseSwish(dr: Drink): void {
 
     var httpUrl = "swish://payment?data=";
 
-    console.log(httpUrl + encodedString);
+    console.log(httpUrl + encodedString); // var x =  callbackUrl + resultparameter lägg till var swish ska skicka url 'http://vårdomän/drink/pay
   }
 
   showSnackbarSaldo() {
