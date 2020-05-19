@@ -109,10 +109,26 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   public clickCount() {
     this.clickCounter += 1;
     console.log(this.clickCounter);
+    if (this.clickCounter > 1) {
+      this.snackBar.open(this.clickCounter + ' drycker valda.', '', { duration: 3000 });
+    }
+    else {
+      this.snackBar.open(this.clickCounter + ' dryck vald.', '', { duration: 3000 });
+    }
+
+    
   }
   public clickCountM() {
     if (this.clickCounter > 0) this.clickCounter -= 1;
     console.log(this.clickCounter);
+
+    if (this.clickCounter > 1) {
+      this.snackBar.open(this.clickCounter + ' drycker valda.', '', { duration: 3000 });
+    }
+    else {
+      this.snackBar.open(this.clickCounter + ' dryck vald.', '', { duration: 3000 });
+    }
+    
   }
 
   toggleShow() {
@@ -164,7 +180,7 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
       }
     }));
   } else 
-    this.snackBar.open('Du behöver välja en produkt', '', { duration: 3000 });
+    this.snackBar.open('Du har inte valt någon produkt!', '', { duration: 3000 });
 }
 
 confirmPurchaseSwish(dr: Drink): void {
@@ -187,7 +203,7 @@ confirmPurchaseSwish(dr: Drink): void {
       }
     }));
   } else
-    this.snackBar.open('Du behöver välja en produkt', '', { duration: 3000 });
+    this.snackBar.open('Du har inte valt någon produkt!', '', { duration: 3000 });
    }
 
   addEncodedUrl(drink: Drink) {
@@ -225,7 +241,7 @@ confirmPurchaseSwish(dr: Drink): void {
   showSnackbarSaldo() {
     this.subscription1.add(
       this.actionsSubject$.pipe(filter((action: any) => action.type === fromUser.ActionTypes.UPDATE_CREDIT_SUCCESS)).subscribe((action) => {
-        this.snackBar.open('Ditt saldo har uppdaterats', '', { duration: 3000 });
+        this.snackBar.open('Ditt saldo har uppdaterats!', '', { duration: 3000 });
       }) );
 
       this.subscription1.add(
