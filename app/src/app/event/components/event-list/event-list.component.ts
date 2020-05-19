@@ -65,11 +65,12 @@ export class EventListComponent implements OnInit, OnDestroy {
         this.userId = user.sub;
       })
     );
-    breakpointObserver.observe(['(max-width: 650px)']).subscribe((result) => {
+    this.subscription.add(breakpointObserver.observe(['(max-width: 650px)']).subscribe((result) => {
       this.displayedColumnsCreated = result.matches ? ['title', 'date', 'actions'] : ['title', 'location', 'date', 'actions'];
       this.displayedColumnsInvited = result.matches ? ['title2', 'date2', 'actions2'] : ['title2', 'location2', 'date2', 'invited2', 'actions2'];
       this.displayedColumnsAttended = result.matches ? ['title3', 'date3', 'actions3'] : ['title3', 'location3', 'date3', 'invited3', 'actions3'];
-    });
+    })
+    );
   }
 
   ngOnInit() {

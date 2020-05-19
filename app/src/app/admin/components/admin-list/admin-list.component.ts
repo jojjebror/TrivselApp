@@ -55,11 +55,12 @@ export class AdminListComponent implements OnInit, OnDestroy {
     public router: Router,
     public breakpointObserver: BreakpointObserver
   ) {
-    breakpointObserver.observe(['(max-width: 650px)']).subscribe((result) => {
+    this.subscription.add(breakpointObserver.observe(['(max-width: 650px)']).subscribe((result) => {
       this.displayedColumnsUsers = result.matches ? ['name', 'admin', 'actions'] : ['name', 'office', 'admin', 'actions'];
       this.displayedColumnsEvents = result.matches ? ['title', 'date', 'actions'] : ['title', 'location', 'date', 'actions'];
       this.displayedColumnsOffices = result.matches ? ['office', 'swish', 'actions'] : ['office', 'adress', 'swish', 'actions'];
-    });
+    })
+    );
   }
 
   ngOnInit() {
