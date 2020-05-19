@@ -76,7 +76,6 @@ export class DrinkEditComponent implements OnInit {
         this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
       })
     );
-    this.ngOnDestroy();
   }
 
   loadImage(file: FileList) {
