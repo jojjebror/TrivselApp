@@ -190,6 +190,7 @@ confirmPurchaseSwish(dr: Drink): void {
     this.snackBar.open('Du behöver välja en produkt', '', { duration: 3000 });
    }
 
+   
   addEncodedUrl(drink: Drink) {
     var sumPriceToSwish = this.clickCounter * drink.price;
     
@@ -219,7 +220,9 @@ confirmPurchaseSwish(dr: Drink): void {
 
     var httpUrl = "swish://payment?data=";
 
-    console.log(httpUrl + encodedString); // var x =  callbackUrl + resultparameter lägg till var swish ska skicka url 'http://vårdomän/drink/pay
+    console.log(httpUrl + encodedString); // var y =  callbackUrl + resultparameter. Lägg till vart swish ska skicka callbackUrl tex'http://exsitecDomän/drink/pay' (resultparamet = ex 'paid')
+  
+   // document.location.replace(sendUrl);  var sendUrl = httpUrl + encodedString + callback)
   }
 
   showSnackbarSaldo() {
