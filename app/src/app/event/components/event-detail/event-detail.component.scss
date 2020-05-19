@@ -1,6 +1,7 @@
 .container {
   background-color: rgb(37, 2, 48);
   padding: 3rem;
+  margin-top: 3rem;
 }
 
 .close-button{
@@ -111,6 +112,14 @@ h4 {
   font-size: 15px;
 }
 
+::ng-deep .mat-tab-header-pagination-chevron {
+    border-color: white !important;
+  }
+
+::ng-deep .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron {
+    border-color: white !important;
+  }
+
 /* ink bar */
 ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,
 .mat-tab-nav-bar.mat-primary {
@@ -122,7 +131,7 @@ h4 {
   font-size: 18px;
 }
 
-:host /deep/ .mat-list .mat-list-item {
+::ng-deep .mat-list .mat-list-item {
   height: 25px !important;
 }
 
@@ -244,28 +253,6 @@ ul {
 .noCursor {
   color: white;
 }
-/* 
-.invitesList {
-  float: left;
-  padding-right: 12px;
-}
-
-.invitesList ::ng-deep.mat-pseudo-checkbox {
-      display: none !important;
-    }
-.invitesList ::ng-deep.mat-list-text {
-      cursor: none !important;
-    }
-
-  .mat-selection-list {
-  border: 1px solid white;
-  margin-top: 30px;
-  margin-bottom: 20px;
-  min-height: 250px;
-  max-height: 250px;
-  overflow: auto;
-  margin-right: 15px;
-} */
 
 @media (max-width: 1200px) {
   .container {
@@ -282,14 +269,14 @@ ul {
 }
 
   #postContent {
-    width: 400px;
+    width: auto;
     margin: 5px;
   }
 
   textarea {
-    width: 400px;
+    width: 400;
     margin-top: 20px;
-  }
+  } 
 
   ::ng-deep .mat-tab-label .mat-tab-label-content {
   font-size: 16px;
@@ -297,43 +284,32 @@ ul {
 }
 
 
-
 @media (max-width: 1076px) {
   .container {
   padding-top: 0.5rem;
   padding: 0.5rem;
 }
-  /* .invitesList {
-    clear: both;
-    margin: 20px;
-    padding-right: 220px;
-  } */
   .tab-panel {
     height: 600px;
     margin-left: 20px;
   }
 
-  .mat-list {
-    min-height: 0;
-  }
-  .comment-wrapper .panel-body {
-    max-height: 550px;
-    width: 350px;
-  }
+  .close-button{
+  top:-16px;
+  right:-14px;
+}
 
-  #postContent {
-    width: 350px;
-    margin: 5px;
-  }
+.img-thumbnail {
+  margin-top: 20px;
+}
 
-  textarea {
-    width: 350px;
-    margin-top: 20px;
-  }
+.mat-list {
+  min-height: 0;
+}
 }
 
 @media (max-width: 990px) {
-  .comment-wrapper .panel-body {
+   .comment-wrapper .panel-body {
     max-height: 550px;
     width: 290px;
   }
@@ -359,14 +335,15 @@ ul {
 
 
 @media (max-width: 473px) {
-  .comment-wrapper .panel-body {
-    max-height: 550px;
-    width: 285px;
+ .container {
+   margin-top: 1rem;
+ }
+  .row {
+    display: block;
   }
-
   .tab-panel {
     height: 600px;
-    margin-left: 0px;
+    margin-left: 30px;
   }
 
   #postContent {
@@ -377,31 +354,26 @@ ul {
   textarea {
     width: 285px;
     margin-top: 20px;
+  } 
+}
+
+@media (max-width: 411px) {
+  .tab-panel {
+    height: 600px;
+    margin-left: 15px;
   }
 }
 
 @media (max-width: 411px) {
-.comment-wrapper .panel-body {
-    max-height: 550px;
-    width: 245px;
-  }
-
-  #postContent {
-    width: 245px;
-    margin: 5px;
-  }
-
-  textarea {
-    width: 245px;
-    margin-top: 20px;
-  
+  .tab-panel {
+    margin-left: 5px;
   }
 }
 
-  @media (max-width: 340px) {
-  .comment-wrapper .panel-body {
+  @media (max-width: 336px) {
+   .comment-wrapper .panel-body {
     max-height: 550px;
-    width: 190px;
+    width: 250px;
   }
 
   #postContent {
@@ -410,7 +382,7 @@ ul {
   }
 
   textarea {
-    width: 190px;
+    width: 250px;
     margin-top: 20px;
-  }
+  } 
 }

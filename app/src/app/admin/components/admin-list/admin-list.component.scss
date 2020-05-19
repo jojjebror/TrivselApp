@@ -135,6 +135,14 @@
   text-align: right;
 }
 
+::ng-deep .mat-tab-header-pagination-chevron {
+    border-color: white !important;
+  }
+
+::ng-deep .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron {
+    border-color: white !important;
+  }
+
 ::ng-deep .mat-paginator .mat-paginator-container {
   background-color: transparent;
   color: white;
@@ -153,3 +161,10 @@
 ::ng-deep .mat-paginator-range-label {
   color: white;
 }
+
+
+@media (max-width: 454px) {
+.center {
+  margin-right: 6px;
+}
+ }

@@ -1,4 +1,4 @@
-<div class="container mt-5 border border-light" *ngIf="ev$ | async; let ev">
+<div class="container border border-light" *ngIf="ev$ | async; let ev">
   <button mat-icon-button class="close-button" [routerLink]="['/event']" [queryParams]="{ page: selectedPage, tab: selectedTab}">
     <mat-icon class="close-icon" color="white">close</mat-icon>
   </button>
@@ -89,8 +89,7 @@
                     id="commentBox"
                     placeholder="Kommentera..."
                     formControlName="content"
-                    cols="30"
-                    rows="3"
+                    
                     [maxLength]="170"
                     autocomplete="off"
                   ></textarea>
@@ -110,7 +109,7 @@
                             <div>
                               <strong><span class="material-icons" id="userIcon"> account_box </span> {{ post.creatorName }}</strong>
                               <span class="text-muted pull-right">
-                                <small class="text-muted"> - {{ post.created | date: 'dd/M/yyyy-HH:mm' }}</small>
+                                <small class="text-muted"> - {{ post.created | date: 'dd/M-yyyy-HH:mm' }}</small>
                               </span>
 
                               <button *ngIf="post.creatorId == userId"

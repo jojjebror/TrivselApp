@@ -15,10 +15,9 @@
       </mat-card-header>
     </mat-card>
   </div>
-</div>
-
-<div *ngIf="user$ | async">
-  <ex-office-detail [user]="user$ | async"></ex-office-detail>
+  <div *ngIf="user$ | async">
+    <ex-office-detail [user]="user$ | async"></ex-office-detail>
+  </div>
 </div>
 
 <div class="loader">

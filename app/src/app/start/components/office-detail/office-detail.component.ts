@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, OnDestroy, OnChanges } from '@angular/core';
 import { Office, User } from 'src/app/shared/models';
-import { Store, select } from '@ngrx/store';
+import { Store, select, ActionsSubject } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 import * as fromOffices from '../../state/offices';
 import { Observable, Subscription } from 'rxjs';
@@ -9,6 +9,7 @@ import {
   EditOfficeInfoDialogModel,
   EditOfficeInfoDialogComponent,
 } from 'src/app/shared/dialogs/editOfficeInfoDialog/editOfficeInfoDialog.component';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'ex-office-detail',
@@ -22,7 +23,12 @@ export class OfficeDetailComponent implements OnDestroy, OnChanges {
   office$: Observable<Office>;
   subscription = new Subscription();
 
-  constructor(private store$: Store<AppState>, public dialog: MatDialog, private snackBar: MatSnackBar) {}
+  constructor(
+    private store$: Store<AppState>,
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private actionsSubject$: ActionsSubject
+  ) {}
 
   ngOnChanges() {
     this.office$ = this.store$.pipe(select(fromOffices.getUserOffice(this.user.office)));
@@ -41,8 +47,16 @@ export class OfficeDetailComponent implements OnDestroy, OnChanges {
     this.subscription.add(
       dialogRef.afterClosed().subscribe((dialogResult) => {
         if (dialogResult == true) {
-          //this.showSnackbarEditOffice();
+          this.showSnackbarEditOfficeInfo(office.name);
         }
+      })
+    );
+  }
+
+  showSnackbarEditOfficeInfo(office: string) {
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === fromOffices.ActionTypes.UPDATE_OFFICE_SUCCESS)).subscribe((action) => {
+        this.snackBar.open(office + 's information uppdaterades', '', { duration: 3000 });
       })
     );
   }

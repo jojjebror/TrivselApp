@@ -29,7 +29,7 @@ export class NewOfficeDialogComponent implements OnInit {
       name: ['', Validators.required],
       adress: ['', Validators.required],
       swishNumber: [''],
-      info: ['']
+      info: [''],
     });
   }
 

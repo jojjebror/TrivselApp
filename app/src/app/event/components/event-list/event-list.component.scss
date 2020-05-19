@@ -117,6 +117,14 @@ h3 {
   vertical-align: middle;
 }
 
+::ng-deep .mat-tab-header-pagination-chevron {
+    border-color: white !important;
+  }
+
+::ng-deep .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron {
+    border-color: white !important;
+  }
+
 /* active tab */
 ::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
   color: white;
@@ -275,13 +283,13 @@ h3 {
   width: 100px !important;
 }
 
-/*   #editIcon {
-  font-size: 20px;
+  #editIcon {
+  margin-right: 10px;
 }
 
   #declineIcon {
-  font-size: 20px;
-} */
+  margin-right: 10px;
+}
 
   .noDataTable {
   font-size: 15px;
@@ -308,7 +316,6 @@ h3 {
   float: left;
   font-size: 15px;
   width: 150px !important;
-  //margin-right: 25px;
 }
 
 #allEventCalendarSearch {

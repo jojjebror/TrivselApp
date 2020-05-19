@@ -5,7 +5,7 @@
   margin-left: auto;
   margin-right: auto;
   color: white;
-  //height: 1050px;
+  padding: 3rem;
 }
 
 .fixedForm {
@@ -14,7 +14,6 @@
   margin-left: auto;
   margin-right: auto;
   color: white;
-  //height: 1170px;
 }
 
 .form-row {
@@ -243,9 +242,19 @@ textarea {
   margin-left: 10px;
 }
 
+.endtimeBtnMobile {
+  display: none;
+  width: 100%;
+}
+
 .regretBtn {
   padding-top: 20px;
   margin-top: 15px; margin-left: 10px;
+}
+
+.regretBtnMobile {
+  display: none;
+  width: 100%;
 }
 
 .officeLbl {
@@ -296,30 +305,16 @@ textarea {
 
 .mainForm {
   width: 500px;
-  height: 1400px;
-}
-
-.fixedForm {
-  width: 500px;
-  height: 1500px;
-
+  padding: 3rem
 }
 
 .mainBtnGroup {
-  margin-top: 230px;
-}
-
-.fixedBtnGroup {
-  margin-top: 320px;
+  margin-top: 250px;
 }
 
 .registerEventMain {
   width: 500px;
   margin-top: 30px;
-}
-
-mat-form-field {
-  width: 100%;
 }
 
 .officeContainer {
@@ -361,16 +356,8 @@ mat-form-field {
   width: 400px;
 }
 
-.fixedForm {
-  width: 400px;
-}
-
 .registerEventMain {
   width: 400px;
-}
-
-mat-form-field {
-  width: 100%;
 }
 
 .startInput {
@@ -393,19 +380,48 @@ mat-form-field {
 
 .mainForm {
   width: 350px;
-}
-
-.fixedForm {
-  width: 350px;
+  padding: 1.5rem;
 }
 
 .registerEventMain {
   width: 350px;
 }
 
-mat-form-field {
-  width: 100%;
+.endtimeBtn {
+  display: none;
 }
+
+.endtimeBtnMobile {
+  display: block;
+}
+
+.regretBtn {
+  display: none;
+}
+.regretBtnMobile {
+  display: block;
+}
+}
+
+@media (max-width: 378px) {
+
+.mainForm {
+  width: 310px;
+  padding: 0.7rem;
+}
+
+.close-button{
+  float: right;
+  top:-18px;
+  right:-18px;
+}
+
+.registerEventMain {
+  width: 310px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 }
 
 

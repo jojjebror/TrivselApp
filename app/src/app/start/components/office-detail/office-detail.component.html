@@ -1,16 +1,3 @@
-<!-- <div *ngIf="office$ | async; let office">
-  <mat-card>
-    <div>
-      <h5 class="center">Information för {{ office.name }}</h5>
-      <label type="button" mat-icon-button #tooltip="matTooltip" matTooltip="Redigera info" matTooltipPosition="left" (click)="editOfficeInfoDialog(office)">
-        <span class="material-icons" id="editIcon">edit</span>
-      </label>
-    </div>
-    <p>
-      {{ office.info }}
-    </p>
-  </mat-card>
-</div> -->
 
 <div class="sticky" *ngIf="office$ | async; let office">
   <b>Inforuta {{ office.name }}:</b> <label type="button" mat-icon-button #tooltip="matTooltip" matTooltip="Redigera info" matTooltipPosition="left"

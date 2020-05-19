@@ -2,7 +2,7 @@
     justify-content: center;
 }
 
-:host /deep/ .mat-select-value-text {
+::ng-deep .mat-select-value-text {
   color: black !important;
 }
 
