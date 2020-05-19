@@ -21,18 +21,17 @@ import { MatDialog, MatTableDataSource } from '@angular/material';
 })
 export class DrinkCreditComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
+  ofs$: Observable<Office>;
   usr$: Observable<User>;
-  userId: number;
-  userCreditForm: FormGroup;
   user: User;
+  office: Office;
+  userId: number;
   userCredit: number;
   userInput: number;
-
+  
   numberToSwish: string;
-
   kontor: string;
-  ofs$: Observable<Office>;
-  office: Office;
+  userCreditForm: FormGroup;
   
   constructor(
     private store$: Store<AppState>,
@@ -63,7 +62,6 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
 
   addCredit() {
     var creditInput = [this.userCreditForm.get('credit').value]
-    
       this.user = Object.assign({}, this.userCreditForm.value);
         console.log(this.user);
            var data = [this.userId, this.userCreditForm.get('credit').value]
