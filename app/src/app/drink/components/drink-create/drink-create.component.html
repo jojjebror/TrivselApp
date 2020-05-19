@@ -30,8 +30,7 @@
         }"
         class="form-control"
         placeholder="Pris"
-        formControlName="price"
-      >
+        formControlName="price">
         <mat-option value="10">10kr</mat-option>
         <mat-option value="20">20kr</mat-option>
         <mat-option value="30">30kr</mat-option>
@@ -95,18 +94,12 @@
     </div>
 
     <div>
-      <!-- <mat-form-field appearance="outline">
-        <mat-label>Bild-url</mat-label>
-        <img [src]="imageUrl || ''" style="width: 50px;"> -->
         <input
           type="file"
           accept="image/*"
           autocomplete="off"
           formControlName="image"
-          (change)="loadImage($event.target.files)"
-        />
-        <!-- <mat-error *ngIf="eventForm.invalid">Fel filtyp</mat-error> -->
-      <!-- </mat-form-field> -->
+          (change)="loadImage($event.target.files)"/>
       <div class="invalid-feedback">Du måste ange en bild-url</div>
     </div>
 

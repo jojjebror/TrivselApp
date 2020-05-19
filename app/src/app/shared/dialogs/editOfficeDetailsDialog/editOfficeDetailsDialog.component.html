@@ -27,7 +27,8 @@
       <div>
         <mat-form-field class="editOffice-fields" appearance="outline">
           <mat-label>Ändra ansvarig för swish</mat-label>
-          <input type="text" matInput formControlName="swishNumber" [maxLength]="15" autocomplete="off">
+          <span>+46 &nbsp; </span>
+          <input type="tel" matInput formControlName="swishNumber" [maxLength]="15" autocomplete="off">
         </mat-form-field>
       </div>
 
