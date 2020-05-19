@@ -29,28 +29,25 @@ import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/dialo
 export class DrinkCategoryComponent implements OnInit, OnDestroy {
   subscription1 = new Subscription();
   drs$: Observable<Drink[]>;
-  userCreditForm: FormGroup;
-  usr$: Observable<User>;
-  ofs$: Observable<Office>;
-  userId: number;
-  user: User;
+  dr$: Observable<Drink>;
   dr: Drink;
+  usr$: Observable<User>;
+  userCreditForm: FormGroup;
+  ofs$: Observable<Office>;
+  user: User;
   kontor: string;
   numberToSwish: string;
-
-
-  dr$: Observable<Drink>;
-  id: number;
+  
+  
   isShown: boolean = false; // hidden by default
-
+  
+  userId: number;
+  id: number;
   clickCounter: number = 0;
   totalSum: number = 0;
   userCredit: number;
   category = [{name:'Budget', price: 10,}, {name:'Standard', price: 15,}, {name:'Luxury', price: 20,}];
-  officeList = [{kontor:'Linköping', swishNumber: '0768658080'}, {kontor:'Örebro', swishNumber: '0735469891'},
-  {kontor:'Uppsala', swishNumber: '0767606702'}, {kontor:'Helsingborg', swishNumber: '073'}, {kontor:'Göteborg', swishNumber: '0735'},
-  {kontor:'Malmö', swishNumber: '07045'}, {kontor:'Söderhamn', swishNumber: '07309'}, {kontor:'Borlänge', swishNumber: '0730922'},
-  {kontor:'Karlstad', swishNumber: '0703345'}, {kontor:'Stockholm', swishNumber: '0767606702'}];
+  
 
   constructor(
     private store$: Store<AppState>, private snackBar: MatSnackBar,
@@ -92,12 +89,6 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   public initializeFilterCider(): void {
     this.store$.dispatch(new drinksActions.FilterDrink("Cider"));
       this.drs$ = this.store$.select(fromDrink.getFilterDrinks);
-  }
-
-  public getClickedId() {
-    var id = Number(this.route.snapshot.paramMap.get("id"));
-     this.id = id;
-         return id;
   }
 
   editDrink(id: number) {
