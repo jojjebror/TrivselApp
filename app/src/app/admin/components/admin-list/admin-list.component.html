@@ -1,10 +1,10 @@
 <div class="container justify-content-center">
 <div class="tab-panel">
 <mat-tab-group dynamicHeight [selectedIndex]="selectedTab" (selectedIndexChange)="onTabChange($event)">
-	<mat-tab label="Hantera evenemang">
+	<mat-tab label="Administrera evenemang">
 			<div class="table-holder">
 				 <mat-toolbar>
-					<div class="tableTitle">Evenemang</div>
+					<div class="tableTitle">Hantera evenemang</div>
 					<div class="spacer">
 						<mat-form-field appearance="legacy" id="searchbar">
 							<input [(ngModel)]="searchFieldEvents" matInput type="text"
@@ -22,7 +22,7 @@
 					*ngIf="events.data.length > 0">
 					<ng-container matColumnDef="title">
 						<mat-header-cell *matHeaderCellDef>Titel</mat-header-cell>
-						<mat-cell id="cell-cursor" [routerLink]="['/event', ev.id]"
+						<mat-cell id="cell-cursor" [routerLink]="['/event', ev.id]" [queryParams]="{ a: true}"
 							*matCellDef="let ev">{{ ev.title }}</mat-cell>
 					</ng-container>
 			
@@ -68,10 +68,10 @@
 			</div>
 			<mat-paginator #eventPaginator class="listPaginator" [length]="events.data.length" [pageSize]="15" [pageSizeOptions]="[15, 30]"></mat-paginator>
 		</mat-tab>
-	<mat-tab label="Hantera kontor">
+	<mat-tab label="Administrera kontor">
 		<div class="table-holder">
 			<mat-toolbar>
-				<div class="tableTitle">Kontor</div>
+				<div class="tableTitle">Utför ändringar av specifika kontor</div>
 				<div class="spacer">
 				<button class="btn btn-primary" (click)="addOfficeDialog()">
 					Nytt kontor
@@ -114,10 +114,10 @@
 			<hr />
 		</div>
 	</mat-tab>
-	<mat-tab label="Hantera användare">
+	<mat-tab label="Administrera användare">
 	<div class="table-holder">
 		<mat-toolbar>
-			<div class="tableTitle">Användare</div>
+			<div class="tableTitle">Hantera användarnas behörigheter</div>
 			<div class="spacer">
 				<mat-form-field appearance="legacy" id="searchbar">
 					<input [(ngModel)]="searchFieldUsers" matInput type="text"
