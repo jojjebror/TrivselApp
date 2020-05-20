@@ -99,8 +99,11 @@
           accept="image/*"
           autocomplete="off"
           formControlName="image"
-          (change)="loadImage($event.target.files)"/>
-      <div class="invalid-feedback">Du måste ange en bild-url</div>
+          (change)="fileProgress($event)"/>
+
+          <div *ngIf="imageUrl">
+            <img [src]="imageUrl" style="width: 100px; margin-top: 15px;" />
+          </div>
     </div>
 
     <hr />

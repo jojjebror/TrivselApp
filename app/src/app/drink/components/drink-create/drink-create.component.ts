@@ -23,7 +23,7 @@ export class DrinkCreateComponent implements OnInit {
   drink: Drink;
   drinkForm: FormGroup;
   fileUpload: File = null;
-  imageUrl: string;
+  imageUrl: any = null;
   subscription = new Subscription();
 
 
@@ -56,20 +56,29 @@ export class DrinkCreateComponent implements OnInit {
       this.drink = Object.assign({}, this.drinkForm.value);
       this.store$.dispatch(new fromDrink.CreateDrink(this.drink, this.fileUpload));
 
-      this.subscription.add(
-        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.CREATE_DRINK_SUCCESS)).subscribe((action) => {
-          var title = action.payload.title;
-          this.snackBar.open(title + ' är nu tillagd i dryckeslistan', '', { duration: 2500 });
-        })
-      );
-    
-      this.subscription.add(
-        this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPLOAD_IMAGE_SUCCESS)).subscribe((action) => {
-          this.snackBar.open('Drycken är nu tillagd i listan', '', { duration: 2500 });
-        })
-      );
+      this.showSnackbar();
     }
   }
+
+  fileProgress(fileInput: any) {
+    this.fileUpload = <File>fileInput.target.files[0];
+    this.imagePreview();
+  }
+
+  imagePreview() {
+    var mimeType = this.fileUpload.type;
+    if (mimeType.match(/image\/*/) == null) {
+      return;
+    }
+
+    var reader = new FileReader();
+    reader.readAsDataURL(this.fileUpload);
+    reader.onload = (_event) => {
+      this.imageUrl = reader.result;
+    };
+  }
+
+
 
   loadImage(file: FileList) {
     this.fileUpload = file.item(0);
@@ -80,7 +89,6 @@ export class DrinkCreateComponent implements OnInit {
     if (control.value) {
       if (this.fileUpload) {
         const allowedInput = '/image-*/';
-        //const fileExtension = this.fileUpload.name.split('.').pop().toLowerCase();
         const fileExtension = this.fileUpload.type;
         console.log(fileExtension);
         if (fileExtension.match(allowedInput)) {
@@ -90,6 +98,30 @@ export class DrinkCreateComponent implements OnInit {
       }
     }
   }
+
+  showSnackbar() {
+
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.CREATE_DRINK_SUCCESS)).subscribe((action) => {
+        this.snackBar.open('Drycken är nu tillagt i dryckeslistan', '', { duration: 2500 });
+      })
+    );
+
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.CREATE_DRINK_ERROR)).subscribe((action) => {
+        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
+       
+      })
+    );
+
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPLOAD_IMAGE_SUCCESS)).subscribe((action) => {
+
+        this.snackBar.open('Drycken är nu tillagt i listan', '', { duration: 5000});
+      })
+    );
+  }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }

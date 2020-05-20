@@ -30,36 +30,15 @@ export enum ActionTypes {
   FILTER_DRINK_SUCCESS = "[API: /drink] Filter Drink success",
   FILTER_DRINK_ERROR = "[API: /drink] Filter Drink error",
 
-  UPLOAD_IMAGE = '[Drinks view] Save Image',
-  UPLOAD_IMAGE_SUCCESS = '[API: /drink] Save Image success',
-  UPLOAD_IMAGE_ERROR = '[API: /drink] Save Image error',
+  UPLOAD_IMAGE = '[Drinks view] Upload Image',
+  UPLOAD_IMAGE_SUCCESS = '[API: /drink] Upload Image success',
+  UPLOAD_IMAGE_ERROR = '[API: /drink] Upload Image error',
 
   UPDATE_IMAGE = '[Drinks view] Update Image',
   UPDATE_IMAGE_SUCCESS = '[API: /drink] Update Image success',
   UPDATE_IMAGE_ERROR = '[API: /drink] Update Image error',
 
 
-}
-
-
-/*--------------UpdateImage--------------*/
-
-export class UpdateImage implements Action {
-  readonly type = ActionTypes.UPDATE_IMAGE;
-
-  constructor(public id: number, public payload: File) {}
-}
-
-export class UpdateImageSuccess implements Action {
-  readonly type = ActionTypes.UPDATE_IMAGE_SUCCESS;
-
-  constructor(public payload: boolean) {}
-}
-
-export class UpdateImageError implements Action {
-  readonly type = ActionTypes.UPDATE_IMAGE_ERROR;
-
-  constructor(public payload: string) {}
 }
 
 
