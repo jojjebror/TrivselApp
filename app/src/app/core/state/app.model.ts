@@ -22,7 +22,6 @@ export interface AppState {
 
 	session: SessionState;
 
-
 	event?: EventState;
 	
 	drink?: DrinkState;
