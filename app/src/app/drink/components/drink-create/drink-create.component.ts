@@ -101,25 +101,8 @@ export class DrinkCreateComponent implements OnInit {
 
   showSnackbar() {
 
-    this.subscription.add(
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.CREATE_DRINK_SUCCESS)).subscribe((action) => {
-        this.snackBar.open('Drycken är nu tillagt i dryckeslistan', '', { duration: 2500 });
-      })
-    );
-
-    this.subscription.add(
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.CREATE_DRINK_ERROR)).subscribe((action) => {
-        this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 5000 });
-       
-      })
-    );
-
-    this.subscription.add(
-      this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPLOAD_IMAGE_SUCCESS)).subscribe((action) => {
-
-        this.snackBar.open('Drycken är nu tillagt i listan', '', { duration: 5000});
-      })
-    );
+    this.snackBar.open(this.drink.productNameBold + ' är nu tillagd i dryckeslistan!', '', { duration: 2500 });
+      
   }
 
   ngOnDestroy() {
