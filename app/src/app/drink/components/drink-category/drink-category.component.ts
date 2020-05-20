@@ -150,7 +150,7 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     if (this.clickCounter > 0) this.clickCounter -= 1;
     console.log(this.clickCounter);
 
-    if (this.clickCounter > 1) {
+    if (this.clickCounter > 1 || this.clickCounter == 0) {
       this.snackBar.open(this.clickCounter + " drycker valda.", "", {
         duration: 3000,
       });
