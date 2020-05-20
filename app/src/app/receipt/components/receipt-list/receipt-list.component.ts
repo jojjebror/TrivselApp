@@ -12,7 +12,6 @@ import * as fromReceipt from "../../state/receipts/receipts.selectors";
 import * as asReceipt from "../../state/receipts/receipts.actions";
 import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
-import { AlertifyService } from "src/app/core/services/alertify.service";
 import { MatSnackBar, MatTableDataSource, MatDialog, MatTabChangeEvent } from "@angular/material";
 import * as fromSession from '../../../core/state/session'
 import { AuthenticationService } from "src/app/core/services";

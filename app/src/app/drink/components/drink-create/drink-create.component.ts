@@ -39,7 +39,7 @@ export class DrinkCreateComponent implements OnInit {
     this.createDrinkForm();
     console.log(this.drinkForm);
   }
-
+//creates a drinkform with specified fields
   createDrinkForm() {
     this.drinkForm = this.fb.group({
       productNameBold: ['', Validators.required],
@@ -50,14 +50,13 @@ export class DrinkCreateComponent implements OnInit {
       image: [null],
     });
   }
-
+//creates a new drink object 
   createDrink() {
     if (this.drinkForm.valid) {
       this.drink = Object.assign({}, this.drinkForm.value);
       this.store$.dispatch(new fromDrink.CreateDrink(this.drink, this.fileUpload));
 
       this.showSnackbar();
-
     }
   }
 

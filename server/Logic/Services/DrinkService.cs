@@ -25,14 +25,14 @@ namespace Logic.Services
             _cloudinaryService = new CloudinaryService();
         }
 
-
+        //Gets all the drink-objects.
         public async Task<ICollection<DrinkForListDto>> GetDrinks()
         {
             var dbDrinks = await _context.Drinks.ToListAsync();
             return dbDrinks.Select(DrinkForListTranslator.ToModel).ToList();
         }
 
-
+        //Filters the objects in Drink, based on it's category name. 
         public async Task<ICollection<DrinkForListDto>> FilterDrink(string category)
         {
 
@@ -75,7 +75,7 @@ namespace Logic.Services
         {
             throw new NotImplementedException();
         }
-
+        //Gets a drink-object based on its id. 
         public async Task<DrinkForListDto> GetDrink(int id)
         {
             var dbDrink = await _context.Drinks
@@ -85,22 +85,7 @@ namespace Logic.Services
             return dr;
 
         }
-
-        //public async Task <ICollection<DrinkForListDto>> FilterDrinks()
-        //{
-
-        //    var filter = await _context.Drinks.Where(d => d.Category == "Vin").ToListAsync();
-
-        //    if (filter != null)
-        //    {
-        //        return filter.Select(DrinkForListTranslator.ToModel).ToList();
-        //    }
-
-
-        //    return null;
-        //}
-
-
+        //Creates a drink object with the listed paramteters below. 
         public async Task<DrinkForListDto> Create(DrinkForListDto drink)
         {
             var dr = new Drink()
@@ -124,7 +109,7 @@ namespace Logic.Services
         }
 
 
-
+        //Deletes a specified drink-object based on its id. 
         public async Task<int> DeleteDrink(int id)
         {
             var dbDrink = await _context.Drinks.FirstOrDefaultAsync(e => e.Id == id);
@@ -139,7 +124,7 @@ namespace Logic.Services
             return id;
         }
 
-       
+       //Updates a drink-object with same parameters but different values. 
         public async Task<DrinkForUpdateDto> Update(int id, DrinkForUpdateDto dr)
         {
             var dbDrink = await _context.Drinks
@@ -155,7 +140,7 @@ namespace Logic.Services
 
             return DrinkForUpdateTranslator.ToModel(dbDrink);
         }
-
+        //Image upload.
         public async Task<DrinkForListDto> UploadDrinkImage(int id, IFormFile image)
         {
             var dbDrink = await _context.Drinks.FindAsync(id);
