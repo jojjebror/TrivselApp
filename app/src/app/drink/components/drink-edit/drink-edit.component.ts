@@ -45,7 +45,7 @@ export class DrinkEditComponent implements OnInit {
   }
   //creates a form for editing existing drinks with the required parameters.
   createDrinkEditForm() {
-    this.dr$.subscribe((dr) => {
+   let sub = this.dr$.subscribe((dr) => {
       this.drinkEditForm = this.fb.group({
         id: [dr.id],
         productNameBold: [dr.productNameBold, Validators.required],
@@ -55,6 +55,7 @@ export class DrinkEditComponent implements OnInit {
         image: [null]
       });
     });
+    sub.unsubscribe();
   }
   //updates the drink with the filled in parameters. Only able to update if the drinkform is valid.
   updateDrink() {
@@ -85,5 +86,6 @@ export class DrinkEditComponent implements OnInit {
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    
   }
 }
