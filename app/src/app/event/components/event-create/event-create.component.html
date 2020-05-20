@@ -1,7 +1,7 @@
 <div class="registerEventMain">
   <form
     [formGroup]="eventForm"
-    class="mainForm border border-light p-5" (ngSubmit)="createEvent()"
+    class="mainForm border border-light" (ngSubmit)="createEvent()"
   >
     <button mat-icon-button class="close-button" [routerLink]="['/event']">
       <mat-icon class="close-icon" color="white">close</mat-icon>
@@ -71,6 +71,10 @@
       </div>
     </div>
 
+    <div *ngIf="!endDateMode" class="form-group endtimeBtnMobile">
+      <a (click)="endDateToggle()">+Sluttid</a>
+    </div>
+
     <div *ngIf="endDateMode" class="form-row endInput" id="sectionEndDate">
       <div class="endDateInput">
         <mat-form-field appearance="outline">
@@ -101,6 +105,10 @@
       <div class="form-group regretBtn col-xs-2 col-sm-2 col-md-2 col-lg-2">
         <a (click)="endDateToggle()">- Ångra</a>
       </div>
+    </div>
+
+    <div *ngIf="endDateMode" class="form-group regretBtnMobile">
+      <a (click)="endDateToggle()">-Ångra</a>
     </div>
 
     <div class="inviteContainer">

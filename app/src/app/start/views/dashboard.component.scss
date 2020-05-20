@@ -121,5 +121,23 @@ img {
 
 /*-----Mobile------*/
 
-@media (max-width: 414px) {
+@media (max-width: 800px) {
+.startContainer {
+  width: 90%;
+}
+
+  .frontImg {
+  margin-top: 50px;
+  width: 98%;
+}
+}
+
+@media (max-width: 500px) {
+  .mat-card {
+  width: 98%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 }
