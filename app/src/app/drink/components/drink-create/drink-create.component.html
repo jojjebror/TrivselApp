@@ -32,7 +32,9 @@
         placeholder="Pris"
         formControlName="price">
         <mat-option value="10">10kr</mat-option>
+        <mat-option value="15">15kr</mat-option>
         <mat-option value="20">20kr</mat-option>
+        <mat-option value="25">25kr</mat-option>
         <mat-option value="30">30kr</mat-option>
       </mat-select>
       <div class="invalid-feedback">
@@ -65,8 +67,10 @@
         placeholder="Volym"
         formControlName="volume"
       >
+      <mat-option value="25">25cl</mat-option>
         <mat-option value="33">33cl</mat-option>
         <mat-option value="50">50cl</mat-option>
+        <mat-option value="75">75cl</mat-option>
         <mat-option value="100">100cl</mat-option>
       </mat-select>
       <div class="invalid-feedback">
@@ -94,7 +98,7 @@
     </div>
 
     <div>
-        <input
+        <input class="img-upload"
           type="file"
           accept="image/*"
           autocomplete="off"
