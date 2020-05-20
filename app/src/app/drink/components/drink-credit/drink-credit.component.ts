@@ -52,7 +52,7 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
      this.createCreditForm();
      this.store$.dispatch(new fromOffices.LoadOffices());
   }
-
+  //creates a credit form with two fields
   createCreditForm() {
       this.userCreditForm = this.fb.group({
         id: [this.userId],
@@ -69,7 +69,7 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
     
     this.addEncodedUrl();
   }
-
+  //message dialog with confirm or cancel. If confirm, runs addCredit()
   confirmCredit(): void {
     var creditInput = [this.userCreditForm.get('credit').value]
     const message = 'Är du säker på att du vill sätta in ' + creditInput + 'kr?' ;
@@ -86,7 +86,7 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
       }
     }));
   }
-
+  //Gets the number to swish based on selected office
   getSwishNumber() {
    this.store$.dispatch(new officesActions.LoadOffices());
        this.ofs$ = this.store$.pipe(select(fromOffices.getUserOffice(this.kontor)));
@@ -97,7 +97,8 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
          
          return this.numberToSwish;
    };
-
+   
+//Gets the required parameters necessary to perform a payment in swish. Puts the parameters in a encoded url which opens swish app.
   addEncodedUrl(){
     var creditInput = this.userCreditForm.get('credit').value
     

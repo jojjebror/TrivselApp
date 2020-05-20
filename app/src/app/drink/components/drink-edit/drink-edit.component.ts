@@ -43,7 +43,7 @@ export class DrinkEditComponent implements OnInit {
     this.createDrinkEditForm();
     console.log(this.drinkEditForm);
   }
-
+  //creates a form for editing existing drinks with the required parameters.
   createDrinkEditForm() {
     this.dr$.subscribe((dr) => {
       this.drinkEditForm = this.fb.group({
@@ -56,17 +56,17 @@ export class DrinkEditComponent implements OnInit {
       });
     });
   }
-
+  //updates the drink with the filled in parameters. Only able to update if the drinkform is valid.
   updateDrink() {
     if (this.drinkEditForm.valid) {
       const dr = Object.assign({}, this.drinkEditForm.value);
       console.log(dr);
       this.store$.dispatch(new fromDrink.UpdateDrink(dr, this.fileUpload));
-      this.snackbar();
+      this.updateDrinkSnackbar();
     }
   }
-
-  snackbar(){
+  //shows a snackbar message with either the message that the drinks was updated or that something went wrong. 
+  updateDrinkSnackbar(){
     this.subscription.add(
       this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPDATE_DRINK_SUCCESS)).subscribe((action) => {
         this.snackBar.open('Drycken är nu uppdaterad', '', { duration: 2500 });

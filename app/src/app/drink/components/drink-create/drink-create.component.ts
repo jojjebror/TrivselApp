@@ -39,7 +39,7 @@ export class DrinkCreateComponent implements OnInit {
     this.createDrinkForm();
     console.log(this.drinkForm);
   }
-
+//creates a drinkform with specified fields
   createDrinkForm() {
     this.drinkForm = this.fb.group({
       productNameBold: ['', Validators.required],
@@ -50,7 +50,7 @@ export class DrinkCreateComponent implements OnInit {
       image: [null],
     });
   }
-
+//creates a new drink object 
   createDrink() {
     if (this.drinkForm.valid) {
       this.drink = Object.assign({}, this.drinkForm.value);
@@ -59,13 +59,13 @@ export class DrinkCreateComponent implements OnInit {
       this.subscription.add(
         this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.CREATE_DRINK_SUCCESS)).subscribe((action) => {
           var title = action.payload.title;
-          this.snackBar.open(title + ' är nu tillagt i evenemangslistan', '', { duration: 2500 });
+          this.snackBar.open(title + ' är nu tillagd i dryckeslistan', '', { duration: 2500 });
         })
       );
     
       this.subscription.add(
         this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPLOAD_IMAGE_SUCCESS)).subscribe((action) => {
-          this.snackBar.open('Drycken är nu tillagt i listan', '', { duration: 2500 });
+          this.snackBar.open('Drycken är nu tillagd i listan', '', { duration: 2500 });
         })
       );
     }
