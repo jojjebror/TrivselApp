@@ -11,28 +11,28 @@
   
     <form [formGroup]="officeEditForm" class="mainForm border border-light p-5">
       <div>
-        <mat-form-field class="editOffice-fields" appearance="outline">
+        <mat-form-field class="edit-fields" appearance="outline">
           <mat-label>Ändra namn</mat-label>
           <input type="text" matInput formControlName="name" [maxLength]="30" autocomplete="off" />
         </mat-form-field>
       </div>
   
       <div>
-        <mat-form-field class="editOffice-fields" appearance="outline">
+        <mat-form-field class="edit-fields" appearance="outline">
           <mat-label>Ändra adress</mat-label>
           <input type="text" matInput formControlName="adress" [maxLength]="20" autocomplete="off" />
         </mat-form-field>
       </div>
   
       <div>
-        <mat-form-field class="editOffice-fields" appearance="outline">
+        <mat-form-field class="edit-fields" appearance="outline">
           <mat-label>Ändra ansvarig för swish</mat-label>
           <input type="text" matInput formControlName="swishNumber" [maxLength]="15" autocomplete="off">
         </mat-form-field>
       </div>
 
       <div>
-        <mat-form-field class="editOffice-fields txtarea" appearance="outline" hintLabel="Max 150 tecken">
+        <mat-form-field class="edit-fields txtarea" appearance="outline" hintLabel="Max 150 tecken">
           <mat-label>Extra information</mat-label>
           <textarea #txtarea matInput formControlName="info" [maxLength]="150" autocomplete="off"
             placeholder="Ex portkod.."></textarea>

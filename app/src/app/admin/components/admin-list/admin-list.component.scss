@@ -6,6 +6,10 @@
   cursor: pointer;
 }
 
+#cell-default {
+  cursor: default !important;
+}
+
 ::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
     background-color: green;
 }
@@ -122,8 +126,6 @@
   color: white;
   font-size: 18px;
 }
-
-
 
 #searchbar {
   font-size: 14px;

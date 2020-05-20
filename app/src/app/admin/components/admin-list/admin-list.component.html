@@ -81,7 +81,7 @@
 			<mat-table class="lessons-table mat-elevation-z8" [dataSource]="offices" matSort *ngIf="offices.data.length > 0">
 				<ng-container matColumnDef="office">
 					<mat-header-cell *matHeaderCellDef>Kontor</mat-header-cell>
-					<mat-cell id="cell-cursor" *matCellDef="let office">{{ office.name }}</mat-cell>
+					<mat-cell id="cell-default" *matCellDef="let office">{{ office.name }}</mat-cell>
 				</ng-container>
 		
 				<ng-container matColumnDef="adress">
@@ -132,12 +132,12 @@
 		<mat-table class="lessons-table mat-elevation-z8" [dataSource]="users" matSort *ngIf="users.data.length > 0">
 			<ng-container matColumnDef="name">
 				<mat-header-cell *matHeaderCellDef>Namn</mat-header-cell>
-				<mat-cell id="cell-cursor" *matCellDef="let user">{{ user.name }}</mat-cell>
+				<mat-cell id="cell-default" *matCellDef="let user">{{ user.name }}</mat-cell>
 			</ng-container>
 
 			<ng-container matColumnDef="office">
 				<mat-header-cell *matHeaderCellDef>Kontor</mat-header-cell>
-				<mat-cell id="cell-cursor" *matCellDef="let user">{{ user.office }}</mat-cell>
+				<mat-cell *matCellDef="let user">{{ user.office }}</mat-cell>
 			</ng-container>
 	
 		    <ng-container matColumnDef="admin">
