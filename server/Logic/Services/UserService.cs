@@ -107,7 +107,9 @@ namespace Logic.Services
 
         public async Task<int> DeleteUser(int id)
         {
-            var dbUser = await _context.Users.FindAsync(id);
+            var dbUser = await _context.Users.Include(b => b.Events)
+                                          .Include(b => b.EventParticipants)
+                                          .FirstOrDefaultAsync(b => b.Id == id);
 
             _context.Users.Remove(dbUser);
             await _context.SaveChangesAsync();

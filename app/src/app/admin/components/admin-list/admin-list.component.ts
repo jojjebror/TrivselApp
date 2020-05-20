@@ -15,6 +15,7 @@ import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/dialo
 import { EditOfficeDetailsDialogModel, EditOfficeDetailsDialogComponent } from 'src/app/shared/dialogs/editOfficeDetailsDialog/editOfficeDetailsDialog.component';
 import { NewOfficeDialogComponent, NewOfficeDialogModel } from 'src/app/shared/dialogs/newOfficeDialog/newOfficeDialog.component';
 import { filter } from 'rxjs/operators';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'ex-admin-list',
@@ -51,8 +52,16 @@ export class AdminListComponent implements OnInit, OnDestroy {
     private actionsSubject$: ActionsSubject,
     public dialog: MatDialog,
     public activatedRoute: ActivatedRoute,
-    public router: Router
-  ) {}
+    public router: Router,
+    public breakpointObserver: BreakpointObserver
+  ) {
+    this.subscription.add(breakpointObserver.observe(['(max-width: 650px)']).subscribe((result) => {
+      this.displayedColumnsUsers = result.matches ? ['name', 'admin', 'actions'] : ['name', 'office', 'admin', 'actions'];
+      this.displayedColumnsEvents = result.matches ? ['title', 'date', 'actions'] : ['title', 'location', 'date', 'actions'];
+      this.displayedColumnsOffices = result.matches ? ['office', 'swish', 'actions'] : ['office', 'adress', 'swish', 'actions'];
+    })
+    );
+  }
 
   ngOnInit() {
     this.loadParams();

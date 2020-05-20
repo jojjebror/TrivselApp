@@ -2,7 +2,7 @@
     justify-content: center;
 }
 
-:host /deep/ .mat-select-value-text {
+::ng-deep .mat-select-value-text {
   color: black !important;
 }
 
@@ -27,5 +27,9 @@
 }
 
 .addDialog ::ng-deep .mat-select-content {
+    color: black !important;
+}
+
+.addDialog ::ng-deep .mat-select-arrow {
     color: black !important;
 }
