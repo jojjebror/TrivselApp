@@ -8,8 +8,6 @@ namespace Logic.Services
 {
     public class CloudinaryService
     {
-        //trivselapp@gmail.com Exsitec123!
-
         private readonly Cloudinary _cloudinaryService;
 
         public CloudinaryService()

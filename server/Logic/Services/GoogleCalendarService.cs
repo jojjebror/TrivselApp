@@ -16,8 +16,6 @@ namespace Logic.Services
 {
     public class GoogleCalendarService
     {
-        // trivselapp@gmail.com exsitec123
-        
         private readonly CalendarService _calendarService;
 
         private readonly string calendarId = "primary"; //primary
