@@ -86,6 +86,9 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   }
   //Displays drinks in separate categories based on the selected tabs
   onLinkClick(event: MatTabChangeEvent) {
+    if (event.index == 0){
+      this.clickCounter = 0;
+    }
     if (event.index == 1){
       this.initializeFilterBeer();
       this.clickCounter = 0;
