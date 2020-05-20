@@ -8,6 +8,7 @@
 }
 
 .container {
+  margin-top: 80px;
   animation: fadeInAnimation ease 2s;
   animation-iteration-count: 1s;
   animation-fill-mode:forwards;
@@ -160,6 +161,10 @@ a {
 
   .desktopInfo {
     display: block;
+  }
+
+  .container {
+    margin-top: 20px;
   }
 
   
