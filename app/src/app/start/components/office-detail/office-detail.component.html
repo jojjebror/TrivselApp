@@ -1,13 +1,13 @@
 <div class="notes">
   <div class="sticky" *ngIf="users$ | async">
-    <b>Jobbar här:</b>
+    <b>{{ user.office }}s användare:</b>
     <ul class="list-unstyled">
       <li *ngFor="let user of users$ | async">{{ user.name }}</li>
     </ul>
   </div>
 
   <div class="sticky2" *ngIf="office$ | async; let office">
-    <b>Inforuta {{ office.name }}:</b>
+    <b>Information:</b>
     <label
       type="button"
       mat-icon-button
