@@ -47,10 +47,11 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
    }
 
   ngOnInit() {
-    this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit));
+    let sub = this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit));
     this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.kontor = currentuser.office));
      this.createCreditForm();
      this.store$.dispatch(new fromOffices.LoadOffices());
+     sub.unsubscribe();
   }
   //creates a credit form with two fields
   createCreditForm() {
