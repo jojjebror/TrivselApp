@@ -7,7 +7,6 @@ import { Event, User, Office } from 'src/app/shared/models';
 import * as fromEvents from '../../state/events';
 import * as fromUsers from '../../../user/state/users';
 import * as fromOffices from '../../../start/state/offices';
-import * as fromUser from '../../../user/state/users/users.selectors';
 
 import { Observable, Subscription, of } from 'rxjs';
 import { DateAdapter, MatSnackBar } from '@angular/material';
@@ -25,7 +24,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./event-create.component.scss'],
 })
 export class EventCreateComponent implements OnInit, OnDestroy {
-  @Output() cancelNewEvent = new EventEmitter();
+  //@Output() cancelNewEvent = new EventEmitter();
   subscription = new Subscription();
   loadings$ = this.store$.pipe(select(getLoadingData));
   event: Event;
@@ -38,6 +37,7 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   endDateMode = false;
   fileUpload: File = null;
   imageUrl: any = null;
+  invalidImage = false;
 
   search = new FormControl();
   searchField;
@@ -78,22 +78,22 @@ export class EventCreateComponent implements OnInit, OnDestroy {
         description: ['', Validators.required],
         imageurl: [null],
         location: ['', Validators.required],
-        startdate: ['', Validators.required],
-        starttime: ['', Validators.required],
-        enddate: [''],
-        endtime: [''],
-        createdate: [''],
+        startdate: [null, Validators.required],
+        starttime: [null, Validators.required],
+        enddate: [null],
+        endtime: [null],
+        createdate: [null],
         creatorid: [+this.userId],
         users: [null],
         offices: [null],
       },
-      { validator: this.DateValidation }
+      { validator: this.dateValidation }
     );
   }
 
   createEvent() {
     if (this.eventForm.valid) {
-      this.CheckEmptyEndDate(this.eventForm);
+      this.checkEmptyEndDate(this.eventForm);
 
       this.eventForm.get('createdate').setValue(new Date());
 
@@ -111,37 +111,65 @@ export class EventCreateComponent implements OnInit, OnDestroy {
     }
   }
 
+  //Load the image as a file from event$
   fileProgress(fileInput: any) {
+    this.imageUrl = null;
+    this.invalidImage = false;
+    this.eventForm.get('imageurl').setValue(null);
+
     this.fileUpload = <File>fileInput.target.files[0];
-    this.imagePreview();
-  }
 
-  imagePreview() {
-    var mimeType = this.fileUpload.type;
-    if (mimeType.match(/image\/*/) == null) {
-      return;
+    if (this.fileUpload) {
+      this.imagePreview();
     }
-
-    var reader = new FileReader();
-    reader.readAsDataURL(this.fileUpload);
-    reader.onload = (_event) => {
-      this.imageUrl = reader.result;
-    };
   }
 
-  loadUsers() {
-    /* this.actionsSubject$.pipe(filter((action: any) => action.type, { action: '@ngrx/store/update-reducers', feature: 'user'})); */
-    this.store$.dispatch(new fromUsers.GetUsers());
-    this.subscription.add(this.store$.pipe(select(fromUsers.getRelevantUsers(+this.userId))).subscribe(data => { 
-      this.allUsers = data; 
-    }));
+  //Show the chosen file in html if it is an image
+  imagePreview() {
+    let mimeType = this.fileUpload.type;
+    let mimeSize = this.fileUpload.size;
 
-    this.filterUsers();
+    //Check for only images and smaller than or equal to 5mb
+    if (mimeType.match(/image\/*/) != null && mimeSize <= 5000000) {
+      let reader = new FileReader();
+      reader.readAsDataURL(this.fileUpload);
+      reader.onload = (_event) => {
+        this.imageUrl = reader.result;
+      };
+      this.eventForm.get('imageurl').setValue(this.fileUpload.name);
+      this.invalidImage = false;
+    } else {
+      this.fileUpload = null;
+      this.eventForm.get('imageurl').setValue(null);
+      this.invalidImage = true;
+    }
+  }
+
+  //Removes the image
+  clearImage() {
+    this.fileUpload = null;
+    this.imageUrl = null;
+    this.invalidImage = false;
+    this.eventForm.get('imageurl').setValue(null);
   }
 
   loadOffices() {
     this.store$.dispatch(new fromOffices.LoadOffices());
     this.offices$ = this.store$.pipe(select(fromOffices.getOffices));
+  }
+
+  loadUsers() {
+    /* this.actionsSubject$.pipe(filter((action: any) => action.type, { action: '@ngrx/store/update-reducers', feature: 'user'})); */
+    this.store$.dispatch(new fromUsers.GetUsers());
+    this.subscription.add(
+      this.store$.pipe(select(fromUsers.getRelevantUsers(+this.userId))).subscribe((data) => {
+        this.allUsers = data;
+      this.allUsers = data; 
+        this.allUsers = data;
+      })
+    );
+
+    this.filterUsers();
   }
 
   filterUsers() {
@@ -166,6 +194,8 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   endDateToggle() {
     this.endDateMode = !this.endDateMode;
 
+    //this.endDateMode ? this.addEndDate() : this.removeEndDate();
+
     if (this.endDateMode == true) {
       this.addEndDate();
     } else {
@@ -179,23 +209,23 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   }
 
   removeEndDate() {
-    this.eventForm.controls['enddate'].setValue('');
-    this.eventForm.controls['endtime'].setValue('');
+    this.eventForm.controls['enddate'].setValue(null);
+    this.eventForm.controls['endtime'].setValue(null);
   }
 
-  DateValidation(d: FormGroup) {
-    if (d.get('enddate').value !== '') {
+  dateValidation(d: FormGroup) {
+    if (d.get('enddate').value != null) {
       return d.get('enddate').value >= d.get('startdate').value ? null : { mismatch: true };
     } else {
       return null;
     }
   }
 
-  CheckEmptyEndDate(f: FormGroup) {
-    if (f.get('enddate').value == '') {
+  checkEmptyEndDate(f: FormGroup) {
+    if (f.get('enddate').value == null) {
       this.eventForm.controls['enddate'].setValue(this.eventForm.value.startdate);
     }
-    if (f.get('endtime').value == '') {
+    if (f.get('endtime').value == null) {
       this.eventForm.controls['endtime'].setValue(new Date(0, 0, 0, 0, 0, 0, 0));
     }
   }
@@ -225,6 +255,11 @@ export class EventCreateComponent implements OnInit, OnDestroy {
       case 'startdate': {
         this.eventForm.get('startdate').hasError('required');
         return 'Du måste ange ett startdatum';
+      }
+
+      case 'imageurl': {
+        this.eventForm.get('imageurl').hasError('imageurl');
+        return 'Inkorrekt filtyp eller för stor fil. (Endast bilder under 5mb)';
       }
     }
   }
