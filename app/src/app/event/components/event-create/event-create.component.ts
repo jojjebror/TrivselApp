@@ -140,6 +140,7 @@ export class EventCreateComponent implements OnInit, OnDestroy {
       this.invalidImage = false;
     } else {
       this.fileUpload = null;
+      this.eventForm.get('imageurl').setValue(null);
       this.invalidImage = true;
     }
   }
