@@ -254,6 +254,7 @@ namespace Logic.Services
                 syncTokenXml = XDocument.Load("synctoken.xml");
                 var nextSyncToken = syncTokenXml.Root.Value;
 
+                //Makes a request for all google events that has changed since the last synctoken
                 var request = _calendarService.Events.List(calendarId);
                 request.SyncToken = (nextSyncToken != "") ? nextSyncToken : null;
                 var googleEvents = await request.ExecuteAsync();
