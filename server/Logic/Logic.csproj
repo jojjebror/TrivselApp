@@ -291,6 +291,14 @@
     <Compile Include="Database\Migrations\202005151352080_MergeBranchesAdminProp.Designer.cs">
       <DependentUpon>202005151352080_MergeBranchesAdminProp.cs</DependentUpon>
     </Compile>
+    <Compile Include="Database\Migrations\202005251237544_mergeTranslators.cs" />
+    <Compile Include="Database\Migrations\202005251237544_mergeTranslators.Designer.cs">
+      <DependentUpon>202005251237544_mergeTranslators.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Migrations\202005251254495_mergeRemoveFields.cs" />
+    <Compile Include="Database\Migrations\202005251254495_mergeRemoveFields.Designer.cs">
+      <DependentUpon>202005251254495_mergeRemoveFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
     <Compile Include="Helpers\PagedList.cs" />
     <Compile Include="Init.cs" />
@@ -327,13 +335,9 @@
     <Compile Include="Services\PostService.cs" />
     <Compile Include="Services\ReceiptService.cs" />
     <Compile Include="Services\UserService.cs" />
-    <Compile Include="Translators\DrinkForCreateTranslator.cs" />
-    <Compile Include="Translators\DrinkForDetailedTranslator.cs" />
-    <Compile Include="Translators\DrinkForListTranslator.cs" />
-    <Compile Include="Translators\DrinkForUpdateTranslator.cs" />
+    <Compile Include="Translators\DrinkTranslator.cs" />
     <Compile Include="Translators\EventTranslator.cs" />
     <Compile Include="Translators\ExampleTranslator.cs" />
-    <Compile Include="Translators\OfficesForListTranslator.cs" />
     <Compile Include="Translators\OfficeTranslator.cs" />
     <Compile Include="Translators\ReceiptTranslator.cs" />
     <Compile Include="Translators\PostTranslator.cs" />
@@ -353,6 +357,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\Migrations\202005151352080_MergeBranchesAdminProp.resx">
       <DependentUpon>202005151352080_MergeBranchesAdminProp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202005251237544_mergeTranslators.resx">
+      <DependentUpon>202005251237544_mergeTranslators.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\Migrations\202005251254495_mergeRemoveFields.resx">
+      <DependentUpon>202005251254495_mergeRemoveFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -489,12 +489,9 @@ namespace Logic.Database.Migrations
                 Id = 1,
                 ProductNameBold = "Carlsberg Hof",
                 Category = "Öl",
-                AlcoholPercentage = 4,
                 Volume = 50,
                 Price = 10,
                 Taste = "Standard ljus öl, rätt svag",
-                Usage = "Gott till grillat",
-                BeverageDescriptionShort = "Klen smak",
             };
 
             var testWine = new Drink()
@@ -502,12 +499,9 @@ namespace Logic.Database.Migrations
                 Id = 2,
                 ProductNameBold = "L'amarone",
                 Category = "Vin",
-                AlcoholPercentage = 12,
                 Volume = 50,
                 Price = 20,
                 Taste = "Trevligt sällskapsvin",
-                Usage = "Gott till grillat",
-                BeverageDescriptionShort = "Trevlig",
             };
 
             var testCider = new Drink()
@@ -515,12 +509,9 @@ namespace Logic.Database.Migrations
                 Id = 3,
                 ProductNameBold = "Briska",
                 Category = "Cider",
-                AlcoholPercentage = 4,
                 Volume = 33,
                 Price = 20,
                 Taste = "Fruktig",
-                Usage = "God på sommaren",
-                BeverageDescriptionShort = "Läskande",
             };
 
             context.Offices.AddOrUpdate(office);

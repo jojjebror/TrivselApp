@@ -68,11 +68,6 @@ namespace Logic.Services
             return UserTranslator.ToUserForUpdateDto(dbUser);
         }
 
-        public async Task<ICollection<officesForListDto>> GetOffices()
-        {
-            var dbOffices = await _context.Offices.ToListAsync();
-            return dbOffices.Select(OfficesForListTranslator.ToModel).ToList();
-        }
         public async Task<UserForUpdateDto> UpdateOffice(int id, string newOffice)
         {
             var dbUser = await _context.Users.Include(u => u.Office)

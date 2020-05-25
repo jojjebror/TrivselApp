@@ -34,13 +34,6 @@ namespace Api.Controllers
             return new OkObjectResult(ApiResponse.Create(result));
         }
 
-        [HttpGet("Offices")]
-        public async Task<IActionResult> GetOffices()
-        {
-            var result = await _userService.GetOffices();
-            return new OkObjectResult(ApiResponse.Create(result));
-        }
-
 
         [HttpGet("credit")]
         public async Task<IActionResult> GetCredit()

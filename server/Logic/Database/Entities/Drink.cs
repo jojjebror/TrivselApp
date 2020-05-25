@@ -10,12 +10,9 @@ namespace Logic.Database.Entities
     {
         public string ProductNameBold { get; set; }
         public string Category { get; set; }
-        public int AlcoholPercentage { get; set; }
         public int Volume { get; set; }
         public int Price { get; set; }
-        public string Usage { get; set; }
         public string Taste { get; set; }
-        public string BeverageDescriptionShort { get; set; }
         public string ImageId { get; set; }
         public string Image { get; set; }
     }
