@@ -81,21 +81,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   playEpisode(episode: PodcastEpisode) {
-    /*     this.showAudioPlayer = false;
-
-    setTimeout(() => { */
     this.title = episode.title;
     this.summary = episode.summary;
-    this.showAudioPlayer = true;
     this.episodeUrl = episode.episodeUrl;
     this.imageUrl = episode.imageUrl;
     this.published = episode.published;
 
     this.autoPlay = true;
     this.showAudioPlayer = true;
-
-    console.log(this.showAudioPlayer);
-    /*   }, 200); */
   }
 
   addOfficeDialog(user: User): void {
