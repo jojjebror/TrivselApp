@@ -76,14 +76,11 @@ h2 {
   margin-right: 2em;
   font-size: small;
   text-align: center;
- 
-  
 }
 
 #btnSwish {
   display: none;
 }
-
 
 .titleProductCategory{
 text-align: center;
@@ -117,7 +114,19 @@ li {
   flex-direction: column;
   width: auto;
   border-radius: 2px;
-  
+}
+
+::ng-deep .mat-tab-label .mat-tab-label-content {
+  color: white;
+  font-size: 18px;
+}
+
+::ng-deep .mat-tab-header-pagination-chevron {
+  border-color: white !important;
+}
+
+::ng-deep .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron {
+  border-color: white !important;
 }
 
 ul {
@@ -178,12 +187,11 @@ li {
     margin-right: 2em;
   }
 
-
-
 .container{
 width: 100%;
 height: 600px;
 }
+
 ul {
 list-style-type: none;
 margin-left: auto;
@@ -191,8 +199,9 @@ margin-right: auto;
 padding: 0;
 flex-wrap: wrap;
 width: 100%;
-
 }
+
+
 
 .price1{
   max-width: 170px; //lägg bara över
