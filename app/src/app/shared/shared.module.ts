@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { components } from './components';
-import { directives } from './directives';
 import { pipes } from './pipes';
 
 import { SharedMaterialModule } from './shared-material.module';
@@ -17,8 +16,8 @@ import { MatPaginatorIntl } from '@angular/material';
  */
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, SharedMaterialModule],
-  exports: [CommonModule, FormsModule, ReactiveFormsModule, SharedMaterialModule, ...components, ...directives, ...pipes],
-  declarations: [...components, ...directives, ...pipes],
+  exports: [CommonModule, FormsModule, ReactiveFormsModule, SharedMaterialModule, ...components, ...pipes],
+  declarations: [...components, ...pipes],
   providers: [{ provide: MatPaginatorIntl, useValue: getSwedishPaginatorIntl() }],
   entryComponents: [...components],
 })

@@ -35,7 +35,7 @@ namespace Logic.Translators
                 Email = user.Email,
                 Credit = user.Credit,
                 Admin = user.Admin,
-                Office = user.Office.Name,
+                Office = user.Office?.Name,
                 Events = user.EventParticipants.Select(e =>
                     new UserEventsDto
                     {

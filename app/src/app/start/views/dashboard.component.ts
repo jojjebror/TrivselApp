@@ -34,12 +34,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   showAudioPlayer = false;
   autoPlay = true;
 
-  constructor(
-    private store$: Store<AppState>,
-    private actionsSubject$: ActionsSubject,
-    public dialog: MatDialog,
-    private snackBar: MatSnackBar
-  ) {}
+  constructor(private store$: Store<AppState>, private actionsSubject$: ActionsSubject, public dialog: MatDialog, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.loadPodcast();
@@ -47,19 +42,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.user$ = this.store$.pipe(select(fromSession.selectUser));
 
     let currentUser: User;
-
+      
     this.subscription.add(
       this.actionsSubject$.pipe(filter((action: any) => action.type === fromSession.ActionTypes.SetUserSuccess)).subscribe((action) => {
         this.user$ = this.store$.pipe(select(fromSession.selectUser));
         this.user$.subscribe((data) => (currentUser = data));
 
-        if (currentUser.office === null) {
+        if (currentUser.office == null) {
+          console.log(currentUser);
           this.subscription.add(
-            this.actionsSubject$
-              .pipe(filter((action: any) => action.type === fromOffices.ActionTypes.LOAD_OFFICES_SUCCESS))
-              .subscribe((action) => {
-                this.addOfficeDialog(currentUser);
-              })
+            this.actionsSubject$.pipe(filter((action: any) => action.type === fromOffices.ActionTypes.LOAD_OFFICES_SUCCESS)).subscribe((action) => {
+              this.addOfficeDialog(currentUser);
+            })
           );
         }
       })
@@ -123,11 +117,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   showSnackbarAddOffice(newOffice: string) {
     this.subscription.add(
-      this.actionsSubject$
-        .pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_OFFICE_SUCCESS))
-        .subscribe((action) => {
-          this.snackBar.open('Ditt valda kontor: ' + newOffice, '', { duration: 3500 });
-        })
+      this.actionsSubject$.pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_OFFICE_SUCCESS)).subscribe((action) => {
+        this.snackBar.open('Ditt valda kontor: ' + newOffice, '', { duration: 3500 });
+      })
     );
   }
 
