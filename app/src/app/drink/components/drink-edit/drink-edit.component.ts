@@ -2,7 +2,6 @@ import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 
 import { Store, select, ActionsSubject } from "@ngrx/store";
 import { AppState } from "src/app/core/state";
-import { ActivatedRoute, Router } from "@angular/router";
 import { Observable, Subscription } from "rxjs";
 import { Drink } from "src/app/shared/models";
 import * as fromDrink from "../../state/drinks";

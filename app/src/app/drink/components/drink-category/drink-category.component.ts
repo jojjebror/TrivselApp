@@ -237,13 +237,13 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     };
 
     var newEncode = JSON.stringify(initField);
-    console.log(newEncode);
+    //console.log(newEncode);
 
     var encodedString = encodeURI(newEncode);
-    console.log(encodedString);
+    //console.log(encodedString);
 
     var httpUrl = 'swish://payment?data=';
-    console.log(httpUrl + encodedString); // var y =  callbackUrl + resultparameter. Lägg till vart swish ska skicka callbackUrl tex'http://exsitecDomän/drink/pay' (resultparamet = ex 'paid')
+    //console.log(httpUrl + encodedString); // var y =  callbackUrl + resultparameter. Lägg till vart swish ska skicka callbackUrl tex'http://exsitecDomän/drink/pay' (resultparamet = ex 'paid')
 
     // document.location.replace(sendUrl);  var sendUrl = httpUrl + encodedString + callback)
   }
