@@ -7,7 +7,7 @@
   }
 }
 
-/* Diven around the form */
+/* Div around the form */
 .createDrinkMain {
   width: 600px;
   margin-top: 100px;
@@ -40,6 +40,15 @@ a {
 #volume {
   width: 50%;
 }
+.img-upload {
+  border-radius: 5px;
+}
+
+
+::ng-deep .mat-select-value{
+  color: black !important;
+}
+
 
 /* ------------------------ */
 
@@ -54,12 +63,17 @@ a {
 
   /* Diven runt formen */
   .createDrinkMain {
-    width: 99%;
-    margin-top: 60px;
-    margin-left: auto;
-    margin-right: auto;
+    color: white;
+      width: 87%;
+      margin-top: 80px;
+      margin-left: auto;
+      margin-bottom: 50px;
   }
-  .container {
-    padding: 16px;
-  }
+
+
+  
+::ng-deep .mat-select-value{
+  color: black !important;
+}
+
 }

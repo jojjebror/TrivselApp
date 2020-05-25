@@ -69,11 +69,11 @@ export class DrinksEffects {
     switchMap((action: drinksActions.CreateDrink) =>
       this.drinkResource.create(action.payload).pipe(
         map((newDrink: Drink) => {
-          if(action.image !== null) {
+          if (action.image !== null) {
             return new drinksActions.UploadImage(newDrink.id, action.image);
           }
 
-          new drinksActions.CreateDrinkSuccess(newDrink)
+            return new drinksActions.CreateDrinkSuccess(newDrink);
         }),
         tap(() => this.router.navigate(["/drink/category"])),
         catchError((err) => of(new drinksActions.CreateDrinkError(err)))

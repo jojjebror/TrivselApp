@@ -8,6 +8,7 @@
 }
 
 .container {
+  margin-top: 80px;
   animation: fadeInAnimation ease 2s;
   animation-iteration-count: 1s;
   animation-fill-mode:forwards;
@@ -141,7 +142,7 @@ a {
   }
 
 .addCreditForm{
-  margin-top: 10%;
+  margin-top: 80px;
   width: 80%;
   height: 600px;
   }
@@ -161,6 +162,12 @@ a {
   .desktopInfo {
     display: block;
   }
+
+  .container {
+    margin-top: 20px;
+  }
+
+  
 
 }
 

@@ -1,3 +1,12 @@
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 #audioPlayerDiv {
   position: fixed;
   bottom: 0;
@@ -27,6 +36,9 @@ img {
   margin-right: auto;
   margin-bottom: 10%;
   width: 70%;
+  animation: fadeInAnimation ease 2s;
+  animation-iteration-count: 1s;
+  animation-fill-mode:forwards;
 }
 
 .frontImg {

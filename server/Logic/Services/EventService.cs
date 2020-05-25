@@ -145,7 +145,7 @@ namespace Logic.Services
             return EventTranslator.ToEventForUpdateDto(dbEvent);
         }
 
-        public async void SyncEventsWithGoogleEvents()
+        public void SyncEventsWithGoogleEvents()
         {
             try
             {
@@ -154,7 +154,6 @@ namespace Logic.Services
 
                 foreach (var googleEv in googleEvents)
                 {
-
                     //Get the event from db that needs to be updated and all the eventparticipants for the event
                     var dbEvent =  _context.Events.FirstOrDefault(e => e.GoogleEventId == googleEv.Id);
                     var dbEventParticipants = _context.EventParticipants.Include(ep => ep.User)

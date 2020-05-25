@@ -36,27 +36,21 @@ export class DrinkPayCreditComponent implements OnInit, OnDestroy {
     this.getUrl();
     console.log('userId'+ this.userId);
   } 
-
+                // den urln som kommer tillbak från swish vill vi hämta och ta bort första delen fram till paid=. de som ska med är alltså efter '....web.app/?paid=' i detta fall
+                // så ny slice beroende på domännamn.
   getUrl(){
     var newUrl = 'https://mobile-app-007.web.app/?paid=%7B%22result%22:%22paid%22,%22amount%22:1,%22message%22:%22Hälsningar%20Martin%20Loord%22,%22payee%22:%220700914195%22,%22version%22:2%7D';
      let nya = window.location.href;
     console.log('kolla in detta ' + nya);
      var splice = newUrl.slice(37);
-
       var decode = decodeURI(splice);
-
         var newJSON = JSON.parse(decode);
-
           var res = newJSON.result;
-            
             this.amount = newJSON.amount;
-          console.log(res);
-          console.log(this.amount);
           
           if(res === 'paid'){
             console.log('Ser ut som att din betalning gick igenom! Kul, köp en bira!');
             var x =  [this.userId, this.amount];
-            console.log(x);
              this.store$.dispatch(new fromUser.UpdateCredit(x)); }
           else {
             console.log('nej du..!');
@@ -64,14 +58,12 @@ export class DrinkPayCreditComponent implements OnInit, OnDestroy {
             this.router.navigate(['/drink/credit']);
           }
           this.showSnackbar();
-          setTimeout(() => {this.ngOnDestroy() }, 3500);
-            
   }
 
   showSnackbar() {
     this.subscription.add(
       this.actionsSubject$.pipe(filter((action: any) => action.type === fromUser.ActionTypes.UPDATE_CREDIT_SUCCESS)).subscribe((action) => {
-        this.snackBar.open('Ditt saldo har uppdaterats', '', { duration: 3000 });
+        this.snackBar.open('Ditt saldo har uppdaterats!', '', { duration: 3000 });
       }) );
 
       this.subscription.add(

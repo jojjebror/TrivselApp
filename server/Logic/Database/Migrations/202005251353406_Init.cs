@@ -3,7 +3,7 @@ namespace Logic.Database.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class MergeBranchesAdminProp : DbMigration
+    public partial class Init : DbMigration
     {
         public override void Up()
         {
@@ -14,12 +14,9 @@ namespace Logic.Database.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         ProductNameBold = c.String(),
                         Category = c.String(),
-                        AlcoholPercentage = c.Int(nullable: false),
                         Volume = c.Int(nullable: false),
                         Price = c.Int(nullable: false),
-                        Usage = c.String(),
                         Taste = c.String(),
-                        BeverageDescriptionShort = c.String(),
                         ImageId = c.String(),
                         Image = c.String(),
                     })
@@ -59,6 +56,23 @@ namespace Logic.Database.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Users", t => t.CreatorId, cascadeDelete: false)
                 .Index(t => t.CreatorId);
+            
+            CreateTable(
+                "dbo.Users",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Email = c.String(),
+                        Password = c.String(),
+                        Name = c.String(),
+                        Credit = c.Int(nullable: false),
+                        GoogleId = c.String(),
+                        Admin = c.Boolean(nullable: false),
+                        OfficeId = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Offices", t => t.OfficeId)
+                .Index(t => t.OfficeId);
             
             CreateTable(
                 "dbo.Offices",
@@ -102,11 +116,6 @@ namespace Logic.Database.Migrations
                 .ForeignKey("dbo.Users", t => t.CreatorId, cascadeDelete: true)
                 .Index(t => t.CreatorId);
             
-            AddColumn("dbo.Users", "Credit", c => c.Int(nullable: false));
-            AddColumn("dbo.Users", "Admin", c => c.Boolean(nullable: false));
-            AddColumn("dbo.Users", "OfficeId", c => c.Int());
-            CreateIndex("dbo.Users", "OfficeId");
-            AddForeignKey("dbo.Users", "OfficeId", "dbo.Offices", "Id");
         }
         
         public override void Down()
@@ -125,12 +134,10 @@ namespace Logic.Database.Migrations
             DropIndex("dbo.Events", new[] { "CreatorId" });
             DropIndex("dbo.EventParticipants", new[] { "EventId" });
             DropIndex("dbo.EventParticipants", new[] { "UserId" });
-            DropColumn("dbo.Users", "OfficeId");
-            DropColumn("dbo.Users", "Admin");
-            DropColumn("dbo.Users", "Credit");
             DropTable("dbo.Receipts");
             DropTable("dbo.Posts");
             DropTable("dbo.Offices");
+            DropTable("dbo.Users");
             DropTable("dbo.Events");
             DropTable("dbo.EventParticipants");
             DropTable("dbo.Drinks");

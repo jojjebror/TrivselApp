@@ -42,7 +42,6 @@ export class OfficeDetailComponent implements OnDestroy, OnChanges {
 
   editOfficeInfoDialog(office: Office): void {
     const data = office;
-    console.log(data);
     const dialogData = new EditOfficeInfoDialogModel(data);
 
     const dialogRef = this.dialog.open(EditOfficeInfoDialogComponent, {

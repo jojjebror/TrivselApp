@@ -30,10 +30,11 @@
         }"
         class="form-control"
         placeholder="Pris"
-        formControlName="price"
-      >
+        formControlName="price">
         <mat-option value="10">10kr</mat-option>
+        <mat-option value="15">15kr</mat-option>
         <mat-option value="20">20kr</mat-option>
+        <mat-option value="25">25kr</mat-option>
         <mat-option value="30">30kr</mat-option>
       </mat-select>
       <div class="invalid-feedback">
@@ -66,8 +67,10 @@
         placeholder="Volym"
         formControlName="volume"
       >
+      <mat-option value="25">25cl</mat-option>
         <mat-option value="33">33cl</mat-option>
         <mat-option value="50">50cl</mat-option>
+        <mat-option value="75">75cl</mat-option>
         <mat-option value="100">100cl</mat-option>
       </mat-select>
       <div class="invalid-feedback">
@@ -95,30 +98,21 @@
     </div>
 
     <div>
-      <!-- <mat-form-field appearance="outline">
-        <mat-label>Bild-url</mat-label>
-        <img [src]="imageUrl || ''" style="width: 50px;"> -->
-        <input
+        <input class="img-upload"
           type="file"
           accept="image/*"
           autocomplete="off"
           formControlName="image"
-          (change)="loadImage($event.target.files)"
-        />
-        <!-- <mat-error *ngIf="eventForm.invalid">Fel filtyp</mat-error> -->
-      <!-- </mat-form-field> -->
-      <div class="invalid-feedback">Du måste ange en bild-url</div>
+          (change)="fileProgress($event)"/>
+
+          <div *ngIf="imageUrl">
+            <img [src]="imageUrl" style="width: 100px; margin-top: 15px;" />
+          </div>
     </div>
 
     <hr />
 
     <div class="form-group text-center">
-      <button
-        class="btn btn-success"
-        type="submit"
-      >
-        Lägg till dryck
-      </button>
       <button
         class="btn btn-default"
         type="button"
@@ -126,6 +120,12 @@
         [routerLink]="['/drink/category']"
       >
         Gå tillbaka
+      </button>
+      <button
+        class="btn btn-success"
+        type="submit"
+      >
+        Lägg till dryck
       </button>
     </div>
   </form>
