@@ -34,7 +34,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   showAudioPlayer = false;
   autoPlay = true;
 
-  constructor(private store$: Store<AppState>, private actionsSubject$: ActionsSubject, public dialog: MatDialog, private snackBar: MatSnackBar) {}
+  constructor(
+    private store$: Store<AppState>,
+    private actionsSubject$: ActionsSubject,
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.loadPodcast();
@@ -50,9 +55,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         if (currentUser.office === null) {
           this.subscription.add(
-            this.actionsSubject$.pipe(filter((action: any) => action.type === fromOffices.ActionTypes.LOAD_OFFICES_SUCCESS)).subscribe((action) => {
-              this.addOfficeDialog(currentUser);
-            })
+            this.actionsSubject$
+              .pipe(filter((action: any) => action.type === fromOffices.ActionTypes.LOAD_OFFICES_SUCCESS))
+              .subscribe((action) => {
+                this.addOfficeDialog(currentUser);
+              })
           );
         }
       })
@@ -74,21 +81,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   playEpisode(episode: PodcastEpisode) {
-    /*     this.showAudioPlayer = false;
-
-    setTimeout(() => { */
     this.title = episode.title;
     this.summary = episode.summary;
-    this.showAudioPlayer = true;
     this.episodeUrl = episode.episodeUrl;
     this.imageUrl = episode.imageUrl;
     this.published = episode.published;
 
     this.autoPlay = true;
     this.showAudioPlayer = true;
-
-    console.log(this.showAudioPlayer);
-    /*   }, 200); */
   }
 
   addOfficeDialog(user: User): void {
@@ -123,9 +123,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   showSnackbarAddOffice(newOffice: string) {
     this.subscription.add(
-      this.actionsSubject$.pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_OFFICE_SUCCESS)).subscribe((action) => {
-        this.snackBar.open('Ditt valda kontor: ' + newOffice, '', { duration: 3500 });
-      })
+      this.actionsSubject$
+        .pipe(filter((action: any) => action.type === fromUsers.ActionTypes.UPDATE_OFFICE_SUCCESS))
+        .subscribe((action) => {
+          this.snackBar.open('Ditt valda kontor: ' + newOffice, '', { duration: 3500 });
+        })
     );
   }
 

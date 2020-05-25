@@ -60,6 +60,10 @@ h3 {
   cursor: pointer;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .titleList {
   text-align: center;
   margin-top: 30px;
@@ -157,7 +161,7 @@ h3 {
   color: white;
 }
 
-::ng-deep .mat-select-value {
+.listPaginator ::ng-deep .mat-select-value {
   color: white !important;
 }
 ::ng-deep .mat-option {

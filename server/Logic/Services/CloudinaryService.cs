@@ -8,8 +8,6 @@ namespace Logic.Services
 {
     public class CloudinaryService
     {
-        //trivselapp@gmail.com Exsitec123!
-
         private readonly Cloudinary _cloudinaryService;
 
         public CloudinaryService()
@@ -24,7 +22,6 @@ namespace Logic.Services
             _cloudinaryService = new Cloudinary(account);
         }
 
-                /*---------------------EVENT----------------*/
         public async Task<ImageUploadResult> UploadImage(IFormFile image, string folder, string publicId = null)
         {
             try
@@ -55,73 +52,6 @@ namespace Logic.Services
             
             return null;
         }
-
-
-        /*---------------------RECEIPT----------------*/
-
-        public ImageUploadResult UploadImageReceipt(string publicId, IFormFile image)
-        {
-            var uploadResult = new ImageUploadResult();
-
-            try
-            {
-                if (image.Length > 0)
-                {
-                    using (var stream = image.OpenReadStream())
-                    {
-                        var uploadParams = new ImageUploadParams()
-                        {
-                            PublicId = (publicId == null) ? null : publicId,
-                            File = new FileDescription(image.Name, stream),
-                            Folder = (publicId == null) ? "receipt-images" : null,
-                            Transformation = new Transformation().Width(200).Height(200).Crop("fill"),
-                            Overwrite = (publicId == null) ? false : true
-                        };
-
-                        uploadResult = _cloudinaryService.Upload(uploadParams);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                e.Message.ToString();
-            }
-
-            return uploadResult;
-        }
-
-        /*---------------------DRINK----------------*/
-        public ImageUploadResult UploadDrinkImage(string publicId, IFormFile image)
-        {
-            var uploadResult = new ImageUploadResult();
-
-            try
-            {
-                if (image.Length > 0)
-                {
-                    using (var stream = image.OpenReadStream())
-                    {
-                        var uploadParams = new ImageUploadParams()
-                        {
-                            PublicId = (publicId == null) ? null : publicId,
-                            File = new FileDescription(image.Name, stream),
-                            Folder = (publicId == null) ? "drink-images" : null,
-                            Transformation = new Transformation().Width(200).Height(200).Crop("fill"),
-                            Overwrite = (publicId == null) ? false : true
-                        };
-
-                        uploadResult = _cloudinaryService.Upload(uploadParams);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                e.Message.ToString();
-            }
-
-            return uploadResult;
-        }
-
 
         public async void DeleteImage(string publicId)
         {

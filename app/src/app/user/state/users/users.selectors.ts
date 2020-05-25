@@ -23,6 +23,8 @@ export const getAllUsersExceptInvited = (invitedUsers: User[]) =>
 
 export const getUser = (userId: number) => createSelector(getUsers, (state) => state.find((user) => user.id === userId));
 
+export const getUsersInOffice = (office: string) => createSelector(getUsers, (state) => state.filter((user) => user.office === office));
+
 export const getUsersLoading = createSelector(selectState, (state) => state.loading);
 
 export const getCurrentUserId = createSelector(selectState, (state) => state.selectedUserId);
@@ -30,4 +32,3 @@ export const getCurrentUserId = createSelector(selectState, (state) => state.sel
 export const getUsersLoaded = createSelector(selectState, (state) => state.loaded);
 
 export const getError = createSelector(selectState, (state) => state.error);
-

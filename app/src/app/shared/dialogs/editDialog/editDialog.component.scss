@@ -2,10 +2,6 @@
     justify-content: center;
 }
 
-::ng-deep .mat-select-value-text {
-  color: black !important;
-}
-
 .close-button{
   float: right;
   top:-24px;
@@ -26,6 +22,10 @@
 
 .editDialog ::ng-deep .mat-form-field-underline {
     background-color: black !important;
+}
+
+.editDialog ::ng-deep .mat-select-value-text {
+  color: black !important;
 }
 
 

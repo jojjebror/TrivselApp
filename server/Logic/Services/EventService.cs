@@ -34,7 +34,7 @@ namespace Logic.Services
 
         public async Task<ICollection<EventForListDto>> GetEvents()
         {
-            //SyncEventsWithGoogleEvents();
+            SyncEventsWithGoogleEvents();
 
             var dbEvents = await _context.Events.Where(ev => ev.StartDate >= DateTime.Today).Include(e => e.Creator).ToListAsync();
 
@@ -145,25 +145,25 @@ namespace Logic.Services
             return EventTranslator.ToEventForUpdateDto(dbEvent);
         }
 
-        public async void SyncEventsWithGoogleEvents()
+        public void SyncEventsWithGoogleEvents()
         {
-            //Get all google events that has changed
-            var googleEvents = await _googleCalendarService.CheckForChangesInGoogleEvents();
-
             try
             {
+                //Get all google events that has changed
+                var googleEvents = _googleCalendarService.CheckForChangesInGoogleEvents().Result;
+
                 foreach (var googleEv in googleEvents)
                 {
                     //Get the event from db that needs to be updated and all the eventparticipants for the event
-                    var dbEvent = await _context.Events.FirstOrDefaultAsync(e => e.GoogleEventId == googleEv.Id);
-                    var dbEventParticipants = await _context.EventParticipants.Include(ep => ep.User)
-                        .Where(ep => ep.EventId == dbEvent.Id).ToListAsync();
+                    var dbEvent =  _context.Events.FirstOrDefault(e => e.GoogleEventId == googleEv.Id);
+                    var dbEventParticipants = _context.EventParticipants.Include(ep => ep.User)
+                        .Where(ep => ep.EventId == dbEvent.Id).ToList();
 
                     //Check if the google event has been deleted == cancelled
                     if (googleEv.Status == "cancelled")
                     {
                         //Deletes the event from db
-                        var deletedEvId = await DeleteEvent(dbEvent.Id);
+                        var deletedEvId = DeleteEvent(dbEvent.Id).Result;
                     }
                     else
                     {
@@ -199,7 +199,7 @@ namespace Logic.Services
                                 //If the eventparticipant does not exist then create it
                                 if (dbEp == null)
                                 {
-                                    var dbUser = await _context.Users.FirstOrDefaultAsync(u =>
+                                    var dbUser = _context.Users.FirstOrDefault(u =>
                                             u.Email == attendee.Email);
 
                                     dbEp = new EventParticipant
@@ -219,7 +219,7 @@ namespace Logic.Services
                             }
                         }
                     }
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }
             }
             catch (Exception e)

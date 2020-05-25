@@ -51,6 +51,7 @@ export class DrinkEditComponent implements OnInit {
         productNameBold: [dr.productNameBold, Validators.required],
         price: [dr.price, Validators.required],
         volume: [dr.volume, Validators.required],
+        taste: [dr.taste, Validators.required],
         category: [dr.category, Validators.required],
         image: [dr.image]
       });

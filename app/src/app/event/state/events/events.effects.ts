@@ -46,7 +46,6 @@ export class EventsEffects {
       this.eventResource.createEvent(action.payload).pipe(
         map((newEvent: Event) => {
           if (action.image !== null) {
-            console.log("Image: " + action.image)
             return new eventsActions.UploadImage(newEvent.id, action.image);
           }
           return new eventsActions.CreateEventSuccess(newEvent);
@@ -160,7 +159,6 @@ export class EventsEffects {
           }),
           new eventsActions.GetCurrentUserEvent(action.payload[1]),
         ]),
-        //tap(() => this.router.navigate(['/event'])),
         catchError((err) => of(new eventsActions.UpdateUserParticipantError(err)))
       )
     )

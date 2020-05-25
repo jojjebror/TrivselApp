@@ -20,11 +20,11 @@
 .hoursTxt {
   margin-left: 10px;
   width: 80px;
-  background-color:transparent;
+  background-color: transparent;
   color: white;
   border-radius: 5px;
   border: 1px solid white;
-  padding: 16px;  
+  padding: 16px;
 }
 
 .loader {
@@ -40,14 +40,15 @@
   right: 0;
 }
 
-::ng-deep .mat-spinner circle, .mat-spinner circle {   
-    stroke: white !important;
+::ng-deep .mat-spinner circle,
+.mat-spinner circle {
+  stroke: white !important;
 }
 
-.close-button{
+.close-button {
   float: right;
-  top:-24px;
-  right:-24px;
+  top: -24px;
+  right: -24px;
 }
 
 .close-icon {
@@ -63,10 +64,10 @@
 }
 
 ::ng-deep .bs-timepicker-field {
-  color: white!important;
-  width: 50px!important;
-  background: transparent!important;
-  padding: 0!important;
+  color: white !important;
+  width: 50px !important;
+  background: transparent !important;
+  padding: 0 !important;
 }
 
 .timepicker {
@@ -79,6 +80,10 @@
 
 .endDateInput {
   margin-top: 12px;
+}
+
+#imageBtn {
+  margin-top: 10px;
 }
 
 .form-row {
@@ -122,14 +127,13 @@ a {
   height: 30px!important;
 } 
 
-
 ::ng-deep .mat-pseudo-checkbox {
-    color: white;
-} 
+  color: white;
+}
 
-.invitedList ::ng-deep.mat-pseudo-checkbox{
-      display: none !important;
-    }
+.invitedList ::ng-deep.mat-pseudo-checkbox {
+  display: none !important;
+}
 
 mat-form-field {
   width: 100%;
@@ -140,56 +144,59 @@ textarea {
   resize: none;
 }
 
-// mat-icon-stepper selected color change 
-::ng-deep .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
-    background-color: red!important;
+// mat-icon-stepper selected color change
+::ng-deep .mat-step-header .mat-step-icon-selected,
+.mat-step-header .mat-step-icon-state-done,
+.mat-step-header .mat-step-icon-state-edit {
+  background-color: red !important;
 }
 
 //input outline color
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
-    color: white!important;
+  color: white !important;
 }
 
 //mat-input focused color
 ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
-    color: white!important;
+  color: white !important;
 }
 
 // mat-input error outline color
-::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick{
-    color: white!important;
-    opacity: 0.8!important;
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick {
+  color: white !important;
+  opacity: 0.8 !important;
 }
 
 // mat-input carent color
 ::ng-deep .mat-input-element {
-    caret-color: white!important;
+  caret-color: white !important;
 }
 
 // mat-input error carent color
-::ng-deep .mat-form-field-invalid .mat-input-element, .mat-warn .mat-input-element {
-    caret-color: white!important;
+::ng-deep .mat-form-field-invalid .mat-input-element,
+.mat-warn .mat-input-element {
+  caret-color: white !important;
 }
 
 // mat-label normal state style
 ::ng-deep .mat-form-field-label {
-    color: white!important;
-    // color: $mainColor!important;
+  color: white !important;
+  // color: $mainColor!important;
 }
 
 // mat-label focused style
 ::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
-    color: white!important;
+  color: white !important;
 }
 
 // mat-label error style
 ::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label {
-    color: white!important;
+  color: white !important;
 }
 
 // mat-error color
 ::ng-deep .mat-error {
-    color: rgb(163, 27, 27);
+  color: rgb(163, 27, 27);
 }
 
 //timepicker
@@ -223,16 +230,19 @@ textarea {
   margin-top: 90px;
 }
 
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: white;
   opacity: 1; /* Firefox */
 }
 
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
   color: white;
 }
 
-::-ms-input-placeholder { /* Microsoft Edge */
+::-ms-input-placeholder {
+  /* Microsoft Edge */
   color: white;
 }
 
@@ -244,47 +254,47 @@ textarea {
   height: 1400px;
 }
 
-.mainBtnGroup {
-  margin-top: 230px;
-}
+  .mainBtnGroup {
+    margin-top: 230px;
+  }
 
-.registerEventMain {
-  width: 500px;
-  margin-top: 30px;
-}
+  .registerEventMain {
+    width: 500px;
+    margin-top: 30px;
+  }
 
 .officeContainer {
   width: 100%;
 }
 
-.userContainer {
-  width: 100%;
-  height: 180px;
-  float: left;
+  .userContainer {
+    width: 100%;
+    height: 180px;
+    float: left;
+  }
+
+  .inviteContainer {
+    margin-top: 12px;
+    margin-bottom: 20px;
+    height: 600px;
+  }
+
+  .startInput {
+    float: left;
+  }
+
+  .endInput {
+    float: left;
+  }
+
+  .startDateInput {
+    width: 130px !important;
+  }
+
+  .endDateInput {
+    width: 130px !important;
+  }
 }
-
-.inviteContainer {
-  margin-top: 12px;
-  margin-bottom: 20px;
-  height: 600px;
-}
-
-.startInput {
-  float: left;
-}
-
-.endInput {
-  float: left;
-}
-
- .startDateInput {
-  width: 130px!important;
-} 
-
- .endDateInput {
-  width: 130px!important;
-} 
-} 
 
 @media (max-width: 576px) {
 .mainForm {
@@ -299,16 +309,16 @@ textarea {
   flex-wrap: nowrap;
 }
 
-.endInput {
-  flex-wrap: nowrap;
-}
+  .endInput {
+    flex-wrap: nowrap;
+  }
 
-.startDateInput {
-  width: 120px!important;
-} 
- .endDateInput {
-  width: 130px!important;
-} 
+  .startDateInput {
+    width: 120px !important;
+  }
+  .endDateInput {
+    width: 130px !important;
+  }
 }
 
 @media (max-width: 454px) {
@@ -320,6 +330,3 @@ textarea {
   width: 350px;
 }
 }
-
-
-

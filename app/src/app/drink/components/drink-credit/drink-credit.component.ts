@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
 import * as officesActions from "../../../start/state/offices/offices.actions";
 import * as fromOffices from "../../../start/state/offices/";
-
+import * as fromUser from '../../../user/state/users/users.actions';
 import { User, Office} from '../../../shared/models';
 import { Observable, Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -28,6 +28,7 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
   userId: number;
   userCredit: number;
   userInput: number;
+  amount: number;
   
   numberToSwish: string;
   kontor: string;
@@ -67,8 +68,10 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
         console.log(this.user);
            var data = [this.userId, this.userCreditForm.get('credit').value]
              console.log(data);
-    
+    this.store$.dispatch(new fromUser.UpdateCredit(data));
     this.addEncodedUrl();
+    
+    
   }
   //message dialog with confirm or cancel. If confirm, runs addCredit()
   confirmCredit(): void {

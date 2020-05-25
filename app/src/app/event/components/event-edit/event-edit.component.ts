@@ -38,6 +38,7 @@ export class EventEditComponent implements OnInit, OnDestroy {
   endtime: Date;
   fileUpload: File = null;
   imageUrl: any = null;
+  invalidImage = false;
 
   search = new FormControl();
   searchField: string;
@@ -151,22 +152,64 @@ export class EventEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  fileProgress(fileInput: any) {
+  /*  fileProgress(fileInput: any) {
     this.fileUpload = <File>fileInput.target.files[0];
     this.imagePreview();
+  } */
+
+  //imagePreview() {
+  //var mimeType = this.fileUpload.type;
+  //if (mimeType.match(/image\/*/) == null) {
+  // return;
+  //}
+
+  //var reader = new FileReader();
+  //reader.readAsDataURL(this.fileUpload);
+  //reader.onload = (_event) => {
+  //this.imageUrl = reader.result;
+  //};
+  //}
+
+  //Load the image as a file from event$
+  fileProgress(fileInput: any) {
+    //this.imageUrl = null;
+    this.invalidImage = false;
+    //this.eventEditForm.get('imageurl').setValue(null);
+
+    this.fileUpload = <File>fileInput.target.files[0];
+
+    if (this.fileUpload) {
+      this.imagePreview();
+    }
   }
 
+  //Show the chosen file in html if it is an image
   imagePreview() {
-    var mimeType = this.fileUpload.type;
-    if (mimeType.match(/image\/*/) == null) {
-      return;
-    }
+    let mimeType = this.fileUpload.type;
+    let mimeSize = this.fileUpload.size;
 
-    var reader = new FileReader();
-    reader.readAsDataURL(this.fileUpload);
-    reader.onload = (_event) => {
-      this.imageUrl = reader.result;
-    };
+    //Check for only images and smaller than or equal to 5mb
+    if (mimeType.match(/image\/*/) != null && mimeSize <= 5000000) {
+      let reader = new FileReader();
+      reader.readAsDataURL(this.fileUpload);
+      reader.onload = (_event) => {
+        this.imageUrl = reader.result;
+      };
+      this.eventEditForm.get('imageurl').setValue(this.fileUpload.name);
+      this.invalidImage = false;
+    } else {
+      this.fileUpload = null;
+      this.eventEditForm.get('imageurl').setValue(null);
+      this.invalidImage = true;
+    }
+  }
+
+  //Removes the image
+  clearImage() {
+    this.fileUpload = null;
+    this.imageUrl = this.ev.imageUrl;
+    this.invalidImage = false;
+    this.eventEditForm.get('imageurl').setValue(null);
   }
 
   fixDateTimeZone(d: Date): Date {
@@ -211,6 +254,11 @@ export class EventEditComponent implements OnInit, OnDestroy {
       case 'enddate': {
         this.eventEditForm.get('enddate').hasError('required');
         return 'Du måste ange ett slutdatum';
+      }
+
+      case 'imageurl': {
+        this.eventEditForm.get('imageurl').hasError('imageurl');
+        return 'Inkorrekt filtyp eller för stor fil. (Endast bilder under 5mb)';
       }
     }
   }
