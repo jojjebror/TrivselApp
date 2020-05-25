@@ -39,7 +39,7 @@ export class DrinkPayCreditComponent implements OnInit, OnDestroy {
                 // så ny slice beroende på domännamn.
   getUrl(){
     var newUrl = 'https://mobile-app-007.web.app/?paid=%7B%22result%22:%22paid%22,%22amount%22:1,%22message%22:%22Hälsningar%20Martin%20Loord%22,%22payee%22:%220700914195%22,%22version%22:2%7D';
-     let nya = window.location.href;
+    // let nya = window.location.href; hämtar url med data vi får tillbaka från swish
      var splice = newUrl.slice(37);
       var decode = decodeURI(splice);
         var newJSON = JSON.parse(decode);
