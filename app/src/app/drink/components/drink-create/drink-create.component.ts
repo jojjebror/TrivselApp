@@ -1,14 +1,11 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Store, select, ActionsSubject } from '@ngrx/store';
+import { Store} from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 
 import { Drink } from '../../../shared/models';
 import * as fromDrink from '../../state/drinks/drinks.actions';
 import { MatSnackBar } from '@angular/material';
-import { filter } from 'rxjs/operators';
-import { ActionTypes } from '../../state/drinks';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -27,10 +24,8 @@ export class DrinkCreateComponent implements OnInit {
 
   constructor(
     private store$: Store<AppState>,
-    private router: Router,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private actionsSubject$: ActionsSubject
   ) {}
 
   ngOnInit() {
@@ -52,7 +47,6 @@ export class DrinkCreateComponent implements OnInit {
     if (this.drinkForm.valid) {
       this.drink = Object.assign({}, this.drinkForm.value);
       this.store$.dispatch(new fromDrink.CreateDrink(this.drink, this.fileUpload));
-
       this.showSnackbar();
     }
   }
@@ -80,12 +74,10 @@ export class DrinkCreateComponent implements OnInit {
   }
 
   imageValidator(control: FormControl) {
-    //Får inte att fungera med formbuilder
     if (control.value) {
       if (this.fileUpload) {
         const allowedInput = '/image-*/';
         const fileExtension = this.fileUpload.type;
-        console.log(fileExtension);
         if (fileExtension.match(allowedInput)) {
           return true;
         }

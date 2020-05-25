@@ -1,7 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { Store, select, ActionsSubject, defaultStateFn } from '@ngrx/store';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { Store, select, ActionsSubject } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 import { Drink, User, Office } from 'src/app/shared/models';
 
@@ -15,7 +14,6 @@ import { MatSnackBar, MatTabChangeEvent, MatDialog } from '@angular/material';
 import * as fromOffices from '../../../start/state/offices/';
 
 import * as fromUser from '../../../user/state/users/users.actions';
-import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services';
 import { filter } from 'rxjs/operators';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/dialogs/confirmDialog/confirmDialog.component';
@@ -55,7 +53,6 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     private store$: Store<AppState>,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private route: ActivatedRoute,
     private actionsSubject$: ActionsSubject,
     public authService: AuthenticationService
   ) {

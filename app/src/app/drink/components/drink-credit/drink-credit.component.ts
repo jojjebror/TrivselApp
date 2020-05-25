@@ -1,17 +1,17 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-
 import * as officesActions from "../../../start/state/offices/offices.actions";
 import * as fromOffices from "../../../start/state/offices/";
 import * as fromUser from '../../../user/state/users/users.actions';
+import * as fromSession from '../../../core/state/session';
+
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User, Office} from '../../../shared/models';
 import { Observable, Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
-import * as fromSession from '../../../core/state/session';
 import { AuthenticationService } from 'src/app/core/services';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/dialogs/confirmDialog/confirmDialog.component';
-import { MatDialog, MatTableDataSource } from '@angular/material';
+import { MatDialog } from '@angular/material';
 
 
 @Component({
@@ -65,13 +65,10 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
   addCredit() {
     var creditInput = [this.userCreditForm.get('credit').value]
       this.user = Object.assign({}, this.userCreditForm.value);
-        console.log(this.user);
            var data = [this.userId, this.userCreditForm.get('credit').value]
-             console.log(data);
     this.store$.dispatch(new fromUser.UpdateCredit(data));
+   
     this.addEncodedUrl();
-    
-    
   }
   //message dialog with confirm or cancel. If confirm, runs addCredit()
   confirmCredit(): void {
@@ -98,7 +95,6 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
          this.ofs$.subscribe((data: Office) => {
           this.numberToSwish = data.swishNumber;
          }));
-         
          return this.numberToSwish;
    };
    
@@ -119,16 +115,12 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
       "editable":true
       }
      }
-     console.log(initField);
       var newEncode = JSON.stringify(initField);
   
-         console.log(newEncode);
             var encodedString = encodeURI(newEncode);
   
-                console.log(encodedString);
                   var httpUrl = 'swish://payment?data=';
   
-                     console.log(httpUrl + encodedString);
                       let urlInput = httpUrl + encodedString;
 
                      document.location.replace(urlInput);
