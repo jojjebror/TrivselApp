@@ -48,7 +48,7 @@
             >
               <mat-icon>close</mat-icon>
             </button>
-            <mat-icon matSuffix *ngIf="!calendarField">event</mat-icon>
+            <mat-icon matSuffix *ngIf="!calendarField" class="pointer" (click)="picker.open()">event</mat-icon>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
           

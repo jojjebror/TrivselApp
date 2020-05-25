@@ -1,13 +1,28 @@
-<div *ngIf="office$ | async; let office">
-  <mat-card>
-    <div>
-      <h5 class="center">Information för {{ office.name }}</h5>
-      <label type="button" mat-icon-button #tooltip="matTooltip" matTooltip="Redigera info" matTooltipPosition="left" (click)="editOfficeInfoDialog(office)">
-        <span class="material-icons" id="editIcon">edit</span>
-      </label>
-    </div>
-    <p>
-      {{ office.info }}
-    </p>
-  </mat-card>
+<div class="notes">
+  <div class="sticky" *ngIf="users$ | async">
+    <b>{{ user.office }}s användare:</b>
+    <ul class="list-unstyled">
+      <li *ngFor="let user of users$ | async">{{ user.name }}</li>
+    </ul>
+  </div>
+
+  <div class="sticky2" *ngIf="office$ | async; let office">
+    <b>Information:</b>
+    <label
+      type="button"
+      mat-icon-button
+      #tooltip="matTooltip"
+      matTooltip="Redigera info"
+      matTooltipPosition="left"
+      (click)="editOfficeInfoDialog(office)"
+    >
+      <span class="material-icons" id="editIcon">edit</span>
+    </label>
+    <br />
+    <span>{{ office.info }}</span>
+    <span *ngIf="office.info == null || ''">Vad kan vara bra att känna till i {{ office.name }}?</span>
+    <span *ngIf="office.info == ''">Vad kan vara bra att känna till i {{ office.name }}?</span>
+  </div>
+
+  
 </div>

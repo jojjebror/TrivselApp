@@ -26,7 +26,7 @@ namespace Logic.Database.Migrations
                 Id = 1,
                 Name = "Linköping",
                 Adress = "Snickaregatan 40, 582 26 Linköping",
-                SwishNumber = "070-050 19 14"
+                SwishNumber = "0700501914"
             };
 
             var office2 = new Office()
@@ -42,7 +42,7 @@ namespace Logic.Database.Migrations
                 Id = 3,
                 Name = "Göteborg",
                 Adress = "Kungsportsavenyen 34, 411 36 Göteborg",
-                SwishNumber = "070-050 19 14"
+                SwishNumber = "0700501914"
             };
 
             var office4 = new Office()
@@ -50,7 +50,7 @@ namespace Logic.Database.Migrations
                 Id = 4,
                 Name = "Malmö",
                 Adress = "Skeppsbron 5, 211 20 Malmö",
-                SwishNumber = "070-050 19 14"
+                SwishNumber = "0700501914"
             };
 
             var office5 = new Office()
@@ -73,28 +73,28 @@ namespace Logic.Database.Migrations
                 Id = 7,
                 Name = "Söderhamn",
                 Adress = "Källgatan 9, 826 30 Söderhamn",
-                SwishNumber = "070-050 19 14"
+                SwishNumber = "0700501914"
             };
             var office8 = new Office()
             {
                 Id = 8,
                 Name = "Borlänge",
                 Adress = "Forskargatan 3, 781 70 Borlänge",
-                SwishNumber = "070-050 19 14"
+                SwishNumber = "0700501914"
             };
             var office9 = new Office()
             {
                 Id = 9,
                 Name = "Helsingborg",
                 Adress = "Florettgatan 29B, 254 67 Helsingborg",
-                SwishNumber = "070-050 19 14"
+                SwishNumber = "0700501914"
             };
             var office10 = new Office()
             {
                 Id = 10,
                 Name = "Karlstad",
                 Adress = "Södra Kyrkogatan 6, 652 24 Karlstad",
-                SwishNumber = "070-050 19 14"
+                SwishNumber = "0700501914"
             };
 
             var testUser = new User()

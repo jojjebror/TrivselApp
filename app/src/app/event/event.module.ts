@@ -28,7 +28,9 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
     PopoverModule.forRoot()
   ],
   exports: [],
-  declarations: [...views, ...components],
+  declarations: [
+     ...views,
+     ...components],
   providers: []
 })
 export class EventModule {}

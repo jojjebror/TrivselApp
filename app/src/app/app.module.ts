@@ -21,6 +21,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     SharedModule,
     CoreModule,
     AppRoutingModule,
+    
     StoreDevtoolsModule.instrument(),
     /* 	AngularFireModule.initializeApp(environment.firebase) */
   ],

@@ -8,7 +8,6 @@ import { DrinkState } from '../../drink/state';
 import { UserState } from '../../user/state';
 import { HomeState } from '../../start/state'
 import { ReceiptState } from '../../receipt/state';
-import { OfficesState } from 'src/app/start/state/offices/offices.model';
 
 
 
@@ -22,7 +21,6 @@ export interface AppState {
 
 	session: SessionState;
 
-
 	event?: EventState;
 	
 	drink?: DrinkState;
@@ -32,6 +30,4 @@ export interface AppState {
 	home?: HomeState;
 
 	receipt?: ReceiptState;	
-
-	offices?: OfficesState;
 }

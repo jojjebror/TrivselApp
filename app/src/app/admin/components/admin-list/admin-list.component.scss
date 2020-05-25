@@ -6,12 +6,20 @@
   cursor: pointer;
 }
 
+#cell-default {
+  cursor: default !important;
+}
+
 ::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
     background-color: green;
 }
 
 ::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
     background-color: black;
+}
+
+.mobile-label {
+  display: none;
 }
 
 .center {
@@ -71,15 +79,15 @@
 }
 
 .mat-column-actions {
-  flex: 0 0 15%;
+  flex: 0 0 20%;
 }
 
 .mat-column-actions2 {
-  flex: 0 0 15%;
+  flex: 0 0 20%;
 }
 
 .mat-column-actions3 {
-  flex: 0 0 15%;
+  flex: 0 0 20%;
 }
 
 .noDataTable {
@@ -103,14 +111,12 @@
   vertical-align: middle;
 }
 
-/* active tab */
 ::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
   color: white;
   font-size: 18px;
   opacity: 1;
 }
 
-/* ink bar */
 ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,
 .mat-tab-nav-bar.mat-primary {
   background-color: white !important;
@@ -121,7 +127,6 @@
   font-size: 18px;
 }
 
-
 #searchbar {
   font-size: 14px;
   width: 160px !important;
@@ -131,6 +136,14 @@
   flex: 1 1 auto;
   text-align: right;
 }
+
+::ng-deep .mat-tab-header-pagination-chevron {
+    border-color: white !important;
+  }
+
+::ng-deep .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron {
+    border-color: white !important;
+  }
 
 ::ng-deep .mat-paginator .mat-paginator-container {
   background-color: transparent;
@@ -150,3 +163,10 @@
 ::ng-deep .mat-paginator-range-label {
   color: white;
 }
+
+
+@media (max-width: 454px) {
+.center {
+  margin-right: 6px;
+}
+ }
