@@ -11,7 +11,7 @@ import { AppState } from 'src/app/core/state';
 import * as fromSession from '../../../core/state/session';
 import { AuthenticationService } from 'src/app/core/services';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/dialogs/confirmDialog/confirmDialog.component';
-import { MatDialog, MatTableDataSource } from '@angular/material';
+import { MatDialog } from '@angular/material';
 
 
 @Component({
@@ -65,7 +65,6 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
   addCredit() {
     var creditInput = [this.userCreditForm.get('credit').value]
       this.user = Object.assign({}, this.userCreditForm.value);
-        console.log(this.user);
            var data = [this.userId, this.userCreditForm.get('credit').value]
              console.log(data);
     this.store$.dispatch(new fromUser.UpdateCredit(data));
