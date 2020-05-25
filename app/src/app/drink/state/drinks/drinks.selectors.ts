@@ -2,7 +2,6 @@ import { createSelector } from '@ngrx/store';
 
 import { AppState } from '../../../core/state';
 import { adapter } from './drinks.adapter';
-import { state } from '@angular/animations';
 
 const { selectAll } = adapter.getSelectors();
 
@@ -22,11 +21,3 @@ export const getCurrentDrink = createSelector(selectState, getCurrentDrinkId, st
 
 export const getFilterDrinks = createSelector(selectState, selectAll);
 
-
-
-
- // export const getBeer = createSelector(getDrinks, state => state.filter(category => category.category == 'öl'))
-
- // export const getVin = createSelector(getDrinks, state => state.filter(category => category.category == 'vin'))
-
- // export const getCider = createSelector(getDrinks, state => state.filter(category => category.category == 'cider'))

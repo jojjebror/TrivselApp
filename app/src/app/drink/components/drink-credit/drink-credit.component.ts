@@ -116,14 +116,11 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
       }
      }
       var newEncode = JSON.stringify(initField);
-  
-            var encodedString = encodeURI(newEncode);
-  
-                  var httpUrl = 'swish://payment?data=';
-  
-                      let urlInput = httpUrl + encodedString;
-
-                     document.location.replace(urlInput);
+       var encodedString = encodeURI(newEncode);
+        var httpUrl = 'swish://payment?data=';
+         let urlInput = httpUrl + encodedString;
+                      console.log(urlInput);
+                    // document.location.replace(urlInput);
 
                      // let callback = &callbackurl=http://localhost:8080/drink/pay&callbackresultparameter=paid add last 
   }

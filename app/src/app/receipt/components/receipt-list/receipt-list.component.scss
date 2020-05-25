@@ -114,10 +114,6 @@
         align-self: flex-end;
       }
   
-  
-      display: flex;
-      flex-grow: 1;
-  
       .name {
         font-size: 14px;
         font-weight: 500;
@@ -149,21 +145,14 @@
     .mat-card {
       width: 32%;
     }
-  
-
     .container {
       width: 99%;
     }
-
-
   }
-
-
   
   @media (max-width: 454px) {
     .mat-card {
       width: 60%;
-
     }
 
     .container {
@@ -172,12 +161,9 @@
     }
 
     .container2 {
-
       width: 99%;
       height: 300px;
       padding-bottom: 4rem;
-
-
       label {
         height: 40px;
         width: 180px;
