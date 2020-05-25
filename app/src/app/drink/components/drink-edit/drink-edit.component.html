@@ -70,6 +70,23 @@
         </div>
       </div>
     </div>
+    <div>
+      <a>Smak</a>
+      <input
+        type="text"
+        [ngClass]="{
+          'is-invalid':
+            drinkEditForm.get('taste').errors &&
+            drinkEditForm.get('taste').touched
+        }"
+        class="form-control"
+        placeholder="Smak"
+        formControlName="taste"
+      />
+      <div class="invalid-feedback">
+        Skriv ett par rader om drycken!
+      </div>
+    </div>
     <div class="row">
       <div class="col-sm-4">
         <div>
@@ -94,23 +111,7 @@
         </div>
       </div>
     </div>
-    <div>
-      <a>Beskrivning</a>
-      <input
-        type="text"
-        [ngClass]="{
-          'is-invalid':
-            drinkEditForm.get('taste').errors &&
-            drinkEditForm.get('taste').touched
-        }"
-        class="form-control"
-        placeholder="Beskrivning av drycken"
-        formControlName="taste"
-      />
-      <div class="invalid-feedback">
-        Skriv ett par rader om drycken!
-      </div>
-    </div>
+    
     <div class="row">
       <div class="col-sm-4">
         <div>
