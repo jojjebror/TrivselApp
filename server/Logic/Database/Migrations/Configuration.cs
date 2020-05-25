@@ -1,12 +1,9 @@
 namespace Logic.Database.Migrations
 {
     using Logic.Database.Entities;
-    using Logic.Models;
-    using Logic.Services;
     using Microsoft.AspNet.Identity;
     using System;
     using System.Data.Entity.Migrations;
-    using System.Threading.Tasks;
 
     internal sealed class Configuration : DbMigrationsConfiguration<DatabaseContext>
     {
@@ -579,11 +576,9 @@ namespace Logic.Database.Migrations
             context.EventParticipants.AddOrUpdate(testEp13);
             context.EventParticipants.AddOrUpdate(testEp14);
 
-
             context.Drinks.AddOrUpdate(testBeer);
             context.Drinks.AddOrUpdate(testWine);
             context.Drinks.AddOrUpdate(testCider);
-
 
             context.SaveChanges();
         }

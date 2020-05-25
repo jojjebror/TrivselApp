@@ -24,27 +24,6 @@ namespace Logic.Services
             _calendarService = CreateGoogleCalendarService();
         }
 
-        //public CalendarService CreateGoogleCalendarService()
-        //{
-        //    string[] scopes = { CalendarService.Scope.Calendar };
-        //    GoogleCredential credential;
-
-        //    using (var stream = new FileStream("serviceAccountCredentials.json", FileMode.Open, FileAccess.Read))
-        //    {
-        //        credential = GoogleCredential.FromStream(stream)
-        //            .CreateScoped(scopes).CreateWithUser(calendarId);
-        //    }
-
-        //    // Create the Calendar service.
-        //    var calendarService = new CalendarService(new BaseClientService.Initializer()
-        //    {
-        //        HttpClientInitializer = credential,
-        //        ApplicationName = "TrivselApp"
-        //    });
-
-        //    return calendarService;
-        //}
-
         public CalendarService CreateGoogleCalendarService()
         {
             try
@@ -87,6 +66,29 @@ namespace Logic.Services
 
             return null;
         }
+
+        //---------For a service account solution instead of individual user account calendar----------
+
+        //public CalendarService CreateGoogleCalendarService()
+        //{
+        //    string[] scopes = { CalendarService.Scope.Calendar };
+        //    GoogleCredential credential;
+
+        //    using (var stream = new FileStream("serviceAccountCredentials.json", FileMode.Open, FileAccess.Read))
+        //    {
+        //        credential = GoogleCredential.FromStream(stream)
+        //            .CreateScoped(scopes).CreateWithUser(calendarId);
+        //    }
+
+        //    // Create the Calendar service.
+        //    var calendarService = new CalendarService(new BaseClientService.Initializer()
+        //    {
+        //        HttpClientInitializer = credential,
+        //        ApplicationName = "TrivselApp"
+        //    });
+
+        //    return calendarService;
+        //}
 
         public async Task<Google.Apis.Calendar.v3.Data.Event> GetGoogleEvent(string googleEventId)
         {

@@ -159,7 +159,6 @@ export class EventsEffects {
           }),
           new eventsActions.GetCurrentUserEvent(action.payload[1]),
         ]),
-        //tap(() => this.router.navigate(['/event'])),
         catchError((err) => of(new eventsActions.UpdateUserParticipantError(err)))
       )
     )
