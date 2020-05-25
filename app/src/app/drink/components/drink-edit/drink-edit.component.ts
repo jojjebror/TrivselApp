@@ -10,7 +10,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material";
 import { filter } from "rxjs/operators";
 import { ActionTypes } from '../../state/drinks';
-import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
+import { getLoadingData } from '../../../core/state/loading';
 
 @Component({
   selector: "ex-event-edit",
@@ -41,7 +41,6 @@ export class DrinkEditComponent implements OnInit {
     this.dr$ = this.store$.pipe(select(fromDrink.getCurrentDrink));
     console.log(this.dr$);
     this.createDrinkEditForm();
-    console.log(this.drinkEditForm);
   }
   //creates a form for editing existing drinks with the required parameters.
   createDrinkEditForm() {
@@ -62,7 +61,6 @@ export class DrinkEditComponent implements OnInit {
   updateDrink() {
     if (this.drinkEditForm.valid) {
       const dr = Object.assign({}, this.drinkEditForm.value);
-      console.log(dr);
       this.store$.dispatch(new fromDrink.UpdateDrink(dr, this.fileUpload));
       this.updateDrinkSnackbar();
     }

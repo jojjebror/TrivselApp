@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Store, select, ActionsSubject, defaultStateFn } from '@ngrx/store';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { AppState } from 'src/app/core/state';
 import { Drink, User, Office } from 'src/app/shared/models';
 
@@ -240,13 +239,13 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     };
 
     var newEncode = JSON.stringify(initField);
-    console.log(newEncode);
+    //console.log(newEncode);
 
     var encodedString = encodeURI(newEncode);
-    console.log(encodedString);
+    //console.log(encodedString);
 
     var httpUrl = 'swish://payment?data=';
-    console.log(httpUrl + encodedString); // var y =  callbackUrl + resultparameter. Lägg till vart swish ska skicka callbackUrl tex'http://exsitecDomän/drink/pay' (resultparamet = ex 'paid')
+    //console.log(httpUrl + encodedString); // var y =  callbackUrl + resultparameter. Lägg till vart swish ska skicka callbackUrl tex'http://exsitecDomän/drink/pay' (resultparamet = ex 'paid')
 
     // document.location.replace(sendUrl);  var sendUrl = httpUrl + encodedString + callback)
   }

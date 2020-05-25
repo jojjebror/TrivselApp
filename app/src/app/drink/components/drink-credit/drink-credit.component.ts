@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import * as officesActions from "../../../start/state/offices/offices.actions";
 import * as fromOffices from "../../../start/state/offices/";
