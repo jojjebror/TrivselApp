@@ -3,5 +3,9 @@ import { EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { User } from '../../../shared/models';
 
 export const adapter: EntityAdapter<User> = createEntityAdapter<User>({
-  selectId: (user: User) => user.id
+  sortComparer: sortByName
 });
+
+export function sortByName(a: { name: string }, b: { name: string }): number {
+  return a.name.localeCompare(b.name);
+}
