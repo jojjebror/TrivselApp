@@ -31,21 +31,33 @@
       </mat-form-field>
     </div>
 
-    <!-- <div>
-      <img class="card-img-top img-thumbnail" [src]="imageUrl ? 
-              imageUrl : '/assets/images/event-images/default_event.png'" />
-      <input type="file" accept="image/*" autocomplete="off" formControlName="imageurl"
-        (change)="loadImage($event.target.files)" />
-    </div>  -->
 
-    <div>
+    <!-- <div>
       <input type="file" accept="image/*" autocomplete="off" formControlName="imageurl" (change)="fileProgress($event)" />
-    
       <div *ngIf="imageUrl">
         <img [src]="imageUrl" style="width: 100px; margin-top: 15px;" />
-      </div>
+      </div> -->
       <!-- <mat-error *ngIf="eventForm.invalid">Fel filtyp</mat-error> -->
       <!-- </mat-form-field> -->
+    <!-- </div> -->
+
+    <div id="imageDiv">
+      <mat-form-field appearance="outline" tabindex="-1">
+        <mat-label>Bild</mat-label>
+        <input matInput formControlName="imageurl" autocomplete="off" readonly />
+        <a (click)="imageurl.click()" id="imageBtn" class="btn btn-success">Välj bild</a>
+        <a (click)="clearImage()" style="float: right;">
+          <span class="material-icons">
+            clear
+          </span>
+        </a>
+      </mat-form-field>
+      <input style="display: none;" type="file" accept="image/*" #imageurl autocomplete="off" (change)="fileProgress($event)" />
+
+      <div *ngIf="imageUrl">
+        <img [src]="imageUrl" style="width: 100px;" />
+      </div>
+      <mat-error *ngIf="invalidImage">{{ getErrorMessage('imageurl') }}</mat-error>
     </div>
 
 

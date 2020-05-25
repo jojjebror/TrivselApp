@@ -144,7 +144,7 @@ namespace Logic.Services
         {
             var dbDrink = await _context.Drinks.FindAsync(id);
 
-            var uploadResult = _cloudinaryService.UploadDrinkImage(dbDrink.ImageId, image);
+            var uploadResult = await _cloudinaryService.UploadImage(image, "drink-images", dbDrink.ImageId);
 
             dbDrink.Image = uploadResult.Uri.ToString();
             dbDrink.ImageId = uploadResult.PublicId;

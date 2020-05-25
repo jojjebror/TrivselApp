@@ -3,6 +3,8 @@ import { Office, User } from 'src/app/shared/models';
 import { Store, select, ActionsSubject } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 import * as fromOffices from '../../state/offices';
+import * as fromPodcast from '../../state/podcast';
+import * as fromUsers from '../../../user/state/users';
 import { Observable, Subscription } from 'rxjs';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import {
@@ -10,6 +12,7 @@ import {
   EditOfficeInfoDialogComponent,
 } from 'src/app/shared/dialogs/editOfficeInfoDialog/editOfficeInfoDialog.component';
 import { filter } from 'rxjs/operators';
+import { UsersEffects } from '../../../user/state/users';
 
 @Component({
   selector: 'ex-office-detail',
@@ -21,6 +24,7 @@ export class OfficeDetailComponent implements OnDestroy, OnChanges {
   @Input() user: User;
 
   office$: Observable<Office>;
+  users$: Observable<User[]>
   subscription = new Subscription();
 
   constructor(
@@ -31,7 +35,9 @@ export class OfficeDetailComponent implements OnDestroy, OnChanges {
   ) {}
 
   ngOnChanges() {
-    this.office$ = this.store$.pipe(select(fromOffices.getUserOffice(this.user.office)));
+    this.store$.dispatch(new fromUsers.GetUsers());
+      this.office$ = this.store$.pipe(select(fromOffices.getUserOffice(this.user.office)));
+      this.users$ = this.store$.pipe(select(fromUsers.getUsersInOffice(this.user.office)));
   }
 
   editOfficeInfoDialog(office: Office): void {

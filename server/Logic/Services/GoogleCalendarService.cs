@@ -16,8 +16,6 @@ namespace Logic.Services
 {
     public class GoogleCalendarService
     {
-        // trivselapp@gmail.com exsitec123
-        
         private readonly CalendarService _calendarService;
 
         private readonly string calendarId = "primary"; //primary
@@ -25,27 +23,6 @@ namespace Logic.Services
         {
             _calendarService = CreateGoogleCalendarService();
         }
-
-        //public CalendarService CreateGoogleCalendarService()
-        //{
-        //    string[] scopes = { CalendarService.Scope.Calendar };
-        //    GoogleCredential credential;
-
-        //    using (var stream = new FileStream("serviceAccountCredentials.json", FileMode.Open, FileAccess.Read))
-        //    {
-        //        credential = GoogleCredential.FromStream(stream)
-        //            .CreateScoped(scopes).CreateWithUser(calendarId);
-        //    }
-
-        //    // Create the Calendar service.
-        //    var calendarService = new CalendarService(new BaseClientService.Initializer()
-        //    {
-        //        HttpClientInitializer = credential,
-        //        ApplicationName = "TrivselApp"
-        //    });
-
-        //    return calendarService;
-        //}
 
         public CalendarService CreateGoogleCalendarService()
         {
@@ -89,6 +66,29 @@ namespace Logic.Services
 
             return null;
         }
+
+        //---------For a service account solution instead of individual user account calendar----------
+
+        //public CalendarService CreateGoogleCalendarService()
+        //{
+        //    string[] scopes = { CalendarService.Scope.Calendar };
+        //    GoogleCredential credential;
+
+        //    using (var stream = new FileStream("serviceAccountCredentials.json", FileMode.Open, FileAccess.Read))
+        //    {
+        //        credential = GoogleCredential.FromStream(stream)
+        //            .CreateScoped(scopes).CreateWithUser(calendarId);
+        //    }
+
+        //    // Create the Calendar service.
+        //    var calendarService = new CalendarService(new BaseClientService.Initializer()
+        //    {
+        //        HttpClientInitializer = credential,
+        //        ApplicationName = "TrivselApp"
+        //    });
+
+        //    return calendarService;
+        //}
 
         public async Task<Google.Apis.Calendar.v3.Data.Event> GetGoogleEvent(string googleEventId)
         {
@@ -256,6 +256,7 @@ namespace Logic.Services
                 syncTokenXml = XDocument.Load("synctoken.xml");
                 var nextSyncToken = syncTokenXml.Root.Value;
 
+                //Makes a request for all google events that has changed since the last synctoken
                 var request = _calendarService.Events.List(calendarId);
                 request.SyncToken = (nextSyncToken != "") ? nextSyncToken : null;
                 var googleEvents = await request.ExecuteAsync();

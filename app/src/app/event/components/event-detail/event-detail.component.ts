@@ -41,6 +41,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   index = 0;
   selectedPage: number = 0;
   selectedTab: number = 0;
+  adminPage: boolean = false;
 
   constructor(
     private store$: Store<AppState>,
@@ -68,10 +69,6 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     this.loadEvent();
     this.createPostForm();
     this.loadParams();
-
-    //Måste lösa på snyggare sätt, går inte att sätta i subscriben ovan..
-    /* this.loadPageParams();
-    this.loadTabParams(); */
   }
 
   loadEvent() {
@@ -224,6 +221,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
       this.activatedRoute.queryParams.subscribe((params) => {
         this.selectedPage = params['page'];
         this.selectedTab = params['tab'];
+        this.adminPage = params['a'];
       })
     );
   }

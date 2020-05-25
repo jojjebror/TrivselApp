@@ -10,10 +10,6 @@ export const selectState = (state: AppState) => state.event.evs;
 
 export const getEvents = createSelector(selectState, selectAll);
 
-export const getEventsLoading = createSelector(selectState, (state) => state.loading);
-
-export const getEventsLoaded = createSelector(selectState, (state) => state.loaded);
-
 export const getError = createSelector(selectState, (state) => state.error);
 
 export const getCurrentEventId = createSelector(selectState, (state) => state.selectedEventId);

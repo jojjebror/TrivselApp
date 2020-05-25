@@ -18,7 +18,7 @@
   transform: rotate(180deg);
 }
 .invitesList {
-  border: 1px
+  border: 1px;
 }
 
 .loader {
@@ -250,8 +250,8 @@ ul {
   color: white;
 }
 
-.noCursor {
-  color: white;
+.disableCursor {
+  cursor: default !important;
 }
 
 @media (max-width: 1200px) {
