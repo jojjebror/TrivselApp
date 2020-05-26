@@ -18,12 +18,12 @@ export class PodcastEffects {
   ) {}
 
   @Effect()
-  loadPodcastEpisodes$: Observable<Action> = this.actions$.pipe(
-    ofType(podcastActions.ActionTypes.LOAD_PODCAST_EPISODES),
+  loadPodcast$: Observable<Action> = this.actions$.pipe(
+    ofType(podcastActions.ActionTypes.LOAD_PODCAST),
     switchMap(() => {
       return this.homeResource.loadPodcast().pipe(
-        map((episode: PodcastEpisode[]) => new podcastActions.LoadPodcastEpisodesSuccess(episode)),
-        catchError((err) => of(new podcastActions.LoadPodcastEpisodesError(err)))
+        map((episode: PodcastEpisode[]) => new podcastActions.LoadPodcastSuccess(episode)),
+        catchError((err) => of(new podcastActions.LoadPodcastError(err)))
       );
     })
   );

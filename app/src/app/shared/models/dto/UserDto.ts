@@ -4,13 +4,15 @@
  * Class User generated from Logic.Models.UserDto
  */
 export class User extends Base {
-  public email: string;
-
   public name: string;
 
-  public status: string;
+  public email: string;
 
   public credit: number;
 
-  public office: string;
+  public admin: boolean;
+
+  public status: string;
+
+  public office?: string;
 }

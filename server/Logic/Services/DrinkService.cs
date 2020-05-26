@@ -25,14 +25,14 @@ namespace Logic.Services
             _cloudinaryService = new CloudinaryService();
         }
 
-
+        //Gets all the drink-objects.
         public async Task<ICollection<DrinkForListDto>> GetDrinks()
         {
             var dbDrinks = await _context.Drinks.ToListAsync();
-            return dbDrinks.Select(DrinkForListTranslator.ToModel).ToList();
+            return dbDrinks.Select(DrinkTranslator.TodrinkForListDto).ToList();
         }
 
-
+        //Filters the objects in Drink, based on it's category name. 
         public async Task<ICollection<DrinkForListDto>> FilterDrink(string category)
         {
 
@@ -40,21 +40,21 @@ namespace Logic.Services
             {
 
                 var filter = await _context.Drinks.Where(d => d.Category == "Öl").ToListAsync();
-                var add = filter.Select(DrinkForListTranslator.ToModel).ToList();
+                var add = filter.Select(DrinkTranslator.TodrinkForListDto).ToList();
                 return add;
 
             }
             if (category == "Vin")
             {
                 var filter = await _context.Drinks.Where(d => d.Category == "Vin").ToListAsync();
-                var add = filter.Select(DrinkForListTranslator.ToModel).ToList();
+                var add = filter.Select(DrinkTranslator.TodrinkForListDto).ToList();
                 return add;
             }
 
             if (category == "Cider")
             {
                 var filter = await _context.Drinks.Where(d => d.Category == "Cider").ToListAsync();
-                var add = filter.Select(DrinkForListTranslator.ToModel).ToList();
+                var add = filter.Select(DrinkTranslator.TodrinkForListDto).ToList();
                 return add;
 
             }
@@ -62,7 +62,7 @@ namespace Logic.Services
             if (category == "Kategori")
             {
                 var filter = await _context.Drinks.Where(d => d.Category == "Kategori").ToListAsync();
-                var add = filter.Select(DrinkForListTranslator.ToModel).ToList();
+                var add = filter.Select(DrinkTranslator.TodrinkForListDto).ToList();
                 return add;
 
             }
@@ -76,43 +76,26 @@ namespace Logic.Services
             throw new NotImplementedException();
         }
 
+        //Gets a drink-object based on its id. 
         public async Task<DrinkForListDto> GetDrink(int id)
         {
             var dbDrink = await _context.Drinks
                  .FirstOrDefaultAsync(e => e.Id == id);
-            var dr = DrinkForListTranslator.ToModel(dbDrink);
+            var dr = DrinkTranslator.TodrinkForListDto(dbDrink);
 
             return dr;
 
         }
-
-        //public async Task <ICollection<DrinkForListDto>> FilterDrinks()
-        //{
-
-        //    var filter = await _context.Drinks.Where(d => d.Category == "Vin").ToListAsync();
-
-        //    if (filter != null)
-        //    {
-        //        return filter.Select(DrinkForListTranslator.ToModel).ToList();
-        //    }
-
-
-        //    return null;
-        //}
-
-
+        //Creates a drink object with the listed paramteters below. 
         public async Task<DrinkForListDto> Create(DrinkForListDto drink)
         {
             var dr = new Drink()
             {
                 ProductNameBold = drink.ProductNameBold,
                 Category = drink.Category,
-                AlcoholPercentage = drink.AlcoholPercentage,
                 Volume = drink.Volume,
                 Price = drink.Price,
-                Usage = drink.Usage,
                 Taste = drink.Taste,
-                BeverageDescriptionShort = drink.BeverageDescriptionShort,
                 Image = drink.Image
 
             };
@@ -120,11 +103,11 @@ namespace Logic.Services
             _context.Drinks.Add(dr);
             await _context.SaveChangesAsync();
 
-            return DrinkForListTranslator.ToModel(dr);
+            return DrinkTranslator.TodrinkForListDto(dr);
         }
 
 
-
+        //Deletes a specified drink-object based on its id. 
         public async Task<int> DeleteDrink(int id)
         {
             var dbDrink = await _context.Drinks.FirstOrDefaultAsync(e => e.Id == id);
@@ -139,7 +122,7 @@ namespace Logic.Services
             return id;
         }
 
-       
+       //Updates a drink-object with same parameters but different values. 
         public async Task<DrinkForUpdateDto> Update(int id, DrinkForUpdateDto dr)
         {
             var dbDrink = await _context.Drinks
@@ -149,25 +132,26 @@ namespace Logic.Services
             dbDrink.Price = dr.Price;
             dbDrink.Volume = dr.Volume;
             dbDrink.Category = dr.Category;
+            dbDrink.Taste = dr.Taste;
             dbDrink.Image = dr.Image;
 
             await _context.SaveChangesAsync();
 
-            return DrinkForUpdateTranslator.ToModel(dbDrink);
+            return DrinkTranslator.ToDrinkForUpdateDto(dbDrink);
         }
-
+        //Image upload.
         public async Task<DrinkForListDto> UploadDrinkImage(int id, IFormFile image)
         {
             var dbDrink = await _context.Drinks.FindAsync(id);
 
-            var uploadResult = _cloudinaryService.UploadDrinkImage(dbDrink.ImageId, image);
+            var uploadResult = await _cloudinaryService.UploadImage(image, "drink-images", dbDrink.ImageId);
 
             dbDrink.Image = uploadResult.Uri.ToString();
             dbDrink.ImageId = uploadResult.PublicId;
 
             await _context.SaveChangesAsync();
 
-            return DrinkForListTranslator.ToModel(dbDrink);
+            return DrinkTranslator.TodrinkForListDto(dbDrink);
         }
 
 

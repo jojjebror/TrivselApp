@@ -1,5 +1,9 @@
-<div class="container mt-5 border border-light p-5" *ngIf="ev$ | async; let ev">
-  <button mat-icon-button class="close-button" [routerLink]="['/event']">
+<div class="container border border-light" *ngIf="ev$ | async; let ev">
+  <button *ngIf="!adminPage" mat-icon-button class="close-button" [routerLink]="['/event']" [queryParams]="{ page: selectedPage, tab: selectedTab}">
+    <mat-icon class="close-icon" color="white">close</mat-icon>
+  </button>
+  <button *ngIf="adminPage" mat-icon-button class="close-button" [routerLink]="['/admin']"
+    >
     <mat-icon class="close-icon" color="white">close</mat-icon>
   </button>
   <div class="row">
@@ -24,15 +28,15 @@
             <strong>När:</strong>
             <p>
               {{ getDayOfWeek(ev.startDate) }}
-              {{ ev.startDate | date: 'd/M/yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }}
+              {{ ev.startDate | date: 'd/M-yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }}
               <span *ngIf="checkEndTime(ev.endDate)"> - {{ ev.endDate | date: 'HH:mm' }} </span>
             </p>
           </div>
           <div *ngIf="!checkDates(ev.startDate, ev.endDate)">
             <strong>När:</strong>
             <p>
-              Starttid: {{ ev.startDate | date: 'd/M/yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }} <br />
-              Sluttid: {{ ev.endDate | date: 'd/M/yyyy' }} kl. {{ ev.endDate | date: 'HH:mm' }}
+              Starttid: {{ ev.startDate | date: 'd/M-yy' }} kl. {{ ev.startDate | date: 'HH:mm' }} <br />
+              Sluttid: {{ ev.endDate | date: 'd/M-yy' }} kl. {{ ev.endDate | date: 'HH:mm' }}
             </p>
           </div>
           <div>
@@ -47,7 +51,7 @@
             <strong>Status:</strong>
             <p style="color: rgb(27, 196, 27);" *ngIf="checkAttendedUsers()">Deltar</p>
             <p style="color: rgb(243, 2, 2);" *ngIf="checkDeclinedUsers()">Avböjt</p>
-            <p *ngIf="!checkDeclinedUsers() && !checkAttendedUsers()">Obsesvarad</p>
+            <p *ngIf="!checkDeclinedUsers() && !checkAttendedUsers()">Obesvarad</p>
           </div>
         </div>
         <div class="card-footer">
@@ -89,8 +93,7 @@
                     id="commentBox"
                     placeholder="Kommentera..."
                     formControlName="content"
-                    cols="30"
-                    rows="3"
+                    
                     [maxLength]="170"
                     autocomplete="off"
                   ></textarea>
@@ -110,7 +113,7 @@
                             <div>
                               <strong><span class="material-icons" id="userIcon"> account_box </span> {{ post.creatorName }}</strong>
                               <span class="text-muted pull-right">
-                                <small class="text-muted"> - {{ post.created | date: 'dd/M/yyyy-HH:mm' }}</small>
+                                <small class="text-muted"> - {{ post.created | date: 'dd/M-yyyy-HH:mm' }}</small>
                               </span>
 
                               <button *ngIf="post.creatorId == userId"
@@ -142,10 +145,10 @@
             <mat-tab-group class="under-tab" *ngIf="index == 1" [selectedIndex]="1">
               <mat-tab label="Inbjudna [ {{ countParticipants(invitedParticipants$) }} ]">
                 <mat-selection-list class="invitesList">
-                  <mat-list-option class="white" *ngIf="countParticipants(invitedParticipants$) == 0"
+                  <mat-list-option class="white disableCursor" *ngIf="countParticipants(invitedParticipants$) == 0"
                     >Det finns inga inbjudna till evenemanget.</mat-list-option
                   >
-                  <mat-list-option class="participants" *ngFor="let user of invitedParticipants$ | async">
+                  <mat-list-option class="participants disableCursor" *ngFor="let user of invitedParticipants$ | async">
                     <mat-icon matListIcon class="white">account_box</mat-icon>
                     <p>
                       {{ user.name }}
@@ -155,10 +158,10 @@
               </mat-tab>
               <mat-tab label="Accepterat [ {{ countParticipants(attendedParticipants$) }} ]">
                 <mat-selection-list class="invitesList">
-                  <mat-list-option class="white" *ngIf="countParticipants(attendedParticipants$) == 0"
+                  <mat-list-option class="white disableCursor" *ngIf="countParticipants(attendedParticipants$) == 0"
                     >Ingen har accepterat deltagande i evenemanget.</mat-list-option
                   >
-                  <mat-list-option class="participants" *ngFor="let user of attendedParticipants$ | async">
+                  <mat-list-option class="participants disableCursor" *ngFor="let user of attendedParticipants$ | async">
                     <mat-icon matListIcon class="white">account_box</mat-icon>
                     <p>
                       {{ user.name }}
@@ -168,10 +171,10 @@
               </mat-tab>
               <mat-tab label="Avböjt [ {{ countParticipants(declinedParticipants$) }} ]">
                 <mat-selection-list class="invitesList">
-                  <mat-list-option class="white" *ngIf="countParticipants(declinedParticipants$) == 0"
+                  <mat-list-option class="white disableCursor" *ngIf="countParticipants(declinedParticipants$) == 0"
                     >Ingen har avböjt sitt deltagande i evenemanget.</mat-list-option
                   >
-                  <mat-list-option class="participants" *ngFor="let user of declinedParticipants$ | async">
+                  <mat-list-option class="participants disableCursor" *ngFor="let user of declinedParticipants$ | async">
                     <mat-icon matListIcon class="white">account_box</mat-icon>
                     <p>
                       {{ user.name }}

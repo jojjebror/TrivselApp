@@ -67,7 +67,7 @@ export class ReceiptsEffects {
     switchMap((id: number) =>
       this.receiptResource.deleteReceipt(id).pipe(
         map(() => new receiptsActions.DeleteReceiptSuccess(id)),
-        tap(() => this.router.navigate(['/Receipt'])),
+        tap(() => this.router.navigate(['/receipt'])),
         catchError((err) => of(new receiptsActions.DeleteReceiptError(err)))
       )
     )

@@ -7,14 +7,13 @@ import * as fromSession from "../../../core/state/session";
 import { Observable, Subscription } from "rxjs";
 import { Drink } from "src/app/shared/models";
 import { ActivatedRoute, Router } from "@angular/router";
-import { AlertifyService } from "src/app/core/services/alertify.service";
 
 import * as fromDrink from "../../state/drinks";
 import * as drinksActions from "../../state/drinks";
 import { filter } from "rxjs/operators";
 import { MatSnackBar, MatDialog } from "@angular/material";
 import { AuthenticationService } from "src/app/core/services";
-import { ConfirmDialogModel, ConfirmDialogComponent } from "src/app/shared/components/confirmDialog/confirmDialog.component";
+import { ConfirmDialogModel, ConfirmDialogComponent } from "src/app/shared/dialogs/confirmDialog/confirmDialog.component";
 
 @Component({
   selector: "ex-drink-detail",
@@ -36,7 +35,6 @@ export class DrinkDetailComponent implements OnInit {
 
   constructor(
     private store$: Store<AppState>,
-    private alertify: AlertifyService,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private actionsSubject$: ActionsSubject,
@@ -55,25 +53,25 @@ export class DrinkDetailComponent implements OnInit {
     this.LoadDrink();
     setTimeout(() => { this.store$.select(fromSession.selectUser).subscribe((currentuser) => (this.userCredit = currentuser.credit)) }, 1000);
   }
-
+  //Loads the selected drink based on its id
   private LoadDrink(): void {
     this.store$.dispatch(new drinksActions.LoadDrink(this.getClickedId()));
     this.dr$ = this.store$.pipe(select(fromDrink.getCurrentDrink));
   }
-
+  
   private getClickedId() {
     var id = Number(this.route.snapshot.paramMap.get("id"));
     this.id = id;
     return id;
   }
-
+  //Deletes the selected drink based on the selected id
   deleteDrink(id: number) {
     console.log(id);
       this.store$.dispatch(new drinksActions.DeleteDrink(id));
       this.showSnackbar();
     
   }
-
+  //message dialog with confirm or cancel. If confirm runs deleteDrink()
   confirmDelete(id: number): void {
     const message = 'Är du säker på att du vill ta bort drycken?';
     const dialogData = new ConfirmDialogModel('Bekräfta', message);
@@ -90,27 +88,20 @@ export class DrinkDetailComponent implements OnInit {
     }));
   }
   
-  clickCount() {
-    this.clickCounter += 1;
-    console.log(this.clickCounter);
-  }
-  clickCountM() {
-    if (this.clickCounter > 1) this.clickCounter -= 1;
-    console.log(this.clickCounter);
-  }
-
+  //Gets the selected drink based on its id. Then rerouted to drink-edit page.
   editDrink(drink: Drink) {
     this.store$.dispatch(new drinksActions.LoadDrink(drink.id));
   }
+
+  //Shows a snackbar message if the drink was succesfully deleted
   showSnackbar() {
     this.subscription.add(
       this.actionsSubject$.pipe(filter((action: any) => action.type === fromDrink.ActionTypes.DELETE_DRINK_SUCCESS)).subscribe((action) => {
         this.snackBar.open('Drycken har tagits bort!', '', { duration: 3000 });
-      }) );}
+      }) );
+    this.ngOnDestroy();
+    }
 
-  toggleShow() {
-    this.isShown = !this.isShown;
-  }
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }

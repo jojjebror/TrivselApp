@@ -34,7 +34,7 @@ namespace Logic.Services
 
         public async Task<ICollection<EventForListDto>> GetEvents()
         {
-            //SyncEventsWithGoogleEvents();
+            SyncEventsWithGoogleEvents();
 
             var dbEvents = await _context.Events.Where(ev => ev.StartDate >= DateTime.Today).Include(e => e.Creator).ToListAsync();
 
@@ -68,7 +68,7 @@ namespace Logic.Services
                 foreach (var office in ev.Offices)
                 {
                     var usersInOffice = await _context.Users.Include(u => u.Office)
-                        .Where(u => u.OfficeId == office.Id && u.Id != ev.CreatorId).ToListAsync();
+                        .Where(u => u.OfficeId == office.Id && u.Id != ev.CreatorId && u.Name != "admin").ToListAsync();
 
                     eventParticipants.AddRange(usersInOffice.Select(u =>
                         new EventParticipant { EventId = ev.Id, UserId = u.Id }).ToList());
@@ -95,7 +95,7 @@ namespace Logic.Services
                 .Where(ep => ep.EventId == newEvent.Id).Select(u => u.User).ToListAsync();
 
             //Create a google calendar event and returns Google Event Id
-            var googleEventId = _googleCalendarService.CreateGoogleEvent(newEvent, attendees);
+            var googleEventId = await _googleCalendarService.CreateGoogleEvent(newEvent, attendees);
             newEvent.GoogleEventId = googleEventId;
 
             await _context.SaveChangesAsync();
@@ -147,15 +147,15 @@ namespace Logic.Services
 
         public void SyncEventsWithGoogleEvents()
         {
-            //Get all google events that has changed
-            var googleEvents = _googleCalendarService.CheckForChangesInGoogleEvents();
-
             try
             {
+                //Get all google events that has changed
+                var googleEvents = _googleCalendarService.CheckForChangesInGoogleEvents().Result;
+
                 foreach (var googleEv in googleEvents)
                 {
                     //Get the event from db that needs to be updated and all the eventparticipants for the event
-                    var dbEvent = _context.Events.FirstOrDefault(e => e.GoogleEventId == googleEv.Id);
+                    var dbEvent =  _context.Events.FirstOrDefault(e => e.GoogleEventId == googleEv.Id);
                     var dbEventParticipants = _context.EventParticipants.Include(ep => ep.User)
                         .Where(ep => ep.EventId == dbEvent.Id).ToList();
 
@@ -163,7 +163,7 @@ namespace Logic.Services
                     if (googleEv.Status == "cancelled")
                     {
                         //Deletes the event from db
-                        var deletedEvId = DeleteEvent(dbEvent.Id);
+                        var deletedEvId = DeleteEvent(dbEvent.Id).Result;
                     }
                     else
                     {
@@ -199,11 +199,13 @@ namespace Logic.Services
                                 //If the eventparticipant does not exist then create it
                                 if (dbEp == null)
                                 {
+                                    var dbUser = _context.Users.FirstOrDefault(u =>
+                                            u.Email == attendee.Email);
+
                                     dbEp = new EventParticipant
                                     {
                                         EventId = dbEvent.Id,
-                                        UserId = _context.Users.FirstOrDefault(u =>
-                                            u.Email == attendee.Email).Id
+                                        UserId = dbUser.Id
                                     };
 
                                     _context.EventParticipants.Add(dbEp);
@@ -217,7 +219,7 @@ namespace Logic.Services
                             }
                         }
                     }
-                    _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }
             }
             catch (Exception e)
@@ -299,7 +301,7 @@ namespace Logic.Services
         {
             var dbEvent = await _context.Events.FindAsync(id);
 
-            var uploadResult = _cloudinaryService.UploadImage(image, "event-images", dbEvent.ImageId);
+            var uploadResult = await _cloudinaryService.UploadImage(image, "event-images", dbEvent.ImageId);
 
             dbEvent.ImageId = uploadResult.PublicId;
             dbEvent.ImageUrl = uploadResult.Uri.ToString();

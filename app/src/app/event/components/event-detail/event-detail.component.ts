@@ -6,7 +6,7 @@ import * as fromEvents from '../../state/events';
 import { Observable, Subscription } from 'rxjs';
 import { Event, User, Post } from 'src/app/shared/models';
 
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as fromSession from '../../../core/state/session';
 import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
 import { ActionTypes } from '../../state/events';
@@ -14,11 +14,11 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { AuthenticationService } from 'src/app/core/services';
 import { filter } from 'rxjs/operators';
-import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/components/confirmDialog/confirmDialog.component';
+import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/dialogs/confirmDialog/confirmDialog.component';
 import {
   ParticipantsDialogModel,
   ParticipantsDialogComponent,
-} from 'src/app/shared/components/participantsDialog/participantsDialog.component';
+} from 'src/app/shared/dialogs/participantsDialog/participantsDialog.component';
 
 @Component({
   selector: 'ex-event-detail',
@@ -39,12 +39,16 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   invitedParticipants$: Observable<User[]>;
   declinedParticipants$: Observable<User[]>;
   index = 0;
+  selectedPage: number = 0;
+  selectedTab: number = 0;
+  adminPage: boolean = false;
 
   constructor(
     private store$: Store<AppState>,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
+    public router: Router,
     public authService: AuthenticationService,
     private actionsSubject$: ActionsSubject,
     public dialog: MatDialog
@@ -64,6 +68,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     );
     this.loadEvent();
     this.createPostForm();
+    this.loadParams();
   }
 
   loadEvent() {
@@ -211,6 +216,16 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     });
   }
 
+  loadParams() {
+    this.subscription.add(
+      this.activatedRoute.queryParams.subscribe((params) => {
+        this.selectedPage = params['page'];
+        this.selectedTab = params['tab'];
+        this.adminPage = params['a'];
+      })
+    );
+  }
+  
   showSnackBarUpdateParticipants(answer: string, title: string) {
     this.subscription.add(
       this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.ADD_EVENT_PARTICIPANT_SUCCESS)).subscribe((action) => {

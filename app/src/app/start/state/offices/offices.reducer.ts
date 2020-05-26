@@ -39,6 +39,28 @@ export function reducer(state: OfficesState = initialState, action: officesActio
       };
     }
 
+    case officesActions.ActionTypes.UPDATE_OFFICE_SUCCESS: {
+      return adapter.updateOne(action.payload, state);
+    }
+
+    case officesActions.ActionTypes.UPDATE_OFFICE_ERROR: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+
+    case officesActions.ActionTypes.CREATE_OFFICE_SUCCESS: {
+      return adapter.addOne(action.payload, state);
+    }
+
+    case officesActions.ActionTypes.CREATE_OFFICE_ERROR: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+
     default:
       return state;
   }

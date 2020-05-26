@@ -23,12 +23,14 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
     EventRoutingModule,
     StoreModule.forFeature('event', reducers),
     EffectsModule.forFeature(effects),
-    StoreDevtoolsModule.instrument(),
+    //StoreDevtoolsModule.instrument(),
     TimepickerModule,
     PopoverModule.forRoot()
   ],
   exports: [],
-  declarations: [...views, ...components],
+  declarations: [
+     ...views,
+     ...components],
   providers: []
 })
 export class EventModule {}

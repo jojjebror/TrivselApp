@@ -279,20 +279,14 @@
     <Compile Include="Database\Entities\Drink.cs" />
     <Compile Include="Database\Entities\Event.cs" />
     <Compile Include="Database\Entities\EventParticipant.cs" />
-    <Compile Include="Database\Entities\Example.cs" />
     <Compile Include="Database\Entities\Receipt.cs" />
     <Compile Include="Database\Entities\User.cs" />
     <Compile Include="Database\Migrations\201802011317393_Google.cs" />
-    <Compile Include="Database\Migrations\201802051252482_Init.cs" />
-    <Compile Include="Database\Migrations\201802051252482_Init.Designer.cs">
-      <DependentUpon>201802051252482_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Database\Migrations\202005120847072_MergeBranches.cs" />
-    <Compile Include="Database\Migrations\202005120847072_MergeBranches.Designer.cs">
-      <DependentUpon>202005120847072_MergeBranches.cs</DependentUpon>
+    <Compile Include="Database\Migrations\202005251353406_Init.cs" />
+    <Compile Include="Database\Migrations\202005251353406_Init.Designer.cs">
+      <DependentUpon>202005251353406_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Migrations\Configuration.cs" />
-    <Compile Include="Helpers\PagedList.cs" />
     <Compile Include="Init.cs" />
     <Compile Include="Models\BaseDto.cs" />
     <Compile Include="Models\DrinkForCreateDto.cs" />
@@ -306,7 +300,6 @@
     <Compile Include="Models\EventForUpdateDto.cs" />
     <Compile Include="Models\EventForUserListDto.cs" />
     <Compile Include="Models\EventParticipantsDto.cs" />
-    <Compile Include="Models\ExampleDto.cs" />
     <Compile Include="Models\OfficeDto.cs" />
     <Compile Include="Models\PodcastEpisodeDto.cs" />
     <Compile Include="Models\PostDto.cs" />
@@ -320,18 +313,13 @@
     <Compile Include="Services\CloudinaryService.cs" />
     <Compile Include="Services\DrinkService.cs" />
     <Compile Include="Services\EventService.cs" />
-    <Compile Include="Services\ExampleService.cs" />
     <Compile Include="Services\GoogleCalendarService.cs" />
     <Compile Include="Services\HomeService.cs" />
     <Compile Include="Services\PostService.cs" />
     <Compile Include="Services\ReceiptService.cs" />
     <Compile Include="Services\UserService.cs" />
-    <Compile Include="Translators\DrinkForCreateTranslator.cs" />
-    <Compile Include="Translators\DrinkForDetailedTranslator.cs" />
-    <Compile Include="Translators\DrinkForListTranslator.cs" />
-    <Compile Include="Translators\DrinkForUpdateTranslator.cs" />
+    <Compile Include="Translators\DrinkTranslator.cs" />
     <Compile Include="Translators\EventTranslator.cs" />
-    <Compile Include="Translators\ExampleTranslator.cs" />
     <Compile Include="Translators\OfficeTranslator.cs" />
     <Compile Include="Translators\ReceiptTranslator.cs" />
     <Compile Include="Translators\PostTranslator.cs" />
@@ -346,11 +334,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Database\Migrations\201802051252482_Init.resx">
-      <DependentUpon>201802051252482_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Database\Migrations\202005120847072_MergeBranches.resx">
-      <DependentUpon>202005120847072_MergeBranches.cs</DependentUpon>
+    <EmbeddedResource Include="Database\Migrations\202005251353406_Init.resx">
+      <DependentUpon>202005251353406_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

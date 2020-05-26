@@ -1,12 +1,9 @@
 namespace Logic.Database.Migrations
 {
     using Logic.Database.Entities;
-    using Logic.Models;
-    using Logic.Services;
     using Microsoft.AspNet.Identity;
     using System;
     using System.Data.Entity.Migrations;
-    using System.Threading.Tasks;
 
     internal sealed class Configuration : DbMigrationsConfiguration<DatabaseContext>
     {
@@ -25,66 +22,76 @@ namespace Logic.Database.Migrations
             {
                 Id = 1,
                 Name = "Linköping",
-                Adress = "Snickaregatan 40, 582 26 Linköping"
+                Adress = "Snickaregatan 40, 582 26 Linköping",
+                SwishNumber = "0700501914"
             };
 
             var office2 = new Office()
             {
                 Id = 2,
                 Name = "Stockholm",
-                Adress = "Olof Palmes gata 13, 111 37 Stockholm"
+                Adress = "Olof Palmes gata 13, 111 37 Stockholm",
+                SwishNumber = "0767606702"
             };
 
             var office3 = new Office()
             {
                 Id = 3,
                 Name = "Göteborg",
-                Adress = "Kungsportsavenyen 34, 411 36 Göteborg"
+                Adress = "Kungsportsavenyen 34, 411 36 Göteborg",
+                SwishNumber = "0700501914"
             };
 
             var office4 = new Office()
             {
                 Id = 4,
                 Name = "Malmö",
-                Adress = "Skeppsbron 5, 211 20 Malmö"
+                Adress = "Skeppsbron 5, 211 20 Malmö",
+                SwishNumber = "0700501914"
             };
 
             var office5 = new Office()
             {
                 Id = 5,
                 Name = "Uppsala",
-                Adress = "Dragarbrunnsgatan 46, 753 20 Uppsala"
+                Adress = "Dragarbrunnsgatan 46, 753 20 Uppsala",
+                SwishNumber = "0767606702"
             };
             var office6 = new Office()
             {
                 Id = 6,
                 Name = "Örebro",
-                Adress = "Järntorgsgatan 3a, 703 61 Örebro"
+                Adress = "Järntorgsgatan 3a, 703 61 Örebro",
+                SwishNumber = "0735469891"
             };
 
             var office7 = new Office()
             {
                 Id = 7,
                 Name = "Söderhamn",
-                Adress = "Källgatan 9, 826 30 Söderhamn"
+                Adress = "Källgatan 9, 826 30 Söderhamn",
+                SwishNumber = "0700501914"
             };
             var office8 = new Office()
             {
                 Id = 8,
                 Name = "Borlänge",
-                Adress = "Forskargatan 3, 781 70 Borlänge"
+                Adress = "Forskargatan 3, 781 70 Borlänge",
+                SwishNumber = "0700501914"
             };
             var office9 = new Office()
             {
                 Id = 9,
                 Name = "Helsingborg",
-                Adress = "Florettgatan 29B, 254 67 Helsingborg"
+                Adress = "Florettgatan 29B, 254 67 Helsingborg",
+                SwishNumber = "0700501914"
             };
             var office10 = new Office()
             {
                 Id = 10,
                 Name = "Karlstad",
-                Adress = "Södra Kyrkogatan 6, 652 24 Karlstad"
+                Adress = "Södra Kyrkogatan 6, 652 24 Karlstad",
+                SwishNumber = "0700501914"
             };
 
             var testUser = new User()
@@ -167,6 +174,15 @@ namespace Logic.Database.Migrations
                 Password = _passwordHasher.HashPassword("test"),
                 OfficeId = 2
             };
+            var testUser9 = new User()
+            {
+                Id = 10,
+                Email = "admin",
+                Name = "admin",
+                Admin = true,
+                Password = _passwordHasher.HashPassword("test"),
+                OfficeId = 2
+            };
 
 
             var testEvent1 = new Event()
@@ -218,7 +234,7 @@ namespace Logic.Database.Migrations
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now,
                 CreateDate = DateTime.Now,
-                CreatorId = 5
+                CreatorId = 4
             };
 
             var testEvent5 = new Event()
@@ -365,7 +381,7 @@ namespace Logic.Database.Migrations
             {
                 Id = 12,
                 UserId = 1,
-                EventId = 13,
+                EventId = 7,
                 Status = "N/A"
             };
 
@@ -377,44 +393,102 @@ namespace Logic.Database.Migrations
                 Status = "N/A"
             };
 
-            //var post1 = new Post()
-            //{
-            //    Id = 1,
-            //    Content = "Detta blir jättekul!!",
-            //    Created = DateTime.Now,
-            //    CreatorId = 1,
-            //    EventId = 1
-            //};
+            var testEp13 = new EventParticipant()
+            {
+                Id = 14,
+                UserId = 4,
+                EventId = 7,
+                Status = "N/A"
+            };
 
-            //var post2 = new Post()
-            //{
-            //    Id = 2,
-            //    Content = "Jäklar vad ösigt!!",
-            //    Created = DateTime.Now,
-            //    CreatorId = 3,
-            //    EventId = 2
-            //};
+            var testEp14 = new EventParticipant()
+            {
+                Id = 15,
+                UserId = 4,
+                EventId = 6,
+                Status = "N/A"
+            };
 
-            //var post3 = new Post()
-            //{
-            //    Id = 3,
-            //    Content = "Jag har köpt nya dojor ;)",
-            //    Created = DateTime.Now,
-            //    CreatorId = 2,
-            //    EventId = 3
-            //};
+            var post1 = new Post()
+            {
+                Id = 1,
+                Content = "Detta blir jättekul!!",
+                Created = DateTime.Now,
+                CreatorId = 1,
+                EventId = 1
+            };
+
+            var post2 = new Post()
+            {
+                Id = 2,
+                Content = "Jäklar vad ösigt!!",
+                Created = DateTime.Now,
+                CreatorId = 3,
+                EventId = 2
+            };
+
+            var post3 = new Post()
+            {
+                Id = 3,
+                Content = "Jag har köpt nya dojor ;)",
+                Created = DateTime.Now,
+                CreatorId = 2,
+                EventId = 3
+            };
+
+            var post4 = new Post()
+            {
+                Id = 4,
+                Content = "Detta blir jättekul!!",
+                Created = DateTime.Now,
+                CreatorId = 1,
+                EventId = 4
+            };
+
+            var post5 = new Post()
+            {
+                Id = 5,
+                Content = "Gott!",
+                Created = DateTime.Now,
+                CreatorId = 3,
+                EventId = 5
+            };
+
+            var post6 = new Post()
+            {
+                Id = 6,
+                Content = "Perfekt, kommer!",
+                Created = DateTime.Now,
+                CreatorId = 2,
+                EventId = 6
+            };
+
+            var post7 = new Post()
+            {
+                Id = 7,
+                Content = "Nice!!",
+                Created = DateTime.Now,
+                CreatorId = 4,
+                EventId = 7
+            };
+
+            var post8 = new Post()
+            {
+                Id = 8,
+                Content = "Kalas :) ",
+                Created = DateTime.Now,
+                CreatorId = 4,
+                EventId = 8
+            };
 
             var testBeer = new Drink()
             {
                 Id = 1,
                 ProductNameBold = "Carlsberg Hof",
                 Category = "Öl",
-                AlcoholPercentage = 4,
                 Volume = 50,
                 Price = 10,
                 Taste = "Standard ljus öl, rätt svag",
-                Usage = "Gott till grillat",
-                BeverageDescriptionShort = "Klen smak",
             };
 
             var testWine = new Drink()
@@ -422,12 +496,9 @@ namespace Logic.Database.Migrations
                 Id = 2,
                 ProductNameBold = "L'amarone",
                 Category = "Vin",
-                AlcoholPercentage = 12,
                 Volume = 50,
                 Price = 20,
                 Taste = "Trevligt sällskapsvin",
-                Usage = "Gott till grillat",
-                BeverageDescriptionShort = "Trevlig",
             };
 
             var testCider = new Drink()
@@ -435,12 +506,9 @@ namespace Logic.Database.Migrations
                 Id = 3,
                 ProductNameBold = "Briska",
                 Category = "Cider",
-                AlcoholPercentage = 4,
                 Volume = 33,
                 Price = 20,
                 Taste = "Fruktig",
-                Usage = "God på sommaren",
-                BeverageDescriptionShort = "Läskande",
             };
 
             context.Offices.AddOrUpdate(office);
@@ -463,6 +531,7 @@ namespace Logic.Database.Migrations
             context.Users.AddOrUpdate(testUser6);
             context.Users.AddOrUpdate(testUser7);
             context.Users.AddOrUpdate(testUser8);
+            context.Users.AddOrUpdate(testUser9);
 
             context.Events.AddOrUpdate(testEvent1);
             context.Events.AddOrUpdate(testEvent2);
@@ -472,6 +541,15 @@ namespace Logic.Database.Migrations
             context.Events.AddOrUpdate(testEvent6);
             context.Events.AddOrUpdate(testEvent7);
             context.Events.AddOrUpdate(testEvent8);
+
+            context.Posts.AddOrUpdate(post1);
+            context.Posts.AddOrUpdate(post2);
+            context.Posts.AddOrUpdate(post3);
+            context.Posts.AddOrUpdate(post4);
+            context.Posts.AddOrUpdate(post5);
+            context.Posts.AddOrUpdate(post6);
+            context.Posts.AddOrUpdate(post7);
+            context.Posts.AddOrUpdate(post8);
 
             context.EventParticipants.AddOrUpdate(testEp);
             context.EventParticipants.AddOrUpdate(testEp1);
@@ -483,12 +561,15 @@ namespace Logic.Database.Migrations
             context.EventParticipants.AddOrUpdate(testEp7);
             context.EventParticipants.AddOrUpdate(testEp8);
             context.EventParticipants.AddOrUpdate(testEp9);
-
+            context.EventParticipants.AddOrUpdate(testEp10);
+            context.EventParticipants.AddOrUpdate(testEp11);
+            context.EventParticipants.AddOrUpdate(testEp12);
+            context.EventParticipants.AddOrUpdate(testEp13);
+            context.EventParticipants.AddOrUpdate(testEp14);
 
             context.Drinks.AddOrUpdate(testBeer);
             context.Drinks.AddOrUpdate(testWine);
             context.Drinks.AddOrUpdate(testCider);
-
 
             context.SaveChanges();
         }

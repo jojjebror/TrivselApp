@@ -16,8 +16,9 @@ namespace Logic.Translators
             {
                 Id = user.Id,
                 Name = user.Name,
-                Credit = user.Credit,
                 Email = user.Email,
+                Credit = user.Credit,
+                Admin = user.Admin,
                 Office = user.Office?.Name
             };
         }
@@ -33,7 +34,8 @@ namespace Logic.Translators
                 Name = user.Name,
                 Email = user.Email,
                 Credit = user.Credit,
-                Office = user.Office.Name,
+                Admin = user.Admin,
+                Office = user.Office?.Name,
                 Events = user.EventParticipants.Select(e =>
                     new UserEventsDto
                     {
@@ -60,8 +62,9 @@ namespace Logic.Translators
             {
                 Id = user.Id,
                 Name = user.Name,
-                Credit = user.Credit,
                 Email = user.Email,
+                Credit = user.Credit,
+                Admin = user.Admin,
                 Office = user.Office.Name
             };
         }

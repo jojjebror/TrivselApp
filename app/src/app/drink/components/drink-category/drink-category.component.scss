@@ -76,14 +76,11 @@ h2 {
   margin-right: 2em;
   font-size: small;
   text-align: center;
- 
-  
 }
 
 #btnSwish {
   display: none;
 }
-
 
 .titleProductCategory{
 text-align: center;
@@ -116,7 +113,20 @@ li {
   margin-bottom: 1em;
   flex-direction: column;
   width: auto;
-  
+  border-radius: 2px;
+}
+
+::ng-deep .mat-tab-label .mat-tab-label-content {
+  color: white;
+  font-size: 18px;
+}
+
+::ng-deep .mat-tab-header-pagination-chevron {
+  border-color: white !important;
+}
+
+::ng-deep .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron {
+  border-color: white !important;
 }
 
 ul {
@@ -153,6 +163,9 @@ a {
   margin-right: 45px;
   width: 200px;
 }
+#minusCat{
+  margin-right: 10px;
+}
 
 
 li {
@@ -165,21 +178,20 @@ li {
 
   .img-thumbnail {
     position: static;
-    max-width: 75px;
+    max-width: 80px;
     float: left;
     object-fit: cover;
-    border-radius: 5%;
+    border-radius: 1%;
     max-height: 80px;
-    min-height: 80px;
-    margin-bottom: 40px;
+    min-height: 100px;
     margin-right: 2em;
-  
   }
 
 .container{
 width: 100%;
 height: 600px;
 }
+
 ul {
 list-style-type: none;
 margin-left: auto;
@@ -187,10 +199,12 @@ margin-right: auto;
 padding: 0;
 flex-wrap: wrap;
 width: 100%;
-
 }
 
+
+
 .price1{
+  max-width: 170px; //lägg bara över
   position: relative;
   top: 18%;
   left: -4%;
@@ -199,8 +213,8 @@ width: 100%;
 
 .price{
   position: relative;
-  top: 60%;
-  left: -30%;
+  top: 10%;
+  left: -10%;
   font-size: 20px;
 }
 
@@ -213,7 +227,7 @@ li {
   height: 200px;
   margin-bottom: 1em;
   flex-direction: column;
-
+  border-radius: 3px;
   text-align: center;
   
 }
@@ -250,7 +264,7 @@ li {
 .countBtns1{
   position: relative;
   bottom: -5%;
-  left: 52%;
+  left: 50%;
   margin-top: 12.5%;
 }
 .countBtns {
@@ -258,7 +272,7 @@ li {
   top:50%;
   float: right;
   size: 0,5px;
-  margin-right: 25px;
+  margin-right: 18px;
   
   margin-top: 5%;
 }
@@ -284,6 +298,10 @@ li {
   left: -4%;
   top: -20;
 }
+#priceCategory{
+  max-width: 110px;
+}
+
 
   .btnBuy{
     position: relative;

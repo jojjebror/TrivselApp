@@ -1,20 +1,18 @@
 <div class="container justify-content-center">
   <div class="btn-create-event">
-    <div>
       <button class="btn btn-primary" [routerLink]="['/event/create']">
         Skapa evenemang
       </button>
-    </div>
   </div>
 
   <!-- -------------------------------Tab 1----------------------------------------------- -->
   <!-- ---------------Incoming events---------------- -->
 
   <div class="tab-panel">
-    <mat-tab-group dynamicHeight>
+    <mat-tab-group dynamicHeight [selectedIndex]="selectedTab" (selectedIndexChange)="onTabChange($event)">
       <mat-tab label="Kommande evenemang">
         <div class="filtering">
-          <mat-paginator class="listPaginator" [pageSizeOptions]="[6, 12, 24]"></mat-paginator>
+          <mat-paginator class="listPaginator" (page)="onPaginateChange($event)" [pageIndex]="selectedPage" [pageSizeOptions]="[6, 12, 24]"></mat-paginator>
           <mat-form-field appearance="legacy" id="allEventSearchbar">
             <input
               [(ngModel)]="searchField"
@@ -50,19 +48,13 @@
             >
               <mat-icon>close</mat-icon>
             </button>
-            <mat-icon matSuffix *ngIf="!calendarField">event</mat-icon>
+            <mat-icon matSuffix *ngIf="!calendarField" class="pointer" (click)="picker.open()">event</mat-icon>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
-
-          <!-- <mat-form-field>
-            <input type="text" placeholder="Skapare" matInput [(ngModel)]="state" [matAutocomplete]="auto" />
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let s of states" [value]="s"> {{ s }} </mat-option>
-            </mat-autocomplete>
-          </mat-form-field> -->
+          
         </div>
         <div class="mat-card-div">
-          <mat-card *ngFor="let ev of evs$ | async" [routerLink]="['/event', ev.id]" fxFlex="100">
+          <mat-card *ngFor="let ev of evs$ | async" [routerLink]="['/event', ev.id]" [queryParams]="{ page: selectedPage}" fxFlex="100">
             <mat-card-header>
               <mat-card-title>{{ ev.title }}</mat-card-title>
             </mat-card-header>
@@ -70,16 +62,14 @@
               <div *ngIf="checkDates(ev.startDate, ev.endDate)">
                 <p>
                   <i class="material-icons iconMargin">date_range</i>
-                  {{ ev.startDate | date: 'd/M/yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }}
+                  {{ ev.startDate | date: 'd/M-yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }}
                   <span *ngIf="checkEndTime(ev.endDate)"> - {{ ev.endDate | date: 'HH:mm' }} </span>
                 </p>
               </div>
               <div *ngIf="!checkDates(ev.startDate, ev.endDate)">
                 <p>
                   <i class="material-icons iconMargin">date_range</i>
-                  {{ ev.startDate | date: 'd/M/yyyy' }} kl. {{ ev.startDate | date: 'HH:mm' }} <br />
-                  <!-- <i class="material-icons iconMargin">date_range</i>
-                  {{ ev.endDate | date: 'd/M/yyyy' }} kl. {{ ev.endDate | date: 'HH:mm' }} -->
+                  {{ ev.startDate | date: 'd/M' }} - {{ ev.endDate | date: 'd/M-yyyy' }}
                 </p>
               </div>
               <p>
@@ -88,12 +78,12 @@
               </p>
             </mat-card-content>
             <mat-card-actions>
-              <button mat-button [routerLink]="['/event', ev.id]" class="btnReadMore">Läs mer</button>
+              <button mat-button [routerLink]="['/event', ev.id]" [queryParams]="{ page: selectedPage}" class="btnReadMore">Läs mer</button>
             </mat-card-actions>
           </mat-card>
         </div>
 
-        <div class="noDataTable" *ngIf="(evs$ | async)?.length == 0">Tyvärr hittades inga evenemang</div>
+        <div class="noDataTable" *ngIf="(evs$ | async)?.length == 0 && (loadings$ | async)?.length == 0">Tyvärr hittades inga evenemang</div>
         <!-- <div class="mobileShow">
           <mat-paginator class="listMobilePaginator" [pageSizeOptions]="[6, 12, 24]"></mat-paginator>E
         </div> -->
@@ -113,7 +103,7 @@
             <mat-table class="lessons-table mat-elevation-z8" [dataSource]="invitedEvents" *ngIf="invitedEvents.data.length > 0">
               <ng-container matColumnDef="title2">
                 <mat-header-cell *matHeaderCellDef>Titel</mat-header-cell>
-                <mat-cell id="cell-cursor" [routerLink]="['/event', element.id]" *matCellDef="let element">{{ element.title }}</mat-cell>
+                <mat-cell id="cell-cursor" [routerLink]="['/event', element.id]" [queryParams]="{ tab: selectedTab}" *matCellDef="let element">{{ element.title }}</mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="location2">
@@ -124,12 +114,12 @@
               <ng-container matColumnDef="date2">
                 <mat-header-cell *matHeaderCellDef>Datum</mat-header-cell>
                 <mat-cell class="description-cell" *matCellDef="let element"
-                  >{{ element.startDate | date: 'd/M' }} - {{ element.endDate | date: 'd/M/yyyy' }}</mat-cell
+                  >{{ element.startDate | date: 'd/M' }} - {{ element.endDate | date: 'd/M-yyyy' }}</mat-cell
                 >
               </ng-container>
 
               <ng-container matColumnDef="invited2">
-                <mat-header-cell *matHeaderCellDef>Skapad av</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>Inbjudan</mat-header-cell>
                 <mat-cell class="duration-cell" *matCellDef="let element">{{ element.creatorName }}</mat-cell>
               </ng-container>
 
@@ -178,7 +168,7 @@
             <mat-table class="lessons-table mat-elevation-z8" [dataSource]="attendedEvents" *ngIf="attendedEvents.data.length > 0">
               <ng-container matColumnDef="title3">
                 <mat-header-cell *matHeaderCellDef>Titel</mat-header-cell>
-                <mat-cell id="cell-cursor" [routerLink]="['/event', element.id]" *matCellDef="let element">{{ element.title }} </mat-cell>
+                <mat-cell id="cell-cursor" [routerLink]="['/event', element.id]" [queryParams]="{ tab: selectedTab }" *matCellDef="let element">{{ element.title }} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="location3">
@@ -189,7 +179,7 @@
               <ng-container matColumnDef="date3">
                 <mat-header-cell *matHeaderCellDef>Datum</mat-header-cell>
                 <mat-cell class="description-cell" *matCellDef="let element"
-                  >{{ element.startDate | date: 'd/M' }} - {{ element.endDate | date: 'd/M/yyyy' }}</mat-cell
+                  >{{ element.startDate | date: 'd/M' }} - {{ element.endDate | date: 'd/M-yyyy' }}</mat-cell
                 >
               </ng-container>
 
@@ -250,7 +240,7 @@
           <mat-table class="lessons-table mat-elevation-z8" [dataSource]="createdEvents" matSort *ngIf="createdEvents.data.length > 0">
             <ng-container matColumnDef="title">
               <mat-header-cell *matHeaderCellDef>Titel</mat-header-cell>
-              <mat-cell id="cell-cursor" [routerLink]="['/event', ev.id]" *matCellDef="let ev">{{ ev.title }}</mat-cell>
+              <mat-cell id="cell-cursor" [routerLink]="['/event', ev.id]" [queryParams]="{ tab: selectedTab }" *matCellDef="let ev">{{ ev.title }}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="location">
@@ -261,7 +251,7 @@
             <ng-container matColumnDef="date">
               <mat-header-cell *matHeaderCellDef>Datum</mat-header-cell>
               <mat-cell class="description-cell" *matCellDef="let ev"
-                >{{ ev.startDate | date: 'd/M' }} - {{ ev.endDate | date: 'd/M/yyyy' }}</mat-cell
+                >{{ ev.startDate | date: 'd/M' }} - {{ ev.endDate | date: 'd/M-yyyy' }}</mat-cell
               >
             </ng-container>
 
@@ -276,9 +266,6 @@
                   matTooltipPosition="left"
                   (click)="editEvent(ev.id)"
                 >
-                  <!-- (click)="editEvent(ev.id)" -->
-                  <!--                   [routerLink]="['/event/edit/', ev.id]"
- -->
                   <span class="material-icons" id="editIcon">
                     edit
                   </span>

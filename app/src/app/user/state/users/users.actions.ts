@@ -15,18 +15,26 @@ export enum ActionTypes {
   UPDATE_OFFICE = '[User view] Update Office',
   UPDATE_OFFICE_SUCCESS = '[API: /user] Update Office success',
   UPDATE_OFFICE_ERROR = '[API: /user] Update Office error',
+
+  UPDATE_ADMIN_STATUS = '[User view] Update Admin Status',
+  UPDATE_ADMIN_STATUS_SUCCESS = '[API: /user] Update Admin Status success',
+  UPDATE_ADMIN_STATUS_ERROR = '[API: /user] Update Admin Status error',
+
+  DELETE_USER = '[User view] Delete User',
+  DELETE_USER_SUCCESS = '[API: /user] Delete User success',
+  DELETE_USER_ERROR = '[API: /user] Delete User error',
 }
 
 /*--------------GetAllUsers--------------*/
 
 export class GetUsers implements Action {
   readonly type = ActionTypes.GET_USERS;
-  fxLoading = { add: ActionTypes.GET_USERS };
+  //fxLoading = { add: ActionTypes.GET_USERS };
 }
 
 export class GetUsersSuccess implements Action {
   readonly type = ActionTypes.GET_USERS_SUCCESS;
-  fxLoading = { remove: ActionTypes.GET_USERS };
+  //fxLoading = { remove: ActionTypes.GET_USERS };
 
   constructor(public payload: User[]) {}
 }
@@ -41,13 +49,14 @@ export class GetUsersError implements Action {
 
 export class UpdateCredit implements Action {
   readonly type = ActionTypes.UPDATE_CREDIT;
+  fxLoading = { add: ActionTypes.UPDATE_CREDIT };
 
   constructor(public payload: any[]) {}
-  fxLoading = { add: ActionTypes.UPDATE_CREDIT };
 }
 
 export class UpdateCreditSuccess implements Action {
   readonly type = ActionTypes.UPDATE_CREDIT_SUCCESS;
+  fxLoading = { remove: ActionTypes.UPDATE_CREDIT };
 
   constructor(public payload: Update<User>) {}
 }
@@ -80,6 +89,49 @@ export class UpdateOfficeError implements Action {
   constructor(public payload: string) {}
 }
 
+/*--------------UpdateAdmin--------------*/
+
+export class UpdateAdminStatus implements Action {
+  readonly type = ActionTypes.UPDATE_ADMIN_STATUS;
+  //fxLoading = { add: ActionTypes.UPDATE_ADMIN_STATUS };
+
+  constructor(public payload: any[]) {}
+}
+
+export class UpdateAdminStatusSuccess implements Action {
+  readonly type = ActionTypes.UPDATE_ADMIN_STATUS_SUCCESS;
+  //fxLoading = { remove: ActionTypes.UPDATE_ADMIN_STATUS };
+
+  constructor(public payload: Update<User>) {}
+}
+
+export class UpdateAdminStatusError implements Action {
+  readonly type = ActionTypes.UPDATE_ADMIN_STATUS_ERROR;
+
+  constructor(public payload: string) {}
+}
+
+/*--------------RemoveUser--------------*/
+
+export class DeleteUser implements Action {
+  readonly type = ActionTypes.DELETE_USER;
+  //fxLoading = { add: ActionTypes.DELETE_USER };
+
+  constructor(public payload: number) {}
+}
+
+export class DeleteUserSuccess implements Action {
+  readonly type = ActionTypes.DELETE_USER_SUCCESS;
+
+  constructor(public payload: number) {}
+}
+
+export class DeleteUserError implements Action {
+  readonly type = ActionTypes.DELETE_USER_ERROR;
+
+  constructor(public payload: string) {}
+}
+
 
 export type Actions =
   | GetUsers
@@ -92,5 +144,13 @@ export type Actions =
 
   | UpdateOffice
   | UpdateOfficeSuccess
-  | UpdateOfficeError;
+  | UpdateOfficeError
+
+  | UpdateAdminStatus
+  | UpdateAdminStatusSuccess
+  | UpdateAdminStatusError
+  
+  | DeleteUser
+  | DeleteUserSuccess
+  | DeleteUserError;
   

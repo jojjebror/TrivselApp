@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ViewChild } from '@angular/core';
 import { Event } from '../../../shared/models';
 import { Observable, Subscription } from 'rxjs';
 
@@ -10,9 +10,11 @@ import { AlertService } from 'src/app/core/services/alert.service';
 
 import { AuthenticationService } from 'src/app/core/services';
 import { ActionTypes } from '../../state/events';
-import { filter } from 'rxjs/operators';
-import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/shared/components/confirmDialog/confirmDialog.component';
+import { filter, map } from 'rxjs/operators';
+import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/shared/dialogs/confirmDialog/confirmDialog.component';
 import { getLoadingData, getLoadingByKey } from '../../../core/state/loading';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'ex-event-list',
@@ -24,10 +26,12 @@ export class EventListComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  private subscription = new Subscription();
-  evs$: Observable<Event[]>;
+  subscription = new Subscription();
   loadings$ = this.store$.pipe(select(getLoadingData));
+  evs$: Observable<Event[]>;
   userId: number;
+  selectedTab: number = 0;
+  selectedPage: number = 0;
 
   createdEvents = new MatTableDataSource<Event>();
   invitedEvents = new MatTableDataSource<Event>();
@@ -42,16 +46,18 @@ export class EventListComponent implements OnInit, OnDestroy {
   searchFieldUserEvents;
   calendarField;
 
-
   constructor(
     private store$: Store<AppState>,
     private snackBar: MatSnackBar,
-    private changeDetectorRef: ChangeDetectorRef,
     private dateAdapter: DateAdapter<Date>,
     public alertService: AlertService,
     public authService: AuthenticationService,
     private actionsSubject$: ActionsSubject,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public activatedRoute: ActivatedRoute,
+    public router: Router,
+    public breakpointObserver: BreakpointObserver
+
   ) {
     dateAdapter.setLocale('sv');
     this.subscription.add(
@@ -59,10 +65,16 @@ export class EventListComponent implements OnInit, OnDestroy {
         this.userId = user.sub;
       })
     );
+    this.subscription.add(breakpointObserver.observe(['(max-width: 650px)']).subscribe((result) => {
+      this.displayedColumnsCreated = result.matches ? ['title', 'date', 'actions'] : ['title', 'location', 'date', 'actions'];
+      this.displayedColumnsInvited = result.matches ? ['title2', 'date2', 'actions2'] : ['title2', 'location2', 'date2', 'invited2', 'actions2'];
+      this.displayedColumnsAttended = result.matches ? ['title3', 'date3', 'actions3'] : ['title3', 'location3', 'date3', 'invited3', 'actions3'];
+    })
+    );
   }
 
   ngOnInit() {
-    this.changeDetectorRef.detectChanges();
+    this.loadParams();
     this.loadEvents();
   }
 
@@ -100,7 +112,7 @@ export class EventListComponent implements OnInit, OnDestroy {
     //Events that the user already have attended to
     this.subscription.add(
       this.store$.pipe(select(fromEvents.getAttendedEvents)).subscribe((data: Event[]) => {
-        this.attendedEvents.data = data;
+        this.attendedEvents.data = data.sort((a, b) => a.startDate.toString().localeCompare(b.startDate.toString()));
       })
     );
   }
@@ -265,6 +277,23 @@ export class EventListComponent implements OnInit, OnDestroy {
         this.snackBar.open('Någonting gick fel, försök igen', '', { duration: 2500 });
       })
     );
+  }
+
+  loadParams() {
+    this.subscription.add(
+      this.activatedRoute.queryParams.subscribe((params) => {
+        this.selectedPage = params['page'];
+        this.selectedTab = params['tab'];
+      })
+    );
+  }
+
+  onPaginateChange(event) {
+    this.selectedPage = event.pageIndex;
+  }
+
+  onTabChange(tabId: number): void {
+    this.selectedTab = tabId;
   }
 
   ngOnDestroy() {

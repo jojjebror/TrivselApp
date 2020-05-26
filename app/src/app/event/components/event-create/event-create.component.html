@@ -1,8 +1,7 @@
 <div class="registerEventMain">
   <form
     [formGroup]="eventForm"
-    
-    class="mainForm border border-light p-5" (ngSubmit)="createEvent()"
+    class="mainForm border border-light" (ngSubmit)="createEvent()"
   >
     <button mat-icon-button class="close-button" [routerLink]="['/event']">
       <mat-icon class="close-icon" color="white">close</mat-icon>
@@ -22,7 +21,7 @@
       <mat-form-field appearance="outline">
         <mat-label>Plats</mat-label>
         <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage('location') }}</mat-error>
-        <input matInput formControlName="location" [maxLength]="35" id="searchLocation" autocomplete="off"/>
+        <input matInput formControlName="location" [maxLength]="35" id="searchLocation" autocomplete="off" />
       </mat-form-field>
     </div>
 
@@ -31,18 +30,27 @@
         <mat-label>Beskrivning</mat-label>
         <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage('description') }}</mat-error>
         <textarea #txtarea matInput formControlName="description" [maxLength]="200" autocomplete="off"></textarea>
-        <mat-hint style="color: white" align="end">{{txtarea.value?.length || 0}}/200</mat-hint>
+        <mat-hint style="color: white;" align="end">{{ txtarea.value?.length || 0 }}/200</mat-hint>
       </mat-form-field>
     </div>
 
-    <div>
-      <input type="file" accept="image/*" autocomplete="off" formControlName="imageurl" (change)="fileProgress($event)" />
+    <div id="imageDiv">
+      <mat-form-field appearance="outline" tabindex="-1">
+        <mat-label>Bild</mat-label>
+        <input matInput formControlName="imageurl" autocomplete="off" readonly />
+        <a (click)="imageurl.click()" id="imageBtn" class="btn btn-success">Välj bild</a>
+        <a (click)="clearImage()" style="float: right;">
+          <span class="material-icons">
+            clear
+          </span>
+        </a>
+      </mat-form-field>
+      <input style="display: none;" type="file" accept="image/*" #imageurl autocomplete="off" (change)="fileProgress($event)" />
 
       <div *ngIf="imageUrl">
-        <img [src]="imageUrl" style="width: 100px; margin-top: 15px;" />
+        <img [src]="imageUrl" style="width: 100px;" />
       </div>
-      <!-- <mat-error *ngIf="eventForm.invalid">Fel filtyp</mat-error> -->
-      <!-- </mat-form-field> -->
+      <mat-error *ngIf="invalidImage">{{ getErrorMessage('imageurl') }}</mat-error>
     </div>
 
     <div class="form-row startInput">
@@ -50,15 +58,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Startdatum</mat-label>
           <mat-error *ngIf="eventForm.invalid">{{ getErrorMessage('startdate') }}</mat-error>
-          <input
-            matInput
-            [min]="currentDate"
-            (focus)="picker.open()"
-            [matDatepicker]="picker"
-            formControlName="startdate"
-            autocomplete="off"
-            readonly
-          />
+          <input matInput [min]="currentDate" (focus)="picker.open()" [matDatepicker]="picker" formControlName="startdate" autocomplete="off" readonly />
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
@@ -66,10 +66,13 @@
       <div class="timepicker">
         <timepicker formControlName="starttime" [showMeridian]="false" [hoursPlaceholder]="'00'" [minutesPlaceholder]="'00'"></timepicker>
       </div>
-
       <div *ngIf="!endDateMode" class="form-group endtimeBtn col-xs-2 col-sm-2 col-md-2 col-lg-2 mt-3">
         <a (click)="endDateToggle()">+ Sluttid</a>
       </div>
+    </div>
+
+    <div *ngIf="!endDateMode" class="form-group endtimeBtnMobile">
+      <a (click)="endDateToggle()">+Sluttid</a>
     </div>
 
     <div *ngIf="endDateMode" class="form-row endInput" id="sectionEndDate">
@@ -89,19 +92,17 @@
       </div>
 
       <div class="timepicker">
-        <timepicker
-          class="timepickerInvalid"
-          formControlName="endtime"
-          [showMeridian]="false"
-          [hoursPlaceholder]="'00'"
-          [minutesPlaceholder]="'00'"
-        >
+        <timepicker class="timepickerInvalid" formControlName="endtime" [showMeridian]="false" [hoursPlaceholder]="'00'" [minutesPlaceholder]="'00'">
         </timepicker>
       </div>
 
       <div class="form-group regretBtn col-xs-2 col-sm-2 col-md-2 col-lg-2">
         <a (click)="endDateToggle()">- Ångra</a>
       </div>
+    </div>
+
+    <div *ngIf="endDateMode" class="form-group regretBtnMobile">
+      <a (click)="endDateToggle()">-Ångra</a>
     </div>
 
     <div class="inviteContainer">
@@ -114,9 +115,8 @@
         </mat-selection-list>
         <p>Inbjudna kontor: {{ selectedOffices.selectedOptions.selected.length }}</p>
       </div>
+
       <div class="userContainer">
-        <!-- <p>Välj specifika användare</p> -->
-        <!-- <input matInput [formControl]="search" placeholder="Sök specifika användare" autocomplete="off"> -->
         <mat-form-field appearance="legacy" id="userSearchbar">
           <input matInput [formControl]="search" placeholder="Välj specifika användare" autocomplete="off" [(ngModel)]="searchField" />
           <button mat-button mat-icon-button matSuffix (click)="clearField()" *ngIf="searchField">
@@ -126,11 +126,11 @@
         </mat-form-field>
 
         <mat-selection-list class="form-group" #selectedUsers formControlName="users" (selectionChange)="selectionChange($event.option)">
-          <mat-list-option *ngFor="let user of users$ | async" [value]="user" [selected]="usersControl.value && usersControl.value?.indexOf(user)>=0">
+          <mat-list-option *ngFor="let user of users$ | async" [value]="user" [selected]="usersControl.value && usersControl.value?.indexOf(user) >= 0">
             {{ user.name }}
           </mat-list-option>
         </mat-selection-list>
-        <p>Inbjudna användare: {{ selectedUsers.selectedOptions.selected.length }}</p>
+        <p *ngIf="!searchField">Inbjudna användare: {{ selectedUsers.selectedOptions.selected.length }}</p>
       </div>
     </div>
 

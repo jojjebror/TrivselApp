@@ -9,14 +9,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Logic.Services
 {
     public class GoogleCalendarService
     {
-        // trivselapp@gmail.com exsitec123
-        
         private readonly CalendarService _calendarService;
 
         private readonly string calendarId = "primary"; //primary
@@ -24,27 +23,6 @@ namespace Logic.Services
         {
             _calendarService = CreateGoogleCalendarService();
         }
-
-        //public CalendarService CreateGoogleCalendarService()
-        //{
-        //    string[] scopes = { CalendarService.Scope.Calendar };
-        //    GoogleCredential credential;
-
-        //    using (var stream = new FileStream("serviceAccountCredentials.json", FileMode.Open, FileAccess.Read))
-        //    {
-        //        credential = GoogleCredential.FromStream(stream)
-        //            .CreateScoped(scopes).CreateWithUser(calendarId);
-        //    }
-
-        //    // Create the Calendar service.
-        //    var calendarService = new CalendarService(new BaseClientService.Initializer()
-        //    {
-        //        HttpClientInitializer = credential,
-        //        ApplicationName = "TrivselApp"
-        //    });
-
-        //    return calendarService;
-        //}
 
         public CalendarService CreateGoogleCalendarService()
         {
@@ -89,11 +67,34 @@ namespace Logic.Services
             return null;
         }
 
-        public Google.Apis.Calendar.v3.Data.Event GetGoogleEvent(string googleEventId)
+        //---------For a service account solution instead of individual user account calendar----------
+
+        //public CalendarService CreateGoogleCalendarService()
+        //{
+        //    string[] scopes = { CalendarService.Scope.Calendar };
+        //    GoogleCredential credential;
+
+        //    using (var stream = new FileStream("serviceAccountCredentials.json", FileMode.Open, FileAccess.Read))
+        //    {
+        //        credential = GoogleCredential.FromStream(stream)
+        //            .CreateScoped(scopes).CreateWithUser(calendarId);
+        //    }
+
+        //    // Create the Calendar service.
+        //    var calendarService = new CalendarService(new BaseClientService.Initializer()
+        //    {
+        //        HttpClientInitializer = credential,
+        //        ApplicationName = "TrivselApp"
+        //    });
+
+        //    return calendarService;
+        //}
+
+        public async Task<Google.Apis.Calendar.v3.Data.Event> GetGoogleEvent(string googleEventId)
         {
             try
             {
-                var googleEv = _calendarService.Events.Get(calendarId, googleEventId).Execute();
+                var googleEv = await _calendarService.Events.Get(calendarId, googleEventId).ExecuteAsync();
 
                 return googleEv;
             }
@@ -105,7 +106,7 @@ namespace Logic.Services
             return null;
         }
 
-        public string CreateGoogleEvent(Database.Entities.Event ev, List<User> attendees)
+        public async Task<string> CreateGoogleEvent(Database.Entities.Event ev, List<User> attendees)
         {
             try
             {
@@ -147,7 +148,7 @@ namespace Logic.Services
                 //Insert in primary(default) calendar for account and send email notification to all attendees
                 var insertRequest = _calendarService.Events.Insert(googleEv, calendarId);
                 insertRequest.SendUpdates = 0;
-                var createdGoogleEv = insertRequest.Execute();
+                var createdGoogleEv = await insertRequest.ExecuteAsync();
                 var googleEventId = createdGoogleEv.Id;
 
                 return googleEventId;
@@ -160,11 +161,11 @@ namespace Logic.Services
             return null;
         }
 
-        public void UpdateGoogleEvent(Database.Entities.Event ev, List<User> attendees)
+        public async void UpdateGoogleEvent(Database.Entities.Event ev, List<User> attendees)
         {
             try
             {
-                var googleEv = GetGoogleEvent(ev.GoogleEventId);
+                var googleEv = await GetGoogleEvent(ev.GoogleEventId);
 
                 googleEv.Summary = ev.Title;
                 googleEv.Description = ev.Description;
@@ -186,7 +187,7 @@ namespace Logic.Services
 
                 var updateRequest = _calendarService.Events.Update(googleEv, calendarId, ev.GoogleEventId);
                 updateRequest.SendUpdates = 0;
-                updateRequest.Execute();
+                await updateRequest.ExecuteAsync();
             }
             catch (Exception e)
             {
@@ -194,12 +195,12 @@ namespace Logic.Services
             }
         }
 
-        public void UpdateGoogleEventParticipantStatus(EventParticipant ep)
+        public async void UpdateGoogleEventParticipantStatus(EventParticipant ep)
         {
             try
             {
                 var googleEventId = ep.Event.GoogleEventId;
-                var googleEv = GetGoogleEvent(googleEventId);
+                var googleEv = await GetGoogleEvent(googleEventId);
 
                 var status = ep.Status;
                 if (ep.Status == "N/A")
@@ -216,7 +217,7 @@ namespace Logic.Services
 
                 var updateRequest = _calendarService.Events.Update(googleEv, calendarId, googleEventId);
                 updateRequest.SendUpdates = 0;
-                updateRequest.Execute();
+                await updateRequest.ExecuteAsync();
             }
             catch (Exception e)
             {
@@ -224,13 +225,13 @@ namespace Logic.Services
             }
         }
 
-        public void DeleteGoogleEvent(string id)
+        public async void DeleteGoogleEvent(string id)
         {
             try
             {
                 var deleteRequest = _calendarService.Events.Delete(calendarId, id);
                 deleteRequest.SendUpdates = 0;
-                deleteRequest.Execute();
+                await deleteRequest.ExecuteAsync();
             }
             catch (Exception e)
             {
@@ -238,7 +239,7 @@ namespace Logic.Services
             }
         }
 
-        public ICollection<Google.Apis.Calendar.v3.Data.Event> CheckForChangesInGoogleEvents()
+        public async Task<ICollection<Google.Apis.Calendar.v3.Data.Event>> CheckForChangesInGoogleEvents()
         {
             try
             {
@@ -255,9 +256,10 @@ namespace Logic.Services
                 syncTokenXml = XDocument.Load("synctoken.xml");
                 var nextSyncToken = syncTokenXml.Root.Value;
 
+                //Makes a request for all google events that has changed since the last synctoken
                 var request = _calendarService.Events.List(calendarId);
                 request.SyncToken = (nextSyncToken != "") ? nextSyncToken : null;
-                var googleEvents = request.Execute();
+                var googleEvents = await request.ExecuteAsync();
 
                 //Assigns and saves the next synctoken
                 nextSyncToken = googleEvents.NextSyncToken;

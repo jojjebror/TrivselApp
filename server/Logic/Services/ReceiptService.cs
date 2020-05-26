@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,16 +44,19 @@ namespace Logic.Services
 
         public async Task<ReceiptForCreateDto> CreateReceipt(ReceiptForCreateDto receipt)
         {
-            var re = new Receipt()
-            {
-                Image = receipt.Image,
-                Date = DateTime.Now,
-                CreatorId = receipt.CreatorId
-            };
 
-            _context.Receipts.Add(re);
-            await _context.SaveChangesAsync();
-            return ReceiptTranslator.ToReceiptForCreateDto(re);
+                var re = new Receipt()
+                {
+                    Image = receipt.Image,
+                    Date = DateTime.Now,
+                    CreatorId = receipt.CreatorId
+                };
+
+                _context.Receipts.Add(re);
+                await _context.SaveChangesAsync();
+                return ReceiptTranslator.ToReceiptForCreateDto(re);
+       
+
         }
 
 
@@ -70,12 +74,47 @@ namespace Logic.Services
 
         }
 
+        public bool ValidateImage(string fileName)
+        {
+
+            string ext = Path.GetExtension(fileName);
+            switch (ext.ToLower())
+            {
+                case ".gif":
+                    {
+                        return true;
+                    }
+     
+                case ".jpg":
+                    {
+                        return true;
+                    }
+                   
+                case ".jpeg":
+                    {
+                        return true;
+                    }
+                 
+                case ".png":
+                    {
+                        return true;
+                    }
+                default:
+                    {
+                        return false;
+                    }  
+            }
+
+        }
+
+    
+
 
         public async Task<ReceiptForCreateDto> UploadImage(int id, IFormFile image)
         {
             var dbReceipt = await _context.Receipts.FindAsync(id);
 
-            var uploadResult = _cloudinaryService.UploadImageReceipt(dbReceipt.ImageId, image);
+            var uploadResult = await _cloudinaryService.UploadImage(image, "receipt-images", dbReceipt.ImageId);
 
             dbReceipt.Image = uploadResult.Uri.ToString();
             dbReceipt.ImageId = uploadResult.PublicId;
