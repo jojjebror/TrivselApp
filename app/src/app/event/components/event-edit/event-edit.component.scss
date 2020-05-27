@@ -5,7 +5,6 @@
   margin-left: auto;
   margin-right: auto;
   color: white;
-  height: 1300px;
 }
 
 .img-thumbnail {
@@ -251,11 +250,11 @@ textarea {
  @media (max-width: 768px) {
 .mainForm {
   width: 500px;
-  height: 1400px;
+  //height: 1400px;
 }
 
   .mainBtnGroup {
-    margin-top: 230px;
+    margin-top: 290px;
   }
 
   .registerEventMain {
