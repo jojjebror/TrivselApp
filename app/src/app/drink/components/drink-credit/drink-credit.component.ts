@@ -8,11 +8,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User, Office} from '../../../shared/models';
 import { Observable, Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
+import { Store, select, ActionsSubject } from '@ngrx/store';
 import { AppState } from 'src/app/core/state';
 import { AuthenticationService } from 'src/app/core/services';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/shared/dialogs/confirmDialog/confirmDialog.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { filter } from "rxjs/internal/operators/filter";
 
 
 @Component({
@@ -30,6 +31,7 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
   userCredit: number;
   userInput: number;
   amount: number;
+  subscription1 = new Subscription();
   
   numberToSwish: string;
   kontor: string;
@@ -40,6 +42,8 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     public authService: AuthenticationService,
     private dialog: MatDialog,
+    private actionsSubject$: ActionsSubject,
+    private snackBar: MatSnackBar,
   ) {
     this.subscription.add(
       authService.getUserId().subscribe((user) => {
@@ -85,8 +89,10 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
     this.subscription.add(dialogRef.afterClosed().subscribe((dialogResult) => {
       if(dialogResult == true)  {
         this.addCredit();
+        this.showSnackbarSaldo();
       }
     }));
+    
   }
   //Gets the number to swish based on selected office
   getSwishNumber() {
@@ -124,6 +130,16 @@ export class DrinkCreditComponent implements OnInit, OnDestroy {
                     // document.location.replace(urlInput);
 
                      // let callback = &callbackurl=http://localhost:8080/drink/pay&callbackresultparameter=paid add last 
+  }
+  showSnackbarSaldo() {
+    this.subscription.add(
+      this.actionsSubject$.pipe(filter((action: any) => action.type === fromUser.ActionTypes.UPDATE_CREDIT_SUCCESS)).subscribe((action) => {
+        this.snackBar.open('Ditt saldo har uppdaterats!', '', {
+          duration: 3000,
+        });
+      })
+    );
+
   }
 
   ngOnDestroy() {

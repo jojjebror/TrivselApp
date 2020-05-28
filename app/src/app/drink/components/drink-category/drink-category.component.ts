@@ -12,7 +12,7 @@ import * as fromDrink from '../../state/drinks/drinks.selectors';
 import { FormGroup } from '@angular/forms';
 import { MatSnackBar, MatTabChangeEvent, MatDialog } from '@angular/material';
 import * as fromOffices from '../../../start/state/offices/';
-
+import { Router } from "@angular/router";
 import * as fromUser from '../../../user/state/users/users.actions';
 import { AuthenticationService } from 'src/app/core/services';
 import { filter } from 'rxjs/operators';
@@ -54,7 +54,8 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private actionsSubject$: ActionsSubject,
-    public authService: AuthenticationService
+    public authService: AuthenticationService,
+    public router: Router
   ) {
     this.subscription1.add(
       authService.getUserId().subscribe((user) => {
@@ -159,10 +160,13 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
     var data = [this.userId, this.totalSum];
     if (this.userCredit >= sum) {
       this.store$.dispatch(new fromUser.UpdateCredit(data));
+      this.showSnackbarSaldoOk();
     } else {
       this.store$.dispatch(new fromUser.UpdateCreditError('Error'));
+      this.showSnackbarSaldoError();
     }
-    this.showSnackbarSaldo();
+    
+    
   }
   //message dialog with confirm or cancel. If confirm, runs paysaldo()
   confirmPurchase(dr: Drink): void {
@@ -183,6 +187,7 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
           if (dialogResult == true) {
             this.paySaldo(dr);
           }
+
         })
       );
     } else
@@ -248,7 +253,7 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
   }
 
   //Shows a snackbar message when the users creditbalance is updated and when the users creditbalance is too low to perform a payment.
-  showSnackbarSaldo() {
+  showSnackbarSaldoOk() {
     this.subscription1.add(
       this.actionsSubject$.pipe(filter((action: any) => action.type === fromUser.ActionTypes.UPDATE_CREDIT_SUCCESS)).subscribe((action) => {
         this.snackBar.open('Ditt saldo har uppdaterats!', '', {
@@ -256,7 +261,9 @@ export class DrinkCategoryComponent implements OnInit, OnDestroy {
         });
       })
     );
+  }
 
+  showSnackbarSaldoError() {
     this.subscription1.add(
       this.actionsSubject$.pipe(filter((action: any) => action.type === fromUser.ActionTypes.UPDATE_CREDIT_ERROR)).subscribe((action) => {
         setTimeout(() => {

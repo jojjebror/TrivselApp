@@ -38,7 +38,7 @@ export class UsersEffects {
           }),
           new sessionActions.SetUser(),
         ]),
-        tap(() => this.router.navigate(['/drink/credit'])),
+        tap(() => this.router.navigate(['/drink/category'])),
         catchError((err) => of(new usersActions.UpdateCreditError(err)))
       )
     )
