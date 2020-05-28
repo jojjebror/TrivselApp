@@ -5,7 +5,6 @@
   margin-left: auto;
   margin-right: auto;
   color: white;
-  height: 1300px;
 }
 
 .img-thumbnail {
@@ -124,8 +123,8 @@ a {
   height: 30px;
 }
 ::ng-deep .mat-selection-list .mat-list-option {
-  height: 30px!important;
-} 
+  height: 30px !important;
+}
 
 ::ng-deep .mat-pseudo-checkbox {
   color: white;
@@ -201,7 +200,7 @@ textarea {
 
 //timepicker
 ::ng-deep .timepicker__header {
-    background-color: #FF7043 !important;
+  background-color: #ff7043 !important;
 }
 
 .inviteContainer {
@@ -247,15 +246,14 @@ textarea {
 }
 
 /*------Mobile------*/
-  
- @media (max-width: 768px) {
-.mainForm {
-  width: 500px;
-  height: 1400px;
-}
+
+@media (max-width: 768px) {
+  .mainForm {
+    width: 500px;
+  }
 
   .mainBtnGroup {
-    margin-top: 230px;
+    margin-top: 290px;
   }
 
   .registerEventMain {
@@ -263,9 +261,9 @@ textarea {
     margin-top: 30px;
   }
 
-.officeContainer {
-  width: 100%;
-}
+  .officeContainer {
+    width: 100%;
+  }
 
   .userContainer {
     width: 100%;
@@ -297,17 +295,17 @@ textarea {
 }
 
 @media (max-width: 576px) {
-.mainForm {
-  width: 400px;
-}
+  .mainForm {
+    width: 400px;
+  }
 
-.registerEventMain {
-  width: 400px;
-}
+  .registerEventMain {
+    width: 400px;
+  }
 
-.startInput {
-  flex-wrap: nowrap;
-}
+  .startInput {
+    flex-wrap: nowrap;
+  }
 
   .endInput {
     flex-wrap: nowrap;
@@ -322,11 +320,11 @@ textarea {
 }
 
 @media (max-width: 454px) {
-.mainForm {
-  width: 350px;
-}
+  .mainForm {
+    width: 350px;
+  }
 
-.registerEventMain {
-  width: 350px;
-}
+  .registerEventMain {
+    width: 350px;
+  }
 }

@@ -1,19 +1,17 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, HostBinding, EventEmitter, Output, HostListener, Directive, OnChanges } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy} from "@angular/core";
 import { Observable, Subscription } from "rxjs";
 import { Store, select, ActionsSubject } from "@ngrx/store";
 
 
 
 import { AppState } from "src/app/core/state";
-import { Receipt, User} from "src/app/shared/models";
+import { Receipt} from "src/app/shared/models";
 
 import * as receiptsActions from "../../state/receipts";
 import * as fromReceipt from "../../state/receipts/receipts.selectors";
 import * as asReceipt from "../../state/receipts/receipts.actions";
-import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
-import { Router } from "@angular/router";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { MatSnackBar, MatTableDataSource, MatDialog, MatTabChangeEvent } from "@angular/material";
-import * as fromSession from '../../../core/state/session'
 import { AuthenticationService } from "src/app/core/services";
 import { filter } from "rxjs/operators";
 import { ActionTypes } from '../../state/receipts';
@@ -51,7 +49,6 @@ export class ReceiptListComponent implements OnInit{
 
   constructor(
     private store$: Store<AppState>,
-    private router: Router,
     private rb: FormBuilder,
     private snackBar: MatSnackBar,
     private actionsSubject$: ActionsSubject,
@@ -74,19 +71,13 @@ export class ReceiptListComponent implements OnInit{
   }
 
   onLinkClick(event: MatTabChangeEvent) {
-
     if(event.index == 0)
     {
-    console.log({ event });
-
     this.loadReceipts();
     }
     else {
-      console.log({event});
       this.loadUserReceipt();
-
     }
-    
   }
 
  /**
@@ -102,7 +93,6 @@ export class ReceiptListComponent implements OnInit{
   fileBrowseHandler(files) {
     this.prepareFilesList(files);
   }
-
   /**
    * Delete file from files list
    * @param index (File index)
@@ -113,9 +103,7 @@ export class ReceiptListComponent implements OnInit{
     {
       this.receiptForm.value.image == null;
     }
-
   }
-
   /**
    * Convert Files list to normal array list
    * @param files (Files List)
@@ -159,7 +147,6 @@ export class ReceiptListComponent implements OnInit{
       this.allUsersReceipts.data = data;
     })
    );
-    console.log(this.allUsersReceipts);
   }
 
   
@@ -180,7 +167,6 @@ export class ReceiptListComponent implements OnInit{
       {
       this.store$.dispatch(new asReceipt.CreateReceipt(this.receipt, this.fileUpload));
 
-      console.log(this.files)
       this.subscription.add(
         this.actionsSubject$.pipe(filter((action: any) => action.type === ActionTypes.UPLOAD_IMAGE_SUCCESS)).subscribe((action) => {
           this.snackBar.open('Kvittot är nu tillagt', '', { duration: 2500 });
@@ -189,7 +175,6 @@ export class ReceiptListComponent implements OnInit{
        this.loadUserReceipt();
        this.loadReceipts();
        this.clearArray();
-       console.log(this.files);
       }
     }
     else
@@ -203,15 +188,12 @@ export class ReceiptListComponent implements OnInit{
     if (ext.toLowerCase() == 'png') {
         return true;
     }
-
     if(ext.toLowerCase() == 'jpg') {
       return true;
     }
-
     if(ext.toLowerCase() == 'jpeg') {
       return true;
     }
-
     else {
         return false;
     }

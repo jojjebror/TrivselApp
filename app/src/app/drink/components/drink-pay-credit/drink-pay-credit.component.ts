@@ -34,14 +34,12 @@ export class DrinkPayCreditComponent implements OnInit, OnDestroy {
 }
   ngOnInit() {
     this.getUrl();
-    console.log('userId'+ this.userId);
   } 
                 // den urln som kommer tillbak från swish vill vi hämta och ta bort första delen fram till paid=. de som ska med är alltså efter '....web.app/?paid=' i detta fall
                 // så ny slice beroende på domännamn.
   getUrl(){
     var newUrl = 'https://mobile-app-007.web.app/?paid=%7B%22result%22:%22paid%22,%22amount%22:1,%22message%22:%22Hälsningar%20Martin%20Loord%22,%22payee%22:%220700914195%22,%22version%22:2%7D';
-     let nya = window.location.href;
-    console.log('kolla in detta ' + nya);
+    // let nya = window.location.href; hämtar url med data vi får tillbaka från swish
      var splice = newUrl.slice(37);
       var decode = decodeURI(splice);
         var newJSON = JSON.parse(decode);
@@ -49,11 +47,9 @@ export class DrinkPayCreditComponent implements OnInit, OnDestroy {
             this.amount = newJSON.amount;
           
           if(res === 'paid'){
-            console.log('Ser ut som att din betalning gick igenom! Kul, köp en bira!');
             var x =  [this.userId, this.amount];
              this.store$.dispatch(new fromUser.UpdateCredit(x)); }
           else {
-            console.log('nej du..!');
             this.store$.dispatch(new fromUser.UpdateCreditError('Error'));
             this.router.navigate(['/drink/credit']);
           }
